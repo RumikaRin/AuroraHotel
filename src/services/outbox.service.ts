@@ -47,7 +47,6 @@ export async function processOutboxMessages(
         data: {
           status: "SENT",
           attempts: message.attempts + 1,
-          processedAt: new Date(),
         },
       });
       processed++;

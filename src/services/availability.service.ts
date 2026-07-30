@@ -87,6 +87,9 @@ export async function searchAvailableCategories(
   return available;
 }
 
+export const checkAvailability = searchAvailableCategories;
+
+
 export async function reserveAvailability(
   params: ReserveParams,
   client = defaultDb,

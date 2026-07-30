@@ -72,7 +72,7 @@ describe("Aurora Operations Service (Reception & Housekeeping)", () => {
       { bookingId: "bk-1", staffId: "st-1" },
       mockDb as unknown as Parameters<typeof performCheckIn>[1],
     );
-    assert.equal(checkInRes.status, "CHECKED_IN");
+    assert.equal(checkInRes?.status, "CHECKED_IN");
 
     await performCheckOut(
       { bookingId: "bk-2", staffId: "st-1" },

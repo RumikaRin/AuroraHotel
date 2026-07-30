@@ -26,3 +26,8 @@ export async function sendEmail(options: SendEmailOptions): Promise<SendEmailRes
     messageId,
   };
 }
+
+export async function sendPreviewEmail(options: { to: string; subject: string; body: string }): Promise<SendEmailResult> {
+  return sendEmail({ to: options.to, subject: options.subject, html: options.body, text: options.body });
+}
+

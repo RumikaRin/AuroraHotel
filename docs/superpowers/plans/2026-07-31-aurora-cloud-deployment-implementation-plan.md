@@ -210,7 +210,7 @@ Add this plan to the program's execution table. In plans 01 and 05, mark only
 the superseded provider paragraphs and point to this plan; retain all unaffected
 tasks and acceptance criteria.
 
-- [ ] **Step 4: Regenerate manifest bindings and verify GREEN**
+- [x] **Step 4: Regenerate manifest bindings and verify GREEN**
 
 Recompute blueprint SHA-256 values through the supported Agent OS workflow.
 Do not edit `.agent-os/lock.json` manually.
