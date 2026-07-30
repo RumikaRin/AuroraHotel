@@ -769,13 +769,12 @@ providers:
     status: selected
     sourceRefs:
       - discovery:email-provider
-  - id: file-upload-cloudinary-backed-mediastorage-adapter-for-the-graduation-demo-deployment-using-only-the-provider-plan-available-without-paid-infrastructure-at-implementation-time-domain-logic-must-depend-on-a-provider-neutral-mediastorage-interface-so-production-can-move-to-s3-compatible-storage-without-rewriting-hotel-or-booking-services
+  - id: file-upload-vercel-blob-private-quarantine-public-delivery
     capabilityId: file-upload
-    provider: Cloudinary-backed MediaStorage adapter for the graduation-demo
-      deployment, using only the provider plan available without paid
-      infrastructure at implementation time. Domain logic must depend on a
-      provider-neutral MediaStorage interface so production can move to
-      S3-compatible storage without rewriting hotel or booking services.
+    provider: Vercel Blob on Vercel with Neon PostgreSQL backing, using aurora-media-private for quarantine and
+      aurora-media-public for validated delivery. Domain logic depends on the
+      provider-neutral MediaProvider interface. Paid upgrades require explicit
+      owner approval.
     status: selected
     sourceRefs:
       - discovery:file-storage

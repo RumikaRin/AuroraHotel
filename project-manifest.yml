@@ -40,12 +40,7 @@ locales:
   - vi
   - en
 hosting:
-  target: Vercel for the graduation-demo application with a managed PostgreSQL
-    provider plan available without paid infrastructure at implementation time.
-    External services remain behind adapters and the project runs locally
-    without Docker. Production use requires a reviewed upgrade plan, custom
-    domain, capacity checks, backups, and paid-service decisions where no-cost
-    quotas are insufficient.
+  target: Vercel Hobby for the graduation-demo application with Neon Free PostgreSQL and Vercel Blob (aurora-media-private for quarantine and aurora-media-public for validated delivery). External services remain behind adapters and the project runs without mandatory local PostgreSQL or Docker dependencies. Paid upgrades require explicit owner approval.
 data:
   classification: confidential
   database: postgresql

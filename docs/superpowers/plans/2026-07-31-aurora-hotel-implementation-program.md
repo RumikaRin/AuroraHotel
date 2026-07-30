@@ -23,15 +23,25 @@ When the implementation and one of these documents disagree, stop the affected
 task and resolve the contract in a separate documentation commit. Never silently
 change money, inventory, payment, authorization, or cancellation behavior.
 
-## Release slices
+## Release slices and Cloud Deployment Integration
 
 | Order | Detailed plan | Working result | P0 requirements |
 | --- | --- | --- | --- |
-| 1 | `2026-07-31-aurora-hotel-01-foundation.md` | PostgreSQL foundation, locked design system, bilingual shell, identity, RBAC, audit, provider ports, deterministic seed | REQ-001, REQ-012, REQ-014, foundation work for REQ-015 and REQ-016 |
+| 1 | `2026-07-31-aurora-hotel-01-foundation.md` | Neon PostgreSQL foundation, locked design system, bilingual shell, identity, RBAC, audit, provider ports, deterministic seed | REQ-001, REQ-012, REQ-014, foundation work for REQ-015 and REQ-016 |
 | 2 | `2026-07-31-aurora-hotel-02-booking-core.md` | Search → quote → atomic hold → booking → mock payment → verified confirmation | REQ-002, REQ-003, REQ-004, REQ-010, booking proof for REQ-015 and REQ-016 |
 | 3 | `2026-07-31-aurora-hotel-03-recovery-account.md` | Lookup, cancellation, payment recovery, customer account and stay history | REQ-005, REQ-006, recovery proof for REQ-015 and REQ-016 |
 | 4 | `2026-07-31-aurora-hotel-04-operations-admin.md` | Reception, housekeeping, inventory/rate/promotion/service administration, refunds, reports | REQ-007, REQ-008, REQ-009, REQ-013, operations proof for REQ-015 and REQ-016 |
-| 5 | `2026-07-31-aurora-hotel-05-platform-release.md` | Email, media, jobs, privacy, observability, backup/restore, accessibility, performance and release evidence | REQ-011 and final proof for REQ-015 and REQ-016 |
+| 5 | `2026-07-31-aurora-hotel-05-platform-release.md` | Email, Vercel Blob media, jobs, privacy, observability, backup/restore, accessibility, performance and release evidence | REQ-011 and final proof for REQ-015 and REQ-016 |
+| Cloud | `2026-07-31-aurora-cloud-deployment-implementation-plan.md` | Neon serverless PostgreSQL and Vercel Hobby hosting deployment | REQ-014, REQ-016 |
+
+### Mandatory Execution Sequence:
+1. Finish Cloud Task 1 (contract alignment) using the existing RED test.
+2. Execute Foundation Task 1 (design-lock verification).
+3. Execute Cloud Tasks 2–4 in place of the old localhost-specific Foundation Task 2.
+4. Execute Foundation Tasks 3–4.
+5. Execute Cloud Task 5 immediately after the complete Aurora Prisma schema exists.
+6. Complete Foundation Tasks 5–10 and Booking/Recovery/Operations plans 02–04.
+7. In Platform plan 05, replace provider-specific portions with Cloud Tasks 6–12 according to the cloud plan.
 
 P1 requirements REQ-017 through REQ-022 and P2 requirements REQ-023 through
 REQ-028 are not part of this program. Their database extension points may be

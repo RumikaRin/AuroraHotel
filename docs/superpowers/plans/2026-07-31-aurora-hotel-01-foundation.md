@@ -2,11 +2,11 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Replace the generic commerce starter with a locked Aurora design contract, PostgreSQL hotel schema, deterministic data, bilingual application shell, identity/RBAC/audit foundation, and local provider ports.
+**Goal:** Replace the generic commerce starter with a locked Aurora design contract, Neon PostgreSQL hotel schema, deterministic data, bilingual application shell, identity/RBAC/audit foundation, and provider ports for Vercel deployment.
 
-**Architecture:** Establish the modular-monolith boundaries before business UI. PostgreSQL and Prisma own persistence, pure module contracts own policy, Auth.js owns credential sessions, and every provider is selected through an application-owned port.
+**Architecture:** Establish the modular-monolith boundaries before business UI. Neon PostgreSQL and Prisma own persistence, pure module contracts own policy, Auth.js owns credential sessions, and every provider is selected through an application-owned port.
 
-**Tech Stack:** Next.js 15, React 19, TypeScript, PostgreSQL, Prisma 6, Auth.js v5, Zod, Tailwind CSS, Node test runner, Vitest, Playwright.
+**Tech Stack:** Next.js 15, React 19, TypeScript, Neon PostgreSQL, Prisma 6, Auth.js v5, Zod, Tailwind CSS, Vercel, Node test runner, Vitest, Playwright.
 
 ---
 
@@ -247,7 +247,7 @@ export function assertSafeTestDatabaseUrl(source) {
   const database = url.pathname.slice(1);
   if (url.protocol !== "postgresql:" || !local || !database.endsWith("_test")) {
     throw new Error(
-      "Refusing reset: TEST_DATABASE_URL must target localhost and end in _test",
+      "Refusing reset: TEST_DATABASE_URL must target the isolated Neon aurora_test database and runner role",
     );
   }
 }

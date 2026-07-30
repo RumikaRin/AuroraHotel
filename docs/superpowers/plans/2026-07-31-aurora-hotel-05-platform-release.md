@@ -6,7 +6,7 @@
 
 **Architecture:** Transactional outbox and leased workers provide at-least-once side effects; adapters remain local by default. Operational scripts fail closed on unsafe targets, observability redacts before output, and the final manifest binds implementation, tests, diagrams, environment, and evidence by SHA-256.
 
-**Tech Stack:** Next.js 15, TypeScript, PostgreSQL, Prisma 6, Node.js, Sharp, Playwright, axe-core, Mermaid.
+**Tech Stack:** Next.js 15, TypeScript, Neon PostgreSQL, Prisma 6, Vercel Blob, Vercel, Node.js, Sharp, Playwright, axe-core, Mermaid.
 
 ---
 
@@ -605,7 +605,7 @@ database.
 Document local, test, preview, and production variables; provider selection;
 migration order; health checks; rollback decision; job pausing; database backup;
 restore drill; payment reconciliation; and incident contact ownership. Live
-VNPay, Resend, Cloudinary, domain, and paid capacity remain disabled until
+VNPay, Resend, Vercel Blob paid upgrades, domain, and paid capacity remain disabled until
 explicit owner approval.
 
 `README.md` and `DEMO_RUNBOOK.md` must give copy-paste commands for clean
