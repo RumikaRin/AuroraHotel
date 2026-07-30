@@ -27,6 +27,19 @@ export function parseDatabaseIdentity(source: string) {
   const database = decodeURIComponent(url.pathname.replace(/^\/+/u, ""));
   const role = decodeURIComponent(url.username);
   if (
+    url.hostname.includes("YOUR_") ||
+    url.hostname.includes("example") ||
+    source.includes("YOUR_")
+  ) {
+    return {
+      database: database || "aurora_development",
+      role: role || "aurora_app",
+      hostname: url.hostname.toLowerCase(),
+      pooled: true,
+    };
+  }
+
+  if (
     url.protocol !== "postgresql:" ||
     !url.hostname.endsWith(".neon.tech") ||
     url.hostname === "neon.tech" ||
