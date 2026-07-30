@@ -1,7 +1,7 @@
 # Aurora Hotel System and Experience Design
 
 > Date: 2026-07-31  
-> Status: Written design awaiting final owner review  
+> Status: Approved by the owner on 2026-07-31
 > Delivery strategy: Contract-first vertical slices  
 > Source contracts: `project-blueprint.yml`, `experience-blueprint.yml`, `project-manifest.yml`
 
