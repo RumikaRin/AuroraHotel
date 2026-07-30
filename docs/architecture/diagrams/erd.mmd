@@ -1,112 +1,13 @@
-%% source-sha256: afa67f01bee3701283e0407dae9e080ab47a2add449749c2e549893b40beb7c0
+%% source-sha256: f9c759efe61be0b6f78e63d64440e32c1e355bcb979e4cf9265638082a0b4815
 erDiagram
-    Role {
-        String id PK
-        String name
-        String type
-        User[] users
-        DateTime createdAt
-    }
-    User {
-        String id PK
-        String email
-        DateTime emailVerified
-        String password
-        String name
-        String roleId
-        Role role
-        Order[] orders
-        DateTime createdAt
-        DateTime updatedAt
-    }
-    Product {
-        String id PK
-        String sku
-        String slug
-        String name
-        String description
-        Int price
-        Int stock
-        Boolean isActive
-        OrderItem[] orderItems
-        DateTime createdAt
-        DateTime updatedAt
-    }
-    Order {
-        String id PK
-        String orderNumber
-        String userId
-        User user
-        String status
-        Int subtotal
-        Int discount
-        Int total
-        String couponId
-        Coupon coupon
-        String note
-        OrderItem[] items
-        Payment payment
-        DateTime createdAt
-        DateTime updatedAt
-    }
-    OrderItem {
-        String id PK
-        String orderId
-        Order order
-        String productId
-        Product product
-        String name
-        String sku
-        Int price
-        Int quantity
-        Int total
-    }
-    Payment {
-        String id PK
-        String orderId
-        Order order
-        String method
-        String status
-        Int amount
-        DateTime createdAt
-        DateTime updatedAt
-    }
-    Coupon {
-        String id PK
-        String code
-        String type
-        Int value
-        Int minOrder
-        Int usageLimit
-        Int usageCount
-        Boolean isActive
-        DateTime expiresAt
-        Order[] orders
-        DateTime createdAt
-    }
-    AuditLog {
-        String id PK
-        String actorEmail
-        String action
-        String entityType
-        String entityId
-        String metadata
-        DateTime createdAt
-    }
-    EmailOutbox {
-        String id PK
-        String type
-        String payload
-        String status
-        Int attempts
-        String lastError
-        DateTime createdAt
-        DateTime sentAt
-    }
-    CheckoutIdempotency {
-        String key PK
-        String userId
-        String requestHash
-        String orderId
-        DateTime createdAt
-    }
+    Role ||--o{ User : "has"
+    User ||--o{ Booking : "creates"
+    RoomCategory ||--o{ RatePlan : "offers"
+    RoomCategory ||--o{ DayAvailability : "tracks"
+    RoomCategory ||--o{ Room : "contains"
+    RoomCategory ||--o{ Booking : "reserved_in"
+    RatePlan ||--o{ Booking : "applies_to"
+    Booking ||--o{ RoomAssignment : "assigned"
+    Room ||--o{ RoomAssignment : "assigned_to"
+    Booking ||--o{ Payment : "settled_by"
+    Booking ||--o{ AuditLog : "audited"

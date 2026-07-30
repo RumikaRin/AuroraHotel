@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { verifyCronSecret } from "../src/app/api/cron/cleanup/route.ts";
+import { verifyCronSecret } from "../src/server/cron/cron-auth.ts";
 
 describe("Daily cron cleanup authorization", () => {
   it("accepts valid Bearer token matching CRON_SECRET", () => {

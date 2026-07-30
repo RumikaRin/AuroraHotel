@@ -14,7 +14,7 @@ describe("CI environment isolation guard", () => {
       DATABASE_ENVIRONMENT: "test",
       DATABASE_URL: testPooled,
       DIRECT_URL: testDirect,
-    });
+    } as unknown as NodeJS.ProcessEnv);
     assert.equal(res.isolated, true);
   });
 
@@ -26,7 +26,7 @@ describe("CI environment isolation guard", () => {
           DATABASE_ENVIRONMENT: "production",
           DATABASE_URL: testPooled.replace("aurora_test", "aurora_production"),
           DIRECT_URL: testDirect.replace("aurora_test", "aurora_production"),
-        }),
+        } as unknown as NodeJS.ProcessEnv),
       /CI environment isolation violation/i,
     );
   });

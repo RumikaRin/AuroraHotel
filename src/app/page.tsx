@@ -1,60 +1,141 @@
+import Link from "next/link";
 import { db } from "@/lib/db";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 
-// The page reads the live DB; skip build-time prerendering so "next build"
-// does not require a seeded database.
 export const dynamic = "force-dynamic";
 
-function formatPrice(value: number) {
-  return new Intl.NumberFormat("vi-VN").format(value) + " đ";
+function formatVND(amount: number) {
+  return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(amount);
 }
 
 export default async function HomePage() {
-  const products = await db.product.findMany({
+  const roomCategories = await db.roomCategory.findMany({
     where: { isActive: true },
-    orderBy: { createdAt: "asc" },
+    orderBy: { basePrice: "asc" },
   });
 
   return (
-    <div>
-      <h1 className="text-2xl font-semibold">Sản phẩm</h1>
-      <p className="mt-1 text-sm text-neutral-600">
-        Danh sách đọc trực tiếp từ database (Prisma + SQLite). API tương ứng:{" "}
-        <code className="rounded bg-neutral-100 px-1">GET /api/products</code>
-      </p>
+    <div className="min-h-screen flex flex-col bg-[#F7F4ED] text-[#17211D]">
+      <Header />
 
-      {products.length === 0 ? (
-        <p className="mt-6 rounded border border-amber-300 bg-amber-50 p-4 text-sm">
-          Chưa có dữ liệu. Chạy <code>npx prisma migrate dev</code> (seed chạy
-          tự động) hoặc <code>npm run db:seed</code>.
-        </p>
-      ) : (
-        <ul className="mt-6 grid gap-4 sm:grid-cols-2">
-          {products.map((product) => (
-            <li
-              key={product.id}
-              className="rounded-lg border border-neutral-200 bg-white p-4"
-            >
-              <div className="flex items-baseline justify-between">
-                <h2 className="font-medium">{product.name}</h2>
-                <span className="text-xs text-neutral-500">{product.sku}</span>
+      {/* Hero Section */}
+      <section className="relative bg-[#17211D] text-[#F7F4ED] py-20 px-4 sm:px-6 lg:px-8 text-center border-b border-[#C5A46D]/20 overflow-hidden">
+        <div className="max-w-4xl mx-auto space-y-6 relative z-10">
+          <span className="text-xs uppercase tracking-widest text-[#C5A46D] font-semibold">
+            Contemporary Oceanfront Luxury
+          </span>
+          <h1 className="font-serif-display text-4xl sm:text-6xl font-normal leading-tight tracking-tight text-[#F7F4ED]">
+            Trải Nghiệm Nghỉ Dưỡng Thượng Lưu
+          </h1>
+          <p className="text-sm sm:text-base text-[#DADDD8] max-w-2xl mx-auto font-light leading-relaxed">
+            Không gian sang trọng tĩnh lặng bên bờ biển thơ mộng. Nơi mỗi kỳ nghỉ trở thành kỷ niệm khó quên.
+          </p>
+
+          {/* Search Console */}
+          <div className="mt-10 bg-[#FFFDF8] text-[#17211D] p-6 rounded-2xl shadow-xl max-w-3xl mx-auto border border-[#C5A46D]/30">
+            <form action="/rooms" method="GET" className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
+              <div>
+                <label className="block text-xs font-semibold uppercase text-[#355B4B] mb-1">
+                  Nhận phòng
+                </label>
+                <input
+                  type="date"
+                  name="checkIn"
+                  defaultValue={new Date().toISOString().slice(0, 10)}
+                  className="w-full text-sm p-2.5 rounded-lg border border-[#DADDD8] bg-[#F7F4ED] focus:outline-none focus:ring-2 focus:ring-[#C5A46D]"
+                />
               </div>
-              <p className="mt-1 text-sm text-neutral-600">
-                {product.description}
-              </p>
-              <div className="mt-3 flex items-center justify-between text-sm">
-                <span className="font-semibold">{formatPrice(product.price)}</span>
-                <span
-                  className={
-                    product.stock > 0 ? "text-emerald-700" : "text-red-600"
-                  }
+              <div>
+                <label className="block text-xs font-semibold uppercase text-[#355B4B] mb-1">
+                  Trả phòng
+                </label>
+                <input
+                  type="date"
+                  name="checkOut"
+                  defaultValue={new Date(Date.now() + 86400000 * 2).toISOString().slice(0, 10)}
+                  className="w-full text-sm p-2.5 rounded-lg border border-[#DADDD8] bg-[#F7F4ED] focus:outline-none focus:ring-2 focus:ring-[#C5A46D]"
+                />
+              </div>
+              <div className="sm:col-span-1 flex items-end">
+                <button
+                  type="submit"
+                  className="w-full py-3 rounded-lg text-sm font-semibold bg-[#17211D] text-[#C5A46D] hover:bg-[#242826] transition-all shadow-md"
                 >
-                  {product.stock > 0 ? `Còn ${product.stock}` : "Hết hàng"}
-                </span>
+                  Tìm phòng trống
+                </button>
               </div>
-            </li>
-          ))}
-        </ul>
-      )}
+            </form>
+          </div>
+        </div>
+      </section>
+
+      {/* Room Showcase */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 flex-1">
+        <div className="text-center mb-12">
+          <h2 className="font-serif-display text-3xl sm:text-4xl text-[#17211D]">
+            Phòng & Suite Thượng Lưu
+          </h2>
+          <p className="text-xs sm:text-sm text-[#355B4B] mt-2">
+            Tuyển chọn các hạng phòng nghỉ dưỡng sang trọng với tầm nhìn hướng biển tuyệt mỹ.
+          </p>
+        </div>
+
+        {roomCategories.length === 0 ? (
+          <p className="text-center text-sm text-[#B84A4A] py-12">
+            Đang cập nhật danh sách phòng...
+          </p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {roomCategories.map((cat) => (
+              <div
+                key={cat.id}
+                className="bg-[#FFFDF8] rounded-2xl overflow-hidden border border-[#DADDD8] shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
+              >
+                <div className="p-6">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#C5A46D]">
+                    {cat.type}
+                  </span>
+                  <h3 className="font-serif-display text-xl font-semibold text-[#17211D] mt-1">
+                    {cat.name}
+                  </h3>
+                  <p className="text-xs text-[#242826] mt-2 line-clamp-3 leading-relaxed">
+                    {cat.description}
+                  </p>
+                  <div className="mt-4 flex flex-wrap gap-1.5">
+                    {(Array.isArray(cat.amenities) ? (cat.amenities as string[]) : []).slice(0, 3).map((amenity, idx) => (
+                      <span
+                        key={idx}
+                        className="text-[10px] bg-[#F7F4ED] text-[#355B4B] px-2 py-0.5 rounded border border-[#DADDD8]"
+                      >
+                        {amenity}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="p-6 pt-0 border-t border-[#F7F4ED] mt-4 flex items-center justify-between">
+                  <div>
+                    <span className="text-[10px] text-[#355B4B] block">Giá chỉ từ</span>
+                    <span className="text-base font-semibold text-[#17211D]">
+                      {formatVND(cat.basePrice)}
+                    </span>
+                    <span className="text-[10px] text-[#355B4B]"> / đêm</span>
+                  </div>
+                  <Link
+                    href={`/rooms/${cat.slug}`}
+                    className="px-4 py-2 text-xs font-semibold rounded-lg bg-[#C5A46D] text-[#17211D] hover:bg-[#b0905b] transition-colors"
+                  >
+                    Chi tiết
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      <Footer />
     </div>
   );
 }

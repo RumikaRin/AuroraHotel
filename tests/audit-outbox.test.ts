@@ -5,9 +5,9 @@ import { recordEmailOutbox } from "../src/services/outbox.service.ts";
 
 describe("Audit and outbox services", () => {
   it("creates structured audit log payload", async () => {
-    const mockDb: any = {
+    const mockDb = {
       auditLog: {
-        create: async (args: any) => args.data,
+        create: async (args: { data: Record<string, unknown> }) => args.data,
       },
     };
     const log = await recordAuditLog(
@@ -17,7 +17,7 @@ describe("Audit and outbox services", () => {
         entityId: "b-123",
         payload: { guestEmail: "test@example.com" },
       },
-      mockDb,
+      mockDb as unknown as Parameters<typeof recordAuditLog>[1],
     );
     assert.equal(log.action, "BOOKING_CREATED");
     assert.equal(log.entityType, "Booking");
@@ -25,9 +25,9 @@ describe("Audit and outbox services", () => {
   });
 
   it("creates email outbox payload with pending status", async () => {
-    const mockDb: any = {
+    const mockDb = {
       emailOutbox: {
-        create: async (args: any) => args.data,
+        create: async (args: { data: Record<string, unknown> }) => args.data,
       },
     };
     const entry = await recordEmailOutbox(
@@ -35,7 +35,7 @@ describe("Audit and outbox services", () => {
         type: "BOOKING_CONFIRMATION",
         payload: { bookingNumber: "AUR-1001", email: "guest@example.com" },
       },
-      mockDb,
+      mockDb as unknown as Parameters<typeof recordEmailOutbox>[1],
     );
     assert.equal(entry.type, "BOOKING_CONFIRMATION");
     assert.equal(entry.status, "PENDING");

@@ -2,8 +2,6 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { validateBackupTarget, validateRestoreTarget } from "../scripts/backup-neon.mjs";
 
-const pooled =
-  "postgresql://aurora_test_runner:s@ep-test-pooler.us-east-2.aws.neon.tech/aurora_test?sslmode=require";
 const direct =
   "postgresql://aurora_test_runner:s@ep-test.us-east-2.aws.neon.tech/aurora_test?sslmode=require";
 

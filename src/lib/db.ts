@@ -28,8 +28,8 @@ export const db: PrismaClient = new Proxy({} as PrismaClient, {
     if (!globalForPrisma.prisma) {
       globalForPrisma.prisma = createClient();
     }
-    const instance = globalForPrisma.prisma as any;
-    const value = instance[prop];
+    const instance = globalForPrisma.prisma as object;
+    const value = Reflect.get(instance, prop);
     return typeof value === "function" ? value.bind(instance) : value;
   },
 });

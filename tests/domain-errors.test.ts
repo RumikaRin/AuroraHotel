@@ -18,7 +18,11 @@ describe("Domain error hierarchy", () => {
     assert.equal(err.message, "Room not found");
   });
 
-  it("creates conflict error for overbooking/concurrency", () => {
+  it("creates validation and conflict errors", () => {
+    const val = new ValidationError("Invalid date range");
+    assert.equal(val.code, "VALIDATION_ERROR");
+    assert.equal(val.statusCode, 422);
+
     const err = new ConflictError("Room no longer available");
     assert.equal(err.code, "CONFLICT");
     assert.equal(err.statusCode, 409);

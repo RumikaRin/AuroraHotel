@@ -23,7 +23,7 @@ export async function recordAuditLog(
       action: params.action,
       entityType: params.entityType,
       entityId: params.entityId,
-      payload: params.payload as any,
+      payload: params.payload ? JSON.parse(JSON.stringify(params.payload)) : undefined,
       ipAddress: params.ipAddress,
       userAgent: params.userAgent,
     },

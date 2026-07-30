@@ -12,7 +12,7 @@ const direct =
 
 describe("Fail-closed Neon test reset runner", () => {
   it("executes exact sequence when all identity and environment guards pass", async () => {
-    const events: Array<[string, ...any[]]> = [];
+    const events: Array<[string, ...unknown[]]> = [];
     await resetTestDatabase({
       pooledUrl: pooled,
       directUrl: direct,
@@ -50,7 +50,7 @@ describe("Fail-closed Neon test reset runner", () => {
 
   for (const tc of negativeCases) {
     it(`refuses reset when ${tc.name}`, async () => {
-      const events: any[] = [];
+      const events: unknown[] = [];
       await assert.rejects(
         () =>
           resetTestDatabase({
@@ -77,7 +77,7 @@ describe("Fail-closed Neon test reset runner", () => {
       );
 
       assert.equal(
-        events.some((e) => e[0] === "drop-create-schema" || e[0] === "prisma"),
+        events.some((e) => (e as unknown[])[0] === "drop-create-schema" || (e as unknown[])[0] === "prisma"),
         false,
       );
     });

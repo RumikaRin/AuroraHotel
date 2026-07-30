@@ -1,4 +1,4 @@
-import { USER_ROLES, type UserRole } from "../../domain/contracts.ts";
+import { type UserRole } from "../../domain/contracts.ts";
 import { ForbiddenError } from "../../domain/errors.ts";
 
 export type Permission =

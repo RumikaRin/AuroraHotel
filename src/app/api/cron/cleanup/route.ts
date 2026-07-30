@@ -1,27 +1,8 @@
-import { timingSafeEqual } from "node:crypto";
 import type { NextRequest } from "next/server";
 import { db } from "../../../../lib/db.ts";
+import { verifyCronSecret } from "../../../../server/cron/cron-auth.ts";
 
 export const dynamic = "force-dynamic";
-
-export function verifyCronSecret(
-  authHeader: string | null,
-  expectedSecret: string | undefined,
-): boolean {
-  if (!authHeader || !expectedSecret) return false;
-  const match = authHeader.match(/^Bearer\s+(.+)$/i);
-  if (!match) return false;
-  const token = match[1];
-
-  try {
-    const tokenBuf = Buffer.from(token, "utf8");
-    const expectedBuf = Buffer.from(expectedSecret, "utf8");
-    if (tokenBuf.length !== expectedBuf.length) return false;
-    return timingSafeEqual(tokenBuf, expectedBuf);
-  } catch {
-    return false;
-  }
-}
 
 export async function GET(request: NextRequest) {
   const authHeader = request.headers.get("authorization");

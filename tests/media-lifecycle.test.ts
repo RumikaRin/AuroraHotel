@@ -23,15 +23,15 @@ describe("Media lifecycle rules", () => {
     const age2h = new Date(now - 2 * 60 * 60 * 1000);
 
     assert.equal(
-      shouldCleanupTempFile({ createdAt: age25h, attachedEntityId: null }),
+      shouldCleanupTempFile({ isPublic: false, createdAt: age25h, attachedEntityId: null }),
       true,
     );
     assert.equal(
-      shouldCleanupTempFile({ createdAt: age2h, attachedEntityId: null }),
+      shouldCleanupTempFile({ isPublic: false, createdAt: age2h, attachedEntityId: null }),
       false,
     );
     assert.equal(
-      shouldCleanupTempFile({ createdAt: age25h, attachedEntityId: "cat-1" }),
+      shouldCleanupTempFile({ isPublic: false, createdAt: age25h, attachedEntityId: "cat-1" }),
       false,
     );
   });

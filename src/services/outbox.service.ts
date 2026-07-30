@@ -12,7 +12,7 @@ export async function recordEmailOutbox(
   return client.emailOutbox.create({
     data: {
       type: params.type,
-      payload: params.payload as any,
+      payload: JSON.parse(JSON.stringify(params.payload)),
       status: "PENDING",
     },
   });
