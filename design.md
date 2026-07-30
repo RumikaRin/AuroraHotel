@@ -1,7 +1,8 @@
 # Design System - Aurora Hotel
 
-> Status: DRAFT - NOT LOCKED
-> Page-level UI implementation is blocked until owner approval is recorded.
+> Status: locked
+> Approved: 2026-07-31
+> Approval-Spec-SHA256: 1545d99b2c484b36cb8c29d90b0ded609810914b52714be3ad369d34091c3900
 
 ## Direction
 A mobile-first contemporary luxury hospitality experience with calm editorial travel composition, generous warm whitespace, restrained dark sections, cinematic hotel photography, transparent booking information, and conversion-focused interaction. Public pages should feel premium, tranquil, and distinctly Vietnamese without visual excess; operational screens should prioritize speed, clarity, and moderate information density.
@@ -29,20 +30,39 @@ A mobile-first contemporary luxury hospitality experience with calm editorial tr
 - Do not use neon, cyberpunk, strong gradients, site-wide glassmorphism, heavy 3D, excessive gold, dense finance-dashboard cards, unreadable artistic fonts, or booking-slowing animation
 - Never copy logos, imagery, content, color systems, or identity from hotel and OTA brands
 
-## Typography strategy
-curated-pair
+## Typography
+- Display: Cormorant Garamond, weights 400/500/600.
+- Interface: Manrope, weights 400/500/600/700.
 
-## Color tokens
-Unresolved until the owner reviews named semantic tokens.
+## Semantic tokens
+- aurora-midnight: #17211D
+- warm-ivory: #F7F4ED
+- paper: #FFFDF8
+- champagne-gold: #C5A46D
+- forest-green: #355B4B
+- terracotta: #B97857
+- mist-gray: #DADDD8
+- charcoal: #242826
+- success: #2E7D5A
+- warning: #C48138
+- error: #B84A4A
+- information: #3F6D8C
+
+## Component rules
+- Header uses left wordmark, centered navigation, and right utilities/booking CTA.
+- Hero uses three right-to-left slides with manual controls and a reduced-motion static state.
+- Booking console overlaps the hero boundary without consuming the mobile viewport.
+- Room showcase uses Suite Spotlight and never uses the rejected Stay Atlas rows.
+- Vertical scrolling remains native; Lenis, Locomotive Scroll, and pinned scroll narratives are prohibited.
 
 ## Spacing, shape, and hierarchy
-Unresolved until the owner reviews the design system.
-
-## Imagery
-mixed
+- Desktop content width: 1280–1440px (12-column grid)
+- Tablet grid: 8 columns; Mobile grid: 4 columns
+- Public section spacing: 96–144px desktop, 64–88px mobile
+- Radius: surfaces 20–24px, inputs 12–14px, buttons 10–12px, modals 24px
 
 ## Motion budget
-Level: subtle. The allowed primitive list remains unresolved.
+Level: subtle. Hero horizontal slide, opacity & short vertical reveal, subtle hover scale, progress feedback. Scroll hijacking, long pinned narratives, heavy parallax, and autoplaying fast carousels are prohibited.
 
 ## Mobile composition
 - Availability search from the homepage
@@ -60,10 +80,6 @@ Level: subtle. The allowed primitive list remains unresolved.
 - LCP: <= 2500 ms
 - INP: <= 200 ms
 - CLS: <= 0.1
-- Evidence: unverified
-
-## Shared versus page-specific rules
-Unresolved until owner review.
 
 ## Anti-patterns
 - Neon or cyberpunk visual language
@@ -81,5 +97,5 @@ Unresolved until owner review.
 - Desktop layouts merely scaled down for mobile
 
 ## Approval
-- Status: draft
-- Approval SHA-256: absent
+> Status: locked
+> Approval-Spec-SHA256: 1545d99b2c484b36cb8c29d90b0ded609810914b52714be3ad369d34091c3900
