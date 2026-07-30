@@ -1,5 +1,6 @@
 import { verifyCronSecret } from "../../../../../server/cron/cron-auth.ts";
 import { processOutboxMessages } from "../../../../../services/outbox.service.ts";
+import { releaseAvailability } from "../../../../../services/availability.service.ts";
 import { db } from "../../../../../lib/db.ts";
 
 export async function GET(request: Request) {
@@ -9,23 +10,43 @@ export async function GET(request: Request) {
   }
 
   try {
+    // 1. Process outbox email queue with atomic claim/lease
     const outboxResult = await processOutboxMessages(20);
 
-    const now = new Date();
-    const releasedHolds = await db.dayAvailability.updateMany({
+    // 2. Release ONLY actually expired pending booking holds (30-min expiration limit)
+    const holdExpirationCutoff = new Date(Date.now() - 30 * 60 * 1000);
+    const expiredBookings = await db.booking.findMany({
       where: {
-        holdCount: { gt: 0 },
+        status: "PENDING_PAYMENT",
+        createdAt: { lt: holdExpirationCutoff },
       },
-      data: {
-        holdCount: 0,
-      },
+      take: 50,
     });
+
+    let releasedHoldsCount = 0;
+    for (const bk of expiredBookings) {
+      const { count } = await db.booking.updateMany({
+        where: { id: bk.id, status: "PENDING_PAYMENT" },
+        data: { status: "CANCELLED" },
+      });
+      if (count === 1) {
+        await releaseAvailability(
+          {
+            roomCategoryId: bk.roomCategoryId,
+            checkIn: bk.checkIn,
+            checkOut: bk.checkOut,
+          },
+          db
+        );
+        releasedHoldsCount++;
+      }
+    }
 
     return Response.json({
       success: true,
-      timestamp: now.toISOString(),
+      timestamp: new Date().toISOString(),
       outbox: outboxResult,
-      releasedHoldsCount: releasedHolds.count,
+      releasedHoldsCount,
     });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Maintenance job failed";
