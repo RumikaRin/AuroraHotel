@@ -1,7 +1,6 @@
 import { auth } from "@/auth";
 import { requireAdmin } from "@/server/auth/guards";
 import Link from "next/link";
-import { db } from "@/lib/db";
 
 export const metadata = { title: "Quản lý Media Blob - Aurora Hotel" };
 
