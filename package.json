@@ -22,6 +22,7 @@
     "db:test:reset": "node --experimental-strip-types scripts/reset-test-db.mjs",
     "e2e:db": "node --experimental-strip-types scripts/reset-test-db.mjs",
     "cloud:check": "node --experimental-strip-types scripts/check-cloud-env.mjs",
+    "agent-os": "tsx D:/ProjectZ/Template/agent-os/src/cli.ts",
     "check": "npm run lint && npm run typecheck && npm run test && npm run design:check && npm run build",
     "postinstall": "prisma generate"
   },

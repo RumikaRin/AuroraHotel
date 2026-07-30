@@ -7,10 +7,10 @@ project:
     price and availability accurate and preventing overbooking.
 blueprint:
   path: project-blueprint.yml
-  sha256: 0633e518ad2ac7ec14118204ae98c3dea1cdd23226c817fde1bd19253710302d
+  sha256: 25feb3781b3d7f613ccd938afd5caed66f8314c7aba16d4e08f61059a5471866
 experience:
   path: experience-blueprint.yml
-  sha256: 91505645c810b460b8bc702de49a6af4b2071347d636eb1eb25b1d027ee70a40
+  sha256: 62f6ecaaa95e4340c8f577ef6b4817eb5815bd6aa81c98ca9a569e5de49263cf
 profile: next-monolith
 stack:
   language: typescript
