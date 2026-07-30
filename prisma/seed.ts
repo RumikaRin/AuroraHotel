@@ -13,91 +13,272 @@ async function main() {
     );
   }
 
-  console.log("Seeding database...");
+  console.log("Seeding Aurora Hotel P0 database...");
 
   // 1. Roles
-  const adminRole = await prisma.role.upsert({
-    where: { type: "ADMIN" },
-    update: {},
-    create: { name: "Admin", type: "ADMIN" },
-  });
-  await prisma.role.upsert({
-    where: { type: "STAFF" },
-    update: {},
-    create: { name: "Staff", type: "STAFF" },
-  });
-  const customerRole = await prisma.role.upsert({
-    where: { type: "CUSTOMER" },
-    update: {},
-    create: { name: "Customer", type: "CUSTOMER" },
-  });
+  const roles = [
+    { type: "GUEST", name: "Guest" },
+    { type: "RECEPTIONIST", name: "Receptionist" },
+    { type: "HOUSEKEEPER", name: "Housekeeper" },
+    { type: "MANAGER", name: "Manager" },
+    { type: "ADMIN", name: "Administrator" },
+  ];
+
+  const roleMap: Record<string, string> = {};
+  for (const r of roles) {
+    const role = await prisma.role.upsert({
+      where: { type: r.type },
+      update: { name: r.name },
+      create: { type: r.type, name: r.name },
+    });
+    roleMap[r.type] = role.id;
+  }
 
   // 2. Users
-  // FLOF PITFALL: credentials sign-in requires emailVerified to be set
-  // (see src/auth.ts). Seeded accounts are created by whoever runs db:seed,
-  // so they are verified by construction. Without this stamp the README
-  // credentials cannot log in at all. It is set on `update` too, so
-  // re-running the seed backfills databases seeded before this fix.
   const seededEmailVerified = new Date();
-
-  await prisma.user.upsert({
-    where: { email: "admin@example.com" },
-    update: { emailVerified: seededEmailVerified },
-    create: {
-      email: "admin@example.com",
-      password: await bcrypt.hash("admin123", 12),
-      name: "Starter Admin",
-      emailVerified: seededEmailVerified,
-      roleId: adminRole.id,
+  const defaultUsers = [
+    {
+      email: "admin@aurorahotel.com",
+      password: "Admin123!",
+      name: "Aurora Admin",
+      phone: "+84901234567",
+      roleId: roleMap["ADMIN"],
     },
-  });
-
-  await prisma.user.upsert({
-    where: { email: "customer@example.com" },
-    update: { emailVerified: seededEmailVerified },
-    create: {
-      email: "customer@example.com",
-      password: await bcrypt.hash("customer123", 12),
-      name: "Starter Customer",
-      emailVerified: seededEmailVerified,
-      roleId: customerRole.id,
+    {
+      email: "receptionist@aurorahotel.com",
+      password: "Staff123!",
+      name: "Front Desk Receptionist",
+      phone: "+84901234568",
+      roleId: roleMap["RECEPTIONIST"],
     },
-  });
-
-  // 3. Products (neutral demo catalog, prices in smallest currency unit)
-  const products = [
-    { sku: "SKU-0001", slug: "basic-widget", name: "Basic Widget", price: 150000, stock: 50 },
-    { sku: "SKU-0002", slug: "standard-widget", name: "Standard Widget", price: 290000, stock: 35 },
-    { sku: "SKU-0003", slug: "premium-widget", name: "Premium Widget", price: 590000, stock: 20 },
-    { sku: "SKU-0004", slug: "starter-kit", name: "Starter Kit", price: 990000, stock: 10 },
-    { sku: "SKU-0005", slug: "spare-part-a", name: "Spare Part A", price: 45000, stock: 200 },
-    { sku: "SKU-0006", slug: "limited-bundle", name: "Limited Bundle", price: 1490000, stock: 3 },
+    {
+      email: "housekeeper@aurorahotel.com",
+      password: "Staff123!",
+      name: "Housekeeper Staff",
+      phone: "+84901234569",
+      roleId: roleMap["HOUSEKEEPER"],
+    },
+    {
+      email: "guest@aurorahotel.com",
+      password: "Guest123!",
+      name: "Valued Guest",
+      phone: "+84907654321",
+      roleId: roleMap["GUEST"],
+    },
   ];
-  for (const p of products) {
-    await prisma.product.upsert({
-      where: { sku: p.sku },
-      update: { price: p.price },
-      create: { ...p, description: `Demo product ${p.name}`, isActive: true },
+
+  for (const u of defaultUsers) {
+    const hashedPassword = await bcrypt.hash(u.password, 10);
+    await prisma.user.upsert({
+      where: { email: u.email },
+      update: {
+        name: u.name,
+        emailVerified: seededEmailVerified,
+        roleId: u.roleId,
+      },
+      create: {
+        email: u.email,
+        password: hashedPassword,
+        name: u.name,
+        phone: u.phone,
+        emailVerified: seededEmailVerified,
+        roleId: u.roleId,
+      },
     });
   }
 
-  // 4. Coupon with a usage limit, to exercise the conditional increment path
-  await prisma.coupon.upsert({
-    where: { code: "WELCOME10" },
-    update: {},
-    create: {
-      code: "WELCOME10",
-      type: "PERCENTAGE",
-      value: 10,
-      minOrder: 100000,
-      usageLimit: 100,
-      isActive: true,
+  // 3. Room Categories
+  const categories = [
+    {
+      slug: "deluxe-king",
+      type: "DELUXE_KING",
+      name: "Deluxe King Room",
+      description: "Spacious 35sqm room featuring a plush King bed, panoramic city view, and luxury marble bathroom.",
+      basePrice: 2500000,
+      maxOccupancy: 2,
+      sizeSqm: 35,
+      bedConfiguration: "1 King Bed",
+      amenities: ["King Bed", "City View", "Free Wi-Fi", "Bathtub", "Smart TV", "Mini Bar", "Espresso Machine"],
+      images: [
+        "https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80",
+      ],
     },
-  });
+    {
+      slug: "deluxe-twin",
+      type: "DELUXE_TWIN",
+      name: "Deluxe Twin Room",
+      description: "Elegant 38sqm room with two single beds, ideal for travelers or friends seeking supreme comfort.",
+      basePrice: 2700000,
+      maxOccupancy: 2,
+      sizeSqm: 38,
+      bedConfiguration: "2 Single Beds",
+      amenities: ["2 Twin Beds", "City View", "Free Wi-Fi", "Rain Shower", "Work Desk", "Mini Bar"],
+      images: [
+        "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=1200&q=80",
+      ],
+    },
+    {
+      slug: "executive-suite",
+      type: "EXECUTIVE_SUITE",
+      name: "Executive Suite",
+      description: "Luxurious 65sqm suite with a separate living area, private balcony, and Executive Lounge privileges.",
+      basePrice: 4500000,
+      maxOccupancy: 3,
+      sizeSqm: 65,
+      bedConfiguration: "1 Super King Bed",
+      amenities: ["Super King Bed", "Living Room", "Private Balcony", "Executive Lounge", "Jacuzzi", "Ocean View"],
+      images: [
+        "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=1200&q=80",
+      ],
+    },
+    {
+      slug: "presidential-suite",
+      type: "PRESIDENTIAL_SUITE",
+      name: "Presidential Suite",
+      description: "Unrivaled 120sqm penthouse sanctuary featuring 24/7 butler service, private dining room, and 360-degree ocean views.",
+      basePrice: 12000000,
+      maxOccupancy: 4,
+      sizeSqm: 120,
+      bedConfiguration: "1 Emperor King Bed + 1 King Bed",
+      amenities: ["Emperor Bed", "2 Bedrooms", "Butler Service", "Private Dining", "Sauna & Spa", "Panoramic Ocean View"],
+      images: [
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80",
+      ],
+    },
+  ];
 
-  console.log("Seed completed.");
-  console.log("  admin@example.com / admin123 (verified)");
-  console.log("  customer@example.com / customer123 (verified)");
+  const categoryMap: Record<string, string> = {};
+  for (const cat of categories) {
+    const created = await prisma.roomCategory.upsert({
+      where: { slug: cat.slug },
+      update: {
+        name: cat.name,
+        basePrice: cat.basePrice,
+        amenities: cat.amenities,
+        images: cat.images,
+      },
+      create: cat,
+    });
+    categoryMap[cat.type] = created.id;
+  }
+
+  // 4. Rate Plans
+  const ratePlans = [
+    {
+      code: "FLEX-BFAST",
+      name: "Flexible Rate with Gourmet Breakfast",
+      planType: "FLEXIBLE_BREAKFAST",
+      priceMultiplier: 1.0,
+      cancelPolicyDays: 3,
+      breakfastIncluded: true,
+    },
+    {
+      code: "NON-REF",
+      name: "Non-Refundable Saver",
+      planType: "NON_REFUNDABLE",
+      priceMultiplier: 0.85,
+      cancelPolicyDays: 0,
+      breakfastIncluded: false,
+    },
+    {
+      code: "EXT-STAY",
+      name: "Extended Stay Special (3+ Nights)",
+      planType: "EXTENDED_STAY_PROMO",
+      priceMultiplier: 0.80,
+      cancelPolicyDays: 7,
+      breakfastIncluded: true,
+    },
+  ];
+
+  for (const catType of Object.keys(categoryMap)) {
+    const catId = categoryMap[catType];
+    for (const rp of ratePlans) {
+      const uniqueCode = `${rp.code}-${catType}`;
+      await prisma.ratePlan.upsert({
+        where: { code: uniqueCode },
+        update: {
+          name: `${rp.name} - ${catType}`,
+          priceMultiplier: rp.priceMultiplier,
+        },
+        create: {
+          code: uniqueCode,
+          name: `${rp.name} - ${catType}`,
+          roomCategoryId: catId,
+          planType: rp.planType,
+          priceMultiplier: rp.priceMultiplier,
+          cancelPolicyDays: rp.cancelPolicyDays,
+          breakfastIncluded: rp.breakfastIncluded,
+        },
+      });
+    }
+  }
+
+  // 5. Rooms (10 rooms per category)
+  const roomPrefixes: Record<string, number> = {
+    DELUXE_KING: 100,
+    DELUXE_TWIN: 200,
+    EXECUTIVE_SUITE: 300,
+    PRESIDENTIAL_SUITE: 400,
+  };
+
+  for (const catType of Object.keys(categoryMap)) {
+    const catId = categoryMap[catType];
+    const prefix = roomPrefixes[catType];
+    for (let i = 1; i <= 10; i++) {
+      const roomNum = String(prefix + i);
+      const floor = Math.floor((prefix + i) / 100);
+      await prisma.room.upsert({
+        where: { number: roomNum },
+        update: { status: "CLEAN" },
+        create: {
+          number: roomNum,
+          roomCategoryId: catId,
+          floor,
+          status: "CLEAN",
+        },
+      });
+    }
+  }
+
+  // 6. Day Availability (Next 90 Days)
+  const today = new Date();
+  today.setUTCHours(0, 0, 0, 0);
+
+  for (const catType of Object.keys(categoryMap)) {
+    const catId = categoryMap[catType];
+    for (let day = 0; day < 90; day++) {
+      const date = new Date(today);
+      date.setUTCDate(today.getUTCDate() + day);
+
+      await prisma.dayAvailability.upsert({
+        where: {
+          roomCategoryId_date: {
+            roomCategoryId: catId,
+            date,
+          },
+        },
+        update: { totalInventory: 10 },
+        create: {
+          roomCategoryId: catId,
+          date,
+          totalInventory: 10,
+          bookedCount: 0,
+          holdCount: 0,
+          version: 0,
+        },
+      });
+    }
+  }
+
+  console.log("Aurora Hotel P0 seed completed cleanly.");
+  console.log("  admin@aurorahotel.com / Admin123!");
+  console.log("  receptionist@aurorahotel.com / Staff123!");
+  console.log("  housekeeper@aurorahotel.com / Staff123!");
+  console.log("  guest@aurorahotel.com / Guest123!");
 }
 
 main()
