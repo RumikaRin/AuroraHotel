@@ -70,7 +70,6 @@ export default function ReceptionPage() {
         {/* Bookings table */}
         <div className="bg-[#FFFDF8] rounded-3xl p-6 border border-[#DADDD8] shadow-sm space-y-4">
           <h2 className="font-serif-display text-xl text-[#17211D]">Danh Sách Đơn Đặt Phòng Lưu Trú</h2>
-          
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs border-collapse">
               <thead>

@@ -221,4 +221,3 @@ export async function cancelBooking(
     return executeInTx(client);
   }
 }
-

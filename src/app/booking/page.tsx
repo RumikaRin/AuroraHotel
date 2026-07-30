@@ -150,7 +150,6 @@ function BookingContent() {
             {step === 1 && (
               <div className="bg-[#FFFDF8] rounded-3xl p-8 border border-[#DADDD8] space-y-6 shadow-sm">
                 <h2 className="font-serif-display text-2xl text-[#17211D]">Bước 1: Chọn Ngày & Hạng Phòng</h2>
-                
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-semibold text-[#17211D] mb-1">Ngày Nhận Phòng (Check-in)</label>

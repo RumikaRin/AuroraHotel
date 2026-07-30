@@ -178,4 +178,3 @@ export async function performCheckOut(
 
   return client.booking.findUnique({ where: { id: params.bookingId } });
 }
-
