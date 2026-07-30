@@ -1,0 +1,81 @@
+export const ROOM_TYPES = {
+  DELUXE_KING: "DELUXE_KING",
+  DELUXE_TWIN: "DELUXE_TWIN",
+  EXECUTIVE_SUITE: "EXECUTIVE_SUITE",
+  PRESIDENTIAL_SUITE: "PRESIDENTIAL_SUITE",
+} as const;
+
+export type RoomType = (typeof ROOM_TYPES)[keyof typeof ROOM_TYPES];
+
+export const RATE_PLANS = {
+  FLEXIBLE_BREAKFAST: "FLEXIBLE_BREAKFAST",
+  NON_REFUNDABLE: "NON_REFUNDABLE",
+  EXTENDED_STAY_PROMO: "EXTENDED_STAY_PROMO",
+} as const;
+
+export type RatePlanType = (typeof RATE_PLANS)[keyof typeof RATE_PLANS];
+
+export const BOOKING_STATUSES = {
+  DRAFT: "DRAFT",
+  PENDING_PAYMENT: "PENDING_PAYMENT",
+  CONFIRMED: "CONFIRMED",
+  CHECKED_IN: "CHECKED_IN",
+  CHECKED_OUT: "CHECKED_OUT",
+  CANCELLED: "CANCELLED",
+  NO_SHOW: "NO_SHOW",
+} as const;
+
+export type BookingStatus =
+  (typeof BOOKING_STATUSES)[keyof typeof BOOKING_STATUSES];
+
+export const PAYMENT_METHODS = {
+  CREDIT_CARD: "CREDIT_CARD",
+  BANK_TRANSFER: "BANK_TRANSFER",
+  CASH: "CASH",
+  MOCK_PAYMENT: "MOCK_PAYMENT",
+} as const;
+
+export type PaymentMethod =
+  (typeof PAYMENT_METHODS)[keyof typeof PAYMENT_METHODS];
+
+export const PAYMENT_STATUSES = {
+  PENDING: "PENDING",
+  AUTHORIZED: "AUTHORIZED",
+  PAID: "PAID",
+  FAILED: "FAILED",
+  CANCELLED: "CANCELLED",
+  REFUNDED: "REFUNDED",
+} as const;
+
+export type PaymentStatus =
+  (typeof PAYMENT_STATUSES)[keyof typeof PAYMENT_STATUSES];
+
+export const ROOM_STATUSES = {
+  CLEAN: "CLEAN",
+  DIRTY: "DIRTY",
+  INSPECTING: "INSPECTING",
+  MAINTENANCE: "MAINTENANCE",
+} as const;
+
+export type RoomStatus = (typeof ROOM_STATUSES)[keyof typeof ROOM_STATUSES];
+
+export const USER_ROLES = {
+  GUEST: "GUEST",
+  RECEPTIONIST: "RECEPTIONIST",
+  HOUSEKEEPER: "HOUSEKEEPER",
+  MANAGER: "MANAGER",
+  ADMIN: "ADMIN",
+} as const;
+
+export type UserRole = (typeof USER_ROLES)[keyof typeof USER_ROLES];
+
+export const AUDIT_ACTIONS = {
+  BOOKING_CREATED: "BOOKING_CREATED",
+  BOOKING_CANCELLED: "BOOKING_CANCELLED",
+  ROOM_ASSIGNED: "ROOM_ASSIGNED",
+  ROOM_STATUS_CHANGED: "ROOM_STATUS_CHANGED",
+  PAYMENT_PROCESSED: "PAYMENT_PROCESSED",
+  REFUND_ISSUED: "REFUND_ISSUED",
+} as const;
+
+export type AuditAction = (typeof AUDIT_ACTIONS)[keyof typeof AUDIT_ACTIONS];
