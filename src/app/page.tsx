@@ -10,7 +10,7 @@ function formatVND(amount: number) {
 }
 
 export default async function HomePage() {
-  let roomCategories: Array<{ id: string; name: string; slug: string; basePrice: number; description: string; images: unknown }> = [];
+  let roomCategories: Array<{ id: string; name: string; slug: string; basePrice: number; description: string; images: unknown; type?: string; amenities?: unknown }> = [];
   try {
     const queryPromise = db.roomCategory.findMany({
       where: { isActive: true },
