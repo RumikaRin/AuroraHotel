@@ -1,3 +1,6 @@
+import { put, del } from "@vercel/blob";
+import sharp from "sharp";
+import { createHash } from "node:crypto";
 import { ValidationError } from "../../domain/errors.ts";
 
 export const ALLOWED_MIME_TYPES = new Set([
@@ -5,7 +8,6 @@ export const ALLOWED_MIME_TYPES = new Set([
   "image/png",
   "image/webp",
   "image/avif",
-  "application/pdf",
 ]);
 
 export const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024; // 10MB
@@ -39,4 +41,93 @@ export function validateUploadOptions(options: {
   }
 
   return { valid: true };
+}
+
+export async function processAndNormalizeImage(inputBuffer: Buffer | Uint8Array) {
+  const image = sharp(inputBuffer, { failOn: "error", limitInputPixels: 6000 * 6000 });
+  const metadata = await image.metadata();
+
+  if (
+    !metadata.width ||
+    !metadata.height ||
+    metadata.width > 6000 ||
+    metadata.height > 6000 ||
+    !["jpeg", "png", "webp", "avif"].includes(metadata.format || "")
+  ) {
+    throw new ValidationError("Invalid or unsupported image format / dimensions exceed 6000x6000");
+  }
+
+  const normalized = await image
+    .rotate()
+    .webp({ quality: 84, effort: 5 })
+    .toBuffer();
+
+  const sha256 = createHash("sha256").update(normalized).digest("hex");
+
+  return {
+    bytes: normalized,
+    sha256,
+    width: metadata.width,
+    height: metadata.height,
+    format: "webp",
+    contentType: "image/webp",
+  };
+}
+
+export class VercelBlobStoreAdapter {
+  private privateToken: string;
+  private publicToken: string;
+
+  constructor(tokens?: { privateToken?: string; publicToken?: string }) {
+    this.privateToken = tokens?.privateToken || process.env.BLOB_PRIVATE_READ_WRITE_TOKEN || "";
+    this.publicToken = tokens?.publicToken || process.env.BLOB_PUBLIC_READ_WRITE_TOKEN || "";
+  }
+
+  isConfigured(): boolean {
+    return Boolean(this.privateToken && this.publicToken && !this.privateToken.includes("YOUR_"));
+  }
+
+  async uploadPrivateQuarantine(pathname: string, body: Buffer | Uint8Array, contentType: string) {
+    validateUploadOptions({ contentType, sizeBytes: body.length });
+    if (!this.isConfigured()) {
+      return {
+        url: `https://quarantine.private.blob.vercel-storage.com/${pathname}`,
+        pathname,
+        etag: `etag-${Date.now()}`,
+        size: body.length,
+      };
+    }
+
+    return put(pathname, body, {
+      access: "private",
+      token: this.privateToken,
+      contentType,
+      addRandomSuffix: false,
+    });
+  }
+
+  async publishToPublicStore(pathname: string, body: Buffer | Uint8Array) {
+    if (!this.isConfigured()) {
+      return {
+        url: `https://public.public.blob.vercel-storage.com/${pathname}`,
+        pathname,
+        etag: `pub-etag-${Date.now()}`,
+        size: body.length,
+      };
+    }
+
+    return put(pathname, body, {
+      access: "public",
+      token: this.publicToken,
+      contentType: "image/webp",
+      addRandomSuffix: false,
+      cacheControlMaxAge: 31536000,
+    });
+  }
+
+  async deleteBlobObject(urlOrPathname: string, store: "private" | "public") {
+    const token = store === "private" ? this.privateToken : this.publicToken;
+    if (!this.isConfigured()) return;
+    await del(urlOrPathname, { token });
+  }
 }
