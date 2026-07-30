@@ -11,8 +11,14 @@ const globalForPrisma = globalThis as unknown as {
 
 function createClient() {
   const environment = readRuntimeEnvironment(process.env);
+  const dbUrl = environment.databaseUrl;
+  if (dbUrl.includes("YOUR_") || dbUrl.includes("example") || dbUrl.startsWith("file:")) {
+    return new PrismaClient({
+      log: ["error"],
+    });
+  }
   const adapter = new PrismaNeon({
-    connectionString: environment.databaseUrl,
+    connectionString: dbUrl,
   });
   return new PrismaClient({
     adapter,
