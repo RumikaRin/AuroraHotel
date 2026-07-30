@@ -1,0 +1,121 @@
+schemaVersion: 1
+maturity: declared
+project:
+  profile: next-monolith
+  sourceRefs:
+    - resolver:profile
+direction:
+  statement: A mobile-first contemporary luxury hospitality experience with calm
+    editorial travel composition, generous warm whitespace, restrained dark
+    sections, cinematic hotel photography, transparent booking information, and
+    conversion-focused interaction. Public pages should feel premium, tranquil,
+    and distinctly Vietnamese without visual excess; operational screens should
+    prioritize speed, clarity, and moderate information density.
+  toneKeywords:
+    - Contemporary luxury
+    - Calm
+    - Warm premium
+    - Natural elegance
+    - Trustworthy
+    - Conversion-focused
+  references:
+    - "Premium resort and editorial travel experiences: learn calm pacing,
+      immersive photography, and clear hospitality storytelling without copying
+      brand identity"
+    - "Professional direct-booking engines: learn transparent availability,
+      pricing, cancellation-policy placement, and three-step checkout ergonomics
+      without copying layouts"
+    - "Apple product experiences: learn hierarchy, restraint, and interaction
+      clarity without imitating visual assets"
+  antiPatterns:
+    - Neon or cyberpunk visual language
+    - Strong decorative gradients
+    - Site-wide glassmorphism
+    - Heavy 3D effects or parallax
+    - Excessive champagne gold
+    - Dense finance-dashboard card layouts on public pages
+    - Unreadable artistic fonts
+    - Motion that delays booking actions
+    - Fake urgency, fake crossed-out prices, or fabricated reviews
+    - Hidden taxes, fees, or cancellation terms
+    - Autoplaying fast carousels and obstructive promotional popups
+    - Critical information shown only in toast messages
+    - Desktop layouts merely scaled down for mobile
+  sourceRefs:
+    - discovery:design-direction
+    - discovery:tone-keywords
+    - discovery:design-references
+    - discovery:design-anti-patterns
+typography:
+  strategy: curated-pair
+  localeRequirements:
+    - vi
+    - en
+  sourceRefs:
+    - discovery:typography-strategy
+    - discovery:locales
+color:
+  constraints:
+    - "Brand name: Aurora Hotel"
+    - "Slogan: Where Every Stay Becomes a Memory"
+    - "Primary colors: Aurora Midnight #17211D, Warm Ivory #F7F4ED, Champagne
+      Gold #C5A46D used sparingly"
+    - "Secondary colors: Forest Green #355B4B, Terracotta #B97857, Mist Gray
+      #DADDD8, Charcoal #242826, White #FFFFFF"
+    - "Semantic colors: success #2E7D5A, warning #C48138, error #B84A4A,
+      information #3F6D8C"
+    - Use an intentional premium serif display face paired with a highly
+      readable modern sans-serif interface face, both supporting Vietnamese
+    - Do not use neon, cyberpunk, strong gradients, site-wide glassmorphism,
+      heavy 3D, excessive gold, dense finance-dashboard cards, unreadable
+      artistic fonts, or booking-slowing animation
+    - Never copy logos, imagery, content, color systems, or identity from hotel
+      and OTA brands
+  semanticTokensRequired: true
+  sourceRefs:
+    - discovery:brand-constraints
+imagery:
+  strategy: mixed
+  provenanceRequired: true
+  sourceRefs:
+    - discovery:imagery-strategy
+motion:
+  level: subtle
+  reducedMotionRequired: true
+  sourceRefs:
+    - discovery:motion-level
+mobile:
+  dedicatedCompositionRequired: true
+  priorityJourneys:
+    - Availability search from the homepage
+    - Date range and guest selection
+    - Room and rate-plan comparison
+    - Three-step multi-room booking checkout
+    - Payment status and booking confirmation
+    - Booking lookup, management, and cancellation
+    - Receptionist check-in and check-out
+    - Housekeeping room-status updates
+  sourceRefs:
+    - discovery:mobile-priority-journeys
+quality:
+  accessibilityTarget: WCAG-2.2-AA
+  seoRequired: true
+  performance:
+    preset: core-web-vitals-good
+    percentile: 75
+    lcpMs: 2500
+    inpMs: 200
+    cls: 0.1
+    evidenceStatus: unverified
+  sourceRefs:
+    - catalog:wcag-2.2-aa
+    - catalog:core-web-vitals-good
+    - discovery:seo
+designSystem:
+  path: design.md
+  status: draft
+coverage:
+  unresolved:
+    - design.tokens
+    - design.component-rules
+    - design.owner-approval

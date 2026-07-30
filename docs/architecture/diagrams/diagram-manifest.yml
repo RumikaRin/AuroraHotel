@@ -1,0 +1,201 @@
+diagrams:
+  - id: auth-flow
+    source: docs/architecture/diagrams/auth-flow.mmd
+    rendered: docs/architecture/diagrams/rendered/auth-flow.svg
+    owners:
+      - architecture
+    sourceInputs:
+      - project-manifest.yml
+    status: implemented
+  - id: authentication-flow
+    source: docs/architecture/diagrams/authentication-flow.mmd
+    rendered: docs/architecture/diagrams/rendered/authentication-flow.svg
+    owners:
+      - architecture
+    sourceInputs:
+      - project-manifest.yml
+    status: implemented
+  - id: authorization-flow
+    source: docs/architecture/diagrams/authorization-flow.mmd
+    rendered: docs/architecture/diagrams/rendered/authorization-flow.svg
+    owners:
+      - architecture
+    sourceInputs:
+      - project-manifest.yml
+    status: implemented
+  - id: authz-flow
+    source: docs/architecture/diagrams/authz-flow.mmd
+    rendered: docs/architecture/diagrams/rendered/authz-flow.svg
+    owners:
+      - architecture
+    sourceInputs:
+      - project-manifest.yml
+    status: implemented
+  - id: backup-restore-pipeline
+    source: docs/architecture/diagrams/backup-restore-pipeline.mmd
+    rendered: docs/architecture/diagrams/rendered/backup-restore-pipeline.svg
+    owners:
+      - architecture
+    sourceInputs:
+      - project-manifest.yml
+    status: implemented
+  - id: checkout-sequence
+    source: docs/architecture/diagrams/checkout-sequence.mmd
+    rendered: docs/architecture/diagrams/rendered/checkout-sequence.svg
+    owners:
+      - architecture
+    sourceInputs:
+      - project-manifest.yml
+    status: implemented
+  - id: containers
+    source: docs/architecture/diagrams/containers.mmd
+    rendered: docs/architecture/diagrams/rendered/containers.svg
+    owners:
+      - architecture
+    sourceInputs:
+      - project-manifest.yml
+    status: implemented
+  - id: data-lifecycle
+    source: docs/architecture/diagrams/data-lifecycle.mmd
+    rendered: docs/architecture/diagrams/rendered/data-lifecycle.svg
+    owners:
+      - architecture
+    sourceInputs:
+      - project-manifest.yml
+    status: implemented
+  - id: data-subject-rights
+    source: docs/architecture/diagrams/data-subject-rights.mmd
+    rendered: docs/architecture/diagrams/rendered/data-subject-rights.svg
+    owners:
+      - architecture
+    sourceInputs:
+      - project-manifest.yml
+    status: implemented
+  - id: deployment
+    source: docs/architecture/diagrams/deployment.mmd
+    rendered: docs/architecture/diagrams/rendered/deployment.svg
+    owners:
+      - architecture
+    sourceInputs:
+      - project-manifest.yml
+    status: implemented
+  - id: email-outbox-flow
+    source: docs/architecture/diagrams/email-outbox-flow.mmd
+    rendered: docs/architecture/diagrams/rendered/email-outbox-flow.svg
+    owners:
+      - architecture
+    sourceInputs:
+      - project-manifest.yml
+    status: implemented
+  - id: erd
+    source: docs/architecture/diagrams/erd.mmd
+    rendered: docs/architecture/diagrams/rendered/erd.svg
+    owners:
+      - architecture
+    sourceInputs:
+      - project-manifest.yml
+    status: implemented
+  - id: job-retry-flow
+    source: docs/architecture/diagrams/job-retry-flow.mmd
+    rendered: docs/architecture/diagrams/rendered/job-retry-flow.svg
+    owners:
+      - architecture
+    sourceInputs:
+      - project-manifest.yml
+    status: implemented
+  - id: migration-flow
+    source: docs/architecture/diagrams/migration-flow.mmd
+    rendered: docs/architecture/diagrams/rendered/migration-flow.svg
+    owners:
+      - architecture
+    sourceInputs:
+      - project-manifest.yml
+    status: implemented
+  - id: modules
+    source: docs/architecture/diagrams/modules.mmd
+    rendered: docs/architecture/diagrams/rendered/modules.svg
+    owners:
+      - architecture
+    sourceInputs:
+      - project-manifest.yml
+    status: implemented
+  - id: monitoring-architecture
+    source: docs/architecture/diagrams/monitoring-architecture.mmd
+    rendered: docs/architecture/diagrams/rendered/monitoring-architecture.svg
+    owners:
+      - architecture
+    sourceInputs:
+      - project-manifest.yml
+    status: implemented
+  - id: payment-state-machine
+    source: docs/architecture/diagrams/payment-state-machine.mmd
+    rendered: docs/architecture/diagrams/rendered/payment-state-machine.svg
+    owners:
+      - architecture
+    sourceInputs:
+      - project-manifest.yml
+    status: implemented
+  - id: release-flow
+    source: docs/architecture/diagrams/release-flow.mmd
+    rendered: docs/architecture/diagrams/rendered/release-flow.svg
+    owners:
+      - architecture
+    sourceInputs:
+      - project-manifest.yml
+    status: implemented
+  - id: request-flow
+    source: docs/architecture/diagrams/request-flow.mmd
+    rendered: docs/architecture/diagrams/rendered/request-flow.svg
+    owners:
+      - architecture
+    sourceInputs:
+      - project-manifest.yml
+    status: implemented
+  - id: role-permission-map
+    source: docs/architecture/diagrams/role-permission-map.mmd
+    rendered: docs/architecture/diagrams/rendered/role-permission-map.svg
+    owners:
+      - architecture
+    sourceInputs:
+      - project-manifest.yml
+    status: implemented
+  - id: session-lifecycle
+    source: docs/architecture/diagrams/session-lifecycle.mmd
+    rendered: docs/architecture/diagrams/rendered/session-lifecycle.svg
+    owners:
+      - architecture
+    sourceInputs:
+      - project-manifest.yml
+    status: implemented
+  - id: system-context
+    source: docs/architecture/diagrams/system-context.mmd
+    rendered: docs/architecture/diagrams/rendered/system-context.svg
+    owners:
+      - architecture
+    sourceInputs:
+      - project-manifest.yml
+    status: implemented
+  - id: upload-flow
+    source: docs/architecture/diagrams/upload-flow.mmd
+    rendered: docs/architecture/diagrams/rendered/upload-flow.svg
+    owners:
+      - architecture
+    sourceInputs:
+      - project-manifest.yml
+    status: implemented
+  - id: verification-idempotency-sequence
+    source: docs/architecture/diagrams/verification-idempotency-sequence.mmd
+    rendered: docs/architecture/diagrams/rendered/verification-idempotency-sequence.svg
+    owners:
+      - architecture
+    sourceInputs:
+      - project-manifest.yml
+    status: implemented
+  - id: webhook-verification
+    source: docs/architecture/diagrams/webhook-verification.mmd
+    rendered: docs/architecture/diagrams/rendered/webhook-verification.svg
+    owners:
+      - architecture
+    sourceInputs:
+      - project-manifest.yml
+    status: implemented

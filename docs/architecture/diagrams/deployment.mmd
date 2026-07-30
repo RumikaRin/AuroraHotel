@@ -1,0 +1,5 @@
+flowchart LR
+    Commit["Verified source revision"] --> CI["Five ordered quality gates"]
+    CI --> Artifact["Immutable release artifact"]
+    Artifact --> Runtime["next-monolith runtime"]
+    Runtime --> Telemetry["Logs, metrics, and alerts"]

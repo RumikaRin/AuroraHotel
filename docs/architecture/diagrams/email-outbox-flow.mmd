@@ -1,0 +1,5 @@
+flowchart LR
+    Input["Manifest and source inputs"] --> Boundary["email outbox flow boundary"]
+    Boundary --> Policy["Deny-by-default policy"]
+    Policy --> Operation["Authorized email outbox flow operation"]
+    Operation --> Evidence["Audit and test evidence"]

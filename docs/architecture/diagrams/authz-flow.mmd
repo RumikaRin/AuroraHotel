@@ -1,0 +1,5 @@
+flowchart LR
+    Input["Manifest and source inputs"] --> Boundary["authz flow boundary"]
+    Boundary --> Policy["Deny-by-default policy"]
+    Policy --> Operation["Authorized authz flow operation"]
+    Operation --> Evidence["Audit and test evidence"]

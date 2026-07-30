@@ -1,0 +1,682 @@
+{
+  "schemaVersion": 1,
+  "sessionId": "session-1785428317357",
+  "status": "confirmed",
+  "revision": 69,
+  "createdAt": "2026-07-30T16:18:37.355Z",
+  "updatedAt": "2026-07-30T16:46:28.112Z",
+  "currentGroupId": "confirmation",
+  "currentQuestionId": "open-decisions",
+  "answers": [
+    {
+      "questionId": "project-name",
+      "value": "Aurora Hotel",
+      "answeredAt": "2026-07-30T16:18:42.363Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "project-idea",
+      "value": "A production-ready, mobile-first direct hotel booking platform for Aurora Hotel in Vietnam, combining a public bilingual website, real booking engine, customer accounts, hotel operations, day-level inventory and pricing, sandbox payments, transactional notifications, reporting, and foundations for future multi-hotel and OTA integrations.",
+      "answeredAt": "2026-07-30T16:21:19.935Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "problem",
+      "value": "Aurora Hotel needs to receive direct reservations without phone calls, show accurate daily availability and prices, prevent overbooking, sell add-on services, coordinate reception and housekeeping operations, and reduce dependence on OTAs while measuring revenue and occupancy.",
+      "answeredAt": "2026-07-30T16:21:21.267Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "intended-users",
+      "value": [
+        "Guest",
+        "Customer",
+        "Receptionist",
+        "Housekeeping staff",
+        "Manager",
+        "Admin"
+      ],
+      "answeredAt": "2026-07-30T16:21:22.583Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "product-archetypes",
+      "value": [
+        "booking",
+        "ecommerce",
+        "content-cms",
+        "dashboard-internal"
+      ],
+      "answeredAt": "2026-07-30T16:21:51.978Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "primary-outcome",
+      "value": "Increase completed direct room bookings through a fast, transparent, trustworthy mobile-first booking flow while keeping day-level price and availability accurate and preventing overbooking.",
+      "answeredAt": "2026-07-30T16:21:53.281Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "primary-journeys",
+      "value": [
+        "Search availability from the homepage",
+        "Select rooms and rate plans",
+        "Enter guest details and add services",
+        "Choose payment and confirm booking",
+        "Look up, manage, pay, or cancel a booking",
+        "Customer reviews upcoming and past stays",
+        "Receptionist creates bookings and completes check-in/check-out",
+        "Manager updates rates, restrictions, promotions, and inventory",
+        "Housekeeping updates room readiness",
+        "Admin manages access, integrations, settings, audit logs, and reports"
+      ],
+      "answeredAt": "2026-07-30T16:21:54.591Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "p0-features",
+      "value": [
+        "Bilingual public hotel website",
+        "Availability search with day-level pricing and inventory",
+        "Atomic booking engine with expiring holds and overbooking protection",
+        "Three-step multi-room booking flow",
+        "Guest checkout and booking lookup",
+        "Customer accounts",
+        "Receptionist and manager operations",
+        "Room, rate plan, inventory, promotion, service, payment, and refund management",
+        "Housekeeping status workflow",
+        "Mock or sandbox payments with provider abstraction",
+        "Transactional email",
+        "RBAC and audit logs",
+        "Basic occupancy and revenue reports",
+        "PostgreSQL migrations and repeatable demo seed",
+        "Automated unit, integration, concurrency, and E2E tests",
+        "Architecture, ERD, API, security, operations, and deployment documentation"
+      ],
+      "answeredAt": "2026-07-30T16:21:55.920Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "p1-features",
+      "value": [
+        "Google OAuth-ready account structure",
+        "Wishlists and verified post-stay reviews",
+        "Advanced room rack and bulk rate/inventory editing",
+        "Partial deposits and remaining-balance payments",
+        "Invoice and printable booking confirmation",
+        "Newsletter and basic marketing content management"
+      ],
+      "answeredAt": "2026-07-30T16:21:57.325Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "p2-features",
+      "value": [
+        "Real OTA and channel-manager integration",
+        "Multi-hotel chain operations",
+        "Loyalty and membership program",
+        "Advanced revenue management",
+        "Native mobile application",
+        "Production AI capabilities"
+      ],
+      "answeredAt": "2026-07-30T16:21:58.592Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "exclusions",
+      "value": [
+        "Real Booking.com, Agoda, SiteMinder, or other channel-manager connection in MVP",
+        "Mandatory Docker dependency",
+        "Storage of raw card data",
+        "Unverified production payment provider activation",
+        "Copied branding, content, imagery, or visual identity from other hotel and OTA websites"
+      ],
+      "answeredAt": "2026-07-30T16:21:59.888Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "project-family",
+      "value": "web",
+      "answeredAt": "2026-07-30T16:22:01.188Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "web-profile",
+      "value": "next-monolith",
+      "answeredAt": "2026-07-30T16:22:02.452Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "stack",
+      "value": "node-ts",
+      "answeredAt": "2026-07-30T16:22:03.638Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "data-classification",
+      "value": "confidential",
+      "answeredAt": "2026-07-30T16:22:04.825Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "system-interfaces",
+      "value": [
+        "Public bilingual web interface",
+        "Authenticated customer account interface",
+        "Receptionist, housekeeping, manager, and admin interfaces",
+        "Validated Next.js route handlers or server actions",
+        "Auth.js credential and future OAuth callbacks",
+        "Signed payment callback or webhook boundary",
+        "Transactional email provider API",
+        "Managed media storage API",
+        "Scheduled booking-hold expiration and notification jobs",
+        "Future channel-manager adapter interface"
+      ],
+      "answeredAt": "2026-07-30T16:22:06.012Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "data-entities",
+      "value": [
+        "User",
+        "Account",
+        "Session",
+        "Role",
+        "Permission",
+        "UserRole",
+        "Hotel",
+        "HotelPolicy",
+        "HotelAmenity",
+        "Amenity",
+        "RoomType",
+        "RoomTypeAmenity",
+        "Room",
+        "RoomStatusHistory",
+        "Media",
+        "RatePlan",
+        "DailyRate",
+        "Inventory",
+        "InventoryBlock",
+        "Promotion",
+        "Coupon",
+        "CouponUsage",
+        "Booking",
+        "BookingRoom",
+        "BookingGuest",
+        "BookingNight",
+        "BookingService",
+        "Service",
+        "Payment",
+        "PaymentEvent",
+        "Refund",
+        "Review",
+        "ReviewCategory",
+        "Wishlist",
+        "Notification",
+        "EmailLog",
+        "AuditLog",
+        "SystemSetting"
+      ],
+      "answeredAt": "2026-07-30T16:22:07.271Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "database",
+      "value": "postgresql",
+      "answeredAt": "2026-07-30T16:22:08.482Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "data-retention",
+      "value": "Financial records used for accounting books and financial statements: 10 years; ordinary management accounting records: at least 5 years. Booking and stay records: 5 years after checkout, then anonymize personal identifiers while retaining aggregate analytics. Inactive accounts: notify after 24 months and delete or anonymize unless a legal hold applies. Audit and security logs: 24 months. Abandoned booking holds: 24 hours. Marketing data: until consent withdrawal. Never store raw card data. Fulfill verified deletion requests within 20 days except records retained for accounting, disputes, fraud prevention, or other legal obligations.",
+      "answeredAt": "2026-07-30T16:28:56.026Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "backup-strategy",
+      "value": "managed-snapshots",
+      "answeredAt": "2026-07-30T16:29:24.952Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "design-direction",
+      "value": "A mobile-first contemporary luxury hospitality experience with calm editorial travel composition, generous warm whitespace, restrained dark sections, cinematic hotel photography, transparent booking information, and conversion-focused interaction. Public pages should feel premium, tranquil, and distinctly Vietnamese without visual excess; operational screens should prioritize speed, clarity, and moderate information density.",
+      "answeredAt": "2026-07-30T16:29:47.989Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "tone-keywords",
+      "value": [
+        "Contemporary luxury",
+        "Calm",
+        "Warm premium",
+        "Natural elegance",
+        "Trustworthy",
+        "Conversion-focused"
+      ],
+      "answeredAt": "2026-07-30T16:29:49.273Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "design-references",
+      "value": [
+        "Premium resort and editorial travel experiences: learn calm pacing, immersive photography, and clear hospitality storytelling without copying brand identity",
+        "Professional direct-booking engines: learn transparent availability, pricing, cancellation-policy placement, and three-step checkout ergonomics without copying layouts",
+        "Apple product experiences: learn hierarchy, restraint, and interaction clarity without imitating visual assets"
+      ],
+      "answeredAt": "2026-07-30T16:29:50.593Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "brand-constraints",
+      "value": [
+        "Brand name: Aurora Hotel",
+        "Slogan: Where Every Stay Becomes a Memory",
+        "Primary colors: Aurora Midnight #17211D, Warm Ivory #F7F4ED, Champagne Gold #C5A46D used sparingly",
+        "Secondary colors: Forest Green #355B4B, Terracotta #B97857, Mist Gray #DADDD8, Charcoal #242826, White #FFFFFF",
+        "Semantic colors: success #2E7D5A, warning #C48138, error #B84A4A, information #3F6D8C",
+        "Use an intentional premium serif display face paired with a highly readable modern sans-serif interface face, both supporting Vietnamese",
+        "Do not use neon, cyberpunk, strong gradients, site-wide glassmorphism, heavy 3D, excessive gold, dense finance-dashboard cards, unreadable artistic fonts, or booking-slowing animation",
+        "Never copy logos, imagery, content, color systems, or identity from hotel and OTA brands"
+      ],
+      "answeredAt": "2026-07-30T16:29:51.910Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "typography-strategy",
+      "value": "curated-pair",
+      "answeredAt": "2026-07-30T16:29:53.190Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "imagery-strategy",
+      "value": "mixed",
+      "answeredAt": "2026-07-30T16:31:37.992Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "motion-level",
+      "value": "subtle",
+      "answeredAt": "2026-07-30T16:31:39.213Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "mobile-priority-journeys",
+      "value": [
+        "Availability search from the homepage",
+        "Date range and guest selection",
+        "Room and rate-plan comparison",
+        "Three-step multi-room booking checkout",
+        "Payment status and booking confirmation",
+        "Booking lookup, management, and cancellation",
+        "Receptionist check-in and check-out",
+        "Housekeeping room-status updates"
+      ],
+      "answeredAt": "2026-07-30T16:31:40.425Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "performance-target",
+      "value": "core-web-vitals-good",
+      "answeredAt": "2026-07-30T16:31:41.535Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "design-anti-patterns",
+      "value": [
+        "Neon or cyberpunk visual language",
+        "Strong decorative gradients",
+        "Site-wide glassmorphism",
+        "Heavy 3D effects or parallax",
+        "Excessive champagne gold",
+        "Dense finance-dashboard card layouts on public pages",
+        "Unreadable artistic fonts",
+        "Motion that delays booking actions",
+        "Fake urgency, fake crossed-out prices, or fabricated reviews",
+        "Hidden taxes, fees, or cancellation terms",
+        "Autoplaying fast carousels and obstructive promotional popups",
+        "Critical information shown only in toast messages",
+        "Desktop layouts merely scaled down for mobile"
+      ],
+      "answeredAt": "2026-07-30T16:31:42.803Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "user-accounts",
+      "value": true,
+      "answeredAt": "2026-07-30T16:31:44.017Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "auth-mode",
+      "value": "credentials",
+      "answeredAt": "2026-07-30T16:31:45.187Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "session-revocation",
+      "value": true,
+      "answeredAt": "2026-07-30T16:31:46.407Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "authorization-model",
+      "value": "rbac",
+      "answeredAt": "2026-07-30T16:31:47.680Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "organizations",
+      "value": false,
+      "answeredAt": "2026-07-30T16:31:49.017Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "money-adjacent",
+      "value": true,
+      "answeredAt": "2026-07-30T16:31:50.365Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "billing-provider",
+      "value": "vnpay",
+      "answeredAt": "2026-07-30T16:33:04.523Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "webhook-trust-boundary",
+      "value": "signed-callbacks",
+      "answeredAt": "2026-07-30T16:33:05.925Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "file-input",
+      "value": true,
+      "answeredAt": "2026-07-30T16:33:07.174Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "malware-scanning",
+      "value": true,
+      "answeredAt": "2026-07-30T16:34:11.693Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "file-storage",
+      "value": "Cloudinary-backed MediaStorage adapter for the graduation-demo deployment, using only the provider plan available without paid infrastructure at implementation time. Domain logic must depend on a provider-neutral MediaStorage interface so production can move to S3-compatible storage without rewriting hotel or booking services.",
+      "answeredAt": "2026-07-30T16:35:34.295Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "email",
+      "value": true,
+      "answeredAt": "2026-07-30T16:35:35.608Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "email-provider",
+      "value": "Provider-neutral EmailProvider boundary. Local and automated tests capture safe previews without external delivery; the deployed graduation demo uses Resend within the provider plan available without paid infrastructure at implementation time. Booking and identity services must not import Resend directly.",
+      "answeredAt": "2026-07-30T16:37:54.362Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "email-delivery",
+      "value": "transactional-outbox",
+      "answeredAt": "2026-07-30T16:37:55.533Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "background-jobs",
+      "value": true,
+      "answeredAt": "2026-07-30T16:37:56.720Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "job-delivery-semantics",
+      "value": "at-least-once",
+      "answeredAt": "2026-07-30T16:38:39.290Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "dead-letter-handling",
+      "value": true,
+      "answeredAt": "2026-07-30T16:38:40.683Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "realtime",
+      "value": false,
+      "answeredAt": "2026-07-30T16:39:49.501Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "ai-generation",
+      "value": false,
+      "answeredAt": "2026-07-30T16:39:50.747Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "agent-tools",
+      "value": false,
+      "answeredAt": "2026-07-30T16:40:25.373Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "hosting",
+      "value": "Vercel for the graduation-demo application with a managed PostgreSQL provider plan available without paid infrastructure at implementation time. External services remain behind adapters and the project runs locally without Docker. Production use requires a reviewed upgrade plan, custom domain, capacity checks, backups, and paid-service decisions where no-cost quotas are insufficient.",
+      "answeredAt": "2026-07-30T16:40:26.886Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "observability",
+      "value": true,
+      "answeredAt": "2026-07-30T16:40:28.268Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "accessibility",
+      "value": "WCAG 2.2 AA",
+      "answeredAt": "2026-07-30T16:40:29.652Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "seo",
+      "value": true,
+      "answeredAt": "2026-07-30T16:40:31.123Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "locales",
+      "value": [
+        "vi",
+        "en"
+      ],
+      "answeredAt": "2026-07-30T16:40:32.489Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "assumptions",
+      "value": [
+        "The MVP represents one premium hotel in Vietnam but hotel-scoped entities and adapters preserve a future chain path",
+        "The first release is a graduation demo, not a live hotel production system",
+        "VND and Asia/Ho_Chi_Minh are the default currency and business timezone",
+        "Mock payment is the default; VNPay is the target provider contract and requires separate credentials and production approval later",
+        "Demo imagery may use generated or licensed-stock sources without visible demo labels in the user interface; provenance and replacement status remain internal, and non-production assets are replaced before commercial reuse when required",
+        "All infrastructure and external providers must prefer plans available without paid infrastructure for the graduation demo; any paid upgrade requires a later explicit capacity, cost, and production-readiness decision",
+        "No identity-document upload, live OTA/channel-manager integration, AI runtime, RAG, agent tools, or realtime transport is included in MVP",
+        "Provider no-cost limits will be rechecked during implementation and before deployment"
+      ],
+      "answeredAt": "2026-07-30T16:44:57.113Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "file-policy",
+      "value": "MVP accepts hotel media only: JPEG, PNG, WebP, and AVIF; SVG and identity documents are prohibited. Maximum 10 MB and 6000x6000 pixels per file. Validate MIME type, extension, decoded image dimensions, and content; use randomized object keys and strip sensitive metadata. Only Manager and Admin roles may upload. New objects remain private until validation and malware scanning pass; published derivatives are read through a CDN. Deletion uses a 30-day recoverable trash period followed by permanent purge, while audit metadata is retained without file content. Demo AI and licensed-stock assets need internal provenance and replacement status but no visible demo label; replace assets before later commercial reuse when licensing or brand authenticity requires it.",
+      "answeredAt": "2026-07-30T16:45:15.463Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "acceptance-criteria",
+      "value": [
+        "A guest can search real day-level availability, select rooms and rate plans, add services, complete a mock or sandbox payment, and receive a clear booking confirmation",
+        "Concurrent requests cannot confirm more rooms than inventory permits",
+        "All booking, inventory, coupon, payment, refund, and status transitions are atomic and idempotent where required",
+        "Guest, Customer, Receptionist, Housekeeping, Manager, and Admin permissions are enforced server-side with audit logs",
+        "Prices, taxes, fees, deposits, and cancellation terms remain transparent throughout the booking journey",
+        "Vietnamese and English public experiences meet WCAG 2.2 AA and good Core Web Vitals targets",
+        "The system includes normalized PostgreSQL migrations, repeatable realistic demo seed data, ERD and required architecture diagrams",
+        "Unit, integration, concurrency, security, and Playwright E2E gates pass in the documented order",
+        "The graduation demo uses provider plans available without paid infrastructure wherever feasible, monitors their quotas, and introduces no paid service without explicit owner approval",
+        "The demo never stores real secrets or raw card data"
+      ],
+      "answeredAt": "2026-07-30T16:45:16.800Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "risks",
+      "value": [
+        "Overbooking or lost inventory under concurrent reservation and cancellation flows",
+        "Payment callback replay, amount mismatch, stale browser success URLs, and double refund",
+        "PII leakage through logs, booking lookup, media metadata, exports, or broken authorization",
+        "Graduation scope is large and must be delivered in vertical slices with the booking path first",
+        "No-cost provider quotas, cold starts, email deliverability, media bandwidth, and database limits may constrain the demo",
+        "Large admin calendars and reports may require pagination or virtualization",
+        "Demo imagery requires internal license and provenance records plus a replacement inventory before commercial reuse",
+        "Vietnamese data-protection, accounting, tax, payment, and hospitality obligations require review before real commercial launch"
+      ],
+      "answeredAt": "2026-07-30T16:45:18.164Z",
+      "confirmed": true
+    },
+    {
+      "questionId": "open-decisions",
+      "value": [
+        "Final public domain and DNS ownership",
+        "Final managed PostgreSQL provider within the no-cost demo constraint",
+        "Final licensed Vietnamese-capable serif and sans-serif font pair after visual review",
+        "Final demo image sources, internal provenance records, and future replacement inventory",
+        "Production VNPay onboarding, real email domain, paid capacity plan, and legal review are deferred until commercial launch or verified need"
+      ],
+      "answeredAt": "2026-07-30T16:45:19.469Z",
+      "confirmed": true
+    }
+  ],
+  "skippedOptionalQuestionIds": [],
+  "unresolvedRequiredQuestionIds": [],
+  "conflicts": [],
+  "resolved": {
+    "profile": "next-monolith",
+    "stack": {
+      "language": "typescript",
+      "runtime": "node",
+      "framework": "next",
+      "frameworkVersion": "15.5.22",
+      "packageManager": "npm"
+    },
+    "capabilities": [
+      "accessibility",
+      "authentication",
+      "background-jobs",
+      "backup-restore",
+      "billing",
+      "commerce",
+      "database",
+      "email",
+      "file-upload",
+      "i18n",
+      "observability",
+      "privacy",
+      "rbac",
+      "seo",
+      "session-registry",
+      "web-experience",
+      "webhooks"
+    ],
+    "diagrams": [
+      "auth-flow",
+      "authz-flow",
+      "containers",
+      "data-lifecycle",
+      "deployment",
+      "erd",
+      "migration-flow",
+      "modules",
+      "release-flow",
+      "request-flow",
+      "role-permission-map",
+      "session-lifecycle",
+      "system-context",
+      "verification-idempotency-sequence"
+    ]
+  },
+  "assumptions": [
+    "The MVP represents one premium hotel in Vietnam but hotel-scoped entities and adapters preserve a future chain path",
+    "The first release is a graduation demo, not a live hotel production system",
+    "VND and Asia/Ho_Chi_Minh are the default currency and business timezone",
+    "Mock payment is the default; VNPay is the target provider contract and requires separate credentials and production approval later",
+    "Demo imagery may use generated or licensed-stock sources without visible demo labels in the user interface; provenance and replacement status remain internal, and non-production assets are replaced before commercial reuse when required",
+    "All infrastructure and external providers must prefer plans available without paid infrastructure for the graduation demo; any paid upgrade requires a later explicit capacity, cost, and production-readiness decision",
+    "No identity-document upload, live OTA/channel-manager integration, AI runtime, RAG, agent tools, or realtime transport is included in MVP",
+    "Provider no-cost limits will be rechecked during implementation and before deployment"
+  ],
+  "risks": [
+    "Overbooking or lost inventory under concurrent reservation and cancellation flows",
+    "Payment callback replay, amount mismatch, stale browser success URLs, and double refund",
+    "PII leakage through logs, booking lookup, media metadata, exports, or broken authorization",
+    "Graduation scope is large and must be delivered in vertical slices with the booking path first",
+    "No-cost provider quotas, cold starts, email deliverability, media bandwidth, and database limits may constrain the demo",
+    "Large admin calendars and reports may require pagination or virtualization",
+    "Demo imagery requires internal license and provenance records plus a replacement inventory before commercial reuse",
+    "Vietnamese data-protection, accounting, tax, payment, and hospitality obligations require review before real commercial launch"
+  ],
+  "openDecisions": [
+    "Final public domain and DNS ownership",
+    "Final managed PostgreSQL provider within the no-cost demo constraint",
+    "Final licensed Vietnamese-capable serif and sans-serif font pair after visual review",
+    "Final demo image sources, internal provenance records, and future replacement inventory",
+    "Production VNPay onboarding, real email domain, paid capacity plan, and legal review are deferred until commercial launch or verified need"
+  ],
+  "summarySha256": "7733dffa94c069ef4b219f2cc39bb56f823c1d400718ebfe5594b1d7c40312c6",
+  "confirmedAt": "2026-07-30T16:46:26.644Z",
+  "generatedArtifacts": [
+    {
+      "path": "docs/product/PROJECT_BRIEF.md",
+      "sha256": "19e430d93cc5300a6548482c2e8085768b2d749ee0595cd9f0bdb1cbaf8985e8"
+    },
+    {
+      "path": "docs/product/SYSTEM_ANALYSIS.md",
+      "sha256": "7733dffa94c069ef4b219f2cc39bb56f823c1d400718ebfe5594b1d7c40312c6"
+    },
+    {
+      "path": "docs/product/REQUIREMENTS_TRACEABILITY.md",
+      "sha256": "597e8b8f42306a41defa365c77508c3d7f26606505d073241eb47e62c28154c7"
+    },
+    {
+      "path": "docs/architecture/ARCHITECTURE.md",
+      "sha256": "c0da4ef05fca4a7b0bac24c2023cbcd0078404c2dbd47bc2e92bf32eae4aa8ee"
+    },
+    {
+      "path": "docs/architecture/API_CATALOG.md",
+      "sha256": "c21f8c3affbee2e2e278f63680c0d3b2987926981282054566ee3c857ca071f5"
+    },
+    {
+      "path": "docs/architecture/DATA_MODEL.md",
+      "sha256": "47124b1f805c21d45114962ddc408f87389c42b56b89abc483cb2c5925261e08"
+    },
+    {
+      "path": "docs/security/THREAT_MODEL.md",
+      "sha256": "c9b6d6c7d17f505443542f748b45abdde8b606326d900f8117bb621332fb0013"
+    },
+    {
+      "path": "project-blueprint.yml",
+      "sha256": "0633e518ad2ac7ec14118204ae98c3dea1cdd23226c817fde1bd19253710302d"
+    },
+    {
+      "path": "experience-blueprint.yml",
+      "sha256": "91505645c810b460b8bc702de49a6af4b2071347d636eb1eb25b1d027ee70a40"
+    },
+    {
+      "path": "project-manifest.yml",
+      "sha256": "f58d3fbe021f4ba6dfd66e892f2011e4c53369bbe95c3436f0d7feb9b6ebea8d"
+    }
+  ]
+}

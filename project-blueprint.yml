@@ -1,0 +1,944 @@
+schemaVersion: 1
+project:
+  name: Aurora Hotel
+  summary: A production-ready, mobile-first direct hotel booking platform for
+    Aurora Hotel in Vietnam, combining a public bilingual website, real booking
+    engine, customer accounts, hotel operations, day-level inventory and
+    pricing, sandbox payments, transactional notifications, reporting, and
+    foundations for future multi-hotel and OTA integrations.
+  primaryOutcome: Increase completed direct room bookings through a fast,
+    transparent, trustworthy mobile-first booking flow while keeping day-level
+    price and availability accurate and preventing overbooking.
+  profile: next-monolith
+  archetypes:
+    - booking
+    - ecommerce
+    - content-cms
+    - dashboard-internal
+actors:
+  - id: guest
+    name: Guest
+    kind: unspecified
+    goals: []
+    sourceRefs:
+      - discovery:intended-users
+  - id: customer
+    name: Customer
+    kind: unspecified
+    goals: []
+    sourceRefs:
+      - discovery:intended-users
+  - id: receptionist
+    name: Receptionist
+    kind: unspecified
+    goals: []
+    sourceRefs:
+      - discovery:intended-users
+  - id: housekeeping-staff
+    name: Housekeeping staff
+    kind: unspecified
+    goals: []
+    sourceRefs:
+      - discovery:intended-users
+  - id: manager
+    name: Manager
+    kind: unspecified
+    goals: []
+    sourceRefs:
+      - discovery:intended-users
+  - id: admin
+    name: Admin
+    kind: unspecified
+    goals: []
+    sourceRefs:
+      - discovery:intended-users
+requirements:
+  - id: req-p0-001
+    priority: p0
+    statement: Bilingual public hotel website
+    acceptanceCriteria: []
+    sourceRefs:
+      - discovery:p0-features
+  - id: req-p0-002
+    priority: p0
+    statement: Availability search with day-level pricing and inventory
+    acceptanceCriteria: []
+    sourceRefs:
+      - discovery:p0-features
+  - id: req-p0-003
+    priority: p0
+    statement: Atomic booking engine with expiring holds and overbooking protection
+    acceptanceCriteria: []
+    sourceRefs:
+      - discovery:p0-features
+  - id: req-p0-004
+    priority: p0
+    statement: Three-step multi-room booking flow
+    acceptanceCriteria: []
+    sourceRefs:
+      - discovery:p0-features
+  - id: req-p0-005
+    priority: p0
+    statement: Guest checkout and booking lookup
+    acceptanceCriteria: []
+    sourceRefs:
+      - discovery:p0-features
+  - id: req-p0-006
+    priority: p0
+    statement: Customer accounts
+    acceptanceCriteria: []
+    sourceRefs:
+      - discovery:p0-features
+  - id: req-p0-007
+    priority: p0
+    statement: Receptionist and manager operations
+    acceptanceCriteria: []
+    sourceRefs:
+      - discovery:p0-features
+  - id: req-p0-008
+    priority: p0
+    statement: Room, rate plan, inventory, promotion, service, payment, and refund
+      management
+    acceptanceCriteria: []
+    sourceRefs:
+      - discovery:p0-features
+  - id: req-p0-009
+    priority: p0
+    statement: Housekeeping status workflow
+    acceptanceCriteria: []
+    sourceRefs:
+      - discovery:p0-features
+  - id: req-p0-010
+    priority: p0
+    statement: Mock or sandbox payments with provider abstraction
+    acceptanceCriteria: []
+    sourceRefs:
+      - discovery:p0-features
+  - id: req-p0-011
+    priority: p0
+    statement: Transactional email
+    acceptanceCriteria: []
+    sourceRefs:
+      - discovery:p0-features
+  - id: req-p0-012
+    priority: p0
+    statement: RBAC and audit logs
+    acceptanceCriteria: []
+    sourceRefs:
+      - discovery:p0-features
+  - id: req-p0-013
+    priority: p0
+    statement: Basic occupancy and revenue reports
+    acceptanceCriteria: []
+    sourceRefs:
+      - discovery:p0-features
+  - id: req-p0-014
+    priority: p0
+    statement: PostgreSQL migrations and repeatable demo seed
+    acceptanceCriteria: []
+    sourceRefs:
+      - discovery:p0-features
+  - id: req-p0-015
+    priority: p0
+    statement: Automated unit, integration, concurrency, and E2E tests
+    acceptanceCriteria: []
+    sourceRefs:
+      - discovery:p0-features
+  - id: req-p0-016
+    priority: p0
+    statement: Architecture, ERD, API, security, operations, and deployment documentation
+    acceptanceCriteria: []
+    sourceRefs:
+      - discovery:p0-features
+  - id: req-p1-001
+    priority: p1
+    statement: Google OAuth-ready account structure
+    acceptanceCriteria: []
+    sourceRefs:
+      - discovery:p1-features
+  - id: req-p1-002
+    priority: p1
+    statement: Wishlists and verified post-stay reviews
+    acceptanceCriteria: []
+    sourceRefs:
+      - discovery:p1-features
+  - id: req-p1-003
+    priority: p1
+    statement: Advanced room rack and bulk rate/inventory editing
+    acceptanceCriteria: []
+    sourceRefs:
+      - discovery:p1-features
+  - id: req-p1-004
+    priority: p1
+    statement: Partial deposits and remaining-balance payments
+    acceptanceCriteria: []
+    sourceRefs:
+      - discovery:p1-features
+  - id: req-p1-005
+    priority: p1
+    statement: Invoice and printable booking confirmation
+    acceptanceCriteria: []
+    sourceRefs:
+      - discovery:p1-features
+  - id: req-p1-006
+    priority: p1
+    statement: Newsletter and basic marketing content management
+    acceptanceCriteria: []
+    sourceRefs:
+      - discovery:p1-features
+  - id: req-p2-001
+    priority: p2
+    statement: Real OTA and channel-manager integration
+    acceptanceCriteria: []
+    sourceRefs:
+      - discovery:p2-features
+  - id: req-p2-002
+    priority: p2
+    statement: Multi-hotel chain operations
+    acceptanceCriteria: []
+    sourceRefs:
+      - discovery:p2-features
+  - id: req-p2-003
+    priority: p2
+    statement: Loyalty and membership program
+    acceptanceCriteria: []
+    sourceRefs:
+      - discovery:p2-features
+  - id: req-p2-004
+    priority: p2
+    statement: Advanced revenue management
+    acceptanceCriteria: []
+    sourceRefs:
+      - discovery:p2-features
+  - id: req-p2-005
+    priority: p2
+    statement: Native mobile application
+    acceptanceCriteria: []
+    sourceRefs:
+      - discovery:p2-features
+  - id: req-p2-006
+    priority: p2
+    statement: Production AI capabilities
+    acceptanceCriteria: []
+    sourceRefs:
+      - discovery:p2-features
+domain:
+  maturity: declared
+  entities:
+    - id: user
+      name: User
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: account
+      name: Account
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: session
+      name: Session
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: role
+      name: Role
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: permission
+      name: Permission
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: userrole
+      name: UserRole
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: hotel
+      name: Hotel
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: hotelpolicy
+      name: HotelPolicy
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: hotelamenity
+      name: HotelAmenity
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: amenity
+      name: Amenity
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: roomtype
+      name: RoomType
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: roomtypeamenity
+      name: RoomTypeAmenity
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: room
+      name: Room
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: roomstatushistory
+      name: RoomStatusHistory
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: media
+      name: Media
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: rateplan
+      name: RatePlan
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: dailyrate
+      name: DailyRate
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: inventory
+      name: Inventory
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: inventoryblock
+      name: InventoryBlock
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: promotion
+      name: Promotion
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: coupon
+      name: Coupon
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: couponusage
+      name: CouponUsage
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: booking
+      name: Booking
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: bookingroom
+      name: BookingRoom
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: bookingguest
+      name: BookingGuest
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: bookingnight
+      name: BookingNight
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: bookingservice
+      name: BookingService
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: service
+      name: Service
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: payment
+      name: Payment
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: paymentevent
+      name: PaymentEvent
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: refund
+      name: Refund
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: review
+      name: Review
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: reviewcategory
+      name: ReviewCategory
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: wishlist
+      name: Wishlist
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: notification
+      name: Notification
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: emaillog
+      name: EmailLog
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: auditlog
+      name: AuditLog
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+    - id: systemsetting
+      name: SystemSetting
+      classification: confidential
+      tenantScope: unresolved
+      fields: []
+      relations: []
+      sourceRefs:
+        - discovery:data-entities
+  valueObjects: []
+  invariants: []
+workflows:
+  - id: search-availability-from-the-homepage
+    name: Search availability from the homepage
+    goal: Search availability from the homepage
+    actorIds: []
+    requirementIds: []
+    steps: []
+    failureModes: []
+    sourceRefs:
+      - discovery:primary-journeys
+  - id: select-rooms-and-rate-plans
+    name: Select rooms and rate plans
+    goal: Select rooms and rate plans
+    actorIds: []
+    requirementIds: []
+    steps: []
+    failureModes: []
+    sourceRefs:
+      - discovery:primary-journeys
+  - id: enter-guest-details-and-add-services
+    name: Enter guest details and add services
+    goal: Enter guest details and add services
+    actorIds: []
+    requirementIds: []
+    steps: []
+    failureModes: []
+    sourceRefs:
+      - discovery:primary-journeys
+  - id: choose-payment-and-confirm-booking
+    name: Choose payment and confirm booking
+    goal: Choose payment and confirm booking
+    actorIds: []
+    requirementIds: []
+    steps: []
+    failureModes: []
+    sourceRefs:
+      - discovery:primary-journeys
+  - id: look-up-manage-pay-or-cancel-a-booking
+    name: Look up, manage, pay, or cancel a booking
+    goal: Look up, manage, pay, or cancel a booking
+    actorIds: []
+    requirementIds: []
+    steps: []
+    failureModes: []
+    sourceRefs:
+      - discovery:primary-journeys
+  - id: customer-reviews-upcoming-and-past-stays
+    name: Customer reviews upcoming and past stays
+    goal: Customer reviews upcoming and past stays
+    actorIds: []
+    requirementIds: []
+    steps: []
+    failureModes: []
+    sourceRefs:
+      - discovery:primary-journeys
+  - id: receptionist-creates-bookings-and-completes-check-in-check-out
+    name: Receptionist creates bookings and completes check-in/check-out
+    goal: Receptionist creates bookings and completes check-in/check-out
+    actorIds: []
+    requirementIds: []
+    steps: []
+    failureModes: []
+    sourceRefs:
+      - discovery:primary-journeys
+  - id: manager-updates-rates-restrictions-promotions-and-inventory
+    name: Manager updates rates, restrictions, promotions, and inventory
+    goal: Manager updates rates, restrictions, promotions, and inventory
+    actorIds: []
+    requirementIds: []
+    steps: []
+    failureModes: []
+    sourceRefs:
+      - discovery:primary-journeys
+  - id: housekeeping-updates-room-readiness
+    name: Housekeeping updates room readiness
+    goal: Housekeeping updates room readiness
+    actorIds: []
+    requirementIds: []
+    steps: []
+    failureModes: []
+    sourceRefs:
+      - discovery:primary-journeys
+  - id: admin-manages-access-integrations-settings-audit-logs-and-reports
+    name: Admin manages access, integrations, settings, audit logs, and reports
+    goal: Admin manages access, integrations, settings, audit logs, and reports
+    actorIds: []
+    requirementIds: []
+    steps: []
+    failureModes: []
+    sourceRefs:
+      - discovery:primary-journeys
+interfaces:
+  - id: public-bilingual-web-interface
+    name: Public bilingual web interface
+    kind: unspecified
+    operations: []
+    sourceRefs:
+      - discovery:system-interfaces
+  - id: authenticated-customer-account-interface
+    name: Authenticated customer account interface
+    kind: unspecified
+    operations: []
+    sourceRefs:
+      - discovery:system-interfaces
+  - id: receptionist-housekeeping-manager-and-admin-interfaces
+    name: Receptionist, housekeeping, manager, and admin interfaces
+    kind: unspecified
+    operations: []
+    sourceRefs:
+      - discovery:system-interfaces
+  - id: validated-next-js-route-handlers-or-server-actions
+    name: Validated Next.js route handlers or server actions
+    kind: unspecified
+    operations: []
+    sourceRefs:
+      - discovery:system-interfaces
+  - id: auth-js-credential-and-future-oauth-callbacks
+    name: Auth.js credential and future OAuth callbacks
+    kind: unspecified
+    operations: []
+    sourceRefs:
+      - discovery:system-interfaces
+  - id: signed-payment-callback-or-webhook-boundary
+    name: Signed payment callback or webhook boundary
+    kind: unspecified
+    operations: []
+    sourceRefs:
+      - discovery:system-interfaces
+  - id: transactional-email-provider-api
+    name: Transactional email provider API
+    kind: unspecified
+    operations: []
+    sourceRefs:
+      - discovery:system-interfaces
+  - id: managed-media-storage-api
+    name: Managed media storage API
+    kind: unspecified
+    operations: []
+    sourceRefs:
+      - discovery:system-interfaces
+  - id: scheduled-booking-hold-expiration-and-notification-jobs
+    name: Scheduled booking-hold expiration and notification jobs
+    kind: unspecified
+    operations: []
+    sourceRefs:
+      - discovery:system-interfaces
+  - id: future-channel-manager-adapter-interface
+    name: Future channel-manager adapter interface
+    kind: unspecified
+    operations: []
+    sourceRefs:
+      - discovery:system-interfaces
+capabilities:
+  - id: accessibility
+    requiredMaturity: runnable
+    sourceRefs:
+      - resolver:capability-graph
+  - id: authentication
+    requiredMaturity: runnable
+    sourceRefs:
+      - resolver:capability-graph
+  - id: background-jobs
+    requiredMaturity: runnable
+    sourceRefs:
+      - resolver:capability-graph
+  - id: backup-restore
+    requiredMaturity: runnable
+    sourceRefs:
+      - resolver:capability-graph
+  - id: billing
+    requiredMaturity: runnable
+    sourceRefs:
+      - resolver:capability-graph
+  - id: commerce
+    requiredMaturity: runnable
+    sourceRefs:
+      - resolver:capability-graph
+  - id: database
+    requiredMaturity: runnable
+    sourceRefs:
+      - resolver:capability-graph
+  - id: email
+    requiredMaturity: runnable
+    sourceRefs:
+      - resolver:capability-graph
+  - id: file-upload
+    requiredMaturity: runnable
+    sourceRefs:
+      - resolver:capability-graph
+  - id: i18n
+    requiredMaturity: runnable
+    sourceRefs:
+      - resolver:capability-graph
+  - id: observability
+    requiredMaturity: runnable
+    sourceRefs:
+      - resolver:capability-graph
+  - id: privacy
+    requiredMaturity: runnable
+    sourceRefs:
+      - resolver:capability-graph
+  - id: rbac
+    requiredMaturity: runnable
+    sourceRefs:
+      - resolver:capability-graph
+  - id: seo
+    requiredMaturity: runnable
+    sourceRefs:
+      - resolver:capability-graph
+  - id: session-registry
+    requiredMaturity: runnable
+    sourceRefs:
+      - resolver:capability-graph
+  - id: web-experience
+    requiredMaturity: runnable
+    sourceRefs:
+      - resolver:capability-graph
+  - id: webhooks
+    requiredMaturity: runnable
+    sourceRefs:
+      - resolver:capability-graph
+providers:
+  - id: billing-vnpay
+    capabilityId: billing
+    provider: vnpay
+    status: selected
+    sourceRefs:
+      - discovery:billing-provider
+  - id: email-provider-neutral-emailprovider-boundary-local-and-automated-tests-capture-safe-previews-without-external-delivery-the-deployed-graduation-demo-uses-resend-within-the-provider-plan-available-without-paid-infrastructure-at-implementation-time-booking-and-identity-services-must-not-import-resend-directly
+    capabilityId: email
+    provider: Provider-neutral EmailProvider boundary. Local and automated tests
+      capture safe previews without external delivery; the deployed graduation
+      demo uses Resend within the provider plan available without paid
+      infrastructure at implementation time. Booking and identity services must
+      not import Resend directly.
+    status: selected
+    sourceRefs:
+      - discovery:email-provider
+  - id: file-upload-cloudinary-backed-mediastorage-adapter-for-the-graduation-demo-deployment-using-only-the-provider-plan-available-without-paid-infrastructure-at-implementation-time-domain-logic-must-depend-on-a-provider-neutral-mediastorage-interface-so-production-can-move-to-s3-compatible-storage-without-rewriting-hotel-or-booking-services
+    capabilityId: file-upload
+    provider: Cloudinary-backed MediaStorage adapter for the graduation-demo
+      deployment, using only the provider plan available without paid
+      infrastructure at implementation time. Domain logic must depend on a
+      provider-neutral MediaStorage interface so production can move to
+      S3-compatible storage without rewriting hotel or booking services.
+    status: selected
+    sourceRefs:
+      - discovery:file-storage
+security:
+  baseline: owasp-asvs-l2
+  dataClassification: confidential
+  trustBoundaries: []
+quality:
+  locales:
+    - vi
+    - en
+  gates:
+    - lint
+    - typecheck
+    - test
+    - build
+    - e2e
+  acceptanceCriteria:
+    - A guest can search real day-level availability, select rooms and rate
+      plans, add services, complete a mock or sandbox payment, and receive a
+      clear booking confirmation
+    - Concurrent requests cannot confirm more rooms than inventory permits
+    - All booking, inventory, coupon, payment, refund, and status transitions
+      are atomic and idempotent where required
+    - Guest, Customer, Receptionist, Housekeeping, Manager, and Admin
+      permissions are enforced server-side with audit logs
+    - Prices, taxes, fees, deposits, and cancellation terms remain transparent
+      throughout the booking journey
+    - Vietnamese and English public experiences meet WCAG 2.2 AA and good Core
+      Web Vitals targets
+    - The system includes normalized PostgreSQL migrations, repeatable realistic
+      demo seed data, ERD and required architecture diagrams
+    - Unit, integration, concurrency, security, and Playwright E2E gates pass in
+      the documented order
+    - The graduation demo uses provider plans available without paid
+      infrastructure wherever feasible, monitors their quotas, and introduces no
+      paid service without explicit owner approval
+    - The demo never stores real secrets or raw card data
+deployment:
+  target: Vercel for the graduation-demo application with a managed PostgreSQL
+    provider plan available without paid infrastructure at implementation time.
+    External services remain behind adapters and the project runs locally
+    without Docker. Production use requires a reviewed upgrade plan, custom
+    domain, capacity checks, backups, and paid-service decisions where no-cost
+    quotas are insufficient.
+  topology: next-monolith
+coverage:
+  unresolved:
+    - actors.goals-and-permissions
+    - requirements.acceptance-mapping
+    - domain.entities.fields-and-relations
+    - workflows.actor-steps-and-failure-contracts
+    - interfaces.kind-and-operation-contracts
+  traceability:
+    - requirementId: req-p0-001
+      implementationRefs: []
+      testRefs: []
+      diagramRefs: []
+    - requirementId: req-p0-002
+      implementationRefs: []
+      testRefs: []
+      diagramRefs: []
+    - requirementId: req-p0-003
+      implementationRefs: []
+      testRefs: []
+      diagramRefs: []
+    - requirementId: req-p0-004
+      implementationRefs: []
+      testRefs: []
+      diagramRefs: []
+    - requirementId: req-p0-005
+      implementationRefs: []
+      testRefs: []
+      diagramRefs: []
+    - requirementId: req-p0-006
+      implementationRefs: []
+      testRefs: []
+      diagramRefs: []
+    - requirementId: req-p0-007
+      implementationRefs: []
+      testRefs: []
+      diagramRefs: []
+    - requirementId: req-p0-008
+      implementationRefs: []
+      testRefs: []
+      diagramRefs: []
+    - requirementId: req-p0-009
+      implementationRefs: []
+      testRefs: []
+      diagramRefs: []
+    - requirementId: req-p0-010
+      implementationRefs: []
+      testRefs: []
+      diagramRefs: []
+    - requirementId: req-p0-011
+      implementationRefs: []
+      testRefs: []
+      diagramRefs: []
+    - requirementId: req-p0-012
+      implementationRefs: []
+      testRefs: []
+      diagramRefs: []
+    - requirementId: req-p0-013
+      implementationRefs: []
+      testRefs: []
+      diagramRefs: []
+    - requirementId: req-p0-014
+      implementationRefs: []
+      testRefs: []
+      diagramRefs: []
+    - requirementId: req-p0-015
+      implementationRefs: []
+      testRefs: []
+      diagramRefs: []
+    - requirementId: req-p0-016
+      implementationRefs: []
+      testRefs: []
+      diagramRefs: []
+    - requirementId: req-p1-001
+      implementationRefs: []
+      testRefs: []
+      diagramRefs: []
+    - requirementId: req-p1-002
+      implementationRefs: []
+      testRefs: []
+      diagramRefs: []
+    - requirementId: req-p1-003
+      implementationRefs: []
+      testRefs: []
+      diagramRefs: []
+    - requirementId: req-p1-004
+      implementationRefs: []
+      testRefs: []
+      diagramRefs: []
+    - requirementId: req-p1-005
+      implementationRefs: []
+      testRefs: []
+      diagramRefs: []
+    - requirementId: req-p1-006
+      implementationRefs: []
+      testRefs: []
+      diagramRefs: []
+    - requirementId: req-p2-001
+      implementationRefs: []
+      testRefs: []
+      diagramRefs: []
+    - requirementId: req-p2-002
+      implementationRefs: []
+      testRefs: []
+      diagramRefs: []
+    - requirementId: req-p2-003
+      implementationRefs: []
+      testRefs: []
+      diagramRefs: []
+    - requirementId: req-p2-004
+      implementationRefs: []
+      testRefs: []
+      diagramRefs: []
+    - requirementId: req-p2-005
+      implementationRefs: []
+      testRefs: []
+      diagramRefs: []
+    - requirementId: req-p2-006
+      implementationRefs: []
+      testRefs: []
+      diagramRefs: []

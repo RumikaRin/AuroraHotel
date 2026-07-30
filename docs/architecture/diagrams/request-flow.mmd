@@ -1,0 +1,12 @@
+sequenceDiagram
+    actor User
+    participant Boundary as Request boundary
+    participant Policy as Validation and authorization
+    participant Domain
+    participant Store as State adapter
+    User->>Boundary: Request
+    Boundary->>Policy: Validate and authorize
+    Policy->>Domain: Approved command
+    Domain->>Store: Conditional state transition
+    Store-->>Domain: Result
+    Domain-->>User: Typed response

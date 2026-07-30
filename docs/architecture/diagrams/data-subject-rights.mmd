@@ -1,0 +1,5 @@
+flowchart LR
+    Input["Manifest and source inputs"] --> Boundary["data subject rights boundary"]
+    Boundary --> Policy["Deny-by-default policy"]
+    Policy --> Operation["Authorized data subject rights operation"]
+    Operation --> Evidence["Audit and test evidence"]

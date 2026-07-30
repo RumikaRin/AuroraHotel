@@ -1,0 +1,56 @@
+{
+  "name": "starter",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.6"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "node --experimental-strip-types --test tests/*.test.ts && vitest run tests/security --passWithNoTests",
+    "db:migrate": "prisma migrate dev",
+    "db:seed": "prisma db seed",
+    "e2e": "playwright test",
+    "e2e:db": "node scripts/reset-e2e-db.mjs",
+    "check": "npm run lint && npm run typecheck && npm run test && npm run build",
+    "postinstall": "prisma generate"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.0.0",
+    "bcryptjs": "^2.4.3",
+    "next": "15.5.22",
+    "next-auth": "^5.0.0-beta.32",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "server-only": "0.0.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.10.0",
+    "@eslint/eslintrc": "^3.3.1",
+    "@playwright/test": "^1.50.0",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^20.14.9",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "autoprefixer": "^10.4.19",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "15.5.22",
+    "postcss": "^8.5.3",
+    "prisma": "^6.0.0",
+    "tailwindcss": "^3.4.4",
+    "tsx": "^4.20.0",
+    "typescript": "^5.7.2",
+    "vitest": "3.2.7"
+  },
+  "overrides": {
+    "brace-expansion": "5.0.8",
+    "postcss": "^8.5.3",
+    "sharp": "^0.35.0"
+  }
+}

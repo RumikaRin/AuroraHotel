@@ -1,0 +1,5 @@
+flowchart LR
+    Input["Manifest and source inputs"] --> Boundary["session lifecycle boundary"]
+    Boundary --> Policy["Deny-by-default policy"]
+    Policy --> Operation["Authorized session lifecycle operation"]
+    Operation --> Evidence["Audit and test evidence"]

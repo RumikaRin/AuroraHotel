@@ -1,0 +1,5 @@
+flowchart LR
+    Change["Source change"] --> Gates["lint → typecheck → unit → build → e2e"]
+    Gates --> Evidence["Hash-bound evidence"]
+    Evidence --> Manifest["Release manifest and attestation"]
+    Manifest --> Deploy["Reviewed deployment"]

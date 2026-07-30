@@ -1,0 +1,5 @@
+flowchart TD
+    Entry["Application entry"] --> Domain["Domain modules"]
+    Domain --> Policies["Authorization and validation policies"]
+    Domain --> Adapters["External adapters"]
+    Policies --> Evidence["Tests, audit, and release evidence"]

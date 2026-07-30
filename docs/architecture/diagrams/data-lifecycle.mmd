@@ -1,0 +1,5 @@
+flowchart LR
+    Input["Manifest and source inputs"] --> Boundary["data lifecycle boundary"]
+    Boundary --> Policy["Deny-by-default policy"]
+    Policy --> Operation["Authorized data lifecycle operation"]
+    Operation --> Evidence["Audit and test evidence"]

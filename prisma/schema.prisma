@@ -1,0 +1,199 @@
+// Prisma schema distilled from the FLOF project (D:/ProjectZ/FLOF).
+//
+// DIVERGENCE vs FLOF: FLOF uses PostgreSQL with native enums. This starter
+// defaults to SQLite so "npm install && prisma migrate dev" needs no external
+// database. SQLite does not support Prisma enums, Json or Decimal, therefore:
+//   - enum-like fields are String with the allowed values documented in a
+//     comment right above the field (validated in code with zod),
+//   - money is stored as Int (smallest currency unit, e.g. VND),
+//   - JSON payloads are stored as String containing JSON.stringify output.
+//
+// POSTGRES SWITCH: to move to Postgres, replace the datasource block with the
+// commented one below, set DATABASE_URL in .env (see .env.example), delete the
+// prisma/migrations folder, then run: npx prisma migrate dev --name init
+//
+// datasource db {
+//   provider = "postgresql"
+//   url      = env("DATABASE_URL")
+// }
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Role {
+  id        String   @id @default(cuid())
+  name      String
+  // Allowed values: "ADMIN" | "STAFF" | "CUSTOMER"
+  type      String   @unique
+  users     User[]
+  createdAt DateTime @default(now())
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  // FLOF PITFALL: credentials sign-in is gated on emailVerified. A seeded
+  // account with emailVerified = null can never log in. The seed script
+  // stamps this field for every seeded account (see prisma/seed.ts).
+  emailVerified DateTime?
+  password      String?
+  name          String?
+  roleId        String
+  role          Role      @relation(fields: [roleId], references: [id])
+  orders        Order[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([roleId])
+}
+
+model Product {
+  id          String      @id @default(cuid())
+  sku         String      @unique
+  slug        String      @unique
+  name        String
+  description String      @default("")
+  // Price in the smallest currency unit (integer, no floats for money).
+  price       Int
+  // Stock is only ever decremented through the atomic conditional update in
+  // src/services/checkout.service.ts (updateMany + stock gte guard).
+  stock       Int         @default(0)
+  isActive    Boolean     @default(true)
+  orderItems  OrderItem[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([isActive])
+}
+
+model Order {
+  id          String      @id @default(cuid())
+  orderNumber String      @unique
+  userId      String
+  user        User        @relation(fields: [userId], references: [id])
+  // Allowed values: "PENDING" | "CONFIRMED" | "PROCESSING" | "SHIPPING"
+  //               | "COMPLETED" | "CANCELLED"
+  status      String      @default("PENDING")
+  subtotal    Int
+  discount    Int         @default(0)
+  total       Int
+  couponId    String?
+  coupon      Coupon?     @relation(fields: [couponId], references: [id])
+  note        String      @default("")
+  items       OrderItem[]
+  payment     Payment?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([userId])
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  // Denormalized snapshot: the order keeps the name/sku/price at purchase
+  // time even if the product is renamed or repriced later (FLOF pattern).
+  name      String
+  sku       String
+  price     Int
+  quantity  Int
+  total     Int
+
+  @@index([orderId])
+  @@index([productId])
+}
+
+model Payment {
+  id      String @id @default(cuid())
+  orderId String @unique
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  // Allowed values: "COD" | "TRANSFER"
+  method  String
+  // Payment.status state machine (enforce in service code, never in the UI):
+  //   PENDING   -> PAID       (gateway/manual confirmation)
+  //   PENDING   -> FAILED     (gateway rejected)
+  //   PENDING   -> CANCELLED  (order cancelled before payment)
+  //   PAID      -> REFUNDED   (manual refund)
+  // FAILED, CANCELLED and REFUNDED are terminal. Never transition a terminal
+  // status back to PENDING; create a new Payment row instead if retrying.
+  status    String   @default("PENDING")
+  amount    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Coupon {
+  id        String    @id @default(cuid())
+  code      String    @unique
+  // Allowed values: "PERCENTAGE" | "FIXED"
+  type      String
+  // PERCENTAGE: 1..100, FIXED: amount in smallest currency unit.
+  value     Int
+  minOrder  Int       @default(0)
+  // null means unlimited usage. When set, checkout increments usageCount with
+  // a conditional updateMany (usageCount lt usageLimit) so two concurrent
+  // checkouts cannot both consume the last slot.
+  usageLimit Int?
+  usageCount Int      @default(0)
+  isActive   Boolean  @default(true)
+  expiresAt  DateTime?
+  orders     Order[]
+  createdAt  DateTime @default(now())
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorEmail String?
+  action     String
+  entityType String
+  entityId   String?
+  // JSON.stringify payload (SQLite has no Json column type).
+  metadata   String?
+  createdAt  DateTime @default(now())
+
+  @@index([entityType, entityId])
+  @@index([createdAt])
+}
+
+model EmailOutbox {
+  id        String    @id @default(cuid())
+  // e.g. "ORDER_CONFIRMATION". Rows are written inside the same transaction
+  // as the business change (transactional outbox pattern from FLOF): if the
+  // order commits, the email intent commits with it. A worker/cron drains
+  // PENDING rows and calls the real email provider.
+  type      String
+  // JSON.stringify payload (SQLite has no Json column type).
+  payload   String
+  // Allowed values: "PENDING" | "SENT" | "FAILED"
+  status    String    @default("PENDING")
+  attempts  Int       @default(0)
+  lastError String?
+  createdAt DateTime  @default(now())
+  sentAt    DateTime?
+
+  @@index([status, createdAt])
+}
+
+model CheckoutIdempotency {
+  // Client-generated Idempotency-Key header value (16..200 chars).
+  key         String   @id
+  userId      String
+  // sha256 of the normalized request body. A reused key with a different
+  // hash is a client bug and gets a 409 instead of a silent duplicate order.
+  requestHash String
+  // Filled in at the end of the checkout transaction. A row without orderId
+  // means a checkout with this key is still in flight (or crashed mid-way).
+  orderId     String?
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+}

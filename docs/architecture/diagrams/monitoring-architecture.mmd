@@ -1,0 +1,5 @@
+flowchart LR
+    Input["Manifest and source inputs"] --> Boundary["monitoring architecture boundary"]
+    Boundary --> Policy["Deny-by-default policy"]
+    Policy --> Operation["Authorized monitoring architecture operation"]
+    Operation --> Evidence["Audit and test evidence"]
