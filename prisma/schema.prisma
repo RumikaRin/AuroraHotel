@@ -1,22 +1,3 @@
-// Prisma schema distilled from the FLOF project (D:/ProjectZ/FLOF).
-//
-// DIVERGENCE vs FLOF: FLOF uses PostgreSQL with native enums. This starter
-// defaults to SQLite so "npm install && prisma migrate dev" needs no external
-// database. SQLite does not support Prisma enums, Json or Decimal, therefore:
-//   - enum-like fields are String with the allowed values documented in a
-//     comment right above the field (validated in code with zod),
-//   - money is stored as Int (smallest currency unit, e.g. VND),
-//   - JSON payloads are stored as String containing JSON.stringify output.
-//
-// POSTGRES SWITCH: to move to Postgres, replace the datasource block with the
-// commented one below, set DATABASE_URL in .env (see .env.example), delete the
-// prisma/migrations folder, then run: npx prisma migrate dev --name init
-//
-// datasource db {
-//   provider = "postgresql"
-//   url      = env("DATABASE_URL")
-// }
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -30,150 +11,196 @@ generator client {
 model Role {
   id        String   @id @default(cuid())
   name      String
-  // Allowed values: "ADMIN" | "STAFF" | "CUSTOMER"
+  // Allowed values: "GUEST" | "RECEPTIONIST" | "HOUSEKEEPER" | "MANAGER" | "ADMIN"
   type      String   @unique
   users     User[]
   createdAt DateTime @default(now())
 }
 
 model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
-  // FLOF PITFALL: credentials sign-in is gated on emailVerified. A seeded
-  // account with emailVerified = null can never log in. The seed script
-  // stamps this field for every seeded account (see prisma/seed.ts).
+  id            String     @id @default(cuid())
+  email         String     @unique
   emailVerified DateTime?
   password      String?
   name          String?
+  phone         String?
   roleId        String
-  role          Role      @relation(fields: [roleId], references: [id])
-  orders        Order[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  role          Role       @relation(fields: [roleId], references: [id])
+  bookings      Booking[]  @relation("GuestBookings")
+  auditLogs     AuditLog[] @relation("UserAuditLogs")
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
 
   @@index([roleId])
 }
 
-model Product {
-  id          String      @id @default(cuid())
-  sku         String      @unique
-  slug        String      @unique
-  name        String
-  description String      @default("")
-  // Price in the smallest currency unit (integer, no floats for money).
-  price       Int
-  // Stock is only ever decremented through the atomic conditional update in
-  // src/services/checkout.service.ts (updateMany + stock gte guard).
-  stock       Int         @default(0)
-  isActive    Boolean     @default(true)
-  orderItems  OrderItem[]
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+model RoomCategory {
+  id               String            @id @default(cuid())
+  slug             String            @unique
+  name             String
+  // Allowed values: "DELUXE_KING" | "DELUXE_TWIN" | "EXECUTIVE_SUITE" | "PRESIDENTIAL_SUITE"
+  type             String            @unique
+  description      String
+  basePrice        Int // Price in VND
+  maxOccupancy     Int               @default(2)
+  sizeSqm          Int               @default(35)
+  bedConfiguration String            @default("1 King Bed")
+  amenities        Json // Array of amenity strings
+  images           Json // Array of image URL strings
+  isActive         Boolean           @default(true)
+  ratePlans        RatePlan[]
+  rooms            Room[]
+  availabilities   DayAvailability[]
+  bookings         Booking[]
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
 
   @@index([isActive])
 }
 
-model Order {
-  id          String      @id @default(cuid())
-  orderNumber String      @unique
-  userId      String
-  user        User        @relation(fields: [userId], references: [id])
-  // Allowed values: "PENDING" | "CONFIRMED" | "PROCESSING" | "SHIPPING"
-  //               | "COMPLETED" | "CANCELLED"
-  status      String      @default("PENDING")
-  subtotal    Int
-  discount    Int         @default(0)
-  total       Int
-  couponId    String?
-  coupon      Coupon?     @relation(fields: [couponId], references: [id])
-  note        String      @default("")
-  items       OrderItem[]
-  payment     Payment?
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+model RatePlan {
+  id                String       @id @default(cuid())
+  code              String       @unique
+  name              String
+  roomCategoryId    String
+  roomCategory      RoomCategory @relation(fields: [roomCategoryId], references: [id])
+  // Allowed values: "FLEXIBLE_BREAKFAST" | "NON_REFUNDABLE" | "EXTENDED_STAY_PROMO"
+  planType          String
+  priceMultiplier   Float        @default(1.0)
+  cancelPolicyDays  Int          @default(3)
+  breakfastIncluded Boolean      @default(true)
+  isActive          Boolean      @default(true)
+  bookings          Booking[]
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
 
-  @@index([userId])
+  @@index([roomCategoryId])
+  @@index([isActive])
 }
 
-model OrderItem {
-  id        String  @id @default(cuid())
-  orderId   String
-  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  productId String
-  product   Product @relation(fields: [productId], references: [id])
-  // Denormalized snapshot: the order keeps the name/sku/price at purchase
-  // time even if the product is renamed or repriced later (FLOF pattern).
-  name      String
-  sku       String
-  price     Int
-  quantity  Int
-  total     Int
+model Room {
+  id             String           @id @default(cuid())
+  number         String           @unique
+  roomCategoryId String
+  roomCategory   RoomCategory     @relation(fields: [roomCategoryId], references: [id])
+  floor          Int              @default(1)
+  // Allowed values: "CLEAN" | "DIRTY" | "INSPECTING" | "MAINTENANCE"
+  status         String           @default("CLEAN")
+  notes          String?
+  assignments    RoomAssignment[]
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
 
-  @@index([orderId])
-  @@index([productId])
+  @@index([roomCategoryId])
+  @@index([status])
+}
+
+model DayAvailability {
+  id             String       @id @default(cuid())
+  roomCategoryId String
+  roomCategory   RoomCategory @relation(fields: [roomCategoryId], references: [id])
+  date           DateTime     @db.Date
+  totalInventory Int          @default(10)
+  bookedCount    Int          @default(0)
+  holdCount      Int          @default(0)
+  version        Int          @default(0)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@unique([roomCategoryId, date])
+  @@index([date])
+}
+
+model Booking {
+  id              String           @id @default(cuid())
+  bookingNumber   String           @unique
+  guestId         String?
+  guest           User?            @relation("GuestBookings", fields: [guestId], references: [id])
+  ratePlanId      String
+  ratePlan        RatePlan         @relation(fields: [ratePlanId], references: [id])
+  roomCategoryId  String
+  roomCategory    RoomCategory     @relation(fields: [roomCategoryId], references: [id])
+  checkIn         DateTime         @db.Date
+  checkOut        DateTime         @db.Date
+  nights          Int
+  numGuests       Int              @default(1)
+  totalAmount     Int // Total in VND
+  currency        String           @default("VND")
+  // Allowed values: "DRAFT" | "PENDING_PAYMENT" | "CONFIRMED" | "CHECKED_IN" | "CHECKED_OUT" | "CANCELLED" | "NO_SHOW"
+  status          String           @default("PENDING_PAYMENT")
+  guestName       String
+  guestEmail      String
+  guestPhone      String
+  specialRequests String?
+  payments        Payment[]
+  roomAssignments RoomAssignment[]
+  auditLogs       AuditLog[]       @relation("BookingAuditLogs")
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  @@index([guestId])
+  @@index([roomCategoryId])
+  @@index([status])
+  @@index([checkIn, checkOut])
+}
+
+model RoomAssignment {
+  id         String   @id @default(cuid())
+  bookingId  String
+  booking    Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  roomId     String
+  room       Room     @relation(fields: [roomId], references: [id])
+  assignedAt DateTime @default(now())
+  assignedBy String?
+  notes      String?
+
+  @@index([bookingId])
+  @@index([roomId])
 }
 
 model Payment {
-  id        String   @id @default(cuid())
-  orderId   String   @unique
-  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  // Allowed values: "COD" | "TRANSFER"
-  method    String
-  // Payment.status state machine (enforce in service code, never in the UI):
-  //   PENDING   -> PAID       (gateway/manual confirmation)
-  //   PENDING   -> FAILED     (gateway rejected)
-  //   PENDING   -> CANCELLED  (order cancelled before payment)
-  //   PAID      -> REFUNDED   (manual refund)
-  // FAILED, CANCELLED and REFUNDED are terminal. Never transition a terminal
-  // status back to PENDING; create a new Payment row instead if retrying.
-  status    String   @default("PENDING")
-  amount    Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
+  id             String   @id @default(cuid())
+  bookingId      String
+  booking        Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  amount         Int
+  currency       String   @default("VND")
+  // Allowed values: "CREDIT_CARD" | "BANK_TRANSFER" | "CASH" | "MOCK_PAYMENT"
+  method         String
+  // Allowed values: "PENDING" | "AUTHORIZED" | "PAID" | "FAILED" | "CANCELLED" | "REFUNDED"
+  status         String   @default("PENDING")
+  transactionRef String?
+  gatewayPayload Json?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
-model Coupon {
-  id         String    @id @default(cuid())
-  code       String    @unique
-  // Allowed values: "PERCENTAGE" | "FIXED"
-  type       String
-  // PERCENTAGE: 1..100, FIXED: amount in smallest currency unit.
-  value      Int
-  minOrder   Int       @default(0)
-  // null means unlimited usage. When set, checkout increments usageCount with
-  // a conditional updateMany (usageCount lt usageLimit) so two concurrent
-  // checkouts cannot both consume the last slot.
-  usageLimit Int?
-  usageCount Int       @default(0)
-  isActive   Boolean   @default(true)
-  expiresAt  DateTime?
-  orders     Order[]
-  createdAt  DateTime  @default(now())
+  @@index([bookingId])
+  @@index([status])
 }
 
 model AuditLog {
   id         String   @id @default(cuid())
-  actorEmail String?
+  actorId    String?
+  actor      User?    @relation("UserAuditLogs", fields: [actorId], references: [id])
+  bookingId  String?
+  booking    Booking? @relation("BookingAuditLogs", fields: [bookingId], references: [id])
   action     String
   entityType String
   entityId   String?
-  // JSON.stringify payload (SQLite has no Json column type).
-  metadata   String?
+  payload    Json?
+  ipAddress  String?
+  userAgent  String?
   createdAt  DateTime @default(now())
 
   @@index([entityType, entityId])
+  @@index([actorId])
+  @@index([bookingId])
   @@index([createdAt])
 }
 
 model EmailOutbox {
   id        String    @id @default(cuid())
-  // e.g. "ORDER_CONFIRMATION". Rows are written inside the same transaction
-  // as the business change (transactional outbox pattern from FLOF): if the
-  // order commits, the email intent commits with it. A worker/cron drains
-  // PENDING rows and calls the real email provider.
   type      String
-  // JSON.stringify payload (SQLite has no Json column type).
-  payload   String
+  payload   Json
   // Allowed values: "PENDING" | "SENT" | "FAILED"
   status    String    @default("PENDING")
   attempts  Int       @default(0)
@@ -185,15 +212,10 @@ model EmailOutbox {
 }
 
 model CheckoutIdempotency {
-  // Client-generated Idempotency-Key header value (16..200 chars).
   key         String   @id
   userId      String
-  // sha256 of the normalized request body. A reused key with a different
-  // hash is a client bug and gets a 409 instead of a silent duplicate order.
   requestHash String
-  // Filled in at the end of the checkout transaction. A row without orderId
-  // means a checkout with this key is still in flight (or crashed mid-way).
-  orderId     String?
+  bookingId   String?
   createdAt   DateTime @default(now())
 
   @@index([userId])
