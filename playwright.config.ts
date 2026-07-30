@@ -47,7 +47,7 @@ export default defineConfig({
   webServer: {
     command: "npm run e2e:db && npm run dev",
     url: baseUrl,
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: false,
     timeout: 120_000,
     env: e2eEnv,
   },

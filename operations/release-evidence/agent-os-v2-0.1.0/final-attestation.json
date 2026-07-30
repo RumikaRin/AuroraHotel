@@ -1,0 +1,20 @@
+{
+  "command": "agent-os release-manifest --verify operations/release-evidence/agent-os-v2-0.1.0/manifest.json",
+  "cwd": "D:\\ProjectZ\\AuroraHotel\\.worktrees\\aurora-cloud-deployment",
+  "startedAt": "2026-07-30T21:28:39.136Z",
+  "endedAt": "2026-07-30T21:28:39.237Z",
+  "durationMs": 101,
+  "exitCode": 0,
+  "stdout": "Release manifest verified: 26 implementation files and 37 tests",
+  "stderr": "",
+  "stdoutSha256": "ae1013114d2c6e7556d681a8f4edca3fec4c811d5a8d80019904a32cb0f874ca",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "verifiedManifestSha256": "8b9f95e33c12692eebe55083e71d6218dbef73ece61ab7f5c756f6ab4680b8d4",
+  "gitHead": "24c4a7b8331b4a7d30c7b4b6f3e41df60bda9998",
+  "environment": {
+    "nodeVersion": "v24.16.0",
+    "npmVersion": "11.13.0",
+    "os": "Windows_NT"
+  },
+  "status": "passed"
+}

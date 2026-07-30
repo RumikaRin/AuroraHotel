@@ -1,0 +1,23 @@
+{
+  "project": "Aurora Hotel P0 + Cloud",
+  "branch": "codex/aurora-cloud-deployment",
+  "commit": "24c4a7b8331b4a7d30c7b4b6f3e41df60bda9998",
+  "timestamp": "2026-07-30T22:02:00Z",
+  "database": {
+    "provider": "Neon PostgreSQL",
+    "developmentSchema": "aurora_development",
+    "testSchema": "aurora_test",
+    "migrationsApplied": true,
+    "seedDataVerified": true,
+    "failClosedGuards": "VERIFIED"
+  },
+  "qualityGates": {
+    "lint": "PASS",
+    "typecheck": "PASS",
+    "test": "PASS (80 Node unit tests, 3 Vitest files)",
+    "build": "PASS (Next.js 15, 21/21 routes)",
+    "e2e": "PASS (26 Playwright browser and real database E2E tests)",
+    "cloudCheck": "PASS",
+    "diagrams": "PASS (25/25)"
+  }
+}

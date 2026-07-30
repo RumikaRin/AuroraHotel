@@ -1,0 +1,27 @@
+{
+  "verificationTimestamp": "2026-07-30T22:02:00Z",
+  "environment": "development/test",
+  "neonPostgres": {
+    "pooledHost": "ep-broad-paper-az0i6uw5-pooler.c-3.ap-southeast-1.aws.neon.tech",
+    "directHost": "ep-broad-paper-az0i6uw5.c-3.ap-southeast-1.aws.neon.tech",
+    "testDatabase": "aurora_test",
+    "resetSequenceVerified": true,
+    "concurrencyProtection": "ACTIVE_MUTEX_VERSION"
+  },
+  "vercelBlob": {
+    "privateStoreId": "store_vW46PJdNfQ1BjkO1",
+    "publicStoreId": "store_O6b6EY0dQ6gX4vXe"
+  },
+  "roomsApiFailClosed": {
+    "verified": true,
+    "demoFallbackInProd": "DISABLED"
+  },
+  "businessWorkflows": {
+    "bookingPersistence": "PASS",
+    "idempotencyReplay": "PASS",
+    "idempotencyPayloadConflict": "PASS (409)",
+    "overbookingProtection": "PASS (Race condition handled)",
+    "cancellationAndInventoryRestore": "PASS",
+    "webhookDeduplication": "PASS"
+  }
+}

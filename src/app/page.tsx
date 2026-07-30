@@ -109,7 +109,7 @@ export default async function HomePage() {
                 className="bg-[#FFFDF8] rounded-2xl overflow-hidden border border-[#DADDD8] shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
               >
                 <div className="p-6">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#C5A46D]">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#8C6D3B]">
                     {cat.type}
                   </span>
                   <h3 className="font-serif-display text-xl font-semibold text-[#17211D] mt-1">

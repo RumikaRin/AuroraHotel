@@ -1,7 +1,10 @@
+import { PrismaNeon } from "@prisma/adapter-neon";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
-const prisma = new PrismaClient();
+const connectionString = process.env.DIRECT_URL || process.env.DATABASE_URL;
+const adapter = new PrismaNeon({ connectionString: connectionString! });
+const prisma = new PrismaClient({ adapter });
 
 async function main() {
   if (
