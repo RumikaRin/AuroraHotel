@@ -1,5 +1,5 @@
 import { db as defaultDb } from "../lib/db.ts";
-import { NotFoundError, ValidationError } from "../domain/errors.ts";
+import { ConflictError, NotFoundError, ValidationError } from "../domain/errors.ts";
 import { recordAuditLog } from "./audit.service.ts";
 
 export interface AssignRoomParams {
@@ -106,14 +106,17 @@ export async function performCheckIn(
     throw new NotFoundError("Booking not found");
   }
 
-  if (booking.status !== "CONFIRMED") {
-    throw new ValidationError(`Cannot check in booking in status ${booking.status}`);
-  }
-
-  const updated = await client.booking.update({
-    where: { id: params.bookingId },
+  const { count } = await client.booking.updateMany({
+    where: {
+      id: params.bookingId,
+      status: "CONFIRMED",
+    },
     data: { status: "CHECKED_IN" },
   });
+
+  if (count !== 1) {
+    throw new ConflictError(`Cannot check in booking ${params.bookingId}: status must be CONFIRMED (current: ${booking.status})`);
+  }
 
   await recordAuditLog(
     {
@@ -126,7 +129,7 @@ export async function performCheckIn(
     client,
   );
 
-  return updated;
+  return client.booking.findUnique({ where: { id: params.bookingId } });
 }
 
 export async function performCheckOut(
@@ -141,14 +144,17 @@ export async function performCheckOut(
     throw new NotFoundError("Booking not found");
   }
 
-  if (booking.status !== "CHECKED_IN") {
-    throw new ValidationError(`Cannot check out booking in status ${booking.status}`);
-  }
-
-  const updated = await client.booking.update({
-    where: { id: params.bookingId },
+  const { count } = await client.booking.updateMany({
+    where: {
+      id: params.bookingId,
+      status: "CHECKED_IN",
+    },
     data: { status: "CHECKED_OUT" },
   });
+
+  if (count !== 1) {
+    throw new ConflictError(`Cannot check out booking ${params.bookingId}: status must be CHECKED_IN (current: ${booking.status})`);
+  }
 
   const assignedRoomIds = (booking.roomAssignments ?? []).map((ra: { roomId: string }) => ra.roomId);
   if (assignedRoomIds.length > 0) {
@@ -170,5 +176,6 @@ export async function performCheckOut(
     client,
   );
 
-  return updated;
+  return client.booking.findUnique({ where: { id: params.bookingId } });
 }
+

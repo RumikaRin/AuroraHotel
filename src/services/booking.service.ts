@@ -1,5 +1,6 @@
+import crypto from "node:crypto";
 import { db as defaultDb } from "../lib/db.ts";
-import { NotFoundError, ValidationError } from "../domain/errors.ts";
+import { ConflictError, NotFoundError, ValidationError } from "../domain/errors.ts";
 import { parseDates, reserveAvailability, releaseAvailability } from "./availability.service.ts";
 import { recordAuditLog } from "./audit.service.ts";
 import { recordEmailOutbox } from "./outbox.service.ts";
@@ -20,9 +21,9 @@ export interface CreateBookingParams {
 }
 
 export function generateBookingNumber(): string {
-  const timestamp = Date.now().toString().slice(-6);
-  const random = Math.floor(1000 + Math.random() * 9000);
-  return `AUR-${timestamp}-${random}`;
+  const dateStr = new Date().toISOString().slice(2, 10).replace(/-/g, "");
+  const randomHex = crypto.randomBytes(3).toString("hex").toUpperCase();
+  return `AUR-${dateStr}-${randomHex}`;
 }
 
 export async function createBooking(
@@ -166,11 +167,19 @@ export async function cancelBooking(
     throw new NotFoundError("Booking not found");
   }
 
-  if (booking.status === "CANCELLED" || booking.status === "CHECKED_OUT") {
-    throw new ValidationError(`Cannot cancel booking in status ${booking.status}`);
-  }
-
   const executeInTx = async (tx: typeof client) => {
+    const { count } = await tx.booking.updateMany({
+      where: {
+        id: bookingId,
+        status: { in: ["PENDING_PAYMENT", "CONFIRMED"] },
+      },
+      data: { status: "CANCELLED" },
+    });
+
+    if (count !== 1) {
+      throw new ConflictError(`Cannot cancel booking ${bookingId}: booking is in status ${booking.status}`);
+    }
+
     await releaseAvailability(
       {
         roomCategoryId: booking.roomCategoryId,
@@ -179,11 +188,6 @@ export async function cancelBooking(
       },
       tx,
     );
-
-    const updated = await tx.booking.update({
-      where: { id: bookingId },
-      data: { status: "CANCELLED" },
-    });
 
     await recordAuditLog(
       {
@@ -208,7 +212,7 @@ export async function cancelBooking(
       tx,
     );
 
-    return updated;
+    return tx.booking.findUnique({ where: { id: bookingId } });
   };
 
   if (typeof client.$transaction === "function") {
@@ -217,3 +221,4 @@ export async function cancelBooking(
     return executeInTx(client);
   }
 }
+

@@ -46,17 +46,18 @@ describe("Aurora Operations Service (Reception & Housekeeping)", () => {
   });
 
   it("performs guest check-in and check-out", async () => {
+    let bookingStatus = "CONFIRMED";
     let roomStatus = "CLEAN";
     const mockDb = {
       booking: {
         findUnique: async (args: { where: { id: string } }) => {
-          if (args.where.id === "bk-1") return { id: "bk-1", status: "CONFIRMED" };
-          return { id: "bk-2", status: "CHECKED_IN", roomAssignments: [{ roomId: "rm-101" }] };
+          if (args.where.id === "bk-1") return { id: "bk-1", status: bookingStatus };
+          return { id: "bk-2", status: bookingStatus, roomAssignments: [{ roomId: "rm-101" }] };
         },
-        update: async (args: { where: { id: string }; data: { status: string } }) => ({
-          id: args.where.id,
-          status: args.data.status,
-        }),
+        updateMany: async (args: { data: { status: string } }) => {
+          bookingStatus = args.data.status;
+          return { count: 1 };
+        },
       },
       room: {
         updateMany: async (args: { data: { status: string } }) => {
