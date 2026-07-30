@@ -4,18 +4,29 @@ import { defineConfig, devices } from "@playwright/test";
 // NO_COLOR value so Node does not emit a warning for every child process.
 delete process.env.NO_COLOR;
 
+import fs from "node:fs";
+import path from "node:path";
+import dotenv from "dotenv";
+
+const envLocalPath = path.join(process.cwd(), ".env.local");
+if (fs.existsSync(envLocalPath)) {
+  dotenv.config({ path: envLocalPath, override: true });
+} else {
+  dotenv.config();
+}
+
 const port = 3105;
 const baseUrl = `http://127.0.0.1:${port}`;
 
-// Env for the app under test. SQLite paths in DATABASE_URL are resolved
-// relative to prisma/schema.prisma, so "file:./e2e.db" lands at
-// prisma/e2e.db, which is already gitignored (prisma/*.db) and is rebuilt
-// from migrations + seed by scripts/reset-e2e-db.mjs on every run (the
-// webServer command below chains it before starting the app, because
-// Playwright boots the webServer before any globalSetup hook runs).
 export const e2eEnv = {
-  DATABASE_URL: "file:./e2e.db",
-  AUTH_SECRET: "e2e-only-secret-do-not-use-in-production-0123456789",
+  NODE_ENV: "test",
+  DATABASE_ENVIRONMENT: "test",
+  DATABASE_URL: process.env.TEST_DATABASE_URL || process.env.DATABASE_URL || "",
+  DIRECT_URL: process.env.TEST_DIRECT_URL || process.env.DIRECT_URL || "",
+  TEST_DATABASE_URL: process.env.TEST_DATABASE_URL || process.env.DATABASE_URL || "",
+  TEST_DIRECT_URL: process.env.TEST_DIRECT_URL || process.env.DIRECT_URL || "",
+  ALLOW_REMOTE_TEST_RESET: "aurora_test",
+  AUTH_SECRET: process.env.AUTH_SECRET || "e2e-only-secret-do-not-use-in-production-0123456789",
   AUTH_TRUST_HOST: "true",
   AUTH_URL: baseUrl,
   PORT: String(port),

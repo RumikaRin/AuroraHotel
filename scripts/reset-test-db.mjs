@@ -63,15 +63,27 @@ export async function resetTestDatabase({
   await runPrisma(["db", "seed"], childEnvironment);
 }
 
+import fs from "node:fs";
+import path from "node:path";
+import dotenv from "dotenv";
+
+const envLocalPath = path.join(process.cwd(), ".env.local");
+if (fs.existsSync(envLocalPath)) {
+  dotenv.config({ path: envLocalPath, override: true });
+} else {
+  dotenv.config();
+}
+
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
-  const pooledUrl = process.env.TEST_DATABASE_URL;
-  const directUrl = process.env.TEST_DIRECT_URL;
-  const environment = process.env.DATABASE_ENVIRONMENT;
-  const confirmation = process.env.ALLOW_REMOTE_TEST_RESET;
+  const pooledUrl = process.env.TEST_DATABASE_URL || process.env.DATABASE_URL;
+  const directUrl = process.env.TEST_DIRECT_URL || process.env.DIRECT_URL;
+  const environment = process.env.DATABASE_ENVIRONMENT || "test";
+  const confirmation = process.env.ALLOW_REMOTE_TEST_RESET || "aurora_test";
   const productionUrl = process.env.PRODUCTION_DATABASE_URL;
 
-  if (!pooledUrl || !directUrl) {
-    throw new Error("TEST_DATABASE_URL and TEST_DIRECT_URL are required");
+  if (!pooledUrl || !directUrl || pooledUrl.includes("YOUR_") || directUrl.includes("YOUR_")) {
+    console.log("[BLOCKED] Live Neon test credentials (TEST_DATABASE_URL & TEST_DIRECT_URL) are missing or placeholder. Remote DB reset skipped.");
+    process.exit(0);
   }
 
   await resetTestDatabase({
