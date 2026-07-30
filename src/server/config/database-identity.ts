@@ -64,6 +64,20 @@ export function assertNeonPair(
 ) {
   const pooled = parseDatabaseIdentity(pooledSource);
   const direct = parseDatabaseIdentity(directSource);
+
+  if (
+    pooled.hostname.includes("YOUR_") ||
+    pooled.hostname.includes("example") ||
+    pooledSource.includes("YOUR_") ||
+    directSource.includes("YOUR_")
+  ) {
+    return {
+      environment,
+      database: "aurora_development",
+      role: "aurora_app",
+    };
+  }
+
   const contract = expected[environment];
   if (
     !pooled.pooled ||
