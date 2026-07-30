@@ -8,13 +8,6 @@ import { SuiteSpotlight } from "@/components/home/SuiteSpotlight";
 
 export const dynamic = "force-dynamic";
 
-function formatVND(amount: number) {
-  return new Intl.NumberFormat("vi-VN", {
-    style: "currency",
-    currency: "VND",
-  }).format(amount);
-}
-
 export default async function HomePage() {
   let roomCategories: Array<{
     id: string;
@@ -217,7 +210,7 @@ export default async function HomePage() {
                 </div>
               </div>
 
-              <SuiteSpotlight rooms={roomCategories} formatVND={formatVND} />
+              <SuiteSpotlight rooms={roomCategories} />
             </div>
           </section>
 

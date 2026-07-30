@@ -16,7 +16,6 @@ interface Room {
 
 interface SuiteSpotlightProps {
   rooms: Room[];
-  formatVND: (amount: number) => string;
 }
 
 const suiteImages = [
@@ -25,7 +24,14 @@ const suiteImages = [
   "/images/hero-hotel.png",
 ];
 
-export function SuiteSpotlight({ rooms, formatVND }: SuiteSpotlightProps) {
+function formatVND(amount: number) {
+  return new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  }).format(amount);
+}
+
+export function SuiteSpotlight({ rooms }: SuiteSpotlightProps) {
   const [index, setIndex] = useState(0);
   const [isChanging, setIsChanging] = useState(false);
   const reduceMotion = useRef(false);
