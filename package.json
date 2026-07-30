@@ -16,6 +16,8 @@
     "test": "node --experimental-strip-types --test tests/*.test.ts && vitest run tests/security --passWithNoTests",
     "db:migrate": "prisma migrate dev",
     "db:seed": "prisma db seed",
+    "db:backup": "node --experimental-strip-types scripts/backup-neon.mjs",
+    "db:restore": "node --experimental-strip-types scripts/restore-neon.mjs",
     "e2e": "playwright test",
     "db:test:reset": "node --experimental-strip-types scripts/reset-test-db.mjs",
     "e2e:db": "node --experimental-strip-types scripts/reset-test-db.mjs",
