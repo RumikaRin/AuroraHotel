@@ -80,8 +80,16 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   const confirmation = process.env.ALLOW_REMOTE_TEST_RESET || "aurora_test";
   const productionUrl = process.env.PRODUCTION_DATABASE_URL;
 
-  if (!pooledUrl || !directUrl || pooledUrl.includes("YOUR_") || directUrl.includes("YOUR_")) {
-    console.log("[BLOCKED] Live Neon test credentials (TEST_DATABASE_URL & TEST_DIRECT_URL) are missing or placeholder. Remote DB reset skipped.");
+  if (
+    !pooledUrl ||
+    !directUrl ||
+    pooledUrl.includes("YOUR_") ||
+    directUrl.includes("YOUR_") ||
+    pooledUrl.includes("example") ||
+    directUrl.includes("example") ||
+    environment !== "test"
+  ) {
+    console.log("[BLOCKED] Live Neon test credentials (TEST_DATABASE_URL & TEST_DIRECT_URL) are missing, placeholder, or not test environment. Remote DB reset skipped.");
     process.exit(0);
   }
 
