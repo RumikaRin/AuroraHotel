@@ -18,12 +18,13 @@
 // }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider   = "prisma-client-js"
+  engineType = "client"
 }
 
 model Role {
@@ -113,11 +114,11 @@ model OrderItem {
 }
 
 model Payment {
-  id      String @id @default(cuid())
-  orderId String @unique
-  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  id        String   @id @default(cuid())
+  orderId   String   @unique
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
   // Allowed values: "COD" | "TRANSFER"
-  method  String
+  method    String
   // Payment.status state machine (enforce in service code, never in the UI):
   //   PENDING   -> PAID       (gateway/manual confirmation)
   //   PENDING   -> FAILED     (gateway rejected)
@@ -132,22 +133,22 @@ model Payment {
 }
 
 model Coupon {
-  id        String    @id @default(cuid())
-  code      String    @unique
+  id         String    @id @default(cuid())
+  code       String    @unique
   // Allowed values: "PERCENTAGE" | "FIXED"
-  type      String
+  type       String
   // PERCENTAGE: 1..100, FIXED: amount in smallest currency unit.
-  value     Int
-  minOrder  Int       @default(0)
+  value      Int
+  minOrder   Int       @default(0)
   // null means unlimited usage. When set, checkout increments usageCount with
   // a conditional updateMany (usageCount lt usageLimit) so two concurrent
   // checkouts cannot both consume the last slot.
   usageLimit Int?
-  usageCount Int      @default(0)
-  isActive   Boolean  @default(true)
+  usageCount Int       @default(0)
+  isActive   Boolean   @default(true)
   expiresAt  DateTime?
   orders     Order[]
-  createdAt  DateTime @default(now())
+  createdAt  DateTime  @default(now())
 }
 
 model AuditLog {

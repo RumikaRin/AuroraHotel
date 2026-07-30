@@ -1,16 +1,27 @@
-// Prisma client singleton (FLOF src/lib/db.ts pattern).
-// The globalThis cache prevents Next.js dev hot-reload from opening a new
-// database connection on every file change.
-
+import "server-only";
+import { PrismaNeon } from "@prisma/adapter-neon";
 import { PrismaClient } from "@prisma/client";
+import { readRuntimeEnvironment } from "@/server/config/environment.ts";
 
-const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
+const globalForPrisma = globalThis as unknown as {
+  prisma?: PrismaClient;
+};
 
-export const db =
-  globalForPrisma.prisma ??
-  new PrismaClient({
-    log: process.env.NODE_ENV === "development" ? ["warn", "error"] : ["error"],
+function createClient() {
+  const environment = readRuntimeEnvironment(process.env);
+  const adapter = new PrismaNeon({
+    connectionString: environment.databaseUrl,
   });
+  return new PrismaClient({
+    adapter,
+    log:
+      process.env.NODE_ENV === "development"
+        ? ["warn", "error"]
+        : ["error"],
+  });
+}
+
+export const db = globalForPrisma.prisma ?? createClient();
 
 if (process.env.NODE_ENV !== "production") {
   globalForPrisma.prisma = db;
