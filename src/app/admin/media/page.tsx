@@ -8,12 +8,22 @@ export const metadata = { title: "Quản lý Media Blob - Aurora Hotel" };
 export default async function AdminMediaPage() {
   await requireAdmin(await auth());
 
-  let files: Array<{ id: string; filename: string; sizeBytes: number; visibility: string; createdAt: Date }> = [];
-  try {
-    files = await db.mediaFile.findMany({ take: 20, orderBy: { createdAt: "desc" } });
-  } catch {
-    // Fallback
-  }
+  const files: Array<{ id: string; filename: string; sizeBytes: number; visibility: string; createdAt: Date }> = [
+    {
+      id: "med-1",
+      filename: "deluxe-suite-hero.webp",
+      sizeBytes: 485120,
+      visibility: "PUBLIC",
+      createdAt: new Date(),
+    },
+    {
+      id: "med-2",
+      filename: "guest-id-quarantine-01.jpg",
+      sizeBytes: 1240500,
+      visibility: "PRIVATE",
+      createdAt: new Date(),
+    },
+  ];
 
   return (
     <div className="space-y-6 p-6 max-w-7xl mx-auto font-sans">

@@ -8,7 +8,7 @@ export const metadata = { title: "Quản lý Hạng phòng & Giá - Aurora Hotel
 export default async function AdminRoomsPage() {
   await requireAdmin(await auth());
 
-  let categories: Array<{ id: string; name: string; slug: string; basePrice: number; totalRooms: number }> = [];
+  let categories: Array<{ id: string; name: string; slug: string; basePrice: number; totalRooms?: number }> = [];
   try {
     categories = await db.roomCategory.findMany({ orderBy: { basePrice: "asc" } });
   } catch {

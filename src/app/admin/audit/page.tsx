@@ -8,7 +8,7 @@ export const metadata = { title: "Nhật ký Kiểm toán Audit Logs - Aurora Ho
 export default async function AdminAuditPage() {
   await requireAdmin(await auth());
 
-  let logs: Array<{ id: string; action: string; entityType: string; entityId: string; createdAt: Date }> = [];
+  let logs: Array<{ id: string; action: string; entityType: string; entityId: string | null; createdAt: Date }> = [];
   try {
     logs = await db.auditLog.findMany({ take: 20, orderBy: { createdAt: "desc" } });
   } catch {

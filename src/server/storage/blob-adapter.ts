@@ -88,17 +88,18 @@ export class VercelBlobStoreAdapter {
   }
 
   async uploadPrivateQuarantine(pathname: string, body: Buffer | Uint8Array, contentType: string) {
-    validateUploadOptions({ contentType, sizeBytes: body.length });
+    const buffer = Buffer.isBuffer(body) ? body : Buffer.from(body);
+    validateUploadOptions({ contentType, sizeBytes: buffer.length });
     if (!this.isConfigured()) {
       return {
         url: `https://quarantine.private.blob.vercel-storage.com/${pathname}`,
         pathname,
         etag: `etag-${Date.now()}`,
-        size: body.length,
+        size: buffer.length,
       };
     }
 
-    return put(pathname, body, {
+    return put(pathname, buffer, {
       access: "private",
       token: this.privateToken,
       contentType,
@@ -107,16 +108,17 @@ export class VercelBlobStoreAdapter {
   }
 
   async publishToPublicStore(pathname: string, body: Buffer | Uint8Array) {
+    const buffer = Buffer.isBuffer(body) ? body : Buffer.from(body);
     if (!this.isConfigured()) {
       return {
         url: `https://public.public.blob.vercel-storage.com/${pathname}`,
         pathname,
         etag: `pub-etag-${Date.now()}`,
-        size: body.length,
+        size: buffer.length,
       };
     }
 
-    return put(pathname, body, {
+    return put(pathname, buffer, {
       access: "public",
       token: this.publicToken,
       contentType: "image/webp",
