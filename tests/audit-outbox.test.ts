@@ -33,7 +33,7 @@ describe("Audit and outbox services", () => {
     const entry = await recordEmailOutbox(
       {
         type: "BOOKING_CONFIRMATION",
-        payload: { bookingNumber: "AUR-1001", email: "guest@example.com" },
+        payload: { bookingNumber: "AUR-1001", guestEmail: "guest@example.com" },
       },
       mockDb as unknown as Parameters<typeof recordEmailOutbox>[1],
     );
