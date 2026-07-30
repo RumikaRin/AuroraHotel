@@ -316,7 +316,7 @@
     ".gitignore": {
       "owner": "profile:next-monolith",
       "mode": "project-owned",
-      "sha256": "04343ce0f93a2e7b5d38263d67c923c7f7c61951b3a81aa525f300048b245b56"
+      "sha256": "3864305ac1e7f48899282b1005ae3518252dcbf041e7c080252df90132da87f0"
     },
     "AGENTS.md": {
       "owner": "core",
@@ -801,7 +801,7 @@
     "package.json": {
       "owner": "profile:next-monolith",
       "mode": "project-owned",
-      "sha256": "23e3d07b97f3accb6cf28b10c997e6b708b4bad14f2cc0a3fdd65b7b9cccb0dd"
+      "sha256": "501e302f8ac57ddeb46e23677be4ce42ead8e03c55c1e36ab7f5b89b81a69e65"
     },
     "playwright.config.ts": {
       "owner": "profile:next-monolith",
