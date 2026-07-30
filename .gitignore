@@ -31,5 +31,8 @@ test-results/
 # local brainstorming previews
 .superpowers/
 
+# isolated implementation worktrees
+.worktrees/
+
 # NOTE: .claude/ (settings.json, hooks/, agents/) is part of the project harness
 # and MUST stay committed. Do not add .claude/ to this file.
