@@ -44,7 +44,7 @@ export function Header() {
         <div className="flex items-center space-x-4">
           <button
             onClick={toggleLanguage}
-            className="px-3 py-1.5 rounded text-xs font-semibold border border-[#C5A46D]/40 text-[#C5A46D] hover:bg-[#C5A46D]/10 transition-all"
+            className="px-3 py-2 min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded text-xs font-semibold border border-[#C5A46D]/40 text-[#C5A46D] hover:bg-[#C5A46D]/10 transition-all"
             aria-label="Toggle language"
           >
             {lang.toUpperCase()}

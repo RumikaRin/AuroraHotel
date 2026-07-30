@@ -14,17 +14,17 @@ export function Footer() {
           <div>
             <h4 className="text-sm font-semibold text-[#F7F4ED] mb-3">Explore</h4>
             <ul className="space-y-2 text-xs text-[#DADDD8]">
-              <li><Link href="/rooms" className="hover:text-[#C5A46D]">Rooms & Suites</Link></li>
-              <li><Link href="/dining" className="hover:text-[#C5A46D]">Fine Dining</Link></li>
-              <li><Link href="/spa" className="hover:text-[#C5A46D]">Spa & Wellness</Link></li>
+              <li><Link href="/rooms" className="hover:text-[#C5A46D] min-h-[44px] inline-flex items-center">Rooms & Suites</Link></li>
+              <li><Link href="/dining" className="hover:text-[#C5A46D] min-h-[44px] inline-flex items-center">Fine Dining</Link></li>
+              <li><Link href="/spa" className="hover:text-[#C5A46D] min-h-[44px] inline-flex items-center">Spa & Wellness</Link></li>
             </ul>
           </div>
           <div>
             <h4 className="text-sm font-semibold text-[#F7F4ED] mb-3">Staff Operations</h4>
             <ul className="space-y-2 text-xs text-[#DADDD8]">
-              <li><Link href="/reception" className="hover:text-[#C5A46D]">Reception Desk</Link></li>
-              <li><Link href="/housekeeping" className="hover:text-[#C5A46D]">Housekeeping</Link></li>
-              <li><Link href="/admin" className="hover:text-[#C5A46D]">Management Dashboard</Link></li>
+              <li><Link href="/reception" className="hover:text-[#C5A46D] min-h-[44px] inline-flex items-center">Reception Desk</Link></li>
+              <li><Link href="/housekeeping" className="hover:text-[#C5A46D] min-h-[44px] inline-flex items-center">Housekeeping</Link></li>
+              <li><Link href="/admin" className="hover:text-[#C5A46D] min-h-[44px] inline-flex items-center">Management Dashboard</Link></li>
             </ul>
           </div>
           <div>

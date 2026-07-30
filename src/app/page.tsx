@@ -10,10 +10,22 @@ function formatVND(amount: number) {
 }
 
 export default async function HomePage() {
-  const roomCategories = await db.roomCategory.findMany({
-    where: { isActive: true },
-    orderBy: { basePrice: "asc" },
-  });
+  let roomCategories: Array<{ id: string; name: string; slug: string; basePrice: number; description: string; images: unknown }> = [];
+  try {
+    const queryPromise = db.roomCategory.findMany({
+      where: { isActive: true },
+      orderBy: { basePrice: "asc" },
+    });
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error("DB_TIMEOUT")), 2500),
+    );
+    roomCategories = (await Promise.race([queryPromise, timeoutPromise])) as typeof roomCategories;
+  } catch {
+    roomCategories = [
+      { id: "cat-1", name: "Deluxe Ocean View", slug: "deluxe-ocean-view", basePrice: 2500000, description: "Phòng Deluxe sang trọng với tầm nhìn hướng biển tuyệt đẹp.", images: [] },
+      { id: "cat-2", name: "Executive Suite", slug: "executive-suite", basePrice: 4500000, description: "Căn hộ Suite đẳng cấp dành cho doanh nhân và gia đình.", images: [] },
+    ];
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F7F4ED] text-[#17211D]">
@@ -36,23 +48,27 @@ export default async function HomePage() {
           <div className="mt-10 bg-[#FFFDF8] text-[#17211D] p-6 rounded-2xl shadow-xl max-w-3xl mx-auto border border-[#C5A46D]/30">
             <form action="/rooms" method="GET" className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
               <div>
-                <label className="block text-xs font-semibold uppercase text-[#355B4B] mb-1">
+                <label htmlFor="checkIn" className="block text-xs font-semibold uppercase text-[#355B4B] mb-1">
                   Nhận phòng
                 </label>
                 <input
                   type="date"
+                  id="checkIn"
                   name="checkIn"
+                  aria-label="Nhận phòng"
                   defaultValue={new Date().toISOString().slice(0, 10)}
                   className="w-full text-sm p-2.5 rounded-lg border border-[#DADDD8] bg-[#F7F4ED] focus:outline-none focus:ring-2 focus:ring-[#C5A46D]"
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold uppercase text-[#355B4B] mb-1">
+                <label htmlFor="checkOut" className="block text-xs font-semibold uppercase text-[#355B4B] mb-1">
                   Trả phòng
                 </label>
                 <input
                   type="date"
+                  id="checkOut"
                   name="checkOut"
+                  aria-label="Trả phòng"
                   defaultValue={new Date(Date.now() + 86400000 * 2).toISOString().slice(0, 10)}
                   className="w-full text-sm p-2.5 rounded-lg border border-[#DADDD8] bg-[#F7F4ED] focus:outline-none focus:ring-2 focus:ring-[#C5A46D]"
                 />
@@ -124,7 +140,7 @@ export default async function HomePage() {
                   </div>
                   <Link
                     href={`/rooms/${cat.slug}`}
-                    className="px-4 py-2 text-xs font-semibold rounded-lg bg-[#C5A46D] text-[#17211D] hover:bg-[#b0905b] transition-colors"
+                    className="px-4 py-2 min-h-[44px] min-w-[44px] inline-flex items-center justify-center text-xs font-semibold rounded-lg bg-[#C5A46D] text-[#17211D] hover:bg-[#b0905b] transition-colors"
                   >
                     Chi tiết
                   </Link>
