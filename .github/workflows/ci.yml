@@ -1,28 +1,27 @@
-# Quality gate for the starter. Assumes this starter directory is the
-# repository root on GitHub (copy .github/ along with the code when you
-# fork the starter into a real project).
-#
-# Job "check" mirrors the local gate: npm ci, prisma generate (runs via
-# postinstall), prisma migrate deploy against a throwaway SQLite file,
-# then `npm run check` (lint + typecheck + unit tests + build).
 name: CI
 
 on:
   push:
   pull_request:
 
+concurrency:
+  group: aurora-neon-test
+  cancel-in-progress: false
+
 jobs:
   check:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # package.json "engines" requires Node >= 22.6 because `npm test`
-        # uses --experimental-strip-types, so the matrix starts at 22.
         node-version: [22, 24]
     env:
-      # SQLite paths in DATABASE_URL resolve relative to prisma/schema.prisma,
-      # so this lands at prisma/ci.db (gitignored via prisma/*.db).
-      DATABASE_URL: "file:./ci.db"
+      NODE_ENV: test
+      DATABASE_ENVIRONMENT: test
+      DATABASE_URL: ${{ secrets.NEON_TEST_DATABASE_URL }}
+      DIRECT_URL: ${{ secrets.NEON_TEST_DIRECT_URL }}
+      TEST_DATABASE_URL: ${{ secrets.NEON_TEST_DATABASE_URL }}
+      TEST_DIRECT_URL: ${{ secrets.NEON_TEST_DIRECT_URL }}
+      ALLOW_REMOTE_TEST_RESET: aurora_test
       AUTH_SECRET: "ci-only-secret-not-for-production-0123456789"
       AUTH_TRUST_HOST: "true"
     steps:
@@ -31,33 +30,43 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: npm
-      - name: Install dependencies (runs prisma generate via postinstall)
+      - name: Install dependencies
         run: npm ci
-      - name: Apply migrations to a throwaway SQLite database
-        run: npx prisma migrate deploy
+      - name: Verify CI Environment Isolation
+        run: node --experimental-strip-types scripts/verify-ci-environment.mjs
+        if: ${{ env.DATABASE_URL != '' }}
+      - name: Run Database Test Reset
+        run: npm run db:test:reset
+        if: ${{ env.DATABASE_URL != '' }}
       - name: Lint, typecheck, unit tests, build
         run: npm run check
 
-  # Optional: Playwright e2e suite. Uncomment to enable. The suite builds
-  # its own database (prisma/e2e.db) and app env from playwright.config.ts,
-  # so no extra env vars are needed here; it only needs the Chromium
-  # browser plus OS dependencies installed first.
-  #
-  # e2e:
-  #   runs-on: ubuntu-latest
-  #   needs: check
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: actions/setup-node@v4
-  #       with:
-  #         node-version: 22
-  #         cache: npm
-  #     - run: npm ci
-  #     - run: npx playwright install --with-deps chromium
-  #     - run: npm run e2e
-  #     - uses: actions/upload-artifact@v4
-  #       if: failure()
-  #       with:
-  #         name: playwright-report
-  #         path: playwright-report/
-  #         retention-days: 7
+  e2e:
+    runs-on: ubuntu-latest
+    needs: check
+    if: ${{ secrets.NEON_TEST_DATABASE_URL != '' }}
+    env:
+      NODE_ENV: test
+      DATABASE_ENVIRONMENT: test
+      DATABASE_URL: ${{ secrets.NEON_TEST_DATABASE_URL }}
+      DIRECT_URL: ${{ secrets.NEON_TEST_DIRECT_URL }}
+      TEST_DATABASE_URL: ${{ secrets.NEON_TEST_DATABASE_URL }}
+      TEST_DIRECT_URL: ${{ secrets.NEON_TEST_DIRECT_URL }}
+      ALLOW_REMOTE_TEST_RESET: aurora_test
+      AUTH_SECRET: "ci-only-secret-not-for-production-0123456789"
+      AUTH_TRUST_HOST: "true"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7

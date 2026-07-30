@@ -21,7 +21,8 @@
     "e2e": "playwright test",
     "db:test:reset": "node --experimental-strip-types scripts/reset-test-db.mjs",
     "e2e:db": "node --experimental-strip-types scripts/reset-test-db.mjs",
-    "check": "npm run lint && npm run typecheck && npm run test && npm run build",
+    "cloud:check": "node --experimental-strip-types scripts/check-cloud-env.mjs",
+    "check": "npm run lint && npm run typecheck && npm run test && npm run design:check && npm run build",
     "postinstall": "prisma generate"
   },
   "dependencies": {
