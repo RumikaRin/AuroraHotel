@@ -16,6 +16,7 @@ interface BookingRecord {
   nights: number;
   totalAmount: number;
   status: string;
+  cancelToken?: string;
 }
 
 function MyBookingsContent() {
@@ -73,7 +74,7 @@ function MyBookingsContent() {
   }, []);
 
   const handleCancelBooking = async () => {
-    if (!bookingData) return;
+    if (!bookingData || !bookingData.cancelToken) return;
     if (!confirm("Bạn có chắc chắn muốn huỷ đơn đặt phòng này? Hành động này sẽ giải phóng phòng.")) return;
 
     setIsCancelling(true);
@@ -81,7 +82,10 @@ function MyBookingsContent() {
       const res = await fetch("/api/bookings/lookup", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ bookingId: bookingData.id }),
+        body: JSON.stringify({
+          bookingId: bookingData.id,
+          token: bookingData.cancelToken,
+        }),
       });
 
       const json = await res.json();
