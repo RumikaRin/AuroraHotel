@@ -6,37 +6,38 @@ import { getTranslation, Language } from "../../domain/i18n.ts";
 
 export function Header() {
   const [lang, setLang] = useState<Language>("vi");
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
-  const toggleRef = useRef<HTMLButtonElement>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuBtnRef = useRef<HTMLButtonElement>(null);
 
   const toggleLanguage = () => {
     setLang((prev) => (prev === "vi" ? "en" : "vi"));
   };
 
-  const closeMobile = useCallback(() => {
-    setMobileOpen(false);
-    toggleRef.current?.focus();
+  const closeMenu = useCallback(() => {
+    setMenuOpen(false);
+    document.body.classList.remove("menu-open");
+    menuBtnRef.current?.focus();
   }, []);
 
-  // Close on Escape
+  const openMenu = useCallback(() => {
+    setMenuOpen(true);
+    document.body.classList.add("menu-open");
+  }, []);
+
+  const toggleMenu = useCallback(() => {
+    if (menuOpen) closeMenu();
+    else openMenu();
+  }, [menuOpen, closeMenu, openMenu]);
+
+  // Escape key
   useEffect(() => {
-    if (!mobileOpen) return;
+    if (!menuOpen) return;
     const handler = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeMobile();
+      if (e.key === "Escape") closeMenu();
     };
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
-  }, [mobileOpen, closeMobile]);
-
-  // Trap focus inside mobile menu
-  useEffect(() => {
-    if (!mobileOpen || !menuRef.current) return;
-    const focusable = menuRef.current.querySelectorAll<HTMLElement>(
-      'a, button, [tabindex]:not([tabindex="-1"])',
-    );
-    if (focusable.length > 0) focusable[0].focus();
-  }, [mobileOpen]);
+  }, [menuOpen, closeMenu]);
 
   const navLinks = [
     { href: "/rooms", key: "nav.rooms" },
@@ -46,102 +47,260 @@ export function Header() {
   ] as const;
 
   return (
-    <header className="sticky top-0 z-50 bg-aurora-midnight/95 backdrop-blur-sm text-aurora-ivory border-b border-aurora-gold/15">
-      <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+    <header
+      style={{
+        position: "absolute",
+        zIndex: 20,
+        inset: "0 0 auto",
+        color: "white",
+      }}
+    >
+      <div
+        className="wrap"
+        style={{
+          height: "var(--header-height)",
+          display: "grid",
+          gridTemplateColumns: "1fr auto 1fr",
+          alignItems: "center",
+          gap: 32,
+          borderBottom: "1px solid rgba(255,255,255,.2)",
+        }}
+      >
         {/* Brand */}
-        <Link href="/" className="flex flex-col min-h-[44px] justify-center">
-          <span className="font-display text-2xl font-semibold tracking-wider text-aurora-ivory">
+        <Link
+          href="/"
+          style={{
+            display: "inline-flex",
+            flexDirection: "column",
+            justifySelf: "start",
+          }}
+          aria-label="Aurora Hotel, về trang chủ"
+        >
+          <strong
+            style={{
+              font: '600 28px/1 "Cormorant Garamond", serif',
+              letterSpacing: ".1em",
+            }}
+          >
             AURORA HOTEL
-          </span>
-          <span className="text-[10px] tracking-[0.2em] text-aurora-gold uppercase">
+          </strong>
+          <small
+            style={{
+              marginTop: 6,
+              color: "var(--gold-light)",
+              fontSize: 7,
+              fontWeight: 700,
+              letterSpacing: ".22em",
+              textTransform: "uppercase" as const,
+            }}
+          >
             {getTranslation(lang, "nav.slogan")}
-          </span>
+          </small>
         </Link>
 
-        {/* Desktop Navigation */}
+        {/* Desktop Nav */}
         <nav
-          className="hidden md:flex items-center space-x-8 text-sm font-medium"
-          aria-label="Main navigation"
+          className="desktop-nav"
+          aria-label="Điều hướng chính"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 30,
+            whiteSpace: "nowrap" as const,
+          }}
         >
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="hover:text-aurora-gold transition-colors duration-200 min-h-[44px] inline-flex items-center"
+              style={{
+                position: "relative",
+                paddingBlock: 12,
+                fontSize: 11,
+                fontWeight: 600,
+              }}
             >
               {getTranslation(lang, link.key)}
             </Link>
           ))}
         </nav>
 
-        {/* Language & CTA & Mobile Toggle */}
-        <div className="flex items-center space-x-3">
+        {/* Actions */}
+        <div
+          style={{
+            display: "flex",
+            justifySelf: "end",
+            alignItems: "center",
+            gap: 12,
+          }}
+        >
           <button
             onClick={toggleLanguage}
-            className="px-3 py-2 min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-btn text-xs font-semibold border border-aurora-gold/40 text-aurora-gold hover:bg-aurora-gold/10 transition-all duration-200"
-            aria-label={`Switch language to ${lang === "vi" ? "English" : "Tiếng Việt"}`}
+            className="lang-btn"
+            style={{
+              minWidth: 44,
+              minHeight: 44,
+              border: "1px solid rgba(255,255,255,.34)",
+              borderRadius: "var(--radius-control)",
+              background: "rgba(20,32,27,.28)",
+              color: "white",
+              fontSize: 10,
+              fontWeight: 700,
+            }}
+            aria-label={`Chuyển ngôn ngữ sang ${lang === "vi" ? "tiếng Anh" : "tiếng Việt"}`}
           >
             {lang.toUpperCase()}
           </button>
           <Link
             href="/search"
-            className="hidden sm:inline-flex px-5 py-2.5 rounded-btn text-sm font-semibold bg-aurora-gold text-aurora-midnight hover:bg-aurora-gold/85 transition-all duration-200 shadow-sm min-h-[44px] items-center"
+            className="header-book"
+            style={{
+              display: "inline-flex",
+              minHeight: 46,
+              alignItems: "center",
+              padding: "0 20px",
+              borderRadius: "var(--radius-control)",
+              background: "var(--gold)",
+              color: "var(--night)",
+              fontSize: 11,
+              fontWeight: 700,
+              transition: "transform .2s var(--ease), background .2s var(--ease)",
+            }}
           >
             {getTranslation(lang, "nav.bookNow")}
           </Link>
-
-          {/* Mobile hamburger */}
+          {/* Mobile menu button */}
           <button
-            ref={toggleRef}
-            onClick={() => setMobileOpen((prev) => !prev)}
-            className="md:hidden min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-btn text-aurora-ivory hover:bg-aurora-charcoal/50 transition-colors duration-200"
-            aria-expanded={mobileOpen}
-            aria-controls="mobile-nav"
-            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            ref={menuBtnRef}
+            onClick={toggleMenu}
+            className="menu-button"
+            style={{
+              display: "none",
+              width: 44,
+              height: 44,
+              alignItems: "center",
+              justifyContent: "center",
+              border: "1px solid rgba(255,255,255,.3)",
+              borderRadius: "var(--radius-control)",
+              background: "rgba(20,32,27,.32)",
+              color: "white",
+            }}
+            aria-expanded={menuOpen}
+            aria-controls="mobileMenu"
+            aria-label={menuOpen ? "Đóng menu" : "Mở menu"}
           >
-            {mobileOpen ? (
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            ) : (
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            )}
+            <svg width="18" height="14" viewBox="0 0 18 14" fill="none" stroke="currentColor" strokeWidth="1.5">
+              {menuOpen ? (
+                <>
+                  <line x1="1" y1="1" x2="17" y2="13" />
+                  <line x1="1" y1="13" x2="17" y2="1" />
+                </>
+              ) : (
+                <>
+                  <line x1="0" y1="1" x2="18" y2="1" />
+                  <line x1="0" y1="7" x2="18" y2="7" />
+                  <line x1="0" y1="13" x2="18" y2="13" />
+                </>
+              )}
+            </svg>
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      {mobileOpen && (
-        <div
-          ref={menuRef}
-          id="mobile-nav"
-          role="navigation"
-          aria-label="Mobile navigation"
-          className="md:hidden bg-aurora-midnight border-t border-aurora-gold/15 animate-slide-down"
+      {/* Mobile overlay menu */}
+      <nav
+        id="mobileMenu"
+        aria-label="Điều hướng di động"
+        className={`mobile-overlay ${menuOpen ? "open" : ""}`}
+        style={{
+          position: "fixed",
+          zIndex: 19,
+          inset: 0,
+          display: "flex",
+          visibility: menuOpen ? "visible" : "hidden",
+          flexDirection: "column" as const,
+          justifyContent: "center",
+          gap: 6,
+          transform: menuOpen ? "translateY(0)" : "translateY(-16px)",
+          padding: "100px 28px 34px",
+          background: "rgba(20,32,27,.98)",
+          opacity: menuOpen ? 1 : 0,
+          pointerEvents: menuOpen ? "auto" as const : "none" as const,
+          transition: "opacity .25s var(--ease), transform .25s var(--ease), visibility .25s",
+        }}
+      >
+        {navLinks.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            onClick={closeMenu}
+            style={{
+              padding: "11px 0",
+              color: "white",
+              font: '500 clamp(34px, 8vw, 52px)/1 "Cormorant Garamond", serif',
+            }}
+          >
+            {getTranslation(lang, link.key)}
+          </Link>
+        ))}
+        <Link
+          href="/search"
+          onClick={closeMenu}
+          style={{
+            width: "fit-content",
+            marginTop: 18,
+            padding: "14px 18px",
+            borderRadius: "var(--radius-control)",
+            background: "var(--gold)",
+            color: "var(--night)",
+            font: '700 11px/1 Manrope, sans-serif',
+            letterSpacing: ".1em",
+            textTransform: "uppercase" as const,
+          }}
         >
-          <div className="px-4 py-4 space-y-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={closeMobile}
-                className="block px-4 py-3 min-h-[44px] rounded-btn text-sm font-medium text-aurora-ivory hover:bg-aurora-charcoal/40 hover:text-aurora-gold transition-colors duration-200"
-              >
-                {getTranslation(lang, link.key)}
-              </Link>
-            ))}
-            <Link
-              href="/search"
-              onClick={closeMobile}
-              className="block mt-3 px-4 py-3 min-h-[44px] rounded-btn text-sm font-semibold text-center bg-aurora-gold text-aurora-midnight hover:bg-aurora-gold/85 transition-all duration-200"
-            >
-              {getTranslation(lang, "nav.bookNow")}
-            </Link>
-          </div>
-        </div>
-      )}
+          {getTranslation(lang, "nav.bookNow")}
+        </Link>
+      </nav>
+
+      <style>{`
+        @media (min-width: 901px) {
+          .menu-button { display: none !important; }
+          .mobile-overlay { display: none !important; }
+        }
+        @media (max-width: 900px) {
+          .desktop-nav { display: none !important; }
+          .lang-btn { display: none !important; }
+          .header-book { display: none !important; }
+          .menu-button { display: inline-flex !important; }
+          header .wrap {
+            grid-template-columns: 1fr auto !important;
+          }
+        }
+        @media (max-width: 620px) {
+          header .wrap strong { font-size: 22px !important; }
+          header .wrap small { max-width: 220px; font-size: 6px !important; }
+        }
+        .desktop-nav a { position: relative; }
+        .desktop-nav a::after {
+          content: "";
+          position: absolute;
+          right: 0; bottom: 5px; left: 0;
+          height: 1px;
+          transform: scaleX(0);
+          transform-origin: right;
+          background: var(--gold);
+          transition: transform .25s var(--ease);
+        }
+        .desktop-nav a:hover::after,
+        .desktop-nav a:focus-visible::after {
+          transform: scaleX(1);
+          transform-origin: left;
+        }
+        .header-book:hover {
+          transform: translateY(-2px);
+          background: var(--gold-light) !important;
+        }
+      `}</style>
     </header>
   );
 }
