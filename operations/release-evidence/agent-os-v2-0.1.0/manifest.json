@@ -1,7 +1,7 @@
 {
   "version": "0.1.0",
   "name": "agent-os-v2",
-  "timestamp": "2026-07-31T20:49:25.120Z",
+  "timestamp": "2026-07-31T20:55:59.494Z",
   "implementationFiles": [
     {
       "path": "package.json",
@@ -331,11 +331,11 @@
   "artifacts": [
     {
       "path": "operations/release-evidence/agent-os-v2-0.1.0/README.md",
-      "sha256": "67a534873dbb142461a8f06d3cf4a3e3a4d6fda83654a61b6a321d786ff59282"
+      "sha256": "6f26b43eb980430057d22954ecb129ce46ba759d63ac6702baad9d4f6d4a4d31"
     },
     {
       "path": "operations/release-evidence/agent-os-v2-0.1.0/commands.jsonl",
-      "sha256": "a841b729f512852f680de7069ac5a365901d7b3d6b425bce823ef4b3f3ef900b"
+      "sha256": "2575fc2c464eb347f98f03452987162f8d6f08d9dcfe78bc1137d0c318a2658c"
     }
   ],
   "diagramHashes": [
@@ -520,7 +520,7 @@
       "id": "agent-os-kernel",
       "version": "0.1.0",
       "sourceUrl": "manifest:implementationFiles",
-      "sourceSha256": "d1a2bbbd909e23950133814d62abca70bd1f3f3f6b59e6eafd039a8e850fb1ac",
+      "sourceSha256": "de379544c43848e01ac4f588ea89058c863171982abf53315e27a8b0859cda8a",
       "license": "MIT",
       "trust": "verified"
     }
@@ -641,7 +641,7 @@
     "Live provider callbacks and production infrastructure require staging verification",
     "Live clean-session host conformance remains explicitly unverified by the local static suite"
   ],
-  "rollbackCheckpoint": "3d2a9a0f8a9b0952c46707d4e458880223d5cb4e",
+  "rollbackCheckpoint": "9bc72d96a57deb79cda12db26c0089d62f1557ae",
   "requiredGates": [
     "root-ci",
     "root-audit",

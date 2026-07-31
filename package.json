@@ -22,7 +22,7 @@
     "db:test:reset": "node --experimental-strip-types scripts/reset-test-db.mjs",
     "e2e:db": "node --experimental-strip-types scripts/reset-test-db.mjs",
     "cloud:check": "node --experimental-strip-types scripts/check-cloud-env.mjs",
-    "release:verify": "node scripts/release-manifest.mjs --verify operations/release-evidence/agent-os-v2-0.1.0/manifest.json",
+    "release:verify": "npx tsx D:/ProjectZ/Template/agent-os/src/cli.ts release-manifest operations/release-evidence/agent-os-v2-0.1.0/manifest.json",
     "agent-os": "npx tsx D:/ProjectZ/Template/agent-os/src/cli.ts",
     "verify:golden-next": "tsx D:/ProjectZ/Template/agent-os/scripts/verify-golden-next.ts",
     "check": "npm run lint && npm run typecheck && npm run test && npm run design:check && npm run build",
