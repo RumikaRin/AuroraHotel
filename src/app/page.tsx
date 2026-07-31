@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { HeroCarousel } from "@/components/home/HeroCarousel";
-import { SuiteSpotlight } from "@/components/home/SuiteSpotlight";
+import { OptionCRoomReel } from "@/components/home/OptionCRoomReel";
 
 export const dynamic = "force-dynamic";
 
@@ -15,10 +15,10 @@ export default async function HomePage() {
     slug: string;
     basePrice: number;
     description: string;
-    images: unknown;
     type?: string;
     amenities?: unknown;
   }> = [];
+
   try {
     const queryPromise = db.roomCategory.findMany({
       where: { isActive: true },
@@ -35,36 +35,33 @@ export default async function HomePage() {
     roomCategories = [
       {
         id: "cat-1",
-        name: "Deluxe Ocean View",
-        slug: "deluxe-ocean-view",
-        basePrice: 2500000,
-        description:
-          "Căn phòng hướng biển với đường nét gọn, giường king và khoảng ngồi riêng dành cho hai khách.",
-        images: [],
-        type: "Ocean collection",
-        amenities: ["Ocean View", "King Bed", "Rain Shower"],
-      },
-      {
-        id: "cat-2",
         name: "Premier Garden Suite",
         slug: "premier-garden-suite",
         basePrice: 3250000,
         description:
-          "Không gian riêng tư hướng vườn, ánh sáng ấm và các chi tiết tự nhiên dành cho một nhịp nghỉ chậm hơn.",
-        images: [],
-        type: "Signature suite",
-        amenities: ["Garden View", "Living Room", "Butler Service"],
+          "Không gian riêng tư 48m² hướng vườn, ban công mở đón ánh sáng ấm áp và các đường nét vật liệu tự nhiên dành cho một nhịp nghỉ chậm hơn.",
+        type: "Signature Suite",
+        amenities: ["48 m²", "2 Khách", "King Bed", "Flexible & Saver"],
+      },
+      {
+        id: "cat-2",
+        name: "Deluxe Ocean King",
+        slug: "deluxe-ocean-king",
+        basePrice: 2450000,
+        description:
+          "Căn phòng hướng biển với tầm nhìn thẳng ra bãi biển Đà Nẵng, trang bị giường King lớn và góc thư giãn đọc sách riêng biệt.",
+        type: "Ocean Collection",
+        amenities: ["36 m²", "2 Khách", "King Bed", "2 Rate Plans"],
       },
       {
         id: "cat-3",
-        name: "Family Retreat",
-        slug: "family-retreat",
+        name: "Family Retreat Villa",
+        slug: "family-retreat-villa",
         basePrice: 4100000,
         description:
-          "Không gian rộng hơn cho gia đình, khu sinh hoạt chung và lựa chọn bữa sáng trong rate plan.",
-        images: [],
-        type: "Family collection",
-        amenities: ["King + Twin Beds", "Family Lounge", "Breakfast Plan"],
+          "Bối cảnh nghỉ dưỡng rộng rãi 62m² dành cho gia đình 4 khách, tích hợp khu sinh hoạt chung và trọn gói điểm tâm sáng cao cấp.",
+        type: "Family Collection",
+        amenities: ["62 m²", "4 Khách", "King + Twin", "Breakfast Included"],
       },
     ];
   }
@@ -76,475 +73,363 @@ export default async function HomePage() {
 
       <main id="main-content">
         {/* ═══════════════════════════════════════════
-            HERO — 92dvh, 3-slide carousel
+            SECTION 1: HERO & BOOKING KEY (100VH SNAP)
            ═══════════════════════════════════════════ */}
         <HeroCarousel />
 
         {/* ═══════════════════════════════════════════
-            BOOKING CONSOLE — overlapping hero
+            SECTION 2: CHAPTER I — PROLOGUE (100VH SNAP, WARM SAND #efe9dd)
            ═══════════════════════════════════════════ */}
-        <section
-          id="booking"
-          aria-label="Tìm phòng trống"
-          style={{
-            position: "relative",
-            zIndex: 8,
-            width: "min(1280px, calc(100% - 48px))",
-            margin: "-56px auto 0",
-            borderRadius: "var(--radius-panel)",
-            background: "var(--paper)",
-            boxShadow: "var(--shadow)",
-          }}
-        >
-          <form
-            action="/rooms"
-            method="GET"
-            className="booking-form"
-          >
-            <div className="booking-field">
-              <label htmlFor="checkIn">Nhận phòng</label>
-              <input
-                id="checkIn"
-                name="checkIn"
-                type="date"
-                defaultValue={new Date().toISOString().slice(0, 10)}
-              />
-            </div>
-            <div className="booking-field">
-              <label htmlFor="checkOut">Trả phòng</label>
-              <input
-                id="checkOut"
-                name="checkOut"
-                type="date"
-                defaultValue={new Date(Date.now() + 86400000 * 3).toISOString().slice(0, 10)}
-              />
-            </div>
-            <div className="booking-field">
-              <label htmlFor="guests">Khách và phòng</label>
-              <select id="guests" name="guests" defaultValue="2 khách, 1 phòng">
-                <option>2 khách, 1 phòng</option>
-                <option>1 khách, 1 phòng</option>
-                <option>3 khách, 1 phòng</option>
-                <option>4 khách, 2 phòng</option>
-              </select>
-            </div>
-            <button className="booking-submit" type="submit">Kiểm tra phòng</button>
-          </form>
-          <ul className="booking-trust">
-            <li><strong>Giá trực tiếp minh bạch.</strong> Không có phí ẩn khi chọn rate plan.</li>
-            <li><strong>Điều kiện rõ ràng.</strong> Chính sách hủy hiển thị trước khi thanh toán.</li>
-            <li><strong>Thanh toán an toàn.</strong> Mỗi giao dịch chỉ được xử lý một lần.</li>
-          </ul>
-        </section>
-
-        {/* ═══════════════════════════════════════════
-            PROLOGUE — Chapter I narrative
-           ═══════════════════════════════════════════ */}
-        <section style={{ padding: "150px 0 124px" }}>
-          <div className="wrap" style={{ display: "grid", gridTemplateColumns: ".68fr 1.32fr", gap: "9vw", alignItems: "start" }}>
-            <div style={{ display: "flex", alignItems: "baseline", gap: 18, color: "#8f734b" }}>
-              <strong style={{ font: '500 42px/1 "Cormorant Garamond", serif' }}>I</strong>
-              <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: ".15em", textTransform: "uppercase" as const }}>
-                Một nhịp nghỉ riêng
-              </span>
-            </div>
-            <div>
-              <h2 style={{
-                maxWidth: 940,
-                marginBottom: 48,
-                color: "var(--night)",
-                font: '500 clamp(54px, 6.4vw, 92px)/.9 "Cormorant Garamond", serif',
-                letterSpacing: "-.04em",
-                textWrap: "balance" as const,
-              }}>
-                Kỳ nghỉ được kể bằng <em style={{ color: "var(--clay)", fontWeight: 400 }}>ánh sáng, vật liệu và thời gian.</em>
+        <section className="snap-section prologue-section" aria-label="Prologue - Câu chuyện Aurora">
+          <div className="wrap prologue-grid">
+            <div className="prologue-copy">
+              <div className="chapter-mark">
+                <strong>I</strong>
+                <span>Prologue</span>
+              </div>
+              <h2>
+                A stay told through<br />
+                <em>light, texture & time.</em>
               </h2>
-              <div className="prologue-foot" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "end" }}>
-                <p style={{ maxWidth: 520, margin: 0, color: "var(--muted)", fontSize: 13, lineHeight: 1.85 }}>
-                  Aurora kết nối sự yên tĩnh của một nơi trú ẩn với tiện nghi đặt phòng hiện đại. Mỗi điểm chạm đều phục vụ cho cảm giác thư thái và tin cậy.
-                </p>
-                <div>
-                  <Link href="/experiences" className="text-link">Khám phá Aurora <span aria-hidden="true">↗</span></Link>
-                </div>
+
+              <div className="prologue-pullquote">
+                &ldquo;Nơi ánh nắng tự nhiên chạm vào bề mặt đá nhám và mảng gỗ tự nhiên, tạo nên nhịp nghỉ chậm rãi dành riêng cho bạn.&rdquo;
               </div>
+
+              <p>
+                Aurora là trải nghiệm nghỉ dưỡng mang tinh thần Việt Nam đương đại — tiết chế, tự nhiên và được chăm chút để bạn tìm lại cảm giác thư thái thực sự bên bờ biển Đà Nẵng.
+              </p>
+              <Link href="/experiences" className="text-link">
+                Khám phá câu chuyện Aurora <span aria-hidden="true">↗</span>
+              </Link>
             </div>
-          </div>
-        </section>
 
-        {/* ═══════════════════════════════════════════
-            ATMOSPHERE — Full-width image + copy
-           ═══════════════════════════════════════════ */}
-        <section style={{ paddingBottom: 142 }}>
-          <div className="atmosphere-grid">
-            <div className="atmosphere-photo">
-              <Image
-                src="/images/hero-hotel.png"
-                alt="Không gian nội thất Aurora với vật liệu tự nhiên"
-                fill
-                style={{ objectFit: "cover" }}
-                sizes="60vw"
-              />
-            </div>
-            <div className="atmosphere-copy">
-              <h2>Không gian để ngày trôi chậm lại.</h2>
-              <p>Khoảng mở, bề mặt tự nhiên và ánh sáng dịu tạo nên sự sang trọng không cần phô trương. Mọi hành động đặt phòng vẫn luôn rõ ràng và dễ tiếp cận.</p>
-              <div>
-                <Link href="/experiences" className="text-link">Xem trải nghiệm <span aria-hidden="true">↗</span></Link>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ═══════════════════════════════════════════
-            DARK STORY — Suite Spotlight + Experiences + CTA
-           ═══════════════════════════════════════════ */}
-        <div style={{ background: "var(--night)", color: "white" }}>
-          {/* Suite Section */}
-          <section id="suites" style={{ padding: "132px 0" }}>
-            <div className="wrap">
-              <div className="suite-heading">
-                <h2>Chọn không gian dành cho bạn.</h2>
-                <div className="suite-heading-copy">
-                  <div className="eyebrow">Suite Spotlight</div>
-                  <p>Một hạng phòng được đặt vào tâm điểm. Chuyển lựa chọn ngay bên dưới để xem ảnh, sức chứa, quyền lợi và giá khởi điểm.</p>
-                </div>
-              </div>
-
-              <SuiteSpotlight rooms={roomCategories} />
-            </div>
-          </section>
-
-          {/* Experiences Mosaic */}
-          <section id="experiences" style={{ paddingBottom: 144 }}>
-            <div className="wrap">
-              <div style={{ maxWidth: 780, marginBottom: 50 }}>
-                <h2 style={{
-                  margin: "0 0 20px",
-                  font: '500 clamp(54px, 6.2vw, 92px)/.88 "Cormorant Garamond", serif',
-                  letterSpacing: "-.04em",
-                  textWrap: "balance" as const,
-                }}>
-                  Một kỳ nghỉ không chỉ nằm trong căn phòng.
-                </h2>
-                <p style={{ maxWidth: 510, color: "#aab5ae", fontSize: 12, lineHeight: 1.8 }}>
-                  Ẩm thực, wellness và những khoảng lặng bên biển được kết nối tự nhiên vào hành trình lưu trú.
-                </p>
-              </div>
-
-              <div className="experience-mosaic">
-                <Link href="/experiences" className="experience-item">
-                  <Image
-                    src="/images/hero-hotel.png"
-                    alt="Không gian wellness yên tĩnh tại Aurora"
-                    fill
-                    style={{ objectFit: "cover", transition: "transform .8s var(--ease)" }}
-                    sizes="60vw"
-                  />
-                  <div className="experience-copy">
-                    <h3>Wellness theo nhịp riêng</h3>
-                    <p>Liệu trình thư giãn có thể thêm trực tiếp vào booking sau khi chọn phòng.</p>
-                  </div>
-                </Link>
-                <Link href="/experiences" className="experience-item">
-                  <Image
-                    src="/images/hero-hotel.png"
-                    alt="Trải nghiệm ẩm thực theo mùa tại Aurora"
-                    fill
-                    style={{ objectFit: "cover", transition: "transform .8s var(--ease)" }}
-                    sizes="40vw"
-                  />
-                  <div className="experience-copy">
-                    <h3>Ẩm thực theo mùa</h3>
-                    <p>Thực đơn dựa trên nguyên liệu địa phương và những buổi tối thư thả.</p>
-                  </div>
-                </Link>
-                <Link href="/experiences" className="experience-item">
-                  <Image
-                    src="/images/hero-hotel.png"
-                    alt="Kiến trúc và ánh sáng trong không gian Aurora"
-                    fill
-                    style={{ objectFit: "cover", transition: "transform .8s var(--ease)" }}
-                    sizes="40vw"
-                  />
-                  <div className="experience-copy">
-                    <h3>Kiến trúc của ánh sáng</h3>
-                    <p>Không gian mở để thiên nhiên hiện diện trong từng thời điểm của ngày.</p>
-                  </div>
-                </Link>
-              </div>
-            </div>
-          </section>
-
-          {/* Final Invitation */}
-          <section style={{ padding: "142px 0", borderTop: "1px solid rgba(255,255,255,.12)" }}>
-            <div className="wrap final-grid">
-              <div>
-                <h2 style={{
-                  margin: "0 0 28px",
-                  font: '500 clamp(58px, 6.7vw, 98px)/.86 "Cormorant Garamond", serif',
-                  letterSpacing: "-.045em",
-                  textWrap: "balance" as const,
-                }}>
-                  Kỳ nghỉ tiếp theo bắt đầu từ đây.
-                </h2>
-                <p style={{ maxWidth: 450, color: "#aab5ae", fontSize: 12, lineHeight: 1.8 }}>
-                  Chọn ngày lưu trú, so sánh rate plan và hoàn tất booking trong ba bước rõ ràng.
-                </p>
-                <div style={{ display: "flex", flexWrap: "wrap" as const, gap: 12, marginTop: 34 }}>
-                  <Link
-                    href="/rooms"
-                    style={{
-                      display: "inline-flex", minHeight: 50, alignItems: "center", padding: "0 22px",
-                      borderRadius: "var(--radius-control)", background: "var(--gold)", color: "var(--night)",
-                      fontSize: 10, fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase" as const,
-                      transition: "transform .2s var(--ease), background .2s var(--ease)",
-                    }}
-                  >
-                    Kiểm tra phòng
-                  </Link>
-                  <Link
-                    href="/rooms"
-                    style={{
-                      display: "inline-flex", minHeight: 50, alignItems: "center", padding: "0 22px",
-                      borderRadius: "var(--radius-control)", border: "1px solid rgba(255,255,255,.28)",
-                      color: "white", fontSize: 10, fontWeight: 700, letterSpacing: ".1em",
-                      textTransform: "uppercase" as const,
-                      transition: "transform .2s var(--ease), background .2s var(--ease)",
-                    }}
-                  >
-                    Xem Suites
-                  </Link>
-                </div>
-              </div>
-              <div className="final-photo">
+            <div className="photo-mosaic">
+              <div className="mosaic-main">
                 <Image
-                  src="/images/hero-hotel.png"
-                  alt="Phòng nghỉ Aurora với tầm nhìn thư thái"
+                  src="/images/prologue-architecture.png"
+                  alt="Kiến trúc resort Aurora"
                   fill
                   style={{ objectFit: "cover" }}
-                  sizes="50vw"
+                  sizes="40vw"
                 />
               </div>
+              <div className="mosaic-sub">
+                <Image
+                  src="/images/prologue-detail.png"
+                  alt="Góc thư giãn spa & resort"
+                  fill
+                  style={{ objectFit: "cover" }}
+                  sizes="30vw"
+                />
+                <div className="mosaic-caption">
+                  <span>Natural materials</span>
+                  <span>Da Nang, Vietnam</span>
+                </div>
+              </div>
             </div>
-          </section>
-        </div>
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════
+            SECTION 3: CHAPTER III — THE STAY COLLECTION (OPTION C FULL BLEED 100VH SNAP)
+           ═══════════════════════════════════════════ */}
+        <OptionCRoomReel rooms={roomCategories} />
+
+        {/* ═══════════════════════════════════════════
+            SECTION 4: CHAPTER IV — THE BOOKING LEDGER (100VH SNAP, DEEP FOREST NIGHT #1c2a24)
+           ═══════════════════════════════════════════ */}
+        <section className="snap-section ledger-section" id="ledger" aria-label="Minh bạch giá và rate plan">
+          <div className="wrap ledger-grid">
+            <div className="ledger-copy">
+              <div className="chapter-mark">
+                <strong>IV</strong>
+                <span>The Booking Ledger</span>
+              </div>
+              <h2>
+                Luxury also means<br />
+                <em>clarity.</em>
+              </h2>
+              <p>
+                Minh bạch trong từng giao dịch. Khách hàng nhìn thấy toàn bộ quyền lợi, điều kiện hủy và tổng tiền phải trả trước khi xác nhận đặt phòng. Không giấu phí, không tạo áp lực giả.
+              </p>
+              <Link href="/rooms" className="text-link">
+                Kiểm tra phòng trống <span aria-hidden="true">↗</span>
+              </Link>
+            </div>
+
+            <div className="hairline-ledger-table">
+              <div className="ledger-table-header">
+                <h3>Premier Garden Suite</h3>
+                <span>3 nights · 2 guests</span>
+              </div>
+
+              <div className="ledger-table-row">
+                <div className="rate-desc">
+                  <strong>Flexible Stay Plan</strong>
+                  <span>Miễn phí hủy phòng trước 48h · Bao gồm điểm tâm sáng mỗi ngày</span>
+                </div>
+                <div className="rate-cost">
+                  <strong>9.750.000 ₫</strong>
+                  <Link href="/rooms/premier-garden-suite" className="btn-table-rate">
+                    Chọn Rate
+                  </Link>
+                </div>
+              </div>
+
+              <div className="ledger-table-row">
+                <div className="rate-desc">
+                  <strong>Advance Saver Plan</strong>
+                  <span>Gói ưu đãi tiết kiệm khi đặt sớm · Không hoàn hủy</span>
+                </div>
+                <div className="rate-cost">
+                  <strong>8.925.000 ₫</strong>
+                  <Link href="/rooms/premier-garden-suite" className="btn-table-rate">
+                    Chọn Rate
+                  </Link>
+                </div>
+              </div>
+
+              <div className="ledger-footer-note">
+                <span>Đã bao gồm thuế và phí dịch vụ</span>
+                <Link href="/rooms" style={{ color: "white", textDecoration: "underline" }}>
+                  Xem chi tiết cấu trúc giá →
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════
+            SECTION 5: CHAPTER V — EPILOGUE (100VH SNAP, WARM IVORY #f7f4ed)
+           ═══════════════════════════════════════════ */}
+        <section className="snap-section epilogue-section" aria-label="Khởi đầu kỳ nghỉ">
+          <div className="wrap epilogue-grid">
+            <div className="epilogue-copy">
+              <div className="chapter-mark">
+                <strong>V</strong>
+                <span>Epilogue</span>
+              </div>
+              <h2>
+                Your next chapter<br />
+                <em>starts here.</em>
+              </h2>
+              <p>
+                Chọn ngày lưu trú, so sánh các gói rate plan phù hợp và hoàn tất quá trình giữ phòng trong ba bước minh bạch.
+              </p>
+              <div className="epilogue-links">
+                <Link href="/rooms" className="text-link">
+                  Bắt đầu đặt phòng <span aria-hidden="true">↗</span>
+                </Link>
+                <Link href="/rooms" className="text-link" style={{ borderColor: "#8a8f8b", color: "#69726c" }}>
+                  Xem tất cả Suites <span aria-hidden="true">↗</span>
+                </Link>
+              </div>
+            </div>
+
+            <div className="epilogue-photo-wrapper">
+              <Image
+                src="/images/epilogue-resort.png"
+                alt="Kỳ nghỉ tại Aurora"
+                fill
+                style={{ objectFit: "cover" }}
+                sizes="40vw"
+              />
+              <div className="epilogue-badge">
+                <span>16.0544° N, 108.2022° E · Da Nang Beach</span>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
 
       <Footer />
 
       <style>{`
-        .booking-form {
-          display: grid;
-          grid-template-columns: 1fr 1fr .85fr .8fr;
-          align-items: end;
-          padding: 14px;
-        }
-        .booking-field {
-          padding: 10px 20px;
-          border-right: 1px solid var(--line);
-        }
-        .booking-field label {
-          display: block;
-          margin-bottom: 8px;
-          color: var(--leaf);
-          font-size: 9px;
-          font-weight: 700;
-          letter-spacing: .12em;
-          text-transform: uppercase;
-        }
-        .booking-field input,
-        .booking-field select {
-          width: 100%;
-          min-height: 42px;
-          padding: 0;
-          border: 0;
-          border-radius: 0;
-          background: transparent;
-          color: var(--night);
-          font-size: 13px;
-          font-weight: 600;
-        }
-        .booking-field input:focus,
-        .booking-field select:focus {
-          outline: 0;
-          box-shadow: 0 2px 0 var(--gold);
-        }
-        .booking-submit {
-          min-height: 58px;
-          border: 0;
-          border-radius: var(--radius-control);
-          background: var(--night);
-          color: white;
-          font-size: 10px;
-          font-weight: 700;
-          letter-spacing: .11em;
-          text-transform: uppercase;
-          transition: transform .2s var(--ease), background .2s var(--ease);
-        }
-        .booking-submit:hover {
-          transform: translateY(-2px);
-          background: var(--leaf);
-        }
-        .booking-trust {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 24px;
-          margin: 0;
-          padding: 14px 34px 18px;
+        /* Prologue styles */
+        .prologue-section {
+          background: var(--sand);
           border-top: 1px solid var(--line);
-          color: var(--muted);
-          font-size: 10px;
-          list-style: none;
+          border-bottom: 1px solid var(--line);
         }
-        .booking-trust strong {
-          color: var(--leaf);
-          font-weight: 700;
-        }
-
-        .atmosphere-grid {
+        .prologue-grid {
           display: grid;
-          grid-template-columns: minmax(0, 1.3fr) minmax(340px, .7fr);
-          min-height: 720px;
-        }
-        .atmosphere-photo {
-          position: relative;
-          overflow: hidden;
-        }
-        .atmosphere-copy {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          padding: clamp(48px, 7vw, 112px);
-          background: #e5ddcf;
-        }
-        .atmosphere-copy h2 {
-          margin: 0 0 28px;
-          color: var(--night);
-          font: 500 clamp(48px, 5vw, 76px)/.92 "Cormorant Garamond", serif;
-          letter-spacing: -.035em;
-          text-wrap: balance;
-        }
-        .atmosphere-copy p {
-          max-width: 430px;
-          color: #626c66;
-          font-size: 13px;
-          line-height: 1.86;
-        }
-
-        .suite-heading {
-          display: grid;
-          grid-template-columns: .72fr 1.28fr;
-          gap: 8vw;
-          align-items: end;
-          margin-bottom: 58px;
-        }
-        .suite-heading h2 {
-          margin: 0;
-          font: 500 clamp(58px, 7vw, 102px)/.84 "Cormorant Garamond", serif;
-          letter-spacing: -.045em;
-          text-wrap: balance;
-        }
-        .suite-heading-copy {
-          max-width: 490px;
-          justify-self: end;
-          padding-bottom: 6px;
-        }
-        .suite-heading-copy p {
-          margin: 14px 0 0;
-          color: #aab5ae;
-          font-size: 12px;
-          line-height: 1.8;
-        }
-
-        .experience-mosaic {
-          display: grid;
-          grid-template-columns: 1.18fr .82fr;
-          grid-template-rows: 330px 330px;
-          gap: 18px;
-        }
-        .experience-item {
-          position: relative;
-          overflow: hidden;
-          border-radius: var(--radius-panel);
-          color: white;
-        }
-        .experience-item:first-child {
-          grid-row: 1 / 3;
-        }
-        .experience-item::after {
-          content: "";
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(0deg, rgba(7,13,10,.78), transparent 58%);
-          z-index: 1;
-        }
-        .experience-item:hover img {
-          transform: scale(1.035) !important;
-        }
-        .experience-copy {
-          position: absolute;
-          z-index: 2;
-          right: 0; bottom: 0; left: 0;
-          padding: 28px;
-        }
-        .experience-copy h3 {
-          margin: 0 0 8px;
-          font: 500 clamp(28px, 3vw, 44px)/.95 "Cormorant Garamond", serif;
-        }
-        .experience-copy p {
-          max-width: 460px;
-          margin: 0;
-          color: rgba(255,255,255,.75);
-          font-size: 10px;
-          line-height: 1.6;
-        }
-
-        .final-grid {
-          display: grid;
-          grid-template-columns: 1fr .92fr;
-          gap: 9vw;
+          grid-template-columns: 0.85fr 1.15fr;
+          gap: 72px;
           align-items: center;
         }
-        .final-photo {
-          position: relative;
-          min-height: 590px;
-          overflow: hidden;
-          border-radius: var(--radius-panel);
+        .chapter-mark {
+          display: flex; gap: 16px; align-items: baseline; color: var(--clay); margin-bottom: 24px;
+        }
+        .chapter-mark strong { font: 500 44px/1 "Cormorant Garamond", serif; }
+        .chapter-mark span { font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+
+        .prologue-copy h2 {
+          font: 400 clamp(44px, 5.5vw, 76px)/0.92 "Cormorant Garamond", serif;
+          letter-spacing: -0.035em;
+          color: var(--night);
+          margin-bottom: 28px;
+        }
+        .prologue-copy h2 em { color: var(--clay); font-style: italic; }
+
+        .prologue-pullquote {
+          font: 400 20px/1.5 "Cormorant Garamond", serif;
+          font-style: italic;
+          color: var(--night);
+          padding-left: 20px;
+          border-left: 2px solid var(--gold);
+          margin-bottom: 28px;
+        }
+        .prologue-copy p {
+          color: var(--muted);
+          font-size: 13px;
+          line-height: 1.85;
+          margin-bottom: 32px;
+          max-width: 480px;
         }
 
-        /* ---- RESPONSIVE ---- */
-        @media (max-width: 900px) {
-          .booking-form { grid-template-columns: 1fr 1fr; }
-          .booking-field:nth-child(2) { border-right: 0; }
-          .booking-field:nth-child(3) { border-top: 1px solid var(--line); }
-          .booking-submit { min-height: 54px; margin-top: 12px; }
-          .booking-trust { grid-template-columns: 1fr; gap: 7px; }
-          .atmosphere-grid,
-          .suite-heading,
-          .final-grid { grid-template-columns: 1fr; }
-          .atmosphere-photo { min-height: 560px; }
-          .atmosphere-copy { min-height: 480px; }
-          .suite-heading { gap: 28px; }
-          .suite-heading-copy { justify-self: start; }
-          .experience-mosaic {
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 520px 330px;
-          }
-          .experience-item:first-child { grid-column: 1/3; grid-row: auto; }
-          .final-grid { gap: 58px; }
-          .final-photo { min-height: 540px; }
-          .prologue-foot { grid-template-columns: 1fr !important; gap: 30px !important; }
+        .photo-mosaic {
+          position: relative;
+          display: grid;
+          grid-template-columns: 1fr 0.8fr;
+          gap: 20px;
+          align-items: center;
         }
-        @media (max-width: 620px) {
-          .booking-form { grid-template-columns: 1fr; padding: 12px; }
-          .booking-field { padding: 11px 10px; border-right: 0; border-bottom: 1px solid var(--line); border-top: 0; }
-          .atmosphere-photo { min-height: 430px; }
-          .atmosphere-copy { min-height: auto; padding: 64px 22px 72px; }
-          .atmosphere-copy h2 { font-size: 48px; }
-          .experience-mosaic { grid-template-columns: 1fr; grid-template-rows: repeat(3, 420px); }
-          .experience-item:first-child { grid-column: auto; }
-          .final-photo { min-height: 420px; }
-          .suite-heading h2 { font-size: 53px; }
+        .mosaic-main {
+          position: relative;
+          height: 520px;
+          overflow: hidden;
+          border-radius: 4px;
+        }
+        .mosaic-sub {
+          position: relative;
+          height: 400px;
+          overflow: hidden;
+          border-radius: 4px;
+          margin-top: 60px;
+          border: 1px solid var(--line);
+        }
+        .mosaic-caption {
+          position: absolute;
+          bottom: 16px; left: 16px; right: 16px;
+          background: rgba(255,253,248,0.92);
+          backdrop-filter: blur(8px);
+          padding: 12px 18px;
+          font-size: 10px;
+          color: var(--night);
+          border-radius: 4px;
+          display: flex; justify-content: space-between;
+        }
+
+        /* Ledger styles */
+        .ledger-section {
+          background: var(--night-soft);
+          color: white;
+        }
+        .ledger-grid {
+          display: grid;
+          grid-template-columns: 0.75fr 1.25fr;
+          gap: 80px;
+          align-items: center;
+        }
+        .ledger-copy .chapter-mark { color: var(--gold-light); }
+        .ledger-copy h2 {
+          font: 500 clamp(48px, 6vw, 84px)/0.88 "Cormorant Garamond", serif;
+          color: white;
+          margin: 18px 0 28px;
+          letter-spacing: -0.04em;
+        }
+        .ledger-copy h2 em { color: var(--gold); font-style: italic; }
+        .ledger-copy p {
+          color: #a6b2ab;
+          font-size: 13px;
+          line-height: 1.85;
+          margin-bottom: 32px;
+        }
+        .ledger-copy .text-link {
+          color: white; border-color: rgba(255,255,255,0.4);
+        }
+        .ledger-copy .text-link:hover { color: var(--gold); border-color: var(--gold); }
+
+        .hairline-ledger-table {
+          border-top: 1px solid var(--line-dark);
+          border-bottom: 1px solid var(--line-dark);
+        }
+        .ledger-table-header {
+          display: flex; justify-content: space-between; align-items: flex-end;
+          padding-block: 20px 16px; border-bottom: 1px solid var(--line-dark);
+        }
+        .ledger-table-header h3 { font: 500 32px/1 "Cormorant Garamond", serif; margin: 0; color: white; }
+        .ledger-table-header span { font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #8ea096; }
+
+        .ledger-table-row {
+          display: grid; grid-template-columns: 1fr auto; gap: 32px;
+          padding-block: 28px; border-bottom: 1px solid var(--line-dark);
+        }
+        .rate-desc strong { display: block; color: white; font-size: 14px; font-weight: 600; }
+        .rate-desc span { display: block; margin-top: 6px; color: #a6b2ab; font-size: 11px; line-height: 1.6; }
+        .rate-cost { text-align: right; }
+        .rate-cost strong { display: block; color: var(--gold); font-size: 18px; font-weight: 600; }
+        .btn-table-rate {
+          display: inline-block;
+          margin-top: 8px; padding: 10px 18px; border: 0; border-radius: 6px;
+          background: var(--gold); color: var(--night); font-size: 9px; font-weight: 700;
+          letter-spacing: 0.12em; text-transform: uppercase; transition: background 0.2s, transform 0.2s;
+        }
+        .btn-table-rate:hover { background: var(--ivory); transform: translateY(-1px); }
+
+        .ledger-footer-note {
+          display: flex; justify-content: space-between; padding-top: 18px;
+          font-size: 10px; color: #8ea096;
+        }
+
+        /* Epilogue styles */
+        .epilogue-section {
+          background: var(--ivory);
+          border-top: 1px solid var(--line);
+        }
+        .epilogue-grid {
+          display: grid;
+          grid-template-columns: 1fr 0.9fr;
+          gap: 80px;
+          align-items: center;
+        }
+        .epilogue-copy h2 {
+          font: 500 clamp(54px, 6.5vw, 96px)/0.86 "Cormorant Garamond", serif;
+          color: var(--night);
+          letter-spacing: -0.04em;
+          margin: 18px 0 28px;
+        }
+        .epilogue-copy h2 em { color: var(--clay); font-style: italic; }
+        .epilogue-copy p {
+          max-width: 440px; color: var(--muted); font-size: 13px; line-height: 1.85; margin-bottom: 36px;
+        }
+        .epilogue-links {
+          display: flex; gap: 32px; align-items: center;
+        }
+
+        .epilogue-photo-wrapper {
+          position: relative;
+          height: 520px;
+          overflow: hidden;
+          border-radius: 4px;
+        }
+        .epilogue-badge {
+          position: absolute;
+          bottom: 24px; left: 24px;
+          background: rgba(20,32,27,0.85);
+          backdrop-filter: blur(8px);
+          color: white;
+          padding: 14px 22px;
+          border-radius: 4px;
+          font-size: 10px;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+        }
+
+        @media (max-width: 980px) {
+          .snap-section { min-height: auto; height: auto; padding-block: 80px; }
+          .prologue-grid, .photo-mosaic, .ledger-grid, .epilogue-grid { grid-template-columns: 1fr; }
         }
       `}</style>
     </div>

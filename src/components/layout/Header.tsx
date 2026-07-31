@@ -1,13 +1,27 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { getTranslation, Language } from "../../domain/i18n.ts";
 
 export function Header() {
+  const pathname = usePathname();
   const [lang, setLang] = useState<Language>("vi");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const menuBtnRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const isHomeTop = pathname === "/" && !scrolled;
 
   const toggleLanguage = () => {
     setLang((prev) => (prev === "vi" ? "en" : "vi"));
@@ -49,10 +63,14 @@ export function Header() {
   return (
     <header
       style={{
-        position: "absolute",
-        zIndex: 20,
-        inset: "0 0 auto",
-        color: "white",
+        position: isHomeTop ? "absolute" : "sticky",
+        top: 0,
+        zIndex: 50,
+        inset: isHomeTop ? "0 0 auto" : undefined,
+        backgroundColor: isHomeTop ? "transparent" : "#17211D",
+        boxShadow: isHomeTop ? "none" : "0 4px 20px rgba(0,0,0,0.35)",
+        color: "#F7F4ED",
+        transition: "background-color 0.3s ease, box-shadow 0.3s ease",
       }}
     >
       <div
