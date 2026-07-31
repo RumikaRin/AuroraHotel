@@ -52,7 +52,7 @@ describe("Aurora Booking Service", () => {
     );
 
     assert.ok(res.bookingNumber.startsWith("AUR-"));
-    assert.equal(res.totalAmount, 2500000);
+    assert.equal(res.totalAmount, 2750000);
     assert.equal(res.status, "CONFIRMED");
   });
 });

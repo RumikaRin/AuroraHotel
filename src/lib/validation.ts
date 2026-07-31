@@ -14,6 +14,9 @@ export const bookingCheckoutSchema = z.object({
     .enum(["CREDIT_CARD", "BANK_TRANSFER", "CASH", "MOCK_PAYMENT"])
     .optional()
     .default("MOCK_PAYMENT"),
+  couponCode: z.string().optional(),
+  services: z.array(z.object({ serviceId: z.string(), quantity: z.number().optional() })).optional(),
+  rooms: z.array(z.object({ roomCategoryId: z.string(), ratePlanId: z.string().optional(), numGuests: z.number().optional() })).optional(),
 });
 
 export type BookingCheckoutInput = z.infer<typeof bookingCheckoutSchema>;

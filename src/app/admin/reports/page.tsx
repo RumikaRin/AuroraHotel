@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import { requireAdmin } from "@/server/auth/guards";
+import { db } from "@/lib/db.ts";
 import Link from "next/link";
 
 export const metadata = { title: "Báo cáo Doanh thu & Công suất - Aurora Hotel" };
@@ -7,6 +8,19 @@ export const dynamic = "force-dynamic";
 
 export default async function AdminReportsPage() {
   await requireAdmin(await auth());
+
+  // Aggregate metrics from real database state
+  const totalBookingsCount = await db.booking.count();
+  const confirmedBookings = await db.booking.findMany({
+    where: { status: { in: ["CONFIRMED", "CHECKED_IN", "CHECKED_OUT"] } },
+    select: { totalAmount: true, nights: true },
+  });
+
+  const totalRevenue = confirmedBookings.reduce((sum, b) => sum + b.totalAmount, 0);
+  const totalNightsBooked = confirmedBookings.reduce((sum, b) => sum + b.nights, 0);
+
+  const totalAvailableRooms = await db.room.count();
+  const adr = totalNightsBooked > 0 ? Math.round(totalRevenue / totalNightsBooked) : 0;
 
   return (
     <div className="space-y-6 p-6 max-w-7xl mx-auto font-sans">
@@ -20,18 +34,26 @@ export default async function AdminReportsPage() {
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div className="bg-[#FFFDF8] p-6 rounded-2xl border border-[#DADDD8] space-y-2">
-          <span className="text-xs text-[#242826]/70">Tỷ lệ Lấp Đầy Trung Bình</span>
-          <div className="text-3xl font-mono font-bold text-[#17211D]">78.5%</div>
+          <span className="text-xs text-[#242826]/70">Tổng Số Đơn Đặt</span>
+          <div className="text-3xl font-mono font-bold text-[#17211D]">{totalBookingsCount}</div>
         </div>
         <div className="bg-[#FFFDF8] p-6 rounded-2xl border border-[#DADDD8] space-y-2">
-          <span className="text-xs text-[#242826]/70">Doanh Thu Trung Bình / Phòng (RevPAR)</span>
-          <div className="text-3xl font-mono font-bold text-[#355B4B]">3.295.000 VND</div>
+          <span className="text-xs text-[#242826]/70">Tổng Doanh Thu Thực Tế</span>
+          <div className="text-3xl font-mono font-bold text-[#355B4B]">
+            {totalRevenue.toLocaleString("vi-VN")} VND
+          </div>
         </div>
         <div className="bg-[#FFFDF8] p-6 rounded-2xl border border-[#DADDD8] space-y-2">
-          <span className="text-[#242826]/70 text-xs">Tổng Doanh Thu Tháng 07/2026</span>
-          <div className="text-3xl font-mono font-bold text-[#C5A46D]">284.500.000 VND</div>
+          <span className="text-[#242826]/70 text-xs">Giá Trung Bình / Đêm (ADR)</span>
+          <div className="text-3xl font-mono font-bold text-[#C5A46D]">
+            {adr.toLocaleString("vi-VN")} VND
+          </div>
+        </div>
+        <div className="bg-[#FFFDF8] p-6 rounded-2xl border border-[#DADDD8] space-y-2">
+          <span className="text-[#242826]/70 text-xs">Tổng Số Phòng Khách Sạn</span>
+          <div className="text-3xl font-mono font-bold text-[#17211D]">{totalAvailableRooms}</div>
         </div>
       </div>
     </div>
