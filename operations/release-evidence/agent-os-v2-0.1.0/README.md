@@ -1,6 +1,6 @@
 # Agent OS v2 release evidence
 
-- Source revision: `9bc72d96a57deb79cda12db26c0089d62f1557ae`
+- Source revision: `cf72f353ffd56db3779c1dd9fe4e734d10a1bd06`
 - Node: `v24.16.0`
 - npm: `11.13.0`
 - OS: `Windows_NT`
@@ -9,18 +9,18 @@
 
 | Gate | Duration (ms) | Status |
 |---|---:|---|
-| root-ci | 28897 | passed |
+| root-ci | 27550 | passed |
 | root-audit | 1020 | passed |
-| root-lint | 5225 | passed |
-| root-typecheck | 2474 | passed |
-| root-test | 2947 | passed |
-| root-build | 18317 | passed |
-| root-e2e | 83113 | passed |
-| catalog-drift | 1353 | passed |
-| diagram-validation | 34249 | passed |
-| doctor | 1907 | passed |
-| converge | 1897 | passed |
-| golden-next | 110453 | passed |
+| root-lint | 5310 | passed |
+| root-typecheck | 2317 | passed |
+| root-test | 2866 | passed |
+| root-build | 18142 | passed |
+| root-e2e | 82902 | passed |
+| catalog-drift | 1447 | passed |
+| diagram-validation | 34875 | passed |
+| doctor | 2095 | passed |
+| converge | 1969 | passed |
+| golden-next | 111850 | passed |
 | starter-ci | 0 | passed |
 | starter-audit | 0 | passed |
 | starter-lint | 0 | passed |
