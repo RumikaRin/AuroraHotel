@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Header } from "../../../components/layout/Header.tsx";
-import { Footer } from "../../../components/layout/Footer.tsx";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 
 const INITIAL_ROOMS = [
   { id: "rm-101", number: "101", category: "Deluxe Ocean King", status: "CLEAN", floor: 1 },

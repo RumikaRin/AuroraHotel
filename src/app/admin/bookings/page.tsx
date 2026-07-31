@@ -4,6 +4,7 @@ import Link from "next/link";
 import { db } from "@/lib/db";
 
 export const metadata = { title: "Quản lý Đặt phòng - Aurora Hotel" };
+export const dynamic = "force-dynamic";
 
 export default async function AdminBookingsPage() {
   await requireAdmin(await auth());

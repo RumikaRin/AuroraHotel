@@ -22,8 +22,11 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="vi">
-      <body className="min-h-screen bg-aurora-ivory text-aurora-midnight antialiased font-interface">
+    <html lang="vi" suppressHydrationWarning>
+      <body
+        className="min-h-screen bg-aurora-ivory text-aurora-midnight antialiased font-interface"
+        suppressHydrationWarning
+      >
         {children}
       </body>
     </html>

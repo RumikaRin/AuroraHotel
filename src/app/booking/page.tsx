@@ -2,8 +2,8 @@
 
 import React, { useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Header } from "../../components/layout/Header.tsx";
-import { Footer } from "../../components/layout/Footer.tsx";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 
 function BookingContent() {
   const searchParams = useSearchParams();

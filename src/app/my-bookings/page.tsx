@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { Header } from "../../components/layout/Header.tsx";
-import { Footer } from "../../components/layout/Footer.tsx";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 
 interface BookingRecord {
   id: string;

@@ -2,18 +2,35 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const slides = [
-  { src: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2200&q=88", alt: "Không gian nghỉ dưỡng Aurora mở ra giữa cây xanh và ánh sáng tự nhiên" },
-  { src: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=2200&q=88", alt: "Hồ bơi và kiến trúc đương đại của Aurora Hotel" },
-  { src: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=2200&q=88", alt: "Nội thất nghỉ dưỡng với vật liệu ấm và ánh sáng dịu" },
+  { src: "/images/aurora/hero-01.jpg", alt: "Không gian nghỉ dưỡng Aurora mở ra giữa cây xanh và ánh sáng tự nhiên" },
+  { src: "/images/aurora/hero-02.jpg", alt: "Hồ bơi và kiến trúc đương đại của Aurora Hotel" },
+  { src: "/images/aurora/hero-03.jpg", alt: "Nội thất nghỉ dưỡng với vật liệu ấm và ánh sáng dịu" },
 ];
 
 export function HeroCarousel() {
+  const router = useRouter();
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const reduceMotion = useRef(false);
+
+  /* Booking form state */
+  const [checkIn, setCheckIn] = useState("");
+  const [checkOut, setCheckOut] = useState("");
+  const [guests, setGuests] = useState("2");
+  const [isSearching, setIsSearching] = useState(false);
+  const [notice, setNotice] = useState<string | null>(null);
+  const [noticeType, setNoticeType] = useState<"success" | "error">("success");
+
+  useEffect(() => {
+    const todayStr = new Date().toISOString().slice(0, 10);
+    const defaultCheckOut = new Date(Date.now() + 86400000 * 3).toISOString().slice(0, 10);
+    setCheckIn(todayStr);
+    setCheckOut(defaultCheckOut);
+  }, []);
 
   useEffect(() => {
     reduceMotion.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -36,9 +53,41 @@ export function HeroCarousel() {
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, [startTimer]);
 
+  /* Booking search handler */
+  const handleBookingSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSearching(true);
+    setNotice(null);
+    try {
+      const res = await fetch(
+        `/api/availability?checkIn=${checkIn}&checkOut=${checkOut}&guests=${guests}`
+      );
+      if (res.ok) {
+        const data = await res.json();
+        const count = data.quotes ? data.quotes.length : 0;
+        if (count > 0) {
+          setNotice(`${count} hạng phòng khả dụng`);
+          setNoticeType("success");
+          setTimeout(() => {
+            router.push(`/rooms?checkIn=${checkIn}&checkOut=${checkOut}&guests=${guests}`);
+          }, 600);
+        } else {
+          setNotice("Không có phòng trống trong khoảng ngày đã chọn.");
+          setNoticeType("error");
+        }
+      } else {
+        router.push(`/rooms?checkIn=${checkIn}&checkOut=${checkOut}&guests=${guests}`);
+      }
+    } catch {
+      router.push(`/rooms?checkIn=${checkIn}&checkOut=${checkOut}&guests=${guests}`);
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
   return (
     <section className="snap-section hero" aria-label="Giới thiệu Aurora Hotel" id="top">
-      {/* Slide images */}
+      {/* Slide images — horizontal slide track */}
       <div
         className="hero-track"
         style={{ transform: `translate3d(-${index * 33.3333}%, 0, 0)` }}
@@ -117,14 +166,17 @@ export function HeroCarousel() {
       <div className="booking-key" id="booking">
         <div className="key-number">01</div>
         <div className="booking-body">
-          <form action="/rooms" method="GET" className="booking-row">
+          <form onSubmit={handleBookingSearch} className="booking-row">
             <div className="field">
               <small>Nhận phòng</small>
               <input
                 type="date"
                 name="checkIn"
-                defaultValue={new Date().toISOString().slice(0, 10)}
+                value={checkIn}
+                onChange={(e) => setCheckIn(e.target.value)}
+                min={checkIn || undefined}
                 aria-label="Ngày nhận phòng"
+                required
               />
             </div>
             <div className="field">
@@ -132,21 +184,41 @@ export function HeroCarousel() {
               <input
                 type="date"
                 name="checkOut"
-                defaultValue={new Date(Date.now() + 86400000 * 3).toISOString().slice(0, 10)}
+                value={checkOut}
+                onChange={(e) => setCheckOut(e.target.value)}
+                min={checkIn}
                 aria-label="Ngày trả phòng"
+                required
               />
             </div>
             <div className="field">
-              <small>Khách và phòng</small>
-              <select name="guests" defaultValue="2 khách, 1 phòng" aria-label="Số khách và phòng">
-                <option>2 khách · 1 phòng</option>
-                <option>1 khách · 1 phòng</option>
-                <option>3 khách · 1 phòng</option>
-                <option>4 khách · 2 phòng</option>
+              <small>Số khách</small>
+              <select
+                name="guests"
+                value={guests}
+                onChange={(e) => setGuests(e.target.value)}
+                aria-label="Số khách"
+              >
+                <option value="1">1 khách · 1 phòng</option>
+                <option value="2">2 khách · 1 phòng</option>
+                <option value="3">3 khách · 1 phòng</option>
+                <option value="4">4 khách · 2 phòng</option>
               </select>
             </div>
-            <button type="submit">Kiểm tra phòng</button>
+            <button type="submit" disabled={isSearching}>
+              {isSearching ? "Đang kiểm tra…" : "Kiểm tra phòng"}
+            </button>
           </form>
+          {notice && (
+            <div
+              className="booking-notice"
+              style={{
+                color: noticeType === "success" ? "var(--leaf)" : "#B84A4A",
+              }}
+            >
+              {notice}
+            </div>
+          )}
           <div className="booking-note">
             <span><b>✓ Giá trực tiếp minh bạch</b> · Tổng thuế phí hiển thị rõ ràng</span>
             <span><b>✓ Điều kiện hủy rõ ràng</b> trước khi chọn rate plan</span>
@@ -362,6 +434,15 @@ export function HeroCarousel() {
           gap: 24px;
         }
         .booking-note span b { color: var(--leaf); font-weight: 600; }
+        .booking-notice {
+          padding: 6px 18px 0;
+          font-size: 11px;
+          font-weight: 600;
+        }
+        .booking-row button:disabled {
+          opacity: 0.6;
+          cursor: wait;
+        }
 
         @media (max-width: 980px) {
           .hero-layout { grid-template-columns: 1fr; }

@@ -18,9 +18,10 @@ interface OptionCRoomReelProps {
 }
 
 const reelImages = [
-  "https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=2200&q=88",
-  "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=2200&q=88",
-  "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=2200&q=88",
+  "/images/aurora/deluxe-king.jpg",
+  "/images/aurora/executive-suite.jpg",
+  "/images/aurora/family-villa.jpg",
+  "/images/aurora/presidential-villa.jpg",
 ];
 
 function formatVND(amount: number) {

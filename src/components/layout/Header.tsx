@@ -63,14 +63,16 @@ export function Header() {
   return (
     <header
       style={{
-        position: isHomeTop ? "absolute" : "sticky",
+        position: "fixed",
         top: 0,
+        left: 0,
+        right: 0,
         zIndex: 50,
-        inset: isHomeTop ? "0 0 auto" : undefined,
-        backgroundColor: isHomeTop ? "transparent" : "#17211D",
+        backgroundColor: isHomeTop ? "transparent" : "rgba(23, 33, 29, 0.95)",
+        backdropFilter: isHomeTop ? "none" : "blur(12px)",
         boxShadow: isHomeTop ? "none" : "0 4px 20px rgba(0,0,0,0.35)",
         color: "#F7F4ED",
-        transition: "background-color 0.3s ease, box-shadow 0.3s ease",
+        transition: "background-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease",
       }}
     >
       <div

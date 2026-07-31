@@ -103,8 +103,8 @@ async function main() {
       bedConfiguration: "1 King Bed",
       amenities: ["King Bed", "City View", "Free Wi-Fi", "Bathtub", "Smart TV", "Mini Bar", "Espresso Machine"],
       images: [
-        "https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=1200&q=80",
-        "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80",
+        "/images/aurora/deluxe-king.jpg",
+        "/images/aurora/hero-01.jpg",
       ],
     },
     {
@@ -118,8 +118,8 @@ async function main() {
       bedConfiguration: "2 Single Beds",
       amenities: ["2 Twin Beds", "City View", "Free Wi-Fi", "Rain Shower", "Work Desk", "Mini Bar"],
       images: [
-        "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80",
-        "https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=1200&q=80",
+        "/images/aurora/deluxe-king.jpg",
+        "/images/aurora/hero-02.jpg",
       ],
     },
     {
@@ -133,8 +133,8 @@ async function main() {
       bedConfiguration: "1 Super King Bed",
       amenities: ["Super King Bed", "Living Room", "Private Balcony", "Executive Lounge", "Jacuzzi", "Ocean View"],
       images: [
-        "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=1200&q=80",
-        "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=1200&q=80",
+        "/images/aurora/executive-suite.jpg",
+        "/images/aurora/hero-03.jpg",
       ],
     },
     {
@@ -148,8 +148,8 @@ async function main() {
       bedConfiguration: "1 Emperor King Bed + 1 King Bed",
       amenities: ["Emperor Bed", "2 Bedrooms", "Butler Service", "Private Dining", "Sauna & Spa", "Panoramic Ocean View"],
       images: [
-        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
-        "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80",
+        "/images/aurora/presidential-villa.jpg",
+        "/images/aurora/family-villa.jpg",
       ],
     },
   ];

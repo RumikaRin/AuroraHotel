@@ -3,6 +3,7 @@ import { requireAdmin } from "@/server/auth/guards";
 import Link from "next/link";
 
 export const metadata = { title: "Báo cáo Doanh thu & Công suất - Aurora Hotel" };
+export const dynamic = "force-dynamic";
 
 export default async function AdminReportsPage() {
   await requireAdmin(await auth());

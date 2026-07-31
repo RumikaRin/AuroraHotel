@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Header } from "../../../components/layout/Header.tsx";
-import { Footer } from "../../../components/layout/Footer.tsx";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 
 interface ReceptionBooking {
   id: string;

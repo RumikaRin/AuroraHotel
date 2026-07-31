@@ -5,7 +5,6 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { HeroCarousel } from "@/components/home/HeroCarousel";
 import { OptionCRoomReel } from "@/components/home/OptionCRoomReel";
-import { BookingConsole } from "@/components/public/BookingConsole";
 import { DirectBookingBenefits } from "@/components/public/DirectBookingBenefits";
 import { SanctuaryExperiences } from "@/components/public/SanctuaryExperiences";
 
@@ -84,15 +83,14 @@ export default async function HomePage() {
         <HeroCarousel />
 
         {/* ═══════════════════════════════════════════
-            SECTION 2: FLOATING BOOKING CONSOLE & DIRECT BENEFITS
+            SECTION 2: DIRECT BOOKING BENEFITS
            ═══════════════════════════════════════════ */}
-        <BookingConsole />
         <DirectBookingBenefits />
 
         {/* ═══════════════════════════════════════════
             SECTION 3: CHAPTER I — PROLOGUE (100VH SNAP, WARM SAND #efe9dd)
            ═══════════════════════════════════════════ */}
-        <section className="snap-section prologue-section" aria-label="Prologue - Câu chuyện Aurora">
+        <section className="prologue-section" aria-label="Prologue - Câu chuyện Aurora">
           <div className="wrap prologue-grid">
             <div className="prologue-copy">
               <div className="chapter-mark">
@@ -156,7 +154,7 @@ export default async function HomePage() {
         {/* ═══════════════════════════════════════════
             SECTION 6: CHAPTER IV — THE BOOKING LEDGER (DEEP FOREST NIGHT #1c2a24)
            ═══════════════════════════════════════════ */}
-        <section className="snap-section ledger-section" id="ledger" aria-label="Minh bạch giá và rate plan">
+        <section className="ledger-section" id="ledger" aria-label="Minh bạch giá và rate plan">
           <div className="wrap ledger-grid">
             <div className="ledger-copy">
               <div className="chapter-mark">
@@ -220,7 +218,7 @@ export default async function HomePage() {
         {/* ═══════════════════════════════════════════
             SECTION 7: CHAPTER V — EPILOGUE (WARM IVORY #f7f4ed)
            ═══════════════════════════════════════════ */}
-        <section className="snap-section epilogue-section" aria-label="Khởi đầu kỳ nghỉ">
+        <section className="epilogue-section" aria-label="Khởi đầu kỳ nghỉ">
           <div className="wrap epilogue-grid">
             <div className="epilogue-copy">
               <div className="chapter-mark">
@@ -265,9 +263,10 @@ export default async function HomePage() {
       <style>{`
         /* Prologue styles */
         .prologue-section {
-          background: var(--sand);
+          background: var(--ivory);
           border-top: 1px solid var(--line);
           border-bottom: 1px solid var(--line);
+          padding-block: 120px;
         }
         .prologue-grid {
           display: grid;
@@ -342,6 +341,7 @@ export default async function HomePage() {
         .ledger-section {
           background: var(--night-soft);
           color: white;
+          padding-block: 120px;
         }
         .ledger-grid {
           display: grid;
@@ -404,6 +404,7 @@ export default async function HomePage() {
         .epilogue-section {
           background: var(--ivory);
           border-top: 1px solid var(--line);
+          padding-block: 120px;
         }
         .epilogue-grid {
           display: grid;
@@ -445,7 +446,7 @@ export default async function HomePage() {
         }
 
         @media (max-width: 980px) {
-          .snap-section { min-height: auto; height: auto; padding-block: 80px; }
+          .prologue-section, .ledger-section, .epilogue-section { padding-block: 80px; }
           .prologue-grid, .photo-mosaic, .ledger-grid, .epilogue-grid { grid-template-columns: 1fr; }
         }
       `}</style>

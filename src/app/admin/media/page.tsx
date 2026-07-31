@@ -3,6 +3,7 @@ import { requireAdmin } from "@/server/auth/guards";
 import Link from "next/link";
 
 export const metadata = { title: "Quản lý Media Blob - Aurora Hotel" };
+export const dynamic = "force-dynamic";
 
 export default async function AdminMediaPage() {
   await requireAdmin(await auth());
