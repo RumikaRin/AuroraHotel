@@ -5,6 +5,14 @@ import { fileURLToPath } from "node:url";
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1"],
   outputFileTracingRoot: dirname(fileURLToPath(import.meta.url)),
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+    ],
+  },
   eslint: {
     // "npm run check" runs eslint explicitly before the build step,
     // so the build itself does not need to repeat it.

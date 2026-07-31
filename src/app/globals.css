@@ -2,34 +2,154 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600;700&display=swap');
 
 :root {
-  --color-aurora-midnight: #17211D;
-  --color-warm-ivory: #F7F4ED;
-  --color-paper: #FFFDF8;
-  --color-champagne-gold: #C5A46D;
-  --color-forest-green: #355B4B;
-  --color-terracotta: #B97857;
-  --color-mist-gray: #DADDD8;
-  --color-charcoal: #242826;
-  --color-white: #FFFFFF;
-  --color-success: #2E7D5A;
-  --color-warning: #C48138;
-  --color-error: #B84A4A;
-  --color-info: #3F6D8C;
+  --night: #14201b;
+  --night-soft: #1b2a24;
+  --ivory: #f7f4ed;
+  --paper: #fffdf8;
+  --gold: #c5a46d;
+  --gold-light: #dfc99d;
+  --leaf: #355b4b;
+  --clay: #b97857;
+  --ink: #242826;
+  --muted: #6f7772;
+  --line: #dcd7cb;
+  --focus: #f1c97f;
+  --shadow: 0 28px 72px rgba(20, 32, 27, .16);
+  --container: 1380px;
+  --header-height: 82px;
+  --radius-panel: 18px;
+  --radius-control: 10px;
+  --ease: cubic-bezier(.16, 1, .3, 1);
 
   --font-display: 'Cormorant Garamond', serif;
   --font-interface: 'Manrope', sans-serif;
 }
 
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+  height: 100vh;
+  overflow-y: scroll;
+}
+
 body {
-  background-color: var(--color-warm-ivory);
-  color: var(--color-aurora-midnight);
+  margin: 0;
+  overflow-x: hidden;
+  background: var(--ivory);
+  color: var(--ink);
   font-family: var(--font-interface);
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, .font-serif-display {
-  font-family: var(--font-display);
+body.menu-open { overflow: hidden; }
+
+.snap-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
+
+
+h1, h2, h3, p { margin-top: 0; }
+button, input, select { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; }
+img { display: block; max-width: 100%; }
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 4px;
+}
+
+.wrap {
+  width: min(var(--container), calc(100% - 64px));
+  margin-inline: auto;
+}
+
+.display { font-family: var(--font-display); }
+
+.eyebrow {
+  color: var(--gold);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .19em;
+  text-transform: uppercase;
+}
+
+.text-link {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 18px;
+  border-bottom: 1px solid currentColor;
+  color: var(--night);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  transition: gap .25s var(--ease), color .25s var(--ease);
+}
+.text-link:hover { gap: 24px; color: var(--leaf); }
+
+/* ---- Skip Link ---- */
+.skip-link {
+  position: fixed;
+  z-index: 100;
+  top: 12px;
+  left: 12px;
+  transform: translateY(-160%);
+  padding: 12px 16px;
+  border-radius: var(--radius-control);
+  background: var(--paper);
+  color: var(--night);
+  font-size: 13px;
+  font-weight: 700;
+  transition: transform .2s var(--ease);
+}
+.skip-link:focus { transform: translateY(0); }
+
+/* ---- Animations ---- */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in-up { animation: fadeInUp 0.7s ease-out both; }
+.animate-fade-in    { animation: fadeIn 0.5s ease-out both; }
+.animate-slide-down { animation: slideDown 0.3s ease-out both; }
+
+/* ---- Reduced Motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* ---- Scrollbar ---- */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--ivory); }
+::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ink); }
