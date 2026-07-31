@@ -93,6 +93,9 @@ export function Header() {
             display: "inline-flex",
             flexDirection: "column",
             justifySelf: "start",
+            minHeight: 44,
+            minWidth: 44,
+            justifyContent: "center",
           }}
           aria-label="Aurora Hotel, về trang chủ"
         >
@@ -135,6 +138,11 @@ export function Header() {
               href={link.href}
               style={{
                 position: "relative",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                minHeight: 44,
+                minWidth: 44,
                 paddingBlock: 12,
                 fontSize: 11,
                 fontWeight: 600,

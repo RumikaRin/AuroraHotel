@@ -397,7 +397,7 @@ export function HeroCarousel() {
         }
         .field small {
           display: block;
-          color: #888f8a;
+          color: #3b423d;
           font-size: 9px;
           text-transform: uppercase;
           letter-spacing: .12em;
@@ -428,7 +428,7 @@ export function HeroCarousel() {
         .booking-row button:hover { background: var(--leaf); }
         .booking-note {
           padding: 6px 18px 2px;
-          color: #77807a;
+          color: #353b37;
           font-size: 9px;
           display: flex;
           gap: 24px;

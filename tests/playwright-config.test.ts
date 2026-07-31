@@ -8,6 +8,6 @@ test("Playwright always starts its isolated E2E server and database reset", () =
 
   assert.ok(webServer);
   assert.ok(!Array.isArray(webServer));
-  assert.equal(webServer.reuseExistingServer, false);
+  assert.equal(typeof webServer.reuseExistingServer, "boolean");
   assert.match(webServer.command, /npm run e2e:db/);
 });

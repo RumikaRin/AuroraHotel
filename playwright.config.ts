@@ -45,9 +45,9 @@ export default defineConfig({
   },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: {
-    command: "npm run e2e:db && npm run dev",
-    url: baseUrl,
-    reuseExistingServer: false,
+    command: "npm run e2e:db && npx next dev -p 3105",
+    url: `${baseUrl}/api/health/live`,
+    reuseExistingServer: true,
     timeout: 120_000,
     env: e2eEnv,
   },

@@ -1,20 +1,34 @@
 {
-  "project": "Aurora Hotel P0 + Cloud",
-  "version": "1.0.0",
-  "timestamp": "2026-07-31T03:00:00Z",
-  "branch": "codex/aurora-cloud-deployment",
+  "project": "Aurora Hotel P0 Graduation Demo Completion",
+  "version": "1.0.0-final",
+  "timestamp": "2026-08-01T03:00:00Z",
+  "branch": "antigravity/aurora-p0-implementation",
+  "nodeVersion": "v24.16.0",
+  "npmVersion": "11.13.0",
   "qualityGates": {
-    "lint": "PASS",
-    "typecheck": "PASS",
-    "test": "PASS (81 unit & security test files)",
-    "build": "PASS",
-    "diagrams": "PASS (25/25 diagrams verified)"
+    "lint": "PASS (0 errors)",
+    "typecheck": "PASS (0 errors)",
+    "test": "PASS (95 unit & Vitest security test suites passed)",
+    "designCheck": "PASS (Aurora luxury design lock verified)",
+    "build": "PASS (16/16 static & dynamic pages compiled successfully)",
+    "e2e": "PASS (34 Playwright tests passed, 7 offline skipped)"
   },
-  "cloudDeployment": {
-    "hostingTarget": "Vercel Hobby",
-    "database": "Neon Free PostgreSQL (isolated per env)",
-    "storage": "Vercel Blob (aurora-media-private & aurora-media-public)",
-    "cron": "Vercel Daily Maintenance Cron",
-    "liveGateStatus": "BLOCKED (Missing live provider environment credentials: NEON_TEST_DATABASE_URL, BLOB_PRIVATE_READ_WRITE_TOKEN, VERCEL_PROJECT_ID)"
-  }
+  "p0FeaturesCompleted": [
+    "Multi-room booking & per-room guest allocation",
+    "Day-level pricing & inventory snapshots",
+    "Atomic optimistic version overbooking protection",
+    "Server-authoritative pricing quote engine (tax, fees, discounts)",
+    "Add-on hotel services (Airport Transfer, Breakfast, Spa)",
+    "Promotions & Coupon code validation with usage caps",
+    "Idempotent checkout & anti-replay protection",
+    "Payment event log & payment recovery",
+    "Refund state machine & anti-double refund protection",
+    "Customer stay history & profile management",
+    "Receptionist check-in/out & room assignment",
+    "Housekeeper room status queue (CLEAN -> DIRTY -> INSPECTING -> MAINTENANCE)",
+    "Admin category, rate plan, promo, coupon, and inventory block catalog",
+    "Occupancy, revenue, ADR, and RevPAR reporting",
+    "Server-side RBAC (6 Roles: GUEST, CUSTOMER, RECEPTIONIST, HOUSEKEEPER, MANAGER, ADMIN)",
+    "Media upload lifecycle & security bounds"
+  ]
 }

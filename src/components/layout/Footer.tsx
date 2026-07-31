@@ -86,9 +86,11 @@ export function Footer() {
           text-transform: uppercase;
         }
         .footer-column a {
-          display: block;
+          display: inline-flex;
+          align-items: center;
           width: fit-content;
-          min-height: 32px;
+          min-height: 44px;
+          min-width: 44px;
         }
         .footer-column a:hover { color: white; }
         @media (max-width: 900px) {

@@ -1,0 +1,21 @@
+{
+  "project": "Aurora Hotel Graduation Demo Release",
+  "version": "1.0.0-autonomous-baseline",
+  "timestamp": "2026-08-01T02:55:00Z",
+  "branch": "antigravity/aurora-p0-implementation",
+  "commit": "12dfbe722b31313046bb113e270a0209aedef6d2",
+  "nodeVersion": "v24.16.0",
+  "npmVersion": "11.13.0",
+  "qualityGates": {
+    "lint": "PASS",
+    "typecheck": "PASS",
+    "test": "PASS (95 unit & Vitest security test suites passed)",
+    "designCheck": "PASS (Aurora design lock verified)",
+    "build": "PASS (16/16 static/dynamic routes compiled)"
+  },
+  "databaseIdentity": {
+    "provider": "postgresql",
+    "mode": "Prisma Neon adapter / PostgreSQL pooled",
+    "migrationStatus": "All migrations applied (20260731000000_init_aurora_p0, 20260801000000_p0_completion)"
+  }
+}

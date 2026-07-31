@@ -207,7 +207,7 @@ export default async function HomePage() {
 
               <div className="ledger-footer-note">
                 <span>Đã bao gồm thuế và phí dịch vụ</span>
-                <Link href="/rooms" style={{ color: "white", textDecoration: "underline" }}>
+                <Link href="/rooms" style={{ color: "white", textDecoration: "underline", minHeight: 44, minWidth: 44, display: "inline-flex", alignItems: "center" }}>
                   Xem chi tiết cấu trúc giá →
                 </Link>
               </div>
@@ -350,6 +350,7 @@ export default async function HomePage() {
           align-items: center;
         }
         .ledger-copy .chapter-mark { color: var(--gold-light); }
+        .ledger-copy .chapter-mark span { color: #f1c97f; font-weight: 600; }
         .ledger-copy h2 {
           font: 500 clamp(48px, 6vw, 84px)/0.88 "Cormorant Garamond", serif;
           color: white;
@@ -388,7 +389,11 @@ export default async function HomePage() {
         .rate-cost { text-align: right; }
         .rate-cost strong { display: block; color: var(--gold); font-size: 18px; font-weight: 600; }
         .btn-table-rate {
-          display: inline-block;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 44px;
+          min-width: 44px;
           margin-top: 8px; padding: 10px 18px; border: 0; border-radius: 6px;
           background: var(--gold); color: var(--night); font-size: 9px; font-weight: 700;
           letter-spacing: 0.12em; text-transform: uppercase; transition: background 0.2s, transform 0.2s;
