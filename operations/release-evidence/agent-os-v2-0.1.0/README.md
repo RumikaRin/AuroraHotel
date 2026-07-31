@@ -1,6 +1,6 @@
 # Agent OS v2 release evidence
 
-- Source revision: `24c4a7b8331b4a7d30c7b4b6f3e41df60bda9998`
+- Source revision: `3d2a9a0f8a9b0952c46707d4e458880223d5cb4e`
 - Node: `v24.16.0`
 - npm: `11.13.0`
 - OS: `Windows_NT`
@@ -9,18 +9,18 @@
 
 | Gate | Duration (ms) | Status |
 |---|---:|---|
-| root-ci | 38695 | passed |
-| root-audit | 1630 | passed |
-| root-lint | 6733 | passed |
-| root-typecheck | 2402 | passed |
-| root-test | 3237 | passed |
-| root-build | 20375 | passed |
-| root-e2e | 29835 | passed |
-| catalog-drift | 705 | passed |
-| diagram-validation | 36625 | passed |
-| doctor | 1034 | passed |
-| converge | 982 | passed |
-| golden-next | 131986 | passed |
+| root-ci | 26190 | passed |
+| root-audit | 1044 | passed |
+| root-lint | 5066 | passed |
+| root-typecheck | 2530 | passed |
+| root-test | 2996 | passed |
+| root-build | 17750 | passed |
+| root-e2e | 77227 | passed |
+| catalog-drift | 1393 | passed |
+| diagram-validation | 34011 | passed |
+| doctor | 2076 | passed |
+| converge | 1927 | passed |
+| golden-next | 110321 | passed |
 | starter-ci | 0 | passed |
 | starter-audit | 0 | passed |
 | starter-lint | 0 | passed |

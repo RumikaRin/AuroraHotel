@@ -1,5 +1,5 @@
 # SHA256 checksums for detached release artifacts
-d20ca3fedfa2a9dcaaa3d7d90dcac2e504dd1cc82b9d8131cf6f654a54e4bbd2  operations/release-evidence/agent-os-v2-0.1.0/README.md
-66d90700fee46310bca0e4c645e28149939decc8f1b2feb0ee99420af3b38904  operations/release-evidence/agent-os-v2-0.1.0/commands.jsonl
-8b9f95e33c12692eebe55083e71d6218dbef73ece61ab7f5c756f6ab4680b8d4  operations/release-evidence/agent-os-v2-0.1.0/manifest.json
-67dc18e293b9ac5b2d0371dfbb2db493a5dc5acab06765d9053fa8a191746276  operations/release-evidence/agent-os-v2-0.1.0/final-attestation.json
+67a534873dbb142461a8f06d3cf4a3e3a4d6fda83654a61b6a321d786ff59282  operations/release-evidence/agent-os-v2-0.1.0/README.md
+a841b729f512852f680de7069ac5a365901d7b3d6b425bce823ef4b3f3ef900b  operations/release-evidence/agent-os-v2-0.1.0/commands.jsonl
+983919341a34dc1b0ae827e2bc6ab2222f0ff8d602bbc763a2a4af484a8f2493  operations/release-evidence/agent-os-v2-0.1.0/manifest.json
+93099adfc483e5c4c1fe0f33e3979ffff1b471e97412e6ee77bb9700fadd5c5a  operations/release-evidence/agent-os-v2-0.1.0/final-attestation.json
