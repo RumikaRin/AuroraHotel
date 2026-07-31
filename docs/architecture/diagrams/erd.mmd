@@ -1,4 +1,4 @@
-%% source-sha256: f9c759efe61be0b6f78e63d64440e32c1e355bcb979e4cf9265638082a0b4815
+%% source-sha256: da0fc5a2d7a106d59f6127badb2b20f8fa94d4c493c3bc68e0e93a3763f6fd6e
 erDiagram
     Role ||--o{ User : "has"
     User ||--o{ Booking : "creates"
@@ -7,7 +7,18 @@ erDiagram
     RoomCategory ||--o{ Room : "contains"
     RoomCategory ||--o{ Booking : "reserved_in"
     RatePlan ||--o{ Booking : "applies_to"
+    Booking ||--o{ BookingRoom : "includes"
+    BookingRoom ||--o{ BookingNight : "nightly_rate"
+    BookingRoom ||--o{ BookingGuest : "guest_info"
+    Booking ||--o{ BookingService : "add_on"
+    Service ||--o{ BookingService : "service_type"
+    Promotion ||--o{ Coupon : "discount"
+    Coupon ||--o{ CouponUsage : "redeemed"
+    Booking ||--o{ CouponUsage : "applied"
+    RoomCategory ||--o{ InventoryBlock : "blocked"
     Booking ||--o{ RoomAssignment : "assigned"
     Room ||--o{ RoomAssignment : "assigned_to"
     Booking ||--o{ Payment : "settled_by"
+    Payment ||--o{ PaymentEvent : "webhook_event"
+    Payment ||--o{ Refund : "refund_transaction"
     Booking ||--o{ AuditLog : "audited"

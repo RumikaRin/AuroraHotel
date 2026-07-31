@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
   "agentOsVersion": "0.1.0",
-  "manifestSha256": "6aaec48f3d533334a15ebfb601d4aa4b7d517b1b1f573885d17449840c21076f",
+  "manifestSha256": "39ffccc1914d2870ef149c062bcd7da1ee7941dc4b2ed82291e651515870f731",
   "files": {
     ".agent-os/commands.json": {
       "owner": "profile:next-monolith",
       "mode": "managed",
-      "sha256": "b9bdb7a6e0bf2ce5d161ac739b28c224ae5d3df932e38f618318a2a08dc59d0a"
+      "sha256": "7fccd4b8579865df319d2ba5cfa1ff48599ab871354e3f637f4061d7c643b38e"
     },
     ".agent-os/state/tasks.json": {
       "owner": "core",
@@ -21,72 +21,72 @@
     ".agent/PLANS.md": {
       "owner": "core",
       "mode": "managed",
-      "sha256": "1fbce57f5e09820194d70f6bc070811fcecd5e094e0f723124719634b9805485"
+      "sha256": "1a9c7a7cec3b788115396cb762905abbc7d494ab7298a417c9d2eca2911d95c5"
     },
     ".agents/AGENTS.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "56c8c0436a788ec182759de549d4b8b73a7b371d4d203083cb54e93f4e34faab"
+      "sha256": "ad765b3e8ffdfbfef2304ece1b0a28b993012a0202410c0b21d3a543e735ec9a"
     },
     ".agents/skills/agent-handoff/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "250c77adc497a22c0b71bf23281aa0c9562fe3dd105ce6ecfec36a5f3571b071"
+      "sha256": "a3895b6cd342f4ceaea35b46a6a8cf09399e7fec9acc08e07181df440b6166d4"
     },
     ".agents/skills/architecture-design/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "ce82896615d90d7c002b825dbbe3ab5a7cfef6d8a47374e030aa592bf576cdf5"
+      "sha256": "97c3915d9483092908f1aeed6d8048d92a73394817b5b116051f157ac1908765"
     },
     ".agents/skills/backend-api/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "f77f3131613c70821ced59a2616a2a6d375558357f33be94b72084b1ba82ff8a"
+      "sha256": "769ccccc19856abd826e48ed6f1a8ba368159f23f6c6a2ca1c160f2197375ba3"
     },
     ".agents/skills/database-design/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "232d74844128a1a21cf907c9d1f83b18b004b558e5bb1b715fe5c4f9a765d149"
+      "sha256": "41afc56bcad2e176154a8787f16763a8a6596718c3fae2da21da05b929775fb2"
     },
     ".agents/skills/diagram-maintenance/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "b5105dae6957a62ebb22cc924dbf4d4071bb0e82152d6fd1753e3256c1e8fece"
+      "sha256": "23b7c9b8f1afcab6e323e4946a1f505d57e31c4d03229b85d4474ef5fe5ce65d"
     },
     ".agents/skills/product-analysis/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "5ed7b41b8b80ed1fb76abb79f87892023b789ee95a0f60bf906d953de9397987"
+      "sha256": "45c0d9487dc8bd53506b2d21b94b4ffb09279e026df0e181ba46f478ac18a317"
     },
     ".agents/skills/project-discovery/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "655766dfe07ee9607e09ad6a28c61e89b27e67767c7d0e6d3523b04550e1daa0"
+      "sha256": "a52a35ddec05a626110ff85c91625ddf8d5f759c23a6d40726636add4ecdf69b"
     },
     ".agents/skills/project-onboarding/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "92ea8095cf0188a4c4685594d1cecb4f888704ea511a84ffb8da5f4dc379ace0"
+      "sha256": "20b8774c12a6e325773b1ad1563a1c3ee550e9b95f16b1cffadd2428abc401f7"
     },
     ".agents/skills/release-deployment/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "9eed8e0d1bfde22d7eb1c879156a2c2f6b74c7cdb6355a3b7cfacd1a50d50104"
+      "sha256": "4081a6a673bac91c4ff140d1fa6e6fcb5ac508b0974c95f2d41fc4bb8821483b"
     },
     ".agents/skills/security-review/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "772bea3f26442279407a8fed3f17b52c40073e183089494afc356d57633223e4"
+      "sha256": "e506d79215e3f3eb0e1e529aed2550456fcf43fb3e06c83577dd32516488a9f2"
     },
     ".agents/skills/testing-quality/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "8f9ed2aed5e5caadf46e3b266752a73605ded28a58da22cf1da5803a0d839e18"
+      "sha256": "2633bcebf5910fe6464cd0dcda9cb36d321412a746575adfc0ef69c08db9af38"
     },
     ".agents/skills/ui-ux-implementation/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "0bc16e0b2198922d58c76c08a29674b738acedf051bff3286392cc3d8131b7e7"
+      "sha256": "cdedc29326c7d3d4ea3a898ea3933d6aff83866962aa45d078c5477d80903b97"
     },
     ".claude/agents/code-reviewer.md": {
       "owner": "profile:next-monolith",
@@ -121,62 +121,62 @@
     ".claude/skills/agent-handoff/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "250c77adc497a22c0b71bf23281aa0c9562fe3dd105ce6ecfec36a5f3571b071"
+      "sha256": "a3895b6cd342f4ceaea35b46a6a8cf09399e7fec9acc08e07181df440b6166d4"
     },
     ".claude/skills/architecture-design/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "ce82896615d90d7c002b825dbbe3ab5a7cfef6d8a47374e030aa592bf576cdf5"
+      "sha256": "97c3915d9483092908f1aeed6d8048d92a73394817b5b116051f157ac1908765"
     },
     ".claude/skills/backend-api/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "f77f3131613c70821ced59a2616a2a6d375558357f33be94b72084b1ba82ff8a"
+      "sha256": "769ccccc19856abd826e48ed6f1a8ba368159f23f6c6a2ca1c160f2197375ba3"
     },
     ".claude/skills/database-design/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "232d74844128a1a21cf907c9d1f83b18b004b558e5bb1b715fe5c4f9a765d149"
+      "sha256": "41afc56bcad2e176154a8787f16763a8a6596718c3fae2da21da05b929775fb2"
     },
     ".claude/skills/diagram-maintenance/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "b5105dae6957a62ebb22cc924dbf4d4071bb0e82152d6fd1753e3256c1e8fece"
+      "sha256": "23b7c9b8f1afcab6e323e4946a1f505d57e31c4d03229b85d4474ef5fe5ce65d"
     },
     ".claude/skills/product-analysis/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "5ed7b41b8b80ed1fb76abb79f87892023b789ee95a0f60bf906d953de9397987"
+      "sha256": "45c0d9487dc8bd53506b2d21b94b4ffb09279e026df0e181ba46f478ac18a317"
     },
     ".claude/skills/project-discovery/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "655766dfe07ee9607e09ad6a28c61e89b27e67767c7d0e6d3523b04550e1daa0"
+      "sha256": "a52a35ddec05a626110ff85c91625ddf8d5f759c23a6d40726636add4ecdf69b"
     },
     ".claude/skills/project-onboarding/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "92ea8095cf0188a4c4685594d1cecb4f888704ea511a84ffb8da5f4dc379ace0"
+      "sha256": "20b8774c12a6e325773b1ad1563a1c3ee550e9b95f16b1cffadd2428abc401f7"
     },
     ".claude/skills/release-deployment/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "9eed8e0d1bfde22d7eb1c879156a2c2f6b74c7cdb6355a3b7cfacd1a50d50104"
+      "sha256": "4081a6a673bac91c4ff140d1fa6e6fcb5ac508b0974c95f2d41fc4bb8821483b"
     },
     ".claude/skills/security-review/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "772bea3f26442279407a8fed3f17b52c40073e183089494afc356d57633223e4"
+      "sha256": "e506d79215e3f3eb0e1e529aed2550456fcf43fb3e06c83577dd32516488a9f2"
     },
     ".claude/skills/testing-quality/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "8f9ed2aed5e5caadf46e3b266752a73605ded28a58da22cf1da5803a0d839e18"
+      "sha256": "2633bcebf5910fe6464cd0dcda9cb36d321412a746575adfc0ef69c08db9af38"
     },
     ".claude/skills/ui-ux-implementation/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "0bc16e0b2198922d58c76c08a29674b738acedf051bff3286392cc3d8131b7e7"
+      "sha256": "cdedc29326c7d3d4ea3a898ea3933d6aff83866962aa45d078c5477d80903b97"
     },
     ".env.example": {
       "owner": "core",
@@ -186,127 +186,127 @@
     ".gemini/skills/agent-handoff/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "250c77adc497a22c0b71bf23281aa0c9562fe3dd105ce6ecfec36a5f3571b071"
+      "sha256": "a3895b6cd342f4ceaea35b46a6a8cf09399e7fec9acc08e07181df440b6166d4"
     },
     ".gemini/skills/architecture-design/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "ce82896615d90d7c002b825dbbe3ab5a7cfef6d8a47374e030aa592bf576cdf5"
+      "sha256": "97c3915d9483092908f1aeed6d8048d92a73394817b5b116051f157ac1908765"
     },
     ".gemini/skills/backend-api/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "f77f3131613c70821ced59a2616a2a6d375558357f33be94b72084b1ba82ff8a"
+      "sha256": "769ccccc19856abd826e48ed6f1a8ba368159f23f6c6a2ca1c160f2197375ba3"
     },
     ".gemini/skills/database-design/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "232d74844128a1a21cf907c9d1f83b18b004b558e5bb1b715fe5c4f9a765d149"
+      "sha256": "41afc56bcad2e176154a8787f16763a8a6596718c3fae2da21da05b929775fb2"
     },
     ".gemini/skills/diagram-maintenance/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "b5105dae6957a62ebb22cc924dbf4d4071bb0e82152d6fd1753e3256c1e8fece"
+      "sha256": "23b7c9b8f1afcab6e323e4946a1f505d57e31c4d03229b85d4474ef5fe5ce65d"
     },
     ".gemini/skills/product-analysis/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "5ed7b41b8b80ed1fb76abb79f87892023b789ee95a0f60bf906d953de9397987"
+      "sha256": "45c0d9487dc8bd53506b2d21b94b4ffb09279e026df0e181ba46f478ac18a317"
     },
     ".gemini/skills/project-discovery/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "655766dfe07ee9607e09ad6a28c61e89b27e67767c7d0e6d3523b04550e1daa0"
+      "sha256": "a52a35ddec05a626110ff85c91625ddf8d5f759c23a6d40726636add4ecdf69b"
     },
     ".gemini/skills/project-onboarding/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "92ea8095cf0188a4c4685594d1cecb4f888704ea511a84ffb8da5f4dc379ace0"
+      "sha256": "20b8774c12a6e325773b1ad1563a1c3ee550e9b95f16b1cffadd2428abc401f7"
     },
     ".gemini/skills/release-deployment/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "9eed8e0d1bfde22d7eb1c879156a2c2f6b74c7cdb6355a3b7cfacd1a50d50104"
+      "sha256": "4081a6a673bac91c4ff140d1fa6e6fcb5ac508b0974c95f2d41fc4bb8821483b"
     },
     ".gemini/skills/security-review/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "772bea3f26442279407a8fed3f17b52c40073e183089494afc356d57633223e4"
+      "sha256": "e506d79215e3f3eb0e1e529aed2550456fcf43fb3e06c83577dd32516488a9f2"
     },
     ".gemini/skills/testing-quality/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "8f9ed2aed5e5caadf46e3b266752a73605ded28a58da22cf1da5803a0d839e18"
+      "sha256": "2633bcebf5910fe6464cd0dcda9cb36d321412a746575adfc0ef69c08db9af38"
     },
     ".gemini/skills/ui-ux-implementation/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "0bc16e0b2198922d58c76c08a29674b738acedf051bff3286392cc3d8131b7e7"
+      "sha256": "cdedc29326c7d3d4ea3a898ea3933d6aff83866962aa45d078c5477d80903b97"
     },
     ".github/copilot-instructions.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "c2185e4b865fce33cf1503c314ad2185904e3f53b830d552391dd0b18a296833"
+      "sha256": "e520486e2a2f384f263f36e04b40e04bc3d2bcc3278187caad16c6e314336e2a"
     },
     ".github/skills/agent-handoff/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "250c77adc497a22c0b71bf23281aa0c9562fe3dd105ce6ecfec36a5f3571b071"
+      "sha256": "a3895b6cd342f4ceaea35b46a6a8cf09399e7fec9acc08e07181df440b6166d4"
     },
     ".github/skills/architecture-design/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "ce82896615d90d7c002b825dbbe3ab5a7cfef6d8a47374e030aa592bf576cdf5"
+      "sha256": "97c3915d9483092908f1aeed6d8048d92a73394817b5b116051f157ac1908765"
     },
     ".github/skills/backend-api/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "f77f3131613c70821ced59a2616a2a6d375558357f33be94b72084b1ba82ff8a"
+      "sha256": "769ccccc19856abd826e48ed6f1a8ba368159f23f6c6a2ca1c160f2197375ba3"
     },
     ".github/skills/database-design/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "232d74844128a1a21cf907c9d1f83b18b004b558e5bb1b715fe5c4f9a765d149"
+      "sha256": "41afc56bcad2e176154a8787f16763a8a6596718c3fae2da21da05b929775fb2"
     },
     ".github/skills/diagram-maintenance/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "b5105dae6957a62ebb22cc924dbf4d4071bb0e82152d6fd1753e3256c1e8fece"
+      "sha256": "23b7c9b8f1afcab6e323e4946a1f505d57e31c4d03229b85d4474ef5fe5ce65d"
     },
     ".github/skills/product-analysis/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "5ed7b41b8b80ed1fb76abb79f87892023b789ee95a0f60bf906d953de9397987"
+      "sha256": "45c0d9487dc8bd53506b2d21b94b4ffb09279e026df0e181ba46f478ac18a317"
     },
     ".github/skills/project-discovery/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "655766dfe07ee9607e09ad6a28c61e89b27e67767c7d0e6d3523b04550e1daa0"
+      "sha256": "a52a35ddec05a626110ff85c91625ddf8d5f759c23a6d40726636add4ecdf69b"
     },
     ".github/skills/project-onboarding/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "92ea8095cf0188a4c4685594d1cecb4f888704ea511a84ffb8da5f4dc379ace0"
+      "sha256": "20b8774c12a6e325773b1ad1563a1c3ee550e9b95f16b1cffadd2428abc401f7"
     },
     ".github/skills/release-deployment/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "9eed8e0d1bfde22d7eb1c879156a2c2f6b74c7cdb6355a3b7cfacd1a50d50104"
+      "sha256": "4081a6a673bac91c4ff140d1fa6e6fcb5ac508b0974c95f2d41fc4bb8821483b"
     },
     ".github/skills/security-review/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "772bea3f26442279407a8fed3f17b52c40073e183089494afc356d57633223e4"
+      "sha256": "e506d79215e3f3eb0e1e529aed2550456fcf43fb3e06c83577dd32516488a9f2"
     },
     ".github/skills/testing-quality/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "8f9ed2aed5e5caadf46e3b266752a73605ded28a58da22cf1da5803a0d839e18"
+      "sha256": "2633bcebf5910fe6464cd0dcda9cb36d321412a746575adfc0ef69c08db9af38"
     },
     ".github/skills/ui-ux-implementation/SKILL.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "0bc16e0b2198922d58c76c08a29674b738acedf051bff3286392cc3d8131b7e7"
+      "sha256": "cdedc29326c7d3d4ea3a898ea3933d6aff83866962aa45d078c5477d80903b97"
     },
     ".github/workflows/ci.yml": {
       "owner": "profile:next-monolith",
@@ -321,7 +321,7 @@
     "AGENTS.md": {
       "owner": "core",
       "mode": "managed",
-      "sha256": "a1515dca38fe0d6efd69529937f5d9e07e72fc0bd9b6dd193a0f874641c4c088"
+      "sha256": "11942917721e54c5811f0d459e2b5ed67a661fada7359c05f1254629d2f75672"
     },
     "CHANGELOG.md": {
       "owner": "core",
@@ -331,7 +331,7 @@
     "CLAUDE.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "da6f2661edc3c07523ca0da366d5fbbf0c85b6023cb248818402975fd63c3c10"
+      "sha256": "774feba492d86b1b31f4e7d5b58d19a7721ef9b3a4b935509f491b408e561f9c"
     },
     "CONTRIBUTING.md": {
       "owner": "core",
@@ -341,7 +341,7 @@
     "GEMINI.md": {
       "owner": "host-adapters",
       "mode": "managed",
-      "sha256": "3348e47f9623aa42bb1f0158bdca13a139d63e3e7cfcc26dd283928f10b5da6c"
+      "sha256": "23abe1b3b028aeacaf7389a90893c077c24c009332eda2c4e2b2b4026b86530f"
     },
     "README.md": {
       "owner": "core",
@@ -361,7 +361,7 @@
     "docs/INDEX.md": {
       "owner": "core",
       "mode": "managed",
-      "sha256": "270a851724ea5ebb407466425a565214a0629ed90e9e07fc5801a8e9708fd0ff"
+      "sha256": "8f37f55c074c85947870875f63d16b6afd7ec8249f8b4524ae39c064bae07e36"
     },
     "docs/architecture/DATA_DICTIONARY.md": {
       "owner": "capability:database",
@@ -381,137 +381,137 @@
     "docs/architecture/diagrams/INDEX.md": {
       "owner": "diagram-contract",
       "mode": "managed",
-      "sha256": "922870c8a7b6c1900459eeb0bf5c2183f3c6b95e27448e1d3d5f2bf086409d81"
+      "sha256": "3432ece8d600dc4f9b06e1a1f8629fc362cd2a4f79f54567dc922b3112a36b89"
     },
     "docs/architecture/diagrams/auth-flow.mmd": {
       "owner": "diagram-contract",
       "mode": "managed",
-      "sha256": "79c5cfc9233a49f7ec494955e5c31488304d9409c7ac93ee7e358a13333dc076"
+      "sha256": "9b5820ae68935b531ef1c308611351d4bd89239ba2e41094fa5f3b94ef4b4932"
     },
     "docs/architecture/diagrams/authentication-flow.mmd": {
       "owner": "diagram-contract",
       "mode": "managed",
-      "sha256": "8e8f94c91df06df62a60c5be11a1371afc4e3cbbfadfb07b8d2d1373a1423838"
+      "sha256": "1f6919d60bc53737b02dd66b255d285153e56fd8167f2a19ac67c7dd783cb1cd"
     },
     "docs/architecture/diagrams/authorization-flow.mmd": {
       "owner": "diagram-contract",
       "mode": "managed",
-      "sha256": "2992db90cf8d52049b9ea8d392ed025190b0c51e93a9e6684bf3ccf90e870c6d"
+      "sha256": "359a185e796d27174b55eaaceed279c5dec2d75fefeeb92aba76f6b7189bfaf5"
     },
     "docs/architecture/diagrams/authz-flow.mmd": {
       "owner": "diagram-contract",
       "mode": "managed",
-      "sha256": "689b3f087214a6e76632b3e7677e4fe2c148c17b76e0a2e4c0ff5897cf9c49ac"
+      "sha256": "bc05fc7f2a42c50fdb72e2b67902d0440cab5556ac162a65cba2a7a68f070ed9"
     },
     "docs/architecture/diagrams/backup-restore-pipeline.mmd": {
       "owner": "diagram-contract",
       "mode": "managed",
-      "sha256": "16a2adba303d17915490604a1ec0683cca9ee3ac307b4f7aa5a14e123a58a23f"
+      "sha256": "78e093072660747bf97b14ebe68776a88e0f5821aab3d512df2b6c3dda57c9af"
     },
     "docs/architecture/diagrams/checkout-sequence.mmd": {
       "owner": "diagram-contract",
       "mode": "managed",
-      "sha256": "397f4786a5ad924d820aeb5e18f3e60d60b2848971df57a65250780a4330a146"
+      "sha256": "b6ef04c88310aa0815b0b39c266e53a661232f47f4ea275edfaa33bcce23143e"
     },
     "docs/architecture/diagrams/containers.mmd": {
       "owner": "diagram-contract",
       "mode": "managed",
-      "sha256": "3d34ebd9e09738fe4df98379441d1513dfcd072fb1a11fe446ce3630f3655249"
+      "sha256": "422e050dab88506fe7f2aa32c789dbf4ea1c8195f0b644d3feec2fbf98e82c19"
     },
     "docs/architecture/diagrams/data-lifecycle.mmd": {
       "owner": "diagram-contract",
       "mode": "managed",
-      "sha256": "7ac2614f09dd4f42b26f525b1936de2036d1268c8fd2d2ac8c3a66adbc779583"
+      "sha256": "16a17a2f3f2c0c8368975422d358ed56ba89e43cc8a21d5859dd4cfcfd06e844"
     },
     "docs/architecture/diagrams/data-subject-rights.mmd": {
       "owner": "diagram-contract",
       "mode": "managed",
-      "sha256": "86d53fedc6f14594af318b1b12776e5d2238566fb8bbf8f5b8d6a12634fd3a55"
+      "sha256": "e074302fb5a6d2d2903d8c4ad8ef842f77bd2bdd4703a581f85da2a9067b54b9"
     },
     "docs/architecture/diagrams/deployment.mmd": {
       "owner": "diagram-contract",
       "mode": "managed",
-      "sha256": "9c03895dd9b29a4186296daabae842ac5da3d62ca2107d32e7c07f08d345df1c"
+      "sha256": "cda706eb9afcb32d68e34bb8e767a0eaa4658bdb4cb65efbac0500ccbfc97d63"
     },
     "docs/architecture/diagrams/diagram-manifest.yml": {
       "owner": "diagram-contract",
       "mode": "managed",
-      "sha256": "76664dbbaac4330f49fc086dbe0f37e4da9d8ee29509841274dc6dca54066d1a"
+      "sha256": "d3e3c1c2ebaf03cbbf26b090284117e7d7855d57e5cde854983fb800e7317497"
     },
     "docs/architecture/diagrams/email-outbox-flow.mmd": {
       "owner": "diagram-contract",
       "mode": "managed",
-      "sha256": "cfb840fd3a0db264866476a7b7775c9bac6fc8e8ad6aae037b4e9908dd2aeed2"
+      "sha256": "77db43cede28ab4c0801c689d264899b1fc42fe531794ed89d68e6688d9607b9"
     },
     "docs/architecture/diagrams/erd.mmd": {
       "owner": "diagram-contract",
       "mode": "managed",
-      "sha256": "0b75a7a0404487923086cefd597fd108b754be7d329ae543cf28498f502b1226"
+      "sha256": "1e1f0d771345438851841b8ff98bb002146d49afb0f965e5af3c52703904b11f"
     },
     "docs/architecture/diagrams/job-retry-flow.mmd": {
       "owner": "diagram-contract",
       "mode": "managed",
-      "sha256": "7af303a868e84f9b64e22082386dc4f0cbba3b779e22edcbdf8eb596b8a5192b"
+      "sha256": "a1e3ea67395b23574dd35677a1ab1b2d63d3a164d5ea3cef52ceb794f972a4b6"
     },
     "docs/architecture/diagrams/migration-flow.mmd": {
       "owner": "diagram-contract",
       "mode": "managed",
-      "sha256": "c1d8b358505cbb3d6f7d6bf46b337f870fc9ba077b5c3eef6eb1a8f4005c0afc"
+      "sha256": "b7c95fb34eb7a1081b83d0483922a96817f714bb9e6338470ffc65afb1bb7239"
     },
     "docs/architecture/diagrams/modules.mmd": {
       "owner": "diagram-contract",
       "mode": "managed",
-      "sha256": "e45a9113c613126fbb72560e3c5deff5042517c25d25693d58141840a6ca91bc"
+      "sha256": "ce420119447818b4ac58a73c12fed7f62fcc31531bc176fa488e18435ced3952"
     },
     "docs/architecture/diagrams/monitoring-architecture.mmd": {
       "owner": "diagram-contract",
       "mode": "managed",
-      "sha256": "8261fa85e0bb338e02fb696b335ba744c1b2d5e0a20211dd5dfd1bb0b8d58e8e"
+      "sha256": "bbe1abe34e3a5cb75448c2d9592e5b85fbb103609cf958e230dc2482cde39f62"
     },
     "docs/architecture/diagrams/payment-state-machine.mmd": {
       "owner": "diagram-contract",
       "mode": "managed",
-      "sha256": "0d02222ea7d9845fbefdae6c7ff6e481e3de042e7b53fed444fdc0627e231e95"
+      "sha256": "50dfd4b0f91769204a77648c7da93ca3d8792ad4f42df5a6f3e5077c1ec507b3"
     },
     "docs/architecture/diagrams/release-flow.mmd": {
       "owner": "diagram-contract",
       "mode": "managed",
-      "sha256": "e789ccd181479a4a6069a9fed5262ec89d99d479f743ea89739126c7dda00a9c"
+      "sha256": "199acafdd75338522f6ea7c0f8cb49adad620a31732feab633bc293c5056031b"
     },
     "docs/architecture/diagrams/request-flow.mmd": {
       "owner": "diagram-contract",
       "mode": "managed",
-      "sha256": "7300f43982df9c8485878e351dc7fe53d8be2c9e3560292ec101d9c582971994"
+      "sha256": "56de01db486d6e1594133bbef6a88d818e993f01f376a47887e9cd2e52e3567b"
     },
     "docs/architecture/diagrams/role-permission-map.mmd": {
       "owner": "diagram-contract",
       "mode": "managed",
-      "sha256": "07cbfa23378c21d281fff717b3dc11e6c702b5558583539531b6c6f4bd6204dd"
+      "sha256": "eb99c751998ba66cc6ca5a0cb60606e323189d9a475ab0cedd016e3130f84dbd"
     },
     "docs/architecture/diagrams/session-lifecycle.mmd": {
       "owner": "diagram-contract",
       "mode": "managed",
-      "sha256": "3a597f47871ec3aad9e16b2c17f6851b654d28eee96e8a7c70676a92f06c3b9d"
+      "sha256": "19a342ff580ac423c8e71364e56624515df400af5e20af4090fbcc5d8cc608e0"
     },
     "docs/architecture/diagrams/system-context.mmd": {
       "owner": "diagram-contract",
       "mode": "managed",
-      "sha256": "c2d76bc8d02f9d955c9338ec86c0c53b179beba5f3c4d712053a5288a68149e0"
+      "sha256": "f7bcdf86bf0a973b7db9f308e49d7cf825bacbda0644b0d8199f01c164d3364b"
     },
     "docs/architecture/diagrams/upload-flow.mmd": {
       "owner": "diagram-contract",
       "mode": "managed",
-      "sha256": "f3d58339f7dfe65d6b305d77aab96d0aaa38e0560a4361c19dd0141e07305897"
+      "sha256": "f8ea2e4bc4dbc8ff874959c28e0e3751dc6cfdaee6d66f49f422fa9085390a5e"
     },
     "docs/architecture/diagrams/verification-idempotency-sequence.mmd": {
       "owner": "diagram-contract",
       "mode": "managed",
-      "sha256": "ffd8676a40399afd2a83aed48d881a21d6cd46c99a5c77ac2e874ade559d1c4e"
+      "sha256": "1a9b8e426bd1d4a1181ed45d7de84489b2580dbec8cf1f6ef043d17bc8ccffef"
     },
     "docs/architecture/diagrams/webhook-verification.mmd": {
       "owner": "diagram-contract",
       "mode": "managed",
-      "sha256": "a9adce8354b9de9a5c96c911ae6ec1f06d0f34ee9cba65936c531f4fa767dc17"
+      "sha256": "f673d3d867a4908a88ea3fe2ef56313a7222119c2e66226f2880bcf51f510e89"
     },
     "docs/capabilities/accessibility.md": {
       "owner": "capability:accessibility",
@@ -781,7 +781,7 @@
     "experience-blueprint.yml": {
       "owner": "experience-blueprint",
       "mode": "managed",
-      "sha256": "62f6ecaaa95e4340c8f577ef6b4817eb5815bd6aa81c98ca9a569e5de49263cf"
+      "sha256": "91505645c810b460b8bc702de49a6af4b2071347d636eb1eb25b1d027ee70a40"
     },
     "next-env.d.ts": {
       "owner": "profile:next-monolith",
@@ -851,7 +851,7 @@
     "project-manifest.yml": {
       "owner": "manifest",
       "mode": "managed",
-      "sha256": "6aaec48f3d533334a15ebfb601d4aa4b7d517b1b1f573885d17449840c21076f"
+      "sha256": "39ffccc1914d2870ef149c062bcd7da1ee7941dc4b2ed82291e651515870f731"
     },
     "scripts/reset-e2e-db.mjs": {
       "owner": "profile:next-monolith",
@@ -1066,7 +1066,7 @@
     "src/server/AGENTS.md": {
       "owner": "core",
       "mode": "managed",
-      "sha256": "788ec193d0d128bb56b5733dab7a34f51d6e3c5f782cb4170f9c173f7f86c177"
+      "sha256": "1a4dbda05f45c851ced1ca2559c4f13a2750feda4daf5b010b888ad1edc171cb"
     },
     "src/server/auth/guards.ts": {
       "owner": "capability:authentication",
@@ -1131,17 +1131,17 @@
     "tasks/ACTIVE.md": {
       "owner": "core",
       "mode": "managed",
-      "sha256": "1521d585682a629f3d9a12ccded2eac4d588aa38da72374d213d39276e7a39bb"
+      "sha256": "266f10ba46367bb29db8a82b5eca28959f818c62d983a81fb3bca2233770c636"
     },
     "tasks/BACKLOG.md": {
       "owner": "core",
       "mode": "managed",
-      "sha256": "f12eb00418eeead1ad1619b9842a66f22f104d3c55cd4444797887676627d464"
+      "sha256": "35e54556ddecb84553e54562da65d1e3c821c143e640be4005a58e91eadbf528"
     },
     "tasks/COMPLETED.md": {
       "owner": "core",
       "mode": "managed",
-      "sha256": "ee5bdb7494dcb28c583af86de21cfa86e3c196503e174b5dd7608e36eec391ca"
+      "sha256": "11a3c087168733120abad4ccb775befd81ceb0cb93c9564dc5b6c2fa6df07980"
     },
     "templates/AGENT_HANDOFF.md": {
       "owner": "core",
