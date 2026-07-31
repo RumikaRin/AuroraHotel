@@ -3,11 +3,12 @@ import { describe, it } from "node:test";
 import { readFile } from "node:fs/promises";
 
 describe("Aurora seed script", () => {
-  it("contains deterministic seed data for all 4 room categories and 5 roles", async () => {
+  it("contains deterministic seed data for all 4 room categories and 6 roles", async () => {
     const seedScript = await readFile("prisma/seed.ts", "utf8");
     assert.match(seedScript, /admin@aurorahotel\.com/);
     assert.match(seedScript, /receptionist@aurorahotel\.com/);
     assert.match(seedScript, /housekeeper@aurorahotel\.com/);
+    assert.match(seedScript, /customer@aurorahotel\.com/);
     assert.match(seedScript, /guest@aurorahotel\.com/);
     assert.match(seedScript, /DELUXE_KING/);
     assert.match(seedScript, /DELUXE_TWIN/);

@@ -61,6 +61,7 @@ export type RoomStatus = (typeof ROOM_STATUSES)[keyof typeof ROOM_STATUSES];
 
 export const USER_ROLES = {
   GUEST: "GUEST",
+  CUSTOMER: "CUSTOMER",
   RECEPTIONIST: "RECEPTIONIST",
   HOUSEKEEPER: "HOUSEKEEPER",
   MANAGER: "MANAGER",

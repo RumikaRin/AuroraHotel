@@ -9,6 +9,12 @@ describe("Aurora RBAC system", () => {
     assert.equal(hasPermission("GUEST", "room:update_cleaning"), false);
   });
 
+  it("grants registered customers self-service permissions only", () => {
+    assert.equal(hasPermission("CUSTOMER", "booking:read_own"), true);
+    assert.equal(hasPermission("CUSTOMER", "booking:create_own"), true);
+    assert.equal(hasPermission("CUSTOMER", "room:assign"), false);
+  });
+
   it("grants receptionists booking management and checkin permissions", () => {
     assert.equal(hasPermission("RECEPTIONIST", "booking:read_all"), true);
     assert.equal(hasPermission("RECEPTIONIST", "room:assign"), true);

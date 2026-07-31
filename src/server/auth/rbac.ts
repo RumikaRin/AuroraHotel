@@ -21,6 +21,7 @@ export type Permission =
 
 const rolePermissions: Record<UserRole, Set<Permission>> = {
   GUEST: new Set(["booking:read_own", "booking:create_own", "booking:cancel_own"]),
+  CUSTOMER: new Set(["booking:read_own", "booking:create_own", "booking:cancel_own"]),
   RECEPTIONIST: new Set([
     "booking:read_all",
     "booking:create_any",

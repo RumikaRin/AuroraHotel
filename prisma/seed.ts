@@ -21,6 +21,7 @@ async function main() {
   // 1. Roles
   const roles = [
     { type: "GUEST", name: "Guest" },
+    { type: "CUSTOMER", name: "Registered Customer" },
     { type: "RECEPTIONIST", name: "Receptionist" },
     { type: "HOUSEKEEPER", name: "Housekeeper" },
     { type: "MANAGER", name: "Manager" },
@@ -60,6 +61,13 @@ async function main() {
       name: "Housekeeper Staff",
       phone: "+84901234569",
       roleId: roleMap["HOUSEKEEPER"],
+    },
+    {
+      email: "customer@aurorahotel.com",
+      password: "Customer123!",
+      name: "Aurora Club Customer",
+      phone: "+84907654320",
+      roleId: roleMap["CUSTOMER"],
     },
     {
       email: "guest@aurorahotel.com",
@@ -277,10 +285,85 @@ async function main() {
     }
   }
 
+  // 7. Services
+  const services = [
+    {
+      code: "SVC-AIRPORT",
+      name: "Airport Transfer (Luxury SUV)",
+      description: "Private 2-way airport pick up and drop off in premium SUV.",
+      price: 650000,
+      unit: "PER_STAY",
+    },
+    {
+      code: "SVC-BREAKFAST",
+      name: "Gourmet Breakfast Upgrade",
+      description: "Daily floating breakfast or premium champagne buffet.",
+      price: 350000,
+      unit: "PER_NIGHT",
+    },
+    {
+      code: "SVC-SPA",
+      name: "Aurora Wellness Spa Package",
+      description: "60-minute natural herbal massage treatment.",
+      price: 950000,
+      unit: "PER_GUEST",
+    },
+  ];
+
+  for (const s of services) {
+    await prisma.service.upsert({
+      where: { code: s.code },
+      update: { name: s.name, price: s.price, description: s.description, unit: s.unit },
+      create: s,
+    });
+  }
+
+  // 8. Promotions
+  await prisma.promotion.upsert({
+    where: { code: "PROMO-SUMMER2026" },
+    update: {
+      name: "Summer Sanctuary Special",
+      discountPercent: 10.0,
+      startDate: new Date("2026-05-01"),
+      endDate: new Date("2026-09-30"),
+    },
+    create: {
+      code: "PROMO-SUMMER2026",
+      name: "Summer Sanctuary Special",
+      description: "10% off stay during summer period",
+      discountPercent: 10.0,
+      startDate: new Date("2026-05-01"),
+      endDate: new Date("2026-09-30"),
+      isActive: true,
+    },
+  });
+
+  // 9. Coupons
+  await prisma.coupon.upsert({
+    where: { code: "WELCOME2026" },
+    update: {
+      name: "Welcome Aurora Discount",
+      discountAmount: 200000,
+      minBookingAmount: 2000000,
+    },
+    create: {
+      code: "WELCOME2026",
+      name: "Welcome Aurora Discount",
+      discountAmount: 200000,
+      minBookingAmount: 2000000,
+      startDate: new Date("2026-01-01"),
+      endDate: new Date("2026-12-31"),
+      maxUsageTotal: 500,
+      maxUsagePerUser: 2,
+      isActive: true,
+    },
+  });
+
   console.log("Aurora Hotel P0 seed completed cleanly.");
   console.log("  admin@aurorahotel.com / Admin123!");
   console.log("  receptionist@aurorahotel.com / Staff123!");
   console.log("  housekeeper@aurorahotel.com / Staff123!");
+  console.log("  customer@aurorahotel.com / Customer123!");
   console.log("  guest@aurorahotel.com / Guest123!");
 }
 
