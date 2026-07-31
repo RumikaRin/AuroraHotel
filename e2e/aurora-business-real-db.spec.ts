@@ -15,7 +15,7 @@ function getTestPrisma() {
 
 test.describe("Real Neon PostgreSQL Business E2E Workflows", () => {
   let dbConnected = false;
-  let db: PrismaClient | null = null;
+  let db: PrismaClient;
 
   test.beforeAll(async () => {
     const envMap = process.env as Record<string, string | undefined>;
