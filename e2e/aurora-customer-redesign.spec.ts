@@ -137,3 +137,16 @@ test("checkout keeps one idempotency key and does not call pending payment confi
   expect(checkoutRequests[0]).toBe(checkoutRequests[1]);
   await expect(page.locator("body")).not.toContainText("Đặt phòng đã được xác nhận");
 });
+
+test("experiences and offers stay editorial and route to real customer actions", async ({ page }) => {
+  await page.goto("/experiences");
+  await expect(page.locator("h1")).toHaveCount(1);
+  await expect(page.locator("main img[alt]").first()).toBeVisible();
+  await expect(page.locator('main a[href="/rooms"]').first()).toBeVisible();
+  await expect(page.locator("body")).not.toContainText(/chọn property|marketplace|thêm vào giỏ|thanh toán dịch vụ/i);
+
+  await page.goto("/offers");
+  await expect(page.locator("h1")).toHaveCount(1);
+  await expect(page.getByRole("link", { name: /Xem rate plan/i }).first()).toHaveAttribute("href", /\/booking\?offer=/);
+  await expect(page.locator("body")).toContainText(/Giá.*xác nhận|báo giá/i);
+});
