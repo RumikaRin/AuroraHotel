@@ -5,17 +5,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600;700&display=swap');
 
 :root {
-  --night: #14201b;
-  --night-soft: #1b2a24;
-  --ivory: #f7f4ed;
+  --espresso: #261e1a;
+  --warm-carbon: #191512;
+  --linen: #f3eee7;
+  --warm-ivory: #fbf8f2;
+  --antique-brass: #b59a6b;
+  --walnut: #665044;
+  --muted-terracotta: #a76d55;
+  --taupe: #887a70;
+  --night: #261e1a;
+  --night-soft: #3b2f28;
+  --ivory: #fbf8f2;
   --paper: #fffdf8;
-  --gold: #c5a46d;
+  --gold: #b59a6b;
   --gold-light: #dfc99d;
-  --leaf: #355b4b;
-  --clay: #b97857;
-  --ink: #242826;
-  --muted: #3d4540;
-  --line: #dcd7cb;
+  --leaf: #2e7d5a;
+  --clay: #a76d55;
+  --ink: #29221e;
+  --muted: #756b64;
+  --line: #ddd1c4;
   --focus: #f1c97f;
   --shadow: 0 28px 72px rgba(20, 32, 27, .16);
   --container: 1380px;
@@ -134,6 +142,42 @@ img { display: block; max-width: 100%; }
 .animate-fade-in-up { animation: fadeInUp 0.7s ease-out both; }
 .animate-fade-in    { animation: fadeIn 0.5s ease-out both; }
 .animate-slide-down { animation: slideDown 0.3s ease-out both; }
+
+.font-serif-luxury {
+  font-family: var(--font-cormorant), var(--font-display), 'Cormorant Garamond', serif;
+}
+
+.glass-luxury {
+  background: rgba(255, 253, 248, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(197, 164, 109, 0.3);
+}
+
+.glass-dark-luxury {
+  background: rgba(20, 32, 27, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(197, 164, 109, 0.3);
+}
+
+.hover-lift-gold {
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+.hover-lift-gold:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(197, 164, 109, 0.22);
+  border-color: var(--gold);
+}
+
+@keyframes pulseGold {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.02); }
+}
+
+.animate-pulse-gold {
+  animation: pulseGold 2s infinite ease-in-out;
+}
 
 /* ---- Reduced Motion ---- */
 @media (prefers-reduced-motion: reduce) {
