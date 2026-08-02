@@ -91,7 +91,7 @@ export default async function HomePage() {
         {/* ═══════════════════════════════════════════
             SECTION 3: CHAPTER I — PROLOGUE (100VH SNAP, WARM SAND #efe9dd)
            ═══════════════════════════════════════════ */}
-        <section className="prologue-section" aria-label="Prologue - Câu chuyện Aurora">
+        <section className="prologue-section" aria-label="Prologue - Câu chuyện Aurora" data-header-tone="light">
           <div className="wrap prologue-grid">
             <div className="prologue-copy">
               <div className="chapter-mark">
@@ -155,7 +155,7 @@ export default async function HomePage() {
         {/* ═══════════════════════════════════════════
             SECTION 6: CHAPTER IV — THE BOOKING LEDGER (DEEP FOREST NIGHT #1c2a24)
            ═══════════════════════════════════════════ */}
-        <section className="ledger-section" id="ledger" aria-label="Minh bạch giá và rate plan">
+        <section className="ledger-section" id="ledger" aria-label="Minh bạch giá và rate plan" data-header-tone="dark">
           <div className="wrap ledger-grid">
             <div className="ledger-copy">
               <div className="chapter-mark">
@@ -243,7 +243,7 @@ export default async function HomePage() {
         {/* ═══════════════════════════════════════════
             SECTION 7: CHAPTER V — EPILOGUE (WARM IVORY #f7f4ed)
            ═══════════════════════════════════════════ */}
-        <section className="epilogue-section" aria-label="Khởi đầu kỳ nghỉ">
+        <section className="epilogue-section" aria-label="Khởi đầu kỳ nghỉ" data-header-tone="light">
           <div className="wrap epilogue-grid">
             <div className="epilogue-copy">
               <div className="chapter-mark">

@@ -122,7 +122,7 @@ export function RoomsClient({ initialCategories, searchContext }: RoomsClientPro
       <Header />
 
       <main>
-        <section className="rooms-hero" aria-labelledby="rooms-title">
+        <section className="rooms-hero" aria-labelledby="rooms-title" data-header-tone="dark">
           <div className="wrap rooms-hero-inner">
             <p className="rooms-eyebrow">Aurora · Hotel & Resort</p>
             <h1 id="rooms-title">Một căn phòng<br /><em>để nhớ.</em></h1>
@@ -141,7 +141,7 @@ export function RoomsClient({ initialCategories, searchContext }: RoomsClientPro
           </div>
         </section>
 
-        <section className="wrap rooms-toolbar" aria-label="Bộ lọc hạng phòng">
+        <section className="wrap rooms-toolbar" aria-label="Bộ lọc hạng phòng" data-header-tone="light">
           <RoomFilterBar
             onFilterChange={setFilters}
             onOpenCompare={() => setIsCompareOpen(true)}
@@ -149,7 +149,7 @@ export function RoomsClient({ initialCategories, searchContext }: RoomsClientPro
           />
         </section>
 
-        <section className="wrap rooms-results" aria-labelledby="rooms-results-title">
+        <section className="wrap rooms-results" aria-labelledby="rooms-results-title" data-header-tone="light">
           <div className="rooms-results-heading">
             <div>
               <p className="rooms-eyebrow">The stay collection</p>

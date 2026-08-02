@@ -81,6 +81,7 @@ export function OptionCRoomReel({ rooms }: OptionCRoomReelProps) {
       className="snap-section stay-reel-full"
       aria-label="Bộ sưu tập phòng nghỉ Aurora"
       id="suites"
+      data-header-tone="dark"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
       onKeyDown={handleKeyDown}

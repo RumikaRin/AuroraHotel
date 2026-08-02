@@ -54,7 +54,7 @@ const EXPERIENCES: ExperienceItem[] = [
 
 export function SanctuaryExperiences() {
   return (
-    <section aria-label="Trải nghiệm nghỉ dưỡng" id="experiences">
+    <section aria-label="Trải nghiệm nghỉ dưỡng" id="experiences" data-header-tone="dark">
       <div className="sanctuary-section">
         <div className="wrap">
           <div className="sanctuary-header">

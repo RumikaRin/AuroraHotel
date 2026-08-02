@@ -7,7 +7,7 @@ export function DirectBookingBenefits() {
   ];
 
   return (
-    <section aria-label="Quyền lợi đặt phòng trực tiếp">
+    <section aria-label="Quyền lợi đặt phòng trực tiếp" data-header-tone="light">
       <div className="benefits-strip">
         <div className="benefits-inner wrap">
           {benefits.map((b, i) => (

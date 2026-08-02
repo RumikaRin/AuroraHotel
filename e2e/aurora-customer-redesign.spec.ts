@@ -27,10 +27,31 @@ test("customer navigation marks the active route and keeps footer links real", a
 
   const activeRoomsLink = page.locator('nav[aria-label="Điều hướng chính"] a[href="/rooms"]');
   await expect(activeRoomsLink).toHaveAttribute("aria-current", "page");
+  await expect(page.locator("header")).toHaveAttribute("data-header-tone", "dark");
+  await expect(page.locator("header")).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
   await expect(page.locator("footer a[href='/']")).toHaveCount(0);
   await page.setViewportSize({ width: 390, height: 844 });
   await page.reload();
   await expect(page.locator('button[aria-label="Mở menu"]')).toBeVisible();
+});
+
+test("transparent header adapts its foreground to the section beneath it", async ({ page }) => {
+  await page.goto("/");
+  const header = page.locator("header").first();
+  await expect(header).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+  await expect(header).toHaveAttribute("data-header-tone", "dark");
+  await expect(header).toHaveCSS("color", "rgb(251, 248, 242)");
+
+  await page.locator(".prologue-section").evaluate((section) => {
+    section.scrollIntoView({ block: "start", behavior: "instant" });
+  });
+  await expect(header).toHaveAttribute("data-header-tone", "light");
+  await expect(header).toHaveCSS("color", "rgb(38, 30, 26)");
+
+  await page.locator("#suites").evaluate((section) => {
+    section.scrollIntoView({ block: "start", behavior: "instant" });
+  });
+  await expect(header).toHaveAttribute("data-header-tone", "dark");
 });
 
 test("homepage leads with the approved direct-on-image hotel story", async ({ page }) => {

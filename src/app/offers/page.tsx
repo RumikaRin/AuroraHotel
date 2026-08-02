@@ -37,10 +37,10 @@ export default function OffersPage() {
       <a className="skip-link" href="#main-content">Đi đến nội dung chính</a>
       <Header />
       <main id="main-content">
-        <section className="offers-hero" aria-labelledby="offers-title">
+        <section className="offers-hero" aria-labelledby="offers-title" data-header-tone="dark">
           <div className="wrap offers-hero-content"><p className="offers-eyebrow">Aurora · Direct rate plans</p><h1 id="offers-title">Một lý do để đặt trực tiếp,<br /><em>một kỳ nghỉ rõ ràng hơn.</em></h1><p>Chọn rate plan phù hợp, xem điều kiện và nhận báo giá từ hệ thống trước khi gửi yêu cầu.</p></div>
         </section>
-        <section className="offers-list" aria-labelledby="offers-list-title">
+        <section className="offers-list" aria-labelledby="offers-list-title" data-header-tone="light">
           <div className="wrap"><div className="offers-list-heading"><div><p className="offers-eyebrow">The booking ledger</p><h2 id="offers-list-title">Hai cách bắt đầu</h2></div><span>Rate plan · giá server-owned</span></div><div className="offers-grid">{OFFERS.map((offer, index) => <article className="offer-card" key={offer.id}><div className="offer-card-media"><Image src={offer.image} alt={offer.alt} fill sizes="(max-width: 860px) 100vw, 42vw" priority={index === 0} /><span>{offer.badge}</span></div><div className="offer-card-copy"><p className="offers-eyebrow">{offer.label}</p><h3>{offer.title}</h3><p>{offer.description}</p><ul>{offer.terms.map((term) => <li key={term}>{term}</li>)}</ul><div className="offer-card-footer"><span>Giá & điều kiện hiển thị trong báo giá</span><Link href={`/booking?offer=${offer.id}`}>Xem rate plan <span aria-hidden="true">↗</span></Link></div></div></article>)}</div></div>
         </section>
       </main>

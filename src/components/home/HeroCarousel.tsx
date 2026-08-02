@@ -86,7 +86,7 @@ export function HeroCarousel() {
   };
 
   return (
-    <section className="snap-section hero" aria-label="Giới thiệu Aurora Hotel" id="top">
+    <section className="snap-section hero" aria-label="Giới thiệu Aurora Hotel" id="top" data-header-tone="dark">
       {/* Slide images — horizontal slide track */}
       <div
         className="hero-track"

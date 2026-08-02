@@ -15,7 +15,7 @@ export default function ExperiencesPage() {
       <a className="skip-link" href="#main-content">Đi đến nội dung chính</a>
       <Header />
       <main id="main-content">
-        <section className="experiences-hero" aria-labelledby="experiences-title">
+        <section className="experiences-hero" aria-labelledby="experiences-title" data-header-tone="dark">
           <Image src="/images/aurora/hero-02.jpg" alt="Hoàng hôn bên hồ bơi và bãi biển Aurora" fill priority sizes="100vw" className="experiences-hero-image" />
           <div className="experiences-hero-overlay" />
           <div className="wrap experiences-hero-content">
@@ -28,7 +28,7 @@ export default function ExperiencesPage() {
 
         <SanctuaryExperiences />
 
-        <section className="experiences-story" aria-labelledby="experiences-story-title">
+        <section className="experiences-story" aria-labelledby="experiences-story-title" data-header-tone="light">
           <div className="wrap experiences-story-grid">
             <div className="experiences-story-image"><Image src="/images/aurora/hero-03.jpg" alt="Sảnh lounge gỗ ấm của Aurora" fill sizes="(max-width: 900px) 100vw, 48vw" /></div>
             <div className="experiences-story-copy"><p className="experiences-eyebrow">A quiet kind of care</p><h2 id="experiences-story-title">Sự chăm chút<br /><em>âm thầm mà thật gần.</em></h2><p>Không cần một lịch trình dày đặc. Hãy để khoảng sáng trong suite, một bàn ăn bên biển và những lối đi giữa vườn làm phần còn lại.</p><Link href="/rooms" className="text-link">Bắt đầu kỳ nghỉ <span aria-hidden="true">↗</span></Link></div>

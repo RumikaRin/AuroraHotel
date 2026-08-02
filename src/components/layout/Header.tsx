@@ -5,23 +5,58 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { getTranslation, Language } from "../../domain/i18n.ts";
 
+type HeaderTone = "dark" | "light";
+
 export function Header() {
   const pathname = usePathname();
   const [lang, setLang] = useState<Language>("vi");
   const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [headerTone, setHeaderTone] = useState<HeaderTone>(pathname === "/" ? "dark" : "light");
   const menuBtnRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    handleScroll();
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    const fallbackTone: HeaderTone = pathname === "/" ? "dark" : "light";
+    const toneSections = Array.from(
+      document.querySelectorAll<HTMLElement>("main [data-header-tone]"),
+    );
+    let frame = 0;
 
-  const isHomeTop = pathname === "/" && !scrolled;
+    const updateTone = () => {
+      frame = 0;
+      const headerProbeY = Math.min(42, Math.max(1, window.innerHeight / 2));
+      const activeSection = toneSections.find((section) => {
+        const rect = section.getBoundingClientRect();
+        return rect.top <= headerProbeY && rect.bottom > headerProbeY;
+      });
+      const visibleSection = activeSection || toneSections.find((section) => {
+        const rect = section.getBoundingClientRect();
+        return rect.bottom > 0 && rect.top < window.innerHeight;
+      });
+      const nextTone = visibleSection?.dataset.headerTone;
+      setHeaderTone(nextTone === "light" || nextTone === "dark" ? nextTone : fallbackTone);
+    };
+
+    const scheduleToneUpdate = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(updateTone);
+    };
+
+    setHeaderTone(fallbackTone);
+    updateTone();
+    window.addEventListener("scroll", scheduleToneUpdate, { passive: true });
+    window.addEventListener("resize", scheduleToneUpdate);
+    return () => {
+      window.removeEventListener("scroll", scheduleToneUpdate);
+      window.removeEventListener("resize", scheduleToneUpdate);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, [pathname]);
+
+  const isDarkTone = headerTone === "dark";
+  const headerForeground = isDarkTone ? "var(--warm-ivory)" : "var(--espresso)";
+  const headerMutedForeground = isDarkTone ? "rgba(251,248,242,.78)" : "rgba(38,30,26,.72)";
+  const headerControlBorder = isDarkTone ? "rgba(255,255,255,.34)" : "rgba(38,30,26,.24)";
+  const headerControlBackground = isDarkTone ? "rgba(25,21,18,.28)" : "rgba(251,248,242,.42)";
 
   const toggleLanguage = () => {
     setLang((prev) => (prev === "vi" ? "en" : "vi"));
@@ -64,17 +99,18 @@ export function Header() {
 
   return (
     <header
+      data-header-tone={headerTone}
       style={{
         position: "fixed",
         top: 0,
         left: 0,
         right: 0,
         zIndex: 50,
-        backgroundColor: isHomeTop ? "transparent" : "rgba(38, 30, 26, 0.96)",
-        backdropFilter: isHomeTop ? "none" : "blur(12px)",
-        boxShadow: isHomeTop ? "none" : "0 4px 20px rgba(38, 30, 26, 0.28)",
-        color: "var(--warm-ivory)",
-        transition: "background-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease",
+        backgroundColor: "transparent",
+        backdropFilter: "none",
+        boxShadow: "none",
+        color: headerForeground,
+        transition: "color 0.3s ease",
       }}
     >
       <div
@@ -85,7 +121,7 @@ export function Header() {
           gridTemplateColumns: "1fr auto 1fr",
           alignItems: "center",
           gap: 32,
-          borderBottom: "1px solid rgba(255,255,255,.2)",
+          borderBottom: `1px solid ${isDarkTone ? "rgba(255,255,255,.2)" : "rgba(38,30,26,.16)"}`,
         }}
       >
         {/* Brand */}
@@ -112,7 +148,7 @@ export function Header() {
           <small
             style={{
               marginTop: 6,
-              color: "var(--gold-light)",
+              color: isDarkTone ? "var(--gold-light)" : "var(--muted-terracotta)",
               fontSize: 7,
               fontWeight: 700,
               letterSpacing: ".22em",
@@ -149,7 +185,7 @@ export function Header() {
                 paddingBlock: 12,
                 fontSize: 11,
                 fontWeight: 600,
-                color: isActive(link.href) ? "var(--warm-ivory)" : "rgba(251,248,242,.78)",
+                color: isActive(link.href) ? headerForeground : headerMutedForeground,
               }}
             >
               {getTranslation(lang, link.key)}
@@ -172,10 +208,10 @@ export function Header() {
             style={{
               minWidth: 44,
               minHeight: 44,
-              border: "1px solid rgba(255,255,255,.34)",
+              border: `1px solid ${headerControlBorder}`,
               borderRadius: "var(--radius-control)",
-              background: "rgba(25,21,18,.28)",
-              color: "white",
+              background: headerControlBackground,
+              color: headerForeground,
               fontSize: 10,
               fontWeight: 700,
             }}
@@ -212,10 +248,10 @@ export function Header() {
               height: 44,
               alignItems: "center",
               justifyContent: "center",
-              border: "1px solid rgba(255,255,255,.3)",
+              border: `1px solid ${headerControlBorder}`,
               borderRadius: "var(--radius-control)",
-              background: "rgba(25,21,18,.32)",
-              color: "white",
+              background: headerControlBackground,
+              color: headerForeground,
             }}
             aria-expanded={menuOpen}
             aria-controls="mobileMenu"
