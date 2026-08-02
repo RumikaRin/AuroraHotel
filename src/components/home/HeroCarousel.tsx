@@ -5,9 +5,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 const slides = [
-  { src: "/images/aurora/hero-01.jpg", alt: "Không gian nghỉ dưỡng Aurora mở ra giữa cây xanh và ánh sáng tự nhiên" },
-  { src: "/images/aurora/hero-02.jpg", alt: "Hồ bơi và kiến trúc đương đại của Aurora Hotel" },
-  { src: "/images/aurora/hero-03.jpg", alt: "Nội thất nghỉ dưỡng với vật liệu ấm và ánh sáng dịu" },
+  { src: "/images/aurora/hero-01-hd.png", alt: "Không gian nghỉ dưỡng Aurora mở ra giữa cây xanh và ánh sáng tự nhiên" },
+  { src: "/images/aurora/hero-02-hd.png", alt: "Hồ bơi và kiến trúc đương đại của Aurora Hotel" },
+  { src: "/images/aurora/hero-03-hd.png", alt: "Nội thất nghỉ dưỡng với vật liệu ấm và ánh sáng dịu" },
 ];
 
 export function HeroCarousel() {
@@ -99,6 +99,7 @@ export function HeroCarousel() {
               alt={slide.alt}
               fill
               priority={i === 0}
+              quality={92}
               style={{ objectFit: "cover" }}
               sizes="100vw"
             />

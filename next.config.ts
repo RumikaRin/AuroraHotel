@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1"],
   outputFileTracingRoot: dirname(fileURLToPath(import.meta.url)),
   images: {
+    qualities: [75, 92],
     remotePatterns: [
       {
         protocol: "https",
