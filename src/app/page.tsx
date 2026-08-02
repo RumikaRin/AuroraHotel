@@ -28,6 +28,7 @@ export default async function HomePage() {
     const queryPromise = db.roomCategory.findMany({
       where: { isActive: true },
       orderBy: { basePrice: "asc" },
+      include: { ratePlans: true },
     });
     const timeoutPromise = new Promise<never>((_, reject) =>
       setTimeout(() => reject(new Error("DB_TIMEOUT")), 2500),
@@ -175,7 +176,7 @@ export default async function HomePage() {
 
             <div className="hairline-ledger-table">
               <div className="ledger-table-header">
-                <h3>Premier Garden Suite</h3>
+                <h3>{roomCategories[0]?.name || "Premier Garden Suite"}</h3>
                 <span>3 nights · 2 guests</span>
               </div>
 
@@ -185,8 +186,15 @@ export default async function HomePage() {
                   <span>Miễn phí hủy phòng trước 48h · Bao gồm điểm tâm sáng mỗi ngày</span>
                 </div>
                 <div className="rate-cost">
-                  <strong>9.750.000 ₫</strong>
-                  <Link href="/rooms/premier-garden-suite" className="btn-table-rate">
+                  <strong>
+                    {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(
+                      (roomCategories[0]?.basePrice || 3250000) * 3
+                    )}
+                  </strong>
+                  <Link
+                    href={`/rooms/${roomCategories[0]?.slug || "premier-garden-suite"}`}
+                    className="btn-table-rate"
+                  >
                     Chọn Rate
                   </Link>
                 </div>
@@ -198,8 +206,15 @@ export default async function HomePage() {
                   <span>Gói ưu đãi tiết kiệm khi đặt sớm · Không hoàn hủy</span>
                 </div>
                 <div className="rate-cost">
-                  <strong>8.925.000 ₫</strong>
-                  <Link href="/rooms/premier-garden-suite" className="btn-table-rate">
+                  <strong>
+                    {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(
+                      Math.round((roomCategories[0]?.basePrice || 3250000) * 3 * 0.9)
+                    )}
+                  </strong>
+                  <Link
+                    href={`/rooms/${roomCategories[0]?.slug || "premier-garden-suite"}`}
+                    className="btn-table-rate"
+                  >
                     Chọn Rate
                   </Link>
                 </div>
@@ -207,7 +222,17 @@ export default async function HomePage() {
 
               <div className="ledger-footer-note">
                 <span>Đã bao gồm thuế và phí dịch vụ</span>
-                <Link href="/rooms" style={{ color: "white", textDecoration: "underline", minHeight: 44, minWidth: 44, display: "inline-flex", alignItems: "center" }}>
+                <Link
+                  href="/rooms"
+                  style={{
+                    color: "white",
+                    textDecoration: "underline",
+                    minHeight: 44,
+                    minWidth: 44,
+                    display: "inline-flex",
+                    alignItems: "center",
+                  }}
+                >
                   Xem chi tiết cấu trúc giá →
                 </Link>
               </div>
@@ -263,7 +288,7 @@ export default async function HomePage() {
       <style>{`
         /* Prologue styles */
         .prologue-section {
-          background: var(--ivory);
+          background: var(--linen);
           border-top: 1px solid var(--line);
           border-bottom: 1px solid var(--line);
           padding-block: 120px;
@@ -283,7 +308,7 @@ export default async function HomePage() {
         .prologue-copy h2 {
           font: 400 clamp(44px, 5.5vw, 76px)/0.92 "Cormorant Garamond", serif;
           letter-spacing: -0.035em;
-          color: var(--night);
+          color: var(--espresso);
           margin-bottom: 28px;
         }
         .prologue-copy h2 em { color: var(--clay); font-style: italic; }
@@ -291,7 +316,7 @@ export default async function HomePage() {
         .prologue-pullquote {
           font: 400 20px/1.5 "Cormorant Garamond", serif;
           font-style: italic;
-          color: var(--night);
+          color: var(--espresso);
           padding-left: 20px;
           border-left: 2px solid var(--gold);
           margin-bottom: 28px;
@@ -328,18 +353,18 @@ export default async function HomePage() {
         .mosaic-caption {
           position: absolute;
           bottom: 16px; left: 16px; right: 16px;
-          background: rgba(255,253,248,0.92);
+          background: rgba(251,248,242,0.94);
           backdrop-filter: blur(8px);
           padding: 12px 18px;
           font-size: 10px;
-          color: var(--night);
+          color: var(--espresso);
           border-radius: 4px;
           display: flex; justify-content: space-between;
         }
 
         /* Ledger styles */
         .ledger-section {
-          background: var(--night-soft);
+          background: var(--warm-carbon);
           color: white;
           padding-block: 120px;
         }
@@ -359,7 +384,7 @@ export default async function HomePage() {
         }
         .ledger-copy h2 em { color: var(--gold); font-style: italic; }
         .ledger-copy p {
-          color: #a6b2ab;
+          color: rgba(243,238,231,.7);
           font-size: 13px;
           line-height: 1.85;
           margin-bottom: 32px;
@@ -370,22 +395,22 @@ export default async function HomePage() {
         .ledger-copy .text-link:hover { color: var(--gold); border-color: var(--gold); }
 
         .hairline-ledger-table {
-          border-top: 1px solid var(--line-dark);
-          border-bottom: 1px solid var(--line-dark);
+          border-top: 1px solid rgba(243,238,231,.18);
+          border-bottom: 1px solid rgba(243,238,231,.18);
         }
         .ledger-table-header {
           display: flex; justify-content: space-between; align-items: flex-end;
-          padding-block: 20px 16px; border-bottom: 1px solid var(--line-dark);
+          padding-block: 20px 16px; border-bottom: 1px solid rgba(243,238,231,.18);
         }
         .ledger-table-header h3 { font: 500 32px/1 "Cormorant Garamond", serif; margin: 0; color: white; }
-        .ledger-table-header span { font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #8ea096; }
+        .ledger-table-header span { font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(243,238,231,.58); }
 
         .ledger-table-row {
           display: grid; grid-template-columns: 1fr auto; gap: 32px;
-          padding-block: 28px; border-bottom: 1px solid var(--line-dark);
+          padding-block: 28px; border-bottom: 1px solid rgba(243,238,231,.18);
         }
         .rate-desc strong { display: block; color: white; font-size: 14px; font-weight: 600; }
-        .rate-desc span { display: block; margin-top: 6px; color: #a6b2ab; font-size: 11px; line-height: 1.6; }
+        .rate-desc span { display: block; margin-top: 6px; color: rgba(243,238,231,.68); font-size: 11px; line-height: 1.6; }
         .rate-cost { text-align: right; }
         .rate-cost strong { display: block; color: var(--gold); font-size: 18px; font-weight: 600; }
         .btn-table-rate {
@@ -395,19 +420,19 @@ export default async function HomePage() {
           min-height: 44px;
           min-width: 44px;
           margin-top: 8px; padding: 10px 18px; border: 0; border-radius: 6px;
-          background: var(--gold); color: var(--night); font-size: 9px; font-weight: 700;
+          background: var(--antique-brass); color: var(--espresso); font-size: 9px; font-weight: 700;
           letter-spacing: 0.12em; text-transform: uppercase; transition: background 0.2s, transform 0.2s;
         }
-        .btn-table-rate:hover { background: var(--ivory); transform: translateY(-1px); }
+        .btn-table-rate:hover { background: var(--warm-ivory); transform: translateY(-1px); }
 
         .ledger-footer-note {
           display: flex; justify-content: space-between; padding-top: 18px;
-          font-size: 10px; color: #8ea096;
+          font-size: 10px; color: rgba(243,238,231,.58);
         }
 
         /* Epilogue styles */
         .epilogue-section {
-          background: var(--ivory);
+          background: var(--warm-ivory);
           border-top: 1px solid var(--line);
           padding-block: 120px;
         }
@@ -419,7 +444,7 @@ export default async function HomePage() {
         }
         .epilogue-copy h2 {
           font: 500 clamp(54px, 6.5vw, 96px)/0.86 "Cormorant Garamond", serif;
-          color: var(--night);
+          color: var(--espresso);
           letter-spacing: -0.04em;
           margin: 18px 0 28px;
         }
@@ -440,7 +465,7 @@ export default async function HomePage() {
         .epilogue-badge {
           position: absolute;
           bottom: 24px; left: 24px;
-          background: rgba(20,32,27,0.85);
+          background: rgba(25,21,18,0.88);
           backdrop-filter: blur(8px);
           color: white;
           padding: 14px 22px;
@@ -451,8 +476,10 @@ export default async function HomePage() {
         }
 
         @media (max-width: 980px) {
-          .prologue-section, .ledger-section, .epilogue-section { padding-block: 80px; }
-          .prologue-grid, .photo-mosaic, .ledger-grid, .epilogue-grid { grid-template-columns: 1fr; }
+          .prologue-section, .ledger-section, .epilogue-section { padding-block: 64px; }
+          .prologue-grid, .photo-mosaic, .ledger-grid, .epilogue-grid { grid-template-columns: 1fr; gap: 36px; }
+          .mosaic-main, .epilogue-photo-wrapper { height: clamp(280px, 45vh, 420px); }
+          .mosaic-sub { height: 260px; margin-top: 0; }
         }
       `}</style>
     </div>

@@ -32,3 +32,26 @@ test("customer navigation marks the active route and keeps footer links real", a
   await page.reload();
   await expect(page.locator('button[aria-label="Mở menu"]')).toBeVisible();
 });
+
+test("homepage leads with the approved direct-on-image hotel story", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.getByRole("heading", { name: /Thành phố ở gần/ })).toBeVisible();
+  await expect(page.locator(".hero-copy")).not.toHaveCSS("background-color", "rgb(255, 255, 255)");
+  await expect(page.locator("#booking")).toContainText("Giá trực tiếp minh bạch");
+  expect(await page.locator('main a[href="/experiences"]').count()).toBeGreaterThan(0);
+});
+
+test("homepage room reel keeps real room destinations and quiet motion fallback", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  const roomLinks = page.locator('#suites a[href^="/rooms/"]');
+  expect(await roomLinks.count()).toBeGreaterThan(0);
+  await expect(roomLinks.first()).toHaveAttribute("href", /\/rooms\/[^/]+$/);
+  await expect(page.locator("body")).not.toContainText(/PAY_AT_HOTEL|fake QR|giữ phòng giả|hold timer/i);
+  const motion = await page.locator(".hero-slide").first().evaluate((node) => {
+    const style = getComputedStyle(node);
+    return { transition: style.transitionDuration, animation: style.animationDuration };
+  });
+  expect(Number.parseFloat(motion.transition)).toBeLessThan(0.1);
+  expect(Number.parseFloat(motion.animation)).toBeLessThan(0.1);
+});

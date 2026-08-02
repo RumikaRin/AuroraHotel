@@ -64,7 +64,7 @@ export function HeroCarousel() {
       );
       if (res.ok) {
         const data = await res.json();
-        const count = data.quotes ? data.quotes.length : 0;
+        const count = Array.isArray(data.data) ? data.data.length : 0;
         if (count > 0) {
           setNotice(`${count} hạng phòng khả dụng`);
           setNoticeType("success");
@@ -109,12 +109,12 @@ export function HeroCarousel() {
       {/* Content overlay */}
       <div className="hero-layout wrap">
         <div className="hero-copy">
-          <div className="eyebrow" style={{ color: "#ebd8b6" }}>Aurora · A contemporary retreat</div>
+          <div className="eyebrow" style={{ color: "#e3c895" }}>Aurora Reserve · Đà Nẵng</div>
           <h1>
-            Three chapters.<br /><em>One memorable stay.</em>
+            Thành phố ở gần.<br /><em>Kỳ nghỉ ở rất xa.</em>
           </h1>
           <p>
-            Mỗi khung hình mở ra một nhịp nghỉ khác nhau — thiên nhiên, kiến trúc và sự chăm sóc được kết nối trong trải nghiệm Aurora.
+            Phòng khách sạn tinh tế, suite nghỉ dưỡng riêng tư và những khoảnh khắc bên biển — cùng một Aurora, cùng một hành trình đặt phòng minh bạch.
           </p>
         </div>
 
@@ -212,6 +212,8 @@ export function HeroCarousel() {
           {notice && (
             <div
               className="booking-notice"
+              role="alert"
+              aria-live="polite"
               style={{
                 color: noticeType === "success" ? "var(--leaf)" : "#B84A4A",
               }}
@@ -229,9 +231,9 @@ export function HeroCarousel() {
       <style>{`
         .hero {
           position: relative;
-          min-height: max(100vh, 760px);
+          min-height: max(100dvh, 760px);
           overflow: hidden;
-          background: var(--night);
+          background: var(--warm-carbon);
           color: white;
           display: flex;
           flex-direction: column;
@@ -256,8 +258,8 @@ export function HeroCarousel() {
           position: absolute;
           inset: 0;
           background:
-            linear-gradient(90deg, rgba(9,17,13,.76) 0%, rgba(9,17,13,.12) 68%),
-            linear-gradient(0deg, rgba(9,17,13,.76) 0%, transparent 44%);
+            linear-gradient(90deg, rgba(25,21,18,.72) 0%, rgba(25,21,18,.18) 68%),
+            linear-gradient(0deg, rgba(25,21,18,.78) 0%, transparent 48%);
           z-index: 1;
         }
         .hero-layout {
@@ -372,8 +374,8 @@ export function HeroCarousel() {
           transform: translateX(-50%);
           z-index: 6;
           width: min(1280px, calc(100% - 64px));
-          background: var(--paper);
-          box-shadow: 0 24px 64px rgba(20,32,27,.28);
+          background: var(--warm-ivory);
+          box-shadow: 0 24px 64px rgba(38,30,26,.28);
           display: grid;
           grid-template-columns: 84px 1fr;
           border: 1px solid var(--line);
@@ -381,8 +383,8 @@ export function HeroCarousel() {
         .key-number {
           display: grid;
           place-items: center;
-          background: var(--gold);
-          color: var(--night);
+          background: var(--antique-brass);
+          color: var(--espresso);
           font: 600 28px "Cormorant Garamond", serif;
         }
         .booking-body { padding: 8px 14px; }
@@ -407,15 +409,19 @@ export function HeroCarousel() {
           width: 100%;
           border: 0;
           background: transparent;
-          color: var(--night);
+          color: var(--espresso);
           font-size: 13px;
           font-weight: 600;
           margin-top: 4px;
           outline: none;
         }
+        .field input:focus-visible, .field select:focus-visible {
+          outline: 2px solid var(--gold);
+          border-radius: 4px;
+        }
         .booking-row button {
           border: 0;
-          background: var(--night);
+          background: var(--espresso);
           color: #fff;
           font-size: 9px;
           letter-spacing: .13em;
@@ -425,7 +431,7 @@ export function HeroCarousel() {
           border-radius: 6px;
           transition: background 0.2s;
         }
-        .booking-row button:hover { background: var(--leaf); }
+        .booking-row button:hover { background: var(--walnut); }
         .booking-note {
           padding: 6px 18px 2px;
           color: #353b37;
@@ -455,6 +461,14 @@ export function HeroCarousel() {
             margin: -44px auto 0;
           }
           .booking-row { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 620px) {
+          .booking-key { grid-template-columns: 1fr; }
+          .key-number { display: none; }
+          .booking-row { grid-template-columns: 1fr; gap: 12px; }
+          .field { border-right: 0; border-bottom: 1px solid var(--line); padding: 8px 12px; }
+          .booking-note { flex-direction: column; gap: 6px; }
         }
       `}</style>
     </section>
