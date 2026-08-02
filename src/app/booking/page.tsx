@@ -1,73 +1,170 @@
 "use client";
 
-import React, { useState, Suspense } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { Suspense, useEffect, useRef, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { StickyBookingDrawer } from "@/components/booking/StickyBookingDrawer";
+
+type RatePlan = { id: string; name: string; priceMultiplier: number };
+type Category = { id: string; name: string; slug: string; basePrice: number; ratePlans: RatePlan[] };
+type Quote = {
+  roomSubtotal: number;
+  serviceSubtotal: number;
+  discountTotal: number;
+  taxAndFeeTotal: number;
+  totalAmount: number;
+  nights: number;
+  rooms: Array<{ roomCategoryName: string; ratePlanName: string; nightlyPrice: number }>;
+};
+type BookingResult = {
+  bookingId?: string;
+  bookingNumber?: string;
+  totalAmount?: number;
+  status: "CONFIRMED" | "PENDING_PAYMENT" | "REPLAYED";
+};
+
+const PAYMENT_OPTIONS = [
+  { value: "CREDIT_CARD", title: "Thẻ thanh toán", description: "Thanh toán qua cổng thẻ được hỗ trợ." },
+  { value: "BANK_TRANSFER", title: "Chuyển khoản ngân hàng", description: "Thông tin chuyển khoản sẽ theo hướng dẫn của hệ thống." },
+  { value: "CASH", title: "Thanh toán tiền mặt tại quầy", description: "Thanh toán tại quầy theo điều kiện của đơn đặt phòng." },
+  { value: "MOCK_PAYMENT", title: "Thanh toán mô phỏng (Demo)", description: "Dùng cho môi trường demo nội bộ." },
+] as const;
+
+function formatPrice(amount?: number) {
+  if (typeof amount !== "number" || !Number.isFinite(amount)) return "—";
+  return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND", maximumFractionDigits: 0 }).format(amount);
+}
+
+function calculateNights(checkIn: string, checkOut: string) {
+  const nights = Math.round((new Date(checkOut).getTime() - new Date(checkIn).getTime()) / 86400000);
+  return Number.isFinite(nights) && nights > 0 ? nights : 0;
+}
 
 function BookingContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-
-  const [step, setStep] = useState<number>(1);
-  const [roomCategoryId, setRoomCategoryId] = useState<string>(
-    searchParams.get("roomCategoryId") || "cat-deluxe-king"
-  );
-  const [ratePlanId, setRatePlanId] = useState<string>(
-    searchParams.get("ratePlanId") || "rp-flex"
-  );
-  const [checkIn, setCheckIn] = useState<string>(
-    searchParams.get("checkIn") || new Date().toISOString().slice(0, 10)
-  );
-  const [checkOut, setCheckOut] = useState<string>(
-    searchParams.get("checkOut") || new Date(Date.now() + 86400000 * 2).toISOString().slice(0, 10)
-  );
-
-  // Guest details
-  const [guestName, setGuestName] = useState<string>("");
-  const [guestEmail, setGuestEmail] = useState<string>("");
-  const [guestPhone, setGuestPhone] = useState<string>("");
-  const [specialRequests, setSpecialRequests] = useState<string>("");
-
-  // Payment method
+  const [step, setStep] = useState<1 | 2 | 3>(1);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [roomCategoryId, setRoomCategoryId] = useState(searchParams.get("roomCategoryId") || "");
+  const [ratePlanId, setRatePlanId] = useState(searchParams.get("ratePlanId") || "");
+  const [checkIn, setCheckIn] = useState(searchParams.get("checkIn") || new Date().toISOString().slice(0, 10));
+  const [checkOut, setCheckOut] = useState(searchParams.get("checkOut") || new Date(Date.now() + 86400000 * 2).toISOString().slice(0, 10));
+  const [guests, setGuests] = useState(searchParams.get("guests") || "2");
+  const [guestName, setGuestName] = useState("");
+  const [guestEmail, setGuestEmail] = useState("");
+  const [guestPhone, setGuestPhone] = useState("");
+  const [specialRequests, setSpecialRequests] = useState("");
   const [paymentMethod, setPaymentMethod] = useState<string>("MOCK_PAYMENT");
+  const [quote, setQuote] = useState<Quote | null>(null);
+  const [isQuoteLoading, setIsQuoteLoading] = useState(false);
+  const [bookingResult, setBookingResult] = useState<BookingResult | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const idempotencyKeyRef = useRef<string | null>(null);
 
-  // Booking result state
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [bookingResult, setBookingResult] = useState<{
-    bookingNumber: string;
-    totalAmount: number;
-    status: string;
-  } | null>(null);
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  useEffect(() => {
+    let active = true;
+    fetch("/api/rooms")
+      .then(async (response) => {
+        const json = await response.json();
+        if (!response.ok || !json.success || !Array.isArray(json.data)) throw new Error("Không thể tải danh sách hạng phòng.");
+        if (!active) return;
+        const data = json.data as Category[];
+        setCategories(data);
+        const requestedCategory = searchParams.get("roomCategoryId");
+        const selectedCategory = data.find((category) => category.id === requestedCategory || category.slug === requestedCategory) || data[0];
+        if (selectedCategory) {
+          setRoomCategoryId(selectedCategory.id);
+          const requestedPlan = searchParams.get("ratePlanId");
+          const selectedPlan = selectedCategory.ratePlans?.find((plan) => plan.id === requestedPlan) || selectedCategory.ratePlans?.[0];
+          if (selectedPlan) setRatePlanId(selectedPlan.id);
+        }
+      })
+      .catch((error: unknown) => { if (active) setErrorMessage(error instanceof Error ? error.message : "Không thể tải danh sách hạng phòng."); });
+    return () => { active = false; };
+  }, [searchParams]);
 
-  // Calculation helpers
-  const nights = Math.max(
-    1,
-    Math.round(
-      (new Date(checkOut).getTime() - new Date(checkIn).getTime()) / (1000 * 60 * 60 * 24)
-    )
-  );
-  const baseRate = roomCategoryId.includes("executive") ? 4200000 : 2500000;
-  const planMultiplier = ratePlanId.includes("non-ref") ? 0.85 : 1.0;
-  const nightlyPrice = Math.round(baseRate * planMultiplier);
-  const subtotal = nightlyPrice * nights;
-  const taxesAndFees = Math.round(subtotal * 0.1);
-  const totalAmount = subtotal + taxesAndFees;
+  useEffect(() => {
+    if (!roomCategoryId || !checkIn || !checkOut) return;
+    const controller = new AbortController();
+    const timer = window.setTimeout(async () => {
+      setIsQuoteLoading(true);
+      setErrorMessage("");
+      try {
+        const response = await fetch("/api/quote", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          signal: controller.signal,
+          body: JSON.stringify({
+            checkIn,
+            checkOut,
+            rooms: [{ roomCategoryId, ratePlanId: ratePlanId || undefined, numGuests: Number(guests) || 1 }],
+          }),
+        });
+        const json = await response.json();
+        if (!response.ok || !json.success || !json.data) {
+          throw new Error(json.error?.message || json.message || "Không thể xác nhận báo giá cho ngày đã chọn.");
+        }
+        setQuote(json.data as Quote);
+      } catch (error: unknown) {
+        if ((error as Error)?.name === "AbortError") return;
+        setQuote(null);
+        setErrorMessage(error instanceof Error ? error.message : "Không thể xác nhận báo giá cho ngày đã chọn.");
+      } finally {
+        if (!controller.signal.aborted) setIsQuoteLoading(false);
+      }
+    }, 250);
+    return () => { window.clearTimeout(timer); controller.abort(); };
+  }, [roomCategoryId, ratePlanId, checkIn, checkOut, guests]);
+
+  useEffect(() => {
+    idempotencyKeyRef.current = null;
+  }, [roomCategoryId, ratePlanId, checkIn, checkOut, guests, guestName, guestEmail, guestPhone, specialRequests, paymentMethod]);
+
+  const selectedCategory = categories.find((category) => category.id === roomCategoryId);
+  const nights = quote?.nights || calculateNights(checkIn, checkOut);
+  const canContinue = Boolean(roomCategoryId && ratePlanId && checkIn && checkOut && quote && !isQuoteLoading);
+
+  const handleCategoryChange = (categoryId: string) => {
+    setRoomCategoryId(categoryId);
+    const category = categories.find((item) => item.id === categoryId);
+    setRatePlanId(category?.ratePlans?.[0]?.id || "");
+  };
+
+  const handleGuestStep = () => {
+    if (!canContinue) {
+      setErrorMessage("Vui lòng chờ báo giá được xác nhận trước khi tiếp tục.");
+      return;
+    }
+    setErrorMessage("");
+    setStep(2);
+  };
 
   const handleSubmitBooking = async () => {
+    if (!guestName.trim() || !guestEmail.trim() || !guestPhone.trim()) {
+      setErrorMessage("Vui lòng nhập họ tên, email và số điện thoại để tiếp tục.");
+      return;
+    }
+    if (!quote || !roomCategoryId || !ratePlanId) {
+      setErrorMessage("Báo giá chưa sẵn sàng. Vui lòng kiểm tra lại ngày lưu trú.");
+      return;
+    }
+
     setIsSubmitting(true);
     setErrorMessage("");
-
+    const idempotencyKey = idempotencyKeyRef.current || crypto.randomUUID();
+    idempotencyKeyRef.current = idempotencyKey;
     try {
-      const res = await fetch("/api/checkout", {
+      const response = await fetch("/api/checkout", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Idempotency-Key": idempotencyKey },
         body: JSON.stringify({
           roomCategoryId,
           ratePlanId,
           checkIn,
           checkOut,
+          numGuests: Number(guests) || 1,
           guestName,
           guestEmail,
           guestPhone,
@@ -75,342 +172,191 @@ function BookingContent() {
           paymentMethod,
         }),
       });
-
-      const json = await res.json();
-      if (!res.ok || !json.success) {
-        throw new Error(json.error || json.message || "Đặt phòng thất bại. Vui lòng thử lại.");
+      const json = await response.json();
+      if (response.status === 401) {
+        router.push(`/login?callbackUrl=${encodeURIComponent(window.location.pathname + window.location.search)}`);
+        return;
       }
+      if (!response.ok) throw new Error(json.error?.message || json.message || "Đặt phòng thất bại. Vui lòng thử lại.");
 
-      setBookingResult({
-        bookingNumber: json.data.bookingNumber,
-        totalAmount: json.data.totalAmount,
-        status: json.data.status,
-      });
+      if (json.replayed) {
+        setBookingResult({ bookingId: typeof json.bookingId === "string" ? json.bookingId : undefined, totalAmount: quote.totalAmount, status: "REPLAYED" });
+      } else {
+        if (typeof json.bookingNumber !== "string" || !json.bookingNumber) throw new Error("Hệ thống chưa trả về mã đặt phòng hợp lệ.");
+        setBookingResult({
+          bookingId: typeof json.bookingId === "string" ? json.bookingId : undefined,
+          bookingNumber: json.bookingNumber,
+          totalAmount: typeof json.totalAmount === "number" ? json.totalAmount : quote.totalAmount,
+          status: paymentMethod === "MOCK_PAYMENT" ? "CONFIRMED" : "PENDING_PAYMENT",
+        });
+      }
       setStep(3);
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Đã xảy ra lỗi không xác định";
-      setErrorMessage(msg);
+    } catch (error: unknown) {
+      setErrorMessage(error instanceof Error ? error.message : "Đã xảy ra lỗi không xác định.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#F7F4ED] text-[#242826] flex flex-col font-sans">
+    <div className="booking-page">
       <Header />
-
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1 w-full space-y-8">
-        {/* Stepper Header */}
-        <div className="bg-[#FFFDF8] rounded-2xl p-6 border border-[#DADDD8] shadow-sm flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <span
-              className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
-                step >= 1 ? "bg-[#17211D] text-[#C5A46D]" : "bg-[#DADDD8] text-[#242826]"
-              }`}
-            >
-              1
-            </span>
-            <span className="text-sm font-semibold text-[#17211D]">Chọn Hạng Phòng</span>
-          </div>
-          <div className="w-12 h-0.5 bg-[#DADDD8]" />
-          <div className="flex items-center space-x-4">
-            <span
-              className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
-                step >= 2 ? "bg-[#17211D] text-[#C5A46D]" : "bg-[#DADDD8] text-[#242826]"
-              }`}
-            >
-              2
-            </span>
-            <span className="text-sm font-semibold text-[#17211D]">Thông Tin Khách Hàng</span>
-          </div>
-          <div className="w-12 h-0.5 bg-[#DADDD8]" />
-          <div className="flex items-center space-x-4">
-            <span
-              className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
-                step >= 3 ? "bg-[#17211D] text-[#C5A46D]" : "bg-[#DADDD8] text-[#242826]"
-              }`}
-            >
-              3
-            </span>
-            <span className="text-sm font-semibold text-[#17211D]">Xác Nhận & Thanh Toán</span>
-          </div>
+      <main className="wrap booking-main" id="main-content">
+        <div className="booking-intro">
+          <p className="booking-eyebrow">Aurora · Direct booking</p>
+          <h1>Đặt phòng<br /><em>theo nhịp của bạn.</em></h1>
+          <p>Chọn ngày, xem báo giá từ hệ thống và hoàn tất thông tin trong một hành trình rõ ràng.</p>
         </div>
 
-        {/* Main Content Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* Step Dynamic Body */}
-          <div className="lg:col-span-8 space-y-6">
-            {errorMessage && (
-              <div className="p-4 rounded-xl bg-[#B84A4A]/10 border border-[#B84A4A] text-[#B84A4A] text-sm font-medium">
-                {errorMessage}
-              </div>
-            )}
+        <ol className="booking-steps" aria-label="Các bước đặt phòng">
+          {["Chọn phòng & ngày", "Thông tin khách", "Xác nhận"] .map((label, index) => {
+            const number = index + 1;
+            return <li key={label} className={step >= number ? "active" : ""}><span>{String(number).padStart(2, "0")}</span><strong>{label}</strong></li>;
+          })}
+        </ol>
 
-            {/* STEP 1: Dates & Selection */}
+        <div className="booking-layout">
+          <section className="booking-flow" aria-live="polite">
+            {errorMessage && <div className="booking-error" role="alert">{errorMessage}</div>}
+
             {step === 1 && (
-              <div className="bg-[#FFFDF8] rounded-3xl p-8 border border-[#DADDD8] space-y-6 shadow-sm">
-                <h2 className="font-serif-display text-2xl text-[#17211D]">Bước 1: Chọn Ngày & Hạng Phòng</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-[#17211D] mb-1">Ngày Nhận Phòng (Check-in)</label>
-                    <input
-                      type="date"
-                      value={checkIn}
-                      onChange={(e) => setCheckIn(e.target.value)}
-                      className="w-full p-3 rounded-xl border border-[#DADDD8] bg-[#F7F4ED] text-sm"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-[#17211D] mb-1">Ngày Trả Phòng (Check-out)</label>
-                    <input
-                      type="date"
-                      value={checkOut}
-                      onChange={(e) => setCheckOut(e.target.value)}
-                      className="w-full p-3 rounded-xl border border-[#DADDD8] bg-[#F7F4ED] text-sm"
-                    />
-                  </div>
+              <div className="booking-card">
+                <div className="booking-card-heading"><p className="booking-eyebrow">Bước 01</p><h2>Chọn ngày & hạng phòng</h2><span>Giá được xác nhận qua báo giá hệ thống</span></div>
+                <div className="booking-field-grid">
+                  <label><span>Nhận phòng</span><input type="date" value={checkIn} onChange={(event) => setCheckIn(event.target.value)} required /></label>
+                  <label><span>Trả phòng</span><input type="date" value={checkOut} min={checkIn} onChange={(event) => setCheckOut(event.target.value)} required /></label>
+                  <label><span>Số khách</span><select value={guests} onChange={(event) => setGuests(event.target.value)}><option value="1">1 khách</option><option value="2">2 khách</option><option value="3">3 khách</option><option value="4">4 khách</option></select></label>
                 </div>
-
-                <div className="space-y-3 pt-4 border-t border-[#DADDD8]">
-                  <label className="block text-xs font-semibold text-[#17211D]">Chọn Hạng Phòng:</label>
-                  <select
-                    value={roomCategoryId}
-                    onChange={(e) => setRoomCategoryId(e.target.value)}
-                    className="w-full p-3.5 rounded-xl border border-[#DADDD8] bg-[#F7F4ED] text-sm font-medium text-[#17211D]"
-                  >
-                    <option value="cat-deluxe-king">Deluxe Ocean King Suite - 2.500.000 VND / đêm</option>
-                    <option value="cat-executive-suite">Executive Bay Suite - 4.200.000 VND / đêm</option>
-                  </select>
-                </div>
-
-                <div className="space-y-3 pt-2">
-                  <label className="block text-xs font-semibold text-[#17211D]">Chọn Gói Giá:</label>
-                  <select
-                    value={ratePlanId}
-                    onChange={(e) => setRatePlanId(e.target.value)}
-                    className="w-full p-3.5 rounded-xl border border-[#DADDD8] bg-[#F7F4ED] text-sm font-medium text-[#17211D]"
-                  >
-                    <option value="rp-flex">Linh Hoạt Huỷ Phòng (Flexible Rate - 100%)</option>
-                    <option value="rp-non-ref">Ưu Đãi Không Hoàn Huỷ (Non-Refundable - Giảm 15%)</option>
-                  </select>
-                </div>
-
-                <button
-                  onClick={() => setStep(2)}
-                  className="w-full py-4 rounded-xl bg-[#17211D] text-[#F7F4ED] text-sm font-semibold hover:bg-[#242826] transition-all shadow-md mt-4"
-                >
-                  Tiếp Tục: Nhập Thông Tin Khách Hàng →
-                </button>
+                <label className="booking-wide-field"><span>Hạng phòng</span><select value={roomCategoryId} onChange={(event) => handleCategoryChange(event.target.value)}>{categories.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}</select></label>
+                <label className="booking-wide-field"><span>Rate plan</span><select value={ratePlanId} onChange={(event) => setRatePlanId(event.target.value)}>{selectedCategory?.ratePlans?.map((plan) => <option key={plan.id} value={plan.id}>{plan.name} · {Math.round(plan.priceMultiplier * 100)}% giá chuẩn</option>)}</select></label>
+                <div className="booking-quote-state">{isQuoteLoading ? "Đang cập nhật báo giá…" : quote ? "Báo giá đã được xác nhận cho lựa chọn hiện tại." : "Chọn ngày để xem báo giá."}</div>
+                <button type="button" className="booking-primary-button" onClick={handleGuestStep}>Tiếp tục nhập thông tin <span aria-hidden="true">↗</span></button>
               </div>
             )}
 
-            {/* STEP 2: Guest Information */}
             {step === 2 && (
-              <div className="bg-[#FFFDF8] rounded-3xl p-8 border border-[#DADDD8] space-y-6 shadow-sm">
-                <h2 className="font-serif-display text-2xl text-[#17211D]">Bước 2: Thông Tin Liên Hệ Khách Hàng</h2>
-
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-[#17211D] mb-1">Họ & Tên *</label>
-                    <input
-                      type="text"
-                      placeholder="Nguyễn Văn A"
-                      value={guestName}
-                      onChange={(e) => setGuestName(e.target.value)}
-                      className="w-full p-3.5 rounded-xl border border-[#DADDD8] bg-[#F7F4ED] text-sm"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-[#17211D] mb-1">Email Nhận Xác Nhận *</label>
-                    <input
-                      type="email"
-                      placeholder="nguyen@example.com"
-                      value={guestEmail}
-                      onChange={(e) => setGuestEmail(e.target.value)}
-                      className="w-full p-3.5 rounded-xl border border-[#DADDD8] bg-[#F7F4ED] text-sm"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-[#17211D] mb-1">Số Điện Thoại Liên Hệ *</label>
-                    <input
-                      type="tel"
-                      placeholder="+84 90 123 4567"
-                      value={guestPhone}
-                      onChange={(e) => setGuestPhone(e.target.value)}
-                      className="w-full p-3.5 rounded-xl border border-[#DADDD8] bg-[#F7F4ED] text-sm"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-[#17211D] mb-1">Yêu Cầu Đặc Biệt (Tuỳ chọn)</label>
-                    <textarea
-                      rows={3}
-                      placeholder="Ví dụ: Tầng cao, giường phụ, mừng kỷ niệm ngày cưới..."
-                      value={specialRequests}
-                      onChange={(e) => setSpecialRequests(e.target.value)}
-                      className="w-full p-3.5 rounded-xl border border-[#DADDD8] bg-[#F7F4ED] text-sm"
-                    />
-                  </div>
+              <div className="booking-card">
+                <div className="booking-card-heading"><p className="booking-eyebrow">Bước 02</p><h2>Thông tin khách & thanh toán</h2><span>Thông tin này được gửi nguyên vẹn tới checkout hiện có.</span></div>
+                <div className="booking-field-stack">
+                  <label><span>Họ & tên *</span><input type="text" placeholder="Nguyễn Văn A" value={guestName} onChange={(event) => setGuestName(event.target.value)} autoComplete="name" /></label>
+                  <div className="booking-field-grid"><label><span>Email *</span><input type="email" placeholder="nguyen@example.com" value={guestEmail} onChange={(event) => setGuestEmail(event.target.value)} autoComplete="email" /></label><label><span>Số điện thoại *</span><input type="tel" placeholder="+84 90 123 4567" value={guestPhone} onChange={(event) => setGuestPhone(event.target.value)} autoComplete="tel" /></label></div>
+                  <label><span>Yêu cầu đặc biệt <small>(tuỳ chọn)</small></span><textarea rows={4} placeholder="Ví dụ: tầng cao, giường phụ, dịp kỷ niệm..." value={specialRequests} onChange={(event) => setSpecialRequests(event.target.value)} /></label>
                 </div>
-
-                <div className="space-y-3 pt-4 border-t border-[#DADDD8]">
-                  <label className="block text-xs font-semibold text-[#17211D]">Hình Thức Thanh Toán:</label>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <button
-                      type="button"
-                      onClick={() => setPaymentMethod("MOCK_PAYMENT")}
-                      className={`p-4 rounded-2xl border text-left transition-all ${
-                        paymentMethod === "MOCK_PAYMENT"
-                          ? "border-[#C5A46D] bg-[#F7F4ED] font-semibold"
-                          : "border-[#DADDD8]"
-                      }`}
-                    >
-                      <div className="text-xs font-bold text-[#17211D]">Thẻ Ngân Hàng / Mock Payment</div>
-                      <div className="text-[11px] text-[#355B4B] mt-1">Xác nhận đơn lập tức trong môi trường Demo</div>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setPaymentMethod("PAY_AT_HOTEL")}
-                      className={`p-4 rounded-2xl border text-left transition-all ${
-                        paymentMethod === "PAY_AT_HOTEL"
-                          ? "border-[#C5A46D] bg-[#F7F4ED] font-semibold"
-                          : "border-[#DADDD8]"
-                      }`}
-                    >
-                      <div className="text-xs font-bold text-[#17211D]">Thanh Toán Tại Khách Sạn</div>
-                      <div className="text-[11px] text-[#242826]/70 mt-1">Thanh toán trực tiếp khi check-in</div>
-                    </button>
-                  </div>
-                </div>
-
-                <div className="flex space-x-3 pt-4">
-                  <button
-                    onClick={() => setStep(1)}
-                    className="w-1/3 py-3.5 rounded-xl border border-[#17211D] text-[#17211D] text-sm font-semibold hover:bg-[#17211D] hover:text-[#F7F4ED] transition-all"
-                  >
-                    ← Quay lại
-                  </button>
-                  <button
-                    onClick={handleSubmitBooking}
-                    disabled={isSubmitting || !guestName || !guestEmail || !guestPhone}
-                    className="w-2/3 py-3.5 rounded-xl bg-[#C5A46D] text-[#17211D] text-sm font-semibold hover:bg-[#b0905b] disabled:opacity-50 transition-all shadow-md"
-                  >
-                    {isSubmitting ? "Đang xử lý đặt phòng..." : "Hoàn Tất Đặt Phòng ✨"}
-                  </button>
-                </div>
+                <div className="payment-section"><div className="payment-heading"><h3>Phương thức thanh toán</h3><span>Chọn một phương thức được hỗ trợ</span></div><div className="payment-options">{PAYMENT_OPTIONS.map((option) => <button type="button" key={option.value} className={paymentMethod === option.value ? "selected" : ""} onClick={() => setPaymentMethod(option.value)} aria-pressed={paymentMethod === option.value}><span className="payment-radio" aria-hidden="true" /><span><strong>{option.title}</strong><small>{option.description}</small></span></button>)}</div></div>
+                <div className="booking-form-actions"><button type="button" className="booking-secondary-button" onClick={() => setStep(1)}>← Quay lại</button><button type="button" className="booking-primary-button" onClick={handleSubmitBooking} disabled={isSubmitting}>{isSubmitting ? "Đang gửi yêu cầu…" : "Gửi yêu cầu đặt phòng ↗"}</button></div>
               </div>
             )}
 
-            {/* STEP 3: Confirmation Result */}
             {step === 3 && bookingResult && (
-              <div className="bg-[#FFFDF8] rounded-3xl p-8 border border-[#2E7D5A]/40 space-y-6 shadow-md text-center">
-                <div className="w-16 h-16 rounded-full bg-[#2E7D5A]/10 text-[#2E7D5A] mx-auto flex items-center justify-center text-3xl">
-                  ✓
-                </div>
-                <div className="space-y-2">
-                  <span className="text-xs font-bold text-[#2E7D5A] uppercase tracking-widest">
-                    ĐẶT PHÒNG THÀNH CÔNG
-                  </span>
-                  <h2 className="font-serif-display text-3xl text-[#17211D]">Cảm ơn bạn đã lựa chọn Aurora Hotel!</h2>
-                  <p className="text-sm text-[#242826]/80 max-w-md mx-auto">
-                    Mã xác nhận đơn hàng của bạn là:
-                  </p>
-                  <div className="text-2xl font-mono font-bold text-[#17211D] bg-[#F7F4ED] inline-block px-6 py-2 rounded-xl border border-[#C5A46D]">
-                    {bookingResult.bookingNumber}
-                  </div>
-                </div>
-
-                <div className="p-6 rounded-2xl bg-[#F7F4ED] text-left space-y-2 text-xs text-[#17211D]">
-                  <div className="flex justify-between">
-                    <span>Trạng Thái Đơn:</span>
-                    <span className="font-bold text-[#2E7D5A]">{bookingResult.status}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Tổng Số Tiền:</span>
-                    <span className="font-bold text-[#17211D]">{bookingResult.totalAmount.toLocaleString("vi-VN")} VND</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Email Nhận Xác Nhận:</span>
-                    <span className="font-semibold">{guestEmail}</span>
-                  </div>
-                </div>
-
-                <div className="flex justify-center space-x-4 pt-4">
-                  <button
-                    onClick={() => router.push(`/my-bookings?bookingNumber=${bookingResult.bookingNumber}&email=${encodeURIComponent(guestEmail)}`)}
-                    className="px-6 py-3 rounded-xl bg-[#17211D] text-[#F7F4ED] text-xs font-semibold hover:bg-[#242826] transition-all"
-                  >
-                    Xem Chi Tiết Đơn Hàng
-                  </button>
-                  <button
-                    onClick={() => router.push("/")}
-                    className="px-6 py-3 rounded-xl border border-[#17211D] text-[#17211D] text-xs font-semibold hover:bg-[#17211D] hover:text-[#F7F4ED] transition-all"
-                  >
-                    Về Trang Chủ
-                  </button>
-                </div>
+              <div className={`booking-card booking-result ${bookingResult.status === "CONFIRMED" ? "confirmed" : "pending"}`}>
+                <p className="booking-eyebrow">Bước 03 · {bookingResult.status === "CONFIRMED" ? "Confirmed" : bookingResult.status === "REPLAYED" ? "Recovered" : "Pending payment"}</p>
+                <h2>{bookingResult.status === "CONFIRMED" ? "Đặt phòng đã được xác nhận." : bookingResult.status === "REPLAYED" ? "Yêu cầu này đã được nhận trước đó." : "Yêu cầu đặt phòng đang chờ thanh toán."}</h2>
+                <p>{bookingResult.status === "CONFIRMED" ? "Hệ thống đã trả về mã đặt phòng chính thức. Bạn có thể dùng email để tra cứu lại bất cứ lúc nào." : bookingResult.status === "REPLAYED" ? "Không tạo thêm đơn mới. Dùng mã hệ thống bên dưới để tiếp tục tra cứu." : "Đơn đã được tạo, nhưng trạng thái thanh toán chưa hoàn tất. Vui lòng kiểm tra hướng dẫn thanh toán và tra cứu đơn."}</p>
+                <div className="booking-result-facts">{bookingResult.bookingNumber ? <div><small>Mã đặt phòng</small><strong>{bookingResult.bookingNumber}</strong></div> : null}{bookingResult.bookingId ? <div><small>Mã hệ thống</small><strong>{bookingResult.bookingId}</strong></div> : null}<div><small>Tổng tiền từ báo giá</small><strong>{formatPrice(bookingResult.totalAmount)}</strong></div></div>
+                <div className="booking-result-actions">{bookingResult.bookingNumber ? <button type="button" className="booking-primary-button" onClick={() => router.push(`/my-bookings?bookingNumber=${encodeURIComponent(bookingResult.bookingNumber || "")}&email=${encodeURIComponent(guestEmail)}`)}>Tra cứu đơn đặt phòng ↗</button> : <button type="button" className="booking-secondary-button" onClick={() => router.push("/my-bookings")}>Mở trang tra cứu đơn</button>}<button type="button" className="booking-secondary-button" onClick={() => router.push("/rooms")}>Quay lại xem phòng</button></div>
               </div>
             )}
-          </div>
+          </section>
 
-          {/* Persistent Order Summary Panel */}
-          <div className="lg:col-span-4">
-            <div className="sticky top-28 bg-[#FFFDF8] rounded-3xl p-6 border border-[#DADDD8] shadow-sm space-y-4">
-              <h3 className="font-serif-display text-xl text-[#17211D] pb-3 border-b border-[#DADDD8]">
-                Tóm Tắt Đặt Phòng
-              </h3>
-
-              <div className="space-y-3 text-xs text-[#242826]">
-                <div className="flex justify-between">
-                  <span className="text-[#242826]/70">Hạng phòng:</span>
-                  <span className="font-semibold text-[#17211D]">
-                    {roomCategoryId.includes("executive") ? "Executive Bay Suite" : "Deluxe Ocean King"}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-[#242826]/70">Thời gian lưu trú:</span>
-                  <span className="font-semibold text-[#17211D]">{nights} đêm</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-[#242826]/70">Check-in:</span>
-                  <span className="font-semibold">{checkIn}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-[#242826]/70">Check-out:</span>
-                  <span className="font-semibold">{checkOut}</span>
-                </div>
-              </div>
-
-              <div className="pt-4 border-t border-[#DADDD8] space-y-2 text-xs">
-                <div className="flex justify-between">
-                  <span>Giá phòng ({nights} đêm):</span>
-                  <span>{subtotal.toLocaleString("vi-VN")} VND</span>
-                </div>
-                <div className="flex justify-between text-[#242826]/70">
-                  <span>Thuế & Phí dịch vụ (10%):</span>
-                  <span>{taxesAndFees.toLocaleString("vi-VN")} VND</span>
-                </div>
-                <div className="flex justify-between text-sm font-bold text-[#17211D] pt-2 border-t border-[#DADDD8]">
-                  <span>Tổng thanh toán:</span>
-                  <span className="text-[#355B4B]">{totalAmount.toLocaleString("vi-VN")} VND</span>
-                </div>
-              </div>
+          <aside className="booking-summary" aria-label="Tóm tắt báo giá">
+            <div className="booking-summary-card">
+              <div className="booking-summary-heading"><p className="booking-eyebrow">Booking ledger</p><h2>Tóm tắt lựa chọn</h2></div>
+              <dl><div><dt>Hạng phòng</dt><dd>{selectedCategory?.name || "Đang chọn"}</dd></div><div><dt>Lưu trú</dt><dd>{nights ? `${nights} đêm` : "Chưa đủ ngày"}</dd></div><div><dt>Nhận · trả phòng</dt><dd>{checkIn} → {checkOut}</dd></div><div><dt>Số khách</dt><dd>{guests} người</dd></div></dl>
+              <div className="booking-summary-price"><div><span>Giá phòng</span><strong>{formatPrice(quote?.roomSubtotal)}</strong></div><div><span>Thuế & phí</span><strong>{formatPrice(quote?.taxAndFeeTotal)}</strong></div><div className="total"><span>Tổng từ báo giá</span><strong>{formatPrice(quote?.totalAmount)}</strong></div></div>
+              <p className="booking-summary-note">Tổng tiền, điều kiện hủy và khả dụng là dữ liệu server; thay đổi ngày hoặc rate plan sẽ gọi lại báo giá.</p>
             </div>
-          </div>
+          </aside>
         </div>
       </main>
 
+      {step < 3 && <StickyBookingDrawer totalAmountFormatted={formatPrice(quote?.totalAmount)} roomCount={1} nightCount={nights} onNextStep={step === 1 ? handleGuestStep : handleSubmitBooking} nextStepText={step === 1 ? "Tiếp tục" : "Gửi yêu cầu"} isSubmitting={isSubmitting || isQuoteLoading} />}
       <Footer />
+
+      <style>{`
+        .booking-page { min-height: 100vh; background: var(--linen); color: var(--espresso); }
+        .booking-main { padding-block: calc(var(--header-height) + 54px) 120px; }
+        .booking-intro { display: grid; grid-template-columns: 1fr .7fr; grid-template-rows: auto 1fr; column-gap: 40px; align-items: end; padding-bottom: 42px; }
+        .booking-intro .booking-eyebrow { grid-column: 1; grid-row: 1; }
+        .booking-intro h1 { grid-column: 1; grid-row: 2; margin: 0; font: 500 clamp(56px, 8vw, 116px)/.82 var(--font-display); letter-spacing: -.055em; }
+        .booking-intro h1 em { color: var(--muted-terracotta); font-style: italic; font-weight: 400; }
+        .booking-intro > p:last-child { grid-column: 2; grid-row: 2; max-width: 360px; margin: 0 0 4px; color: var(--taupe); font-size: 13px; line-height: 1.8; }
+        .booking-eyebrow { margin: 0 0 14px; color: var(--muted-terracotta); font-size: 9px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
+        .booking-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 0 0 34px; padding: 20px 0; border-top: 1px solid #d9cfc3; border-bottom: 1px solid #d9cfc3; list-style: none; }
+        .booking-steps li { display: flex; align-items: center; gap: 12px; color: var(--taupe); font-size: 11px; }
+        .booking-steps li span { color: var(--taupe); font: 500 24px/1 var(--font-display); }
+        .booking-steps li.active { color: var(--espresso); }
+        .booking-steps li.active span { color: var(--muted-terracotta); }
+        .booking-layout { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(320px, .65fr); gap: 44px; align-items: start; }
+        .booking-flow { min-width: 0; }
+        .booking-error { margin-bottom: 18px; padding: 14px 16px; border: 1px solid #c98270; background: rgba(167,109,85,.1); color: #8e4c3a; font-size: 12px; line-height: 1.5; }
+        .booking-card, .booking-summary-card { border: 1px solid #d9cfc3; background: var(--warm-ivory); }
+        .booking-card { padding: clamp(24px, 4vw, 50px); }
+        .booking-card-heading { padding-bottom: 24px; border-bottom: 1px solid var(--line); }
+        .booking-card-heading .booking-eyebrow { margin-bottom: 8px; }
+        .booking-card-heading h2 { margin: 0; font: 500 clamp(32px, 4vw, 50px)/.9 var(--font-display); letter-spacing: -.035em; }
+        .booking-card-heading > span { display: block; margin-top: 13px; color: var(--taupe); font-size: 11px; }
+        .booking-field-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 26px; }
+        .booking-field-stack { display: grid; gap: 17px; margin-top: 24px; }
+        .booking-field-grid label, .booking-field-stack label, .booking-wide-field { display: grid; gap: 8px; }
+        .booking-wide-field { margin-top: 18px; }
+        .booking-field-grid label > span, .booking-field-stack label > span, .booking-wide-field > span { color: var(--taupe); font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+        .booking-field-grid label > span small, .booking-field-stack label > span small { font-size: 9px; font-weight: 400; letter-spacing: 0; text-transform: none; }
+        .booking-field-grid input, .booking-field-grid select, .booking-field-stack input, .booking-field-stack textarea, .booking-wide-field select { width: 100%; min-height: 46px; border: 1px solid #d9cfc3; border-radius: 5px; background: var(--linen); color: var(--espresso); padding: 0 12px; font-size: 12px; outline: none; }
+        .booking-field-stack textarea { min-height: 112px; padding-block: 12px; resize: vertical; }
+        .booking-field-grid input:focus, .booking-field-grid select:focus, .booking-field-stack input:focus, .booking-field-stack textarea:focus, .booking-wide-field select:focus { border-color: var(--antique-brass); box-shadow: 0 0 0 3px rgba(181,154,107,.15); }
+        .booking-quote-state { margin-top: 20px; padding: 12px 14px; background: rgba(181,154,107,.1); color: var(--walnut); font-size: 11px; line-height: 1.5; }
+        .booking-primary-button, .booking-secondary-button { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 0 18px; border-radius: 5px; font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+        .booking-primary-button { border: 1px solid var(--espresso); background: var(--espresso); color: var(--warm-ivory); transition: background .2s var(--ease), transform .2s var(--ease); }
+        .booking-primary-button:hover:not(:disabled) { background: var(--walnut); border-color: var(--walnut); transform: translateY(-1px); }
+        .booking-primary-button:disabled { cursor: wait; opacity: .48; }
+        .booking-card > .booking-primary-button { width: 100%; margin-top: 24px; }
+        .payment-section { margin-top: 30px; padding-top: 24px; border-top: 1px solid var(--line); }
+        .payment-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; }
+        .payment-heading h3 { margin: 0; font: 500 27px/1 var(--font-display); }
+        .payment-heading span { color: var(--taupe); font-size: 10px; }
+        .payment-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .payment-options button { display: flex; align-items: start; gap: 10px; min-height: 82px; padding: 14px; border: 1px solid #d9cfc3; background: transparent; color: var(--espresso); text-align: left; }
+        .payment-options button:hover, .payment-options button.selected { border-color: var(--antique-brass); background: rgba(181,154,107,.12); }
+        .payment-radio { width: 14px; height: 14px; flex: 0 0 auto; margin-top: 2px; border: 1px solid var(--taupe); border-radius: 50%; }
+        .payment-options button.selected .payment-radio { border: 4px solid var(--antique-brass); }
+        .payment-options button > span:last-child { display: grid; gap: 6px; }
+        .payment-options strong { font-size: 11px; }
+        .payment-options small { color: var(--taupe); font-size: 10px; line-height: 1.45; }
+        .booking-form-actions, .booking-result-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 30px; }
+        .booking-secondary-button { border: 1px solid #b9a99a; background: transparent; color: var(--walnut); }
+        .booking-secondary-button:hover { border-color: var(--espresso); background: rgba(38,30,26,.06); }
+        .booking-form-actions .booking-primary-button { flex: 1; }
+        .booking-result { text-align: left; }
+        .booking-result.confirmed { border-color: rgba(46,125,90,.4); }
+        .booking-result.pending { border-color: rgba(181,154,107,.55); }
+        .booking-result h2 { max-width: 620px; margin: 0; font: 500 clamp(40px, 5vw, 68px)/.88 var(--font-display); letter-spacing: -.04em; }
+        .booking-result > p:not(.booking-eyebrow) { max-width: 560px; margin: 20px 0 0; color: var(--taupe); font-size: 13px; line-height: 1.8; }
+        .booking-result-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 32px; padding-block: 20px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+        .booking-result-facts div { display: grid; gap: 7px; }
+        .booking-result-facts small { color: var(--taupe); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; }
+        .booking-result-facts strong { color: var(--espresso); font-size: 12px; overflow-wrap: anywhere; }
+        .booking-summary { position: sticky; top: 110px; }
+        .booking-summary-card { padding: 26px; }
+        .booking-summary-heading { padding-bottom: 17px; border-bottom: 1px solid var(--line); }
+        .booking-summary-heading .booking-eyebrow { margin-bottom: 7px; }
+        .booking-summary-heading h2 { margin: 0; font: 500 34px/1 var(--font-display); }
+        .booking-summary-card dl { display: grid; gap: 16px; margin: 22px 0 0; }
+        .booking-summary-card dl div { display: flex; justify-content: space-between; gap: 18px; font-size: 11px; }
+        .booking-summary-card dt { color: var(--taupe); }
+        .booking-summary-card dd { margin: 0; color: var(--espresso); font-weight: 600; text-align: right; }
+        .booking-summary-price { display: grid; gap: 11px; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line); }
+        .booking-summary-price div { display: flex; justify-content: space-between; gap: 16px; color: var(--taupe); font-size: 11px; }
+        .booking-summary-price strong { color: var(--espresso); font-weight: 700; }
+        .booking-summary-price .total { align-items: baseline; margin-top: 6px; padding-top: 14px; border-top: 1px solid var(--line); color: var(--espresso); font-size: 12px; }
+        .booking-summary-price .total strong { font: 600 26px/1 var(--font-display); }
+        .booking-summary-note { margin: 22px 0 0; color: var(--taupe); font-size: 10px; line-height: 1.6; }
+        @media (max-width: 900px) { .booking-intro { grid-template-columns: 1fr; grid-template-rows: auto; gap: 18px; } .booking-intro .booking-eyebrow, .booking-intro h1, .booking-intro > p:last-child { grid-column: 1; grid-row: auto; } .booking-layout { grid-template-columns: 1fr; } .booking-summary { position: static; order: -1; } .booking-summary-card { padding: 20px; } }
+        @media (max-width: 620px) { .booking-main { padding-block: calc(var(--header-height) + 28px) 100px; } .booking-intro h1 { font-size: 68px; } .booking-steps { gap: 8px; } .booking-steps li { align-items: start; flex-direction: column; gap: 4px; font-size: 9px; line-height: 1.2; } .booking-card { padding: 22px 18px; } .booking-field-grid, .payment-options, .booking-result-facts { grid-template-columns: 1fr; } .payment-heading { align-items: start; flex-direction: column; gap: 7px; } .booking-form-actions, .booking-result-actions { align-items: stretch; flex-direction: column; } .booking-form-actions .booking-primary-button { order: -1; } .booking-summary-card dl div { align-items: start; } }
+      `}</style>
     </div>
   );
 }
 
 export default function BookingPage() {
-  return (
-    <Suspense fallback={<div className="p-10 text-center text-sm font-semibold">Đang tải...</div>}>
-      <BookingContent />
-    </Suspense>
-  );
+  return <Suspense fallback={<div className="booking-loading">Đang tải hành trình đặt phòng…</div>}><BookingContent /></Suspense>;
 }

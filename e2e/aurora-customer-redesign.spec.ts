@@ -80,3 +80,60 @@ test("room detail keeps rate-plan context and labels the quote as server-owned",
   await earlyPlan.click();
   await expect(earlyPlan).toHaveAttribute("aria-checked", "true");
 });
+
+test("booking shows supported payment choices without fake hold or QR promises", async ({ page }) => {
+  await page.route("**/api/rooms", async (route) => route.fulfill({
+    contentType: "application/json",
+    body: JSON.stringify({ success: true, data: [{ id: "cat-1", slug: "deluxe-ocean-king", name: "Deluxe Ocean King", basePrice: 2500000, ratePlans: [{ id: "rp-flex", name: "Flexible", priceMultiplier: 1 }] }] }),
+  }));
+  await page.route("**/api/quote", async (route) => route.fulfill({
+    contentType: "application/json",
+    body: JSON.stringify({ success: true, data: { roomSubtotal: 5000000, serviceSubtotal: 0, discountTotal: 0, taxAndFeeTotal: 500000, totalAmount: 5500000, nights: 2, rooms: [] } }),
+  }));
+  await page.goto("/booking?roomCategoryId=cat-1&checkIn=2026-09-10&checkOut=2026-09-12&guests=2");
+  await expect(page.getByRole("heading", { name: /Đặt phòng/i })).toBeVisible();
+  await expect(page.getByText(/Báo giá đã được xác nhận/i)).toBeVisible();
+  await page.getByRole("button", { name: /Tiếp tục nhập thông tin/i }).click();
+  await expect(page.locator("body")).not.toContainText(/Thời gian phiên làm việc|PAY_AT_HOTEL|QR Check-in|Thanh Toán Tại Khách Sạn/i);
+  await expect(page.getByRole("button", { name: /mô phỏng/i })).toBeVisible();
+});
+
+test("checkout keeps one idempotency key and does not call pending payment confirmed", async ({ page }) => {
+  await page.route("**/api/rooms", async (route) => route.fulfill({
+    contentType: "application/json",
+    body: JSON.stringify({ success: true, data: [{ id: "cat-1", slug: "deluxe-ocean-king", name: "Deluxe Ocean King", basePrice: 2500000, ratePlans: [{ id: "rp-flex", name: "Flexible", priceMultiplier: 1 }] }] }),
+  }));
+  await page.route("**/api/quote", async (route) => route.fulfill({
+    contentType: "application/json",
+    body: JSON.stringify({ success: true, data: { roomSubtotal: 5000000, serviceSubtotal: 0, discountTotal: 0, taxAndFeeTotal: 500000, totalAmount: 5500000, nights: 2, rooms: [] } }),
+  }));
+  let checkoutCount = 0;
+  await page.route("**/api/checkout", async (route) => {
+    checkoutCount += 1;
+    if (checkoutCount === 1) {
+      await route.fulfill({ status: 500, contentType: "application/json", body: JSON.stringify({ message: "Temporary checkout failure" }) });
+      return;
+    }
+    await route.fulfill({ status: 201, contentType: "application/json", body: JSON.stringify({ bookingId: "booking-1", bookingNumber: "AUR-260910-ABC123", totalAmount: 5500000, replayed: false }) });
+  });
+  const checkoutRequests: string[] = [];
+  page.on("request", (request) => {
+    if (request.url().endsWith("/api/checkout")) checkoutRequests.push(request.headers()["idempotency-key"] || "");
+  });
+  await page.goto("/booking?roomCategoryId=cat-1&checkIn=2026-09-10&checkOut=2026-09-12&guests=2");
+  await expect(page.getByText(/Báo giá đã được xác nhận/i)).toBeVisible();
+  await page.getByRole("button", { name: /Tiếp tục nhập thông tin/i }).click();
+  await page.getByLabel(/Họ & tên/i).fill("Nguyễn Văn A");
+  await page.getByLabel(/Email/i).fill("nguyen@example.com");
+  await page.getByLabel(/Số điện thoại/i).fill("0901234567");
+  await page.getByRole("button", { name: /Chuyển khoản ngân hàng/i }).click();
+  const submit = page.getByRole("button", { name: /Gửi yêu cầu đặt phòng/i });
+  await submit.click();
+  await expect(page.locator(".booking-error")).toContainText("Temporary checkout failure");
+  await submit.click();
+  await expect(page.getByText(/đang chờ thanh toán/i)).toBeVisible();
+  expect(checkoutRequests).toHaveLength(2);
+  expect(checkoutRequests[0]).toBeTruthy();
+  expect(checkoutRequests[0]).toBe(checkoutRequests[1]);
+  await expect(page.locator("body")).not.toContainText("Đặt phòng đã được xác nhận");
+});
