@@ -21,3 +21,14 @@ test("customer shell exposes the approved warm image-led tokens", async ({ page 
   expect(tokens.brass).toBe("#b59a6b");
   expect(tokens.navy).not.toBe("#17211d");
 });
+
+test("customer navigation marks the active route and keeps footer links real", async ({ page }) => {
+  await page.goto("/rooms");
+
+  const activeRoomsLink = page.locator('nav[aria-label="Điều hướng chính"] a[href="/rooms"]');
+  await expect(activeRoomsLink).toHaveAttribute("aria-current", "page");
+  await expect(page.locator("footer a[href='/']")).toHaveCount(0);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.reload();
+  await expect(page.locator('button[aria-label="Mở menu"]')).toBeVisible();
+});

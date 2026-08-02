@@ -60,6 +60,8 @@ export function Header() {
     { href: "/my-bookings", key: "nav.myBookings" },
   ] as const;
 
+  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
+
   return (
     <header
       style={{
@@ -68,10 +70,10 @@ export function Header() {
         left: 0,
         right: 0,
         zIndex: 50,
-        backgroundColor: isHomeTop ? "transparent" : "rgba(23, 33, 29, 0.95)",
+        backgroundColor: isHomeTop ? "transparent" : "rgba(38, 30, 26, 0.96)",
         backdropFilter: isHomeTop ? "none" : "blur(12px)",
-        boxShadow: isHomeTop ? "none" : "0 4px 20px rgba(0,0,0,0.35)",
-        color: "#F7F4ED",
+        boxShadow: isHomeTop ? "none" : "0 4px 20px rgba(38, 30, 26, 0.28)",
+        color: "var(--warm-ivory)",
         transition: "background-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease",
       }}
     >
@@ -136,6 +138,7 @@ export function Header() {
             <Link
               key={link.href}
               href={link.href}
+              aria-current={isActive(link.href) ? "page" : undefined}
               style={{
                 position: "relative",
                 display: "inline-flex",
@@ -146,6 +149,7 @@ export function Header() {
                 paddingBlock: 12,
                 fontSize: 11,
                 fontWeight: 600,
+                color: isActive(link.href) ? "var(--warm-ivory)" : "rgba(251,248,242,.78)",
               }}
             >
               {getTranslation(lang, link.key)}
@@ -170,7 +174,7 @@ export function Header() {
               minHeight: 44,
               border: "1px solid rgba(255,255,255,.34)",
               borderRadius: "var(--radius-control)",
-              background: "rgba(20,32,27,.28)",
+              background: "rgba(25,21,18,.28)",
               color: "white",
               fontSize: 10,
               fontWeight: 700,
@@ -210,7 +214,7 @@ export function Header() {
               justifyContent: "center",
               border: "1px solid rgba(255,255,255,.3)",
               borderRadius: "var(--radius-control)",
-              background: "rgba(20,32,27,.32)",
+              background: "rgba(25,21,18,.32)",
               color: "white",
             }}
             aria-expanded={menuOpen}
@@ -251,7 +255,7 @@ export function Header() {
           gap: 6,
           transform: menuOpen ? "translateY(0)" : "translateY(-16px)",
           padding: "100px 28px 34px",
-          background: "rgba(20,32,27,.98)",
+          background: "rgba(25,21,18,.98)",
           opacity: menuOpen ? 1 : 0,
           pointerEvents: menuOpen ? "auto" as const : "none" as const,
           transition: "opacity .25s var(--ease), transform .25s var(--ease), visibility .25s",
@@ -271,23 +275,40 @@ export function Header() {
             {getTranslation(lang, link.key)}
           </Link>
         ))}
-        <Link
-          href="/search"
-          onClick={closeMenu}
-          style={{
-            width: "fit-content",
-            marginTop: 18,
-            padding: "14px 18px",
-            borderRadius: "var(--radius-control)",
-            background: "var(--gold)",
-            color: "var(--night)",
-            font: '700 11px/1 Manrope, sans-serif',
-            letterSpacing: ".1em",
-            textTransform: "uppercase" as const,
-          }}
-        >
-          {getTranslation(lang, "nav.bookNow")}
-        </Link>
+        <div style={{ display: "flex", gap: 16, marginTop: 24, alignItems: "center" }}>
+          <Link
+            href="/search"
+            onClick={closeMenu}
+            style={{
+              padding: "14px 24px",
+              borderRadius: "var(--radius-control)",
+              background: "var(--antique-brass)",
+              color: "var(--night)",
+              font: '700 11px/1 Manrope, sans-serif',
+              letterSpacing: ".1em",
+              textTransform: "uppercase" as const,
+            }}
+          >
+            {getTranslation(lang, "nav.bookNow")}
+          </Link>
+          <button
+            onClick={toggleLanguage}
+            style={{
+              minWidth: 44,
+              minHeight: 44,
+              padding: "0 16px",
+              border: "1px solid rgba(255,255,255,.4)",
+              borderRadius: "var(--radius-control)",
+              background: "rgba(255,255,255,.1)",
+              color: "white",
+              fontSize: 11,
+              fontWeight: 700,
+            }}
+            aria-label={`Chuyển ngôn ngữ sang ${lang === "vi" ? "tiếng Anh" : "tiếng Việt"}`}
+          >
+            {lang === "vi" ? "EN" : "VI"}
+          </button>
+        </div>
       </nav>
 
       <style>{`

@@ -6,7 +6,7 @@ export function Footer() {
       style={{
         padding: "74px 0 32px",
         borderTop: "1px solid rgba(255,255,255,.12)",
-        background: "var(--night)",
+        background: "var(--espresso)",
         color: "white",
       }}
     >
@@ -14,7 +14,7 @@ export function Footer() {
         <div className="footer-brand">
           <strong
             style={{
-              color: "var(--gold)",
+              color: "var(--antique-brass)",
               font: '600 26px/1 "Cormorant Garamond", serif',
               letterSpacing: ".06em",
             }}
@@ -34,8 +34,7 @@ export function Footer() {
         <div className="footer-column">
           <h3>Hỗ trợ</h3>
           <Link href="/my-bookings">Quản lý booking</Link>
-          <Link href="/login">Đăng nhập</Link>
-          <Link href="/admin">Quản trị</Link>
+          <Link href="/login">Đăng nhập tài khoản</Link>
         </div>
         <div className="footer-column">
           <h3>Liên hệ</h3>
@@ -53,13 +52,13 @@ export function Footer() {
           paddingTop: 24,
           borderTop: "1px solid rgba(255,255,255,.1)",
           color: "#88938c",
-          fontSize: 9,
+          fontSize: 11,
         }}
       >
         <span>© {new Date().getFullYear()} Aurora Hotel. All rights reserved.</span>
         <div style={{ display: "flex", gap: 24 }}>
-          <Link href="/" style={{ minHeight: 44, display: "inline-flex", alignItems: "center" }}>Quyền riêng tư</Link>
-          <Link href="/" style={{ minHeight: 44, display: "inline-flex", alignItems: "center" }}>Điều khoản sử dụng</Link>
+          <Link href="/privacy" style={{ minHeight: 44, display: "inline-flex", alignItems: "center" }}>Quyền riêng tư</Link>
+          <Link href="/terms" style={{ minHeight: 44, display: "inline-flex", alignItems: "center" }}>Điều khoản sử dụng</Link>
         </div>
       </div>
 
