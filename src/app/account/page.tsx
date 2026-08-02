@@ -1,102 +1,43 @@
-"use client";
-
-import React, { useState } from "react";
 import Link from "next/link";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 
+export const metadata = { title: "Tài khoản khách | Aurora Hotel & Resort" };
+
 export default function AccountPage() {
-  const [activeTab, setActiveTab] = useState<"profile" | "history">("history");
-
-  const stayHistory = [
-    {
-      id: "bk-2001",
-      bookingNumber: "AUR-260715-B9A1",
-      roomCategory: "Executive Bay Suite",
-      checkIn: "2026-07-15",
-      checkOut: "2026-07-18",
-      nights: 3,
-      totalAmount: 12600000,
-      status: "CHECKED_OUT",
-    },
-  ];
-
   return (
-    <div className="min-h-screen bg-[#F7F4ED] text-[#242826] flex flex-col font-sans">
+    <div className="account-page">
+      <a className="skip-link" href="#main-content">Đi đến nội dung chính</a>
       <Header />
-
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1 w-full space-y-8">
-        <div className="bg-[#17211D] text-[#F7F4ED] p-8 rounded-3xl border border-[#C5A46D]/30 flex items-center justify-between">
-          <div>
-            <span className="text-xs text-[#C5A46D] font-bold uppercase tracking-widest">AURORA GUEST MEMBER</span>
-            <h1 className="font-serif-display text-3xl font-light mt-1">Tài Khoản Khách Hàng</h1>
-            <p className="text-xs text-[#DADDD8] mt-1">Hạng thành viên: <span className="text-[#C5A46D] font-bold">Aurora Gold Member</span></p>
-          </div>
-          <Link href="/rooms" className="px-5 py-2.5 rounded-xl bg-[#C5A46D] text-[#17211D] text-xs font-bold hover:bg-[#b0905b] shadow-sm">
-            Đặt Kỳ Nghỉ Mới
-          </Link>
-        </div>
-
-        {/* Tab Selection */}
-        <div className="flex space-x-4 border-b border-[#DADDD8] pb-2">
-          <button
-            onClick={() => setActiveTab("history")}
-            className={`px-4 py-2 text-sm font-semibold border-b-2 transition-all ${
-              activeTab === "history" ? "border-[#C5A46D] text-[#17211D]" : "border-transparent text-[#242826]/60"
-            }`}
-          >
-            Lịch Sử Đặt Phòng & Lưu Trú
-          </button>
-          <button
-            onClick={() => setActiveTab("profile")}
-            className={`px-4 py-2 text-sm font-semibold border-b-2 transition-all ${
-              activeTab === "profile" ? "border-[#C5A46D] text-[#17211D]" : "border-transparent text-[#242826]/60"
-            }`}
-          >
-            Thông Tin Cá Nhân
-          </button>
-        </div>
-
-        {activeTab === "history" && (
-          <div className="bg-[#FFFDF8] rounded-3xl p-6 sm:p-8 border border-[#DADDD8] shadow-sm space-y-6">
-            <h2 className="font-serif-display text-2xl text-[#17211D]">Lịch Sử Kỳ Nghỉ Tại Aurora</h2>
-
-            <div className="space-y-4">
-              {stayHistory.map((stay) => (
-                <div key={stay.id} className="p-6 rounded-2xl bg-[#F7F4ED] border border-[#DADDD8] flex flex-wrap items-center justify-between gap-4">
-                  <div className="space-y-1">
-                    <span className="text-xs font-mono font-bold text-[#355B4B]">{stay.bookingNumber}</span>
-                    <h3 className="font-serif-display text-lg text-[#17211D] font-medium">{stay.roomCategory}</h3>
-                    <p className="text-xs text-[#242826]/70">
-                      {stay.checkIn} đến {stay.checkOut} ({stay.nights} đêm)
-                    </p>
-                  </div>
-                  <div className="text-right space-y-1">
-                    <span className="inline-block px-3 py-1 rounded-md text-[11px] font-bold bg-[#2E7D5A]/10 text-[#2E7D5A]">
-                      {stay.status}
-                    </span>
-                    <div className="text-sm font-bold text-[#17211D]">{stay.totalAmount.toLocaleString("vi-VN")} VND</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {activeTab === "profile" && (
-          <div className="bg-[#FFFDF8] rounded-3xl p-8 border border-[#DADDD8] shadow-sm space-y-4 max-w-2xl">
-            <h2 className="font-serif-display text-2xl text-[#17211D]">Thông Tin Cá Nhân</h2>
-            <div className="space-y-3 text-sm text-[#242826]">
-              <div><span className="font-semibold">Họ và tên:</span> Nguyễn Văn A</div>
-              <div><span className="font-semibold">Email:</span> guest@aurorahotel.com</div>
-              <div><span className="font-semibold">Số điện thoại:</span> +84 90 123 4567</div>
-              <div><span className="font-semibold">Địa chỉ:</span> TP. Hồ Chí Minh, Việt Nam</div>
-            </div>
-          </div>
-        )}
+      <main id="main-content" className="wrap account-main">
+        <div className="account-intro"><p className="account-eyebrow">Aurora · guest space</p><h1>Cánh cửa vào<br /><em>kỳ nghỉ của bạn.</em></h1><p>Một nơi để bắt đầu đặt phòng, đăng nhập tài khoản hoặc mở lại hồ sơ bằng mã đặt phòng.</p></div>
+        <section className="account-actions" aria-label="Các lựa chọn tài khoản">
+          <article><span className="account-card-index">01</span><p className="account-eyebrow">Guest account</p><h2>Tài khoản đã đăng nhập</h2><p>Xem thông tin được lưu trong hồ sơ Aurora sau khi đăng nhập thành công.</p><Link href="/profile">Mở tài khoản ↗</Link></article>
+          <article><span className="account-card-index">02</span><p className="account-eyebrow">Booking lookup</p><h2>Tra cứu không cần đăng nhập</h2><p>Dùng mã đặt phòng và email để xem trạng thái hoặc gửi yêu cầu huỷ theo điều kiện.</p><Link href="/my-bookings">Mở tra cứu ↗</Link></article>
+          <article><span className="account-card-index">03</span><p className="account-eyebrow">Find your stay</p><h2>Bắt đầu một kỳ nghỉ mới</h2><p>Chọn phòng và suite từ inventory hiện có, sau đó xem báo giá server-owned.</p><Link href="/rooms">Xem phòng ↗</Link></article>
+        </section>
       </main>
-
       <Footer />
+      <style>{`
+        .account-page { min-height: 100vh; background: var(--linen); color: var(--espresso); }
+        .account-main { padding-block: calc(var(--header-height) + 56px) 120px; }
+        .account-intro { display: grid; grid-template-columns: 1fr .62fr; gap: 45px; align-items: end; padding-bottom: 56px; }
+        .account-eyebrow { margin: 0 0 14px; color: var(--muted-terracotta); font-size: 9px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
+        .account-intro h1 { margin: 0; font: 500 clamp(58px, 8vw, 112px)/.82 var(--font-display); letter-spacing: -.055em; }
+        .account-intro h1 em { color: var(--muted-terracotta); font-style: italic; font-weight: 400; }
+        .account-intro > p:last-child { max-width: 360px; margin: 0 0 4px; color: var(--taupe); font-size: 13px; line-height: 1.8; }
+        .account-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+        .account-actions article { position: relative; min-height: 330px; display: flex; flex-direction: column; align-items: start; padding: 28px; border: 1px solid #d9cfc3; background: var(--warm-ivory); }
+        .account-actions article:hover { border-color: var(--antique-brass); }
+        .account-card-index { color: var(--antique-brass); font: 500 34px/1 var(--font-display); }
+        .account-actions article .account-eyebrow { margin-top: 35px; margin-bottom: 12px; }
+        .account-actions h2 { margin: 0; font: 500 32px/.94 var(--font-display); letter-spacing: -.03em; }
+        .account-actions article > p:not(.account-eyebrow) { margin: 18px 0 24px; color: var(--taupe); font-size: 12px; line-height: 1.7; }
+        .account-actions a { margin-top: auto; min-height: 44px; display: inline-flex; align-items: center; border-bottom: 1px solid var(--walnut); color: var(--walnut); font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+        .account-actions a:hover { color: var(--muted-terracotta); border-color: var(--muted-terracotta); }
+        @media (max-width: 800px) { .account-intro { grid-template-columns: 1fr; gap: 18px; } .account-actions { grid-template-columns: 1fr; } .account-actions article { min-height: 250px; } }
+        @media (max-width: 560px) { .account-main { padding-block: calc(var(--header-height) + 30px) 80px; } .account-intro h1 { font-size: 70px; } }
+      `}</style>
     </div>
   );
 }

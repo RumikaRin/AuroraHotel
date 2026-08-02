@@ -32,7 +32,7 @@ export function DigitalPassbook({ bookingNumber, guestName, guestEmail, roomCate
         <div className="digital-passbook-recovery">
           <span className="digital-passbook-icon" aria-hidden="true">↗</span>
           <h3>Tra cứu khi cần</h3>
-          <p>Mã đặt phòng và email là hai thông tin thật dùng để mở lại hồ sơ. Aurora không tạo mã QR check-in tại giao diện này.</p>
+          <p>Mã đặt phòng và email là hai thông tin thật dùng để mở lại hồ sơ khi bạn cần.</p>
           <button type="button" onClick={handlePrint}>In / lưu hồ sơ</button>
         </div>
       </div>

@@ -30,8 +30,8 @@ export function LoginForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-4">
-      <label className="flex flex-col gap-1 text-sm">
+    <form onSubmit={handleSubmit} className="login-form">
+      <label>
         Email
         <input
           name="email"
@@ -41,7 +41,7 @@ export function LoginForm() {
           className="rounded border border-neutral-300 px-3 py-2"
         />
       </label>
-      <label className="flex flex-col gap-1 text-sm">
+      <label>
         Mật khẩu
         <input
           name="password"
@@ -52,14 +52,14 @@ export function LoginForm() {
         />
       </label>
       {error ? (
-        <p className="rounded border border-red-300 bg-red-50 p-2 text-sm text-red-700">
+        <p role="alert">
           {error}
         </p>
       ) : null}
       <button
         type="submit"
         disabled={pending}
-        className="min-h-11 rounded bg-neutral-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+        className="login-submit"
       >
         {pending ? "Đang đăng nhập..." : "Đăng nhập"}
       </button>

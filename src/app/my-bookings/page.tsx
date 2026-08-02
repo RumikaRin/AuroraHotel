@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState, useEffect, Suspense } from "react";
+import { FormEvent, Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { DigitalPassbook } from "@/components/booking/DigitalPassbook";
 
 interface BookingRecord {
   id: string;
@@ -17,228 +18,137 @@ interface BookingRecord {
   totalAmount: number;
   status: string;
   cancelToken?: string;
+  roomCategory?: { name?: string };
+  ratePlan?: { name?: string };
+}
+
+function formatDate(value: string) {
+  return new Intl.DateTimeFormat("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric" }).format(new Date(value));
+}
+
+function formatPrice(value: number) {
+  return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND", maximumFractionDigits: 0 }).format(value);
 }
 
 function MyBookingsContent() {
   const searchParams = useSearchParams();
-
-  const [bookingNumber, setBookingNumber] = useState<string>(
-    searchParams.get("bookingNumber") || ""
-  );
-  const [email, setEmail] = useState<string>(
-    searchParams.get("email") || ""
-  );
-
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [bookingNumber, setBookingNumber] = useState(searchParams.get("bookingNumber") || "");
+  const [email, setEmail] = useState(searchParams.get("email") || "");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isCancelling, setIsCancelling] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [cancelSuccess, setCancelSuccess] = useState(false);
   const [bookingData, setBookingData] = useState<BookingRecord | null>(null);
 
-  const [isCancelling, setIsCancelling] = useState<boolean>(false);
-  const [cancelSuccess, setCancelSuccess] = useState<boolean>(false);
-
-  const handleLookup = async (e?: React.FormEvent) => {
-    if (e) e.preventDefault();
-    if (!bookingNumber || !email) return;
-
+  const handleLookup = async (event?: FormEvent) => {
+    event?.preventDefault();
+    if (!bookingNumber.trim() || !email.trim()) return;
     setIsLoading(true);
     setErrorMessage("");
     setBookingData(null);
     setCancelSuccess(false);
-
     try {
-      const res = await fetch("/api/bookings/lookup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ bookingNumber, email }),
-      });
-
-      const json = await res.json();
-      if (!res.ok || !json.success) {
-        throw new Error(json.error || "Không tìm thấy thông tin đơn đặt phòng");
-      }
-
-      setBookingData(json.data);
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Đã xảy ra lỗi tra cứu";
-      setErrorMessage(msg);
+      const response = await fetch("/api/bookings/lookup", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ bookingNumber: bookingNumber.trim(), email: email.trim() }) });
+      const json = await response.json();
+      if (!response.ok || !json.success) throw new Error(json.error || "Không tìm thấy thông tin đơn đặt phòng.");
+      setBookingData(json.data as BookingRecord);
+    } catch (error: unknown) {
+      setErrorMessage(error instanceof Error ? error.message : "Đã xảy ra lỗi tra cứu.");
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    if (bookingNumber && email) {
-      handleLookup();
-    }
+    if (bookingNumber && email) void handleLookup();
+    // Lookup is intentionally performed once for query-prefilled links.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleCancelBooking = async () => {
-    if (!bookingData || !bookingData.cancelToken) return;
-    if (!confirm("Bạn có chắc chắn muốn huỷ đơn đặt phòng này? Hành động này sẽ giải phóng phòng.")) return;
-
+    if (!bookingData?.cancelToken) return;
+    if (!window.confirm("Bạn có chắc chắn muốn huỷ đơn đặt phòng này?")) return;
     setIsCancelling(true);
+    setErrorMessage("");
     try {
-      const res = await fetch("/api/bookings/lookup", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          bookingId: bookingData.id,
-          token: bookingData.cancelToken,
-        }),
-      });
-
-      const json = await res.json();
-      if (!res.ok || !json.success) {
-        throw new Error(json.error || "Huỷ đơn thất bại");
-      }
-
+      const response = await fetch("/api/bookings/lookup", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ bookingId: bookingData.id, token: bookingData.cancelToken }) });
+      const json = await response.json();
+      if (!response.ok || !json.success) throw new Error(json.error || "Huỷ đơn thất bại.");
       setBookingData({ ...bookingData, status: "CANCELLED" });
       setCancelSuccess(true);
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Huỷ đơn không thành công";
-      alert(msg);
+    } catch (error: unknown) {
+      setErrorMessage(error instanceof Error ? error.message : "Huỷ đơn không thành công.");
     } finally {
       setIsCancelling(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#F7F4ED] text-[#242826] flex flex-col font-sans">
+    <div className="lookup-page">
+      <a className="skip-link" href="#main-content">Đi đến nội dung chính</a>
       <Header />
+      <main id="main-content" className="wrap lookup-main">
+        <div className="lookup-intro"><p className="lookup-eyebrow">Aurora · guest care</p><h1>Tra cứu<br /><em>kỳ nghỉ của bạn.</em></h1><p>Mã đặt phòng và email là đủ để mở lại hồ sơ, xem trạng thái hoặc gửi yêu cầu huỷ theo điều kiện hiện có.</p></div>
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-1 w-full space-y-8">
-        <div className="text-center space-y-2">
-          <span className="text-xs font-semibold text-[#C5A46D] uppercase tracking-widest">
-            AURORA SELF-SERVICE PORTAL
-          </span>
-          <h1 className="font-serif-display text-3xl sm:text-4xl text-[#17211D]">
-            Tra Cứu & Quản Lý Đặt Phòng
-          </h1>
-          <p className="text-sm text-[#242826]/70">
-            Nhập mã đặt phòng (VD: AUR-...) và email để kiểm tra trạng thái hoặc huỷ đơn đặt phòng.
-          </p>
-        </div>
-
-        {/* Lookup Form */}
-        <form onSubmit={handleLookup} className="bg-[#FFFDF8] rounded-3xl p-6 sm:p-8 border border-[#DADDD8] shadow-sm space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-semibold text-[#17211D] mb-1">Mã Đặt Phòng (Booking Number)</label>
-              <input
-                type="text"
-                placeholder="AUR-260801-A1B2"
-                value={bookingNumber}
-                onChange={(e) => setBookingNumber(e.target.value)}
-                className="w-full p-3.5 rounded-xl border border-[#DADDD8] bg-[#F7F4ED] text-sm uppercase font-mono"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-semibold text-[#17211D] mb-1">Email Đặt Phòng</label>
-              <input
-                type="email"
-                placeholder="guest@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full p-3.5 rounded-xl border border-[#DADDD8] bg-[#F7F4ED] text-sm"
-                required
-              />
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            disabled={isLoading || !bookingNumber || !email}
-            className="w-full py-3.5 rounded-xl bg-[#17211D] text-[#F7F4ED] text-sm font-semibold hover:bg-[#242826] disabled:opacity-50 transition-all shadow-sm"
-          >
-            {isLoading ? "Đang tra cứu..." : "Tìm Đơn Đặt Phòng →"}
-          </button>
+        <form className="lookup-form" onSubmit={handleLookup}>
+          <div className="lookup-form-heading"><h2>Mở hồ sơ đặt phòng</h2><span>Không cần đăng nhập</span></div>
+          <div className="lookup-field-grid"><label><span>Mã đặt phòng</span><input type="text" value={bookingNumber} onChange={(event) => setBookingNumber(event.target.value.toUpperCase())} placeholder="AUR-260801-A1B2" required /></label><label><span>Email đặt phòng</span><input type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="guest@example.com" required /></label></div>
+          <button type="submit" disabled={isLoading || !bookingNumber || !email}>{isLoading ? "Đang tra cứu…" : "Tra cứu hồ sơ ↗"}</button>
         </form>
 
-        {errorMessage && (
-          <div className="p-4 rounded-xl bg-[#B84A4A]/10 border border-[#B84A4A] text-[#B84A4A] text-sm font-medium text-center">
-            {errorMessage}
-          </div>
-        )}
+        {errorMessage && <div className="lookup-message error" role="alert">{errorMessage}</div>}
+        {cancelSuccess && <div className="lookup-message success" role="status">Đơn đặt phòng đã được huỷ thành công.</div>}
 
-        {cancelSuccess && (
-          <div className="p-4 rounded-xl bg-[#2E7D5A]/10 border border-[#2E7D5A] text-[#2E7D5A] text-sm font-medium text-center">
-            ✓ Đơn đặt phòng đã được huỷ thành công và giải phóng phòng về kho khả dụng.
-          </div>
-        )}
-
-        {/* Booking Details Card */}
         {bookingData && (
-          <div className="bg-[#FFFDF8] rounded-3xl p-8 border border-[#DADDD8] shadow-md space-y-6">
-            <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-[#DADDD8]">
-              <div>
-                <span className="text-xs text-[#242826]/60">Mã đơn đặt phòng</span>
-                <div className="text-2xl font-mono font-bold text-[#17211D]">{bookingData.bookingNumber}</div>
-              </div>
-              <div className="text-right">
-                <span className="text-xs text-[#242826]/60">Trạng thái</span>
-                <div>
-                  <span
-                    className={`inline-block px-3 py-1 rounded-lg text-xs font-bold ${
-                      bookingData.status === "CONFIRMED"
-                        ? "bg-[#2E7D5A]/10 text-[#2E7D5A]"
-                        : bookingData.status === "CANCELLED"
-                        ? "bg-[#B84A4A]/10 text-[#B84A4A]"
-                        : "bg-[#C48138]/10 text-[#C48138]"
-                    }`}
-                  >
-                    {bookingData.status}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
-              <div className="space-y-2">
-                <div className="text-xs font-bold text-[#17211D] uppercase tracking-wider">Thông Tin Khách</div>
-                <div><span className="text-[#242826]/70">Họ tên:</span> <span className="font-semibold">{bookingData.guestName}</span></div>
-                <div><span className="text-[#242826]/70">Email:</span> <span>{bookingData.guestEmail}</span></div>
-                <div><span className="text-[#242826]/70">SĐT:</span> <span>{bookingData.guestPhone}</span></div>
-              </div>
-
-              <div className="space-y-2">
-                <div className="text-xs font-bold text-[#17211D] uppercase tracking-wider">Chi Tiết Kỳ Nghỉ</div>
-                <div><span className="text-[#242826]/70">Nhận phòng:</span> <span className="font-semibold">{new Date(bookingData.checkIn).toLocaleDateString("vi-VN")}</span></div>
-                <div><span className="text-[#242826]/70">Trả phòng:</span> <span className="font-semibold">{new Date(bookingData.checkOut).toLocaleDateString("vi-VN")}</span></div>
-                <div><span className="text-[#242826]/70">Số đêm:</span> <span>{bookingData.nights} đêm</span></div>
-              </div>
-            </div>
-
-            <div className="pt-4 border-t border-[#DADDD8] flex items-center justify-between">
-              <div>
-                <span className="text-xs text-[#242826]/60">Tổng cộng thanh toán</span>
-                <div className="text-xl font-bold text-[#17211D]">{bookingData.totalAmount?.toLocaleString("vi-VN")} VND</div>
-              </div>
-
-              {bookingData.status !== "CANCELLED" && bookingData.status !== "CHECKED_OUT" && (
-                <button
-                  onClick={handleCancelBooking}
-                  disabled={isCancelling}
-                  className="px-5 py-2.5 rounded-xl border border-[#B84A4A] text-[#B84A4A] text-xs font-semibold hover:bg-[#B84A4A] hover:text-white transition-all disabled:opacity-50"
-                >
-                  {isCancelling ? "Đang xử lý..." : "Huỷ Đơn Đặt Phòng"}
-                </button>
-              )}
-            </div>
-          </div>
+          <section className="lookup-result" aria-labelledby="lookup-result-title">
+            <div className="lookup-result-heading"><div><p className="lookup-eyebrow">Booking record</p><h2 id="lookup-result-title">Hồ sơ đã được mở</h2></div><span className={`lookup-status ${bookingData.status.toLowerCase()}`}>{bookingData.status}</span></div>
+            <DigitalPassbook bookingNumber={bookingData.bookingNumber} guestName={bookingData.guestName} guestEmail={bookingData.guestEmail} roomCategoryName={bookingData.roomCategory?.name || "Hạng phòng Aurora"} checkIn={formatDate(bookingData.checkIn)} checkOut={formatDate(bookingData.checkOut)} totalAmountFormatted={formatPrice(bookingData.totalAmount)} status={bookingData.status} />
+            <div className="lookup-details"><div><small>Hạng phòng</small><strong>{bookingData.roomCategory?.name || "Theo hồ sơ đặt phòng"}</strong><span>{bookingData.ratePlan?.name || "Rate plan đã chọn"}</span></div><div><small>Lưu trú</small><strong>{formatDate(bookingData.checkIn)} → {formatDate(bookingData.checkOut)}</strong><span>{bookingData.nights} đêm</span></div><div><small>Liên hệ</small><strong>{bookingData.guestName}</strong><span>{bookingData.guestPhone}</span></div><div><small>Tổng tiền</small><strong>{formatPrice(bookingData.totalAmount)}</strong><span>Giá từ hồ sơ server</span></div></div>
+            {bookingData.status !== "CANCELLED" && bookingData.status !== "CHECKED_OUT" && <button type="button" className="lookup-cancel" onClick={handleCancelBooking} disabled={isCancelling}>{isCancelling ? "Đang xử lý…" : "Gửi yêu cầu huỷ đơn"}</button>}
+          </section>
         )}
       </main>
-
       <Footer />
+      <style>{`
+        .lookup-page { min-height: 100vh; background: var(--linen); color: var(--espresso); }
+        .lookup-main { padding-block: calc(var(--header-height) + 56px) 120px; }
+        .lookup-intro { display: grid; grid-template-columns: 1fr .62fr; gap: 45px; align-items: end; padding-bottom: 44px; }
+        .lookup-eyebrow { margin: 0 0 14px; color: var(--muted-terracotta); font-size: 9px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
+        .lookup-intro h1 { grid-column: 1; margin: 0; font: 500 clamp(58px, 8vw, 112px)/.82 var(--font-display); letter-spacing: -.055em; }
+        .lookup-intro h1 em { color: var(--muted-terracotta); font-style: italic; font-weight: 400; }
+        .lookup-intro > p:last-child { max-width: 360px; margin: 0 0 4px; color: var(--taupe); font-size: 13px; line-height: 1.8; }
+        .lookup-form { padding: 28px 32px 32px; border: 1px solid rgba(181,154,107,.35); background: var(--warm-ivory); box-shadow: 0 18px 42px rgba(38,30,26,.1); }
+        .lookup-form-heading, .lookup-result-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+        .lookup-form-heading h2, .lookup-result-heading h2 { margin: 0; font: 500 34px/1 var(--font-display); }
+        .lookup-form-heading span, .lookup-result-heading > span { color: var(--taupe); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
+        .lookup-field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
+        .lookup-field-grid label { display: grid; gap: 8px; }
+        .lookup-field-grid label span { color: var(--taupe); font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+        .lookup-field-grid input { width: 100%; min-height: 48px; border: 1px solid #d9cfc3; border-radius: 5px; background: var(--linen); color: var(--espresso); padding: 0 12px; font-size: 12px; outline: none; }
+        .lookup-field-grid input:focus { border-color: var(--antique-brass); box-shadow: 0 0 0 3px rgba(181,154,107,.15); }
+        .lookup-form > button { width: 100%; min-height: 48px; margin-top: 18px; border: 0; border-radius: 5px; background: var(--espresso); color: var(--warm-ivory); font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+        .lookup-form > button:hover:not(:disabled) { background: var(--walnut); }
+        .lookup-form > button:disabled { opacity: .45; }
+        .lookup-message { margin-top: 20px; padding: 14px 16px; border: 1px solid; font-size: 12px; }
+        .lookup-message.error { border-color: #c98270; background: rgba(167,109,85,.1); color: #8e4c3a; }
+        .lookup-message.success { border-color: #88ad8f; background: rgba(46,125,90,.1); color: #2e7d5a; }
+        .lookup-result { margin-top: 54px; padding-top: 24px; border-top: 1px solid var(--line); }
+        .lookup-status { color: var(--muted-terracotta) !important; font-weight: 700; }
+        .lookup-status.confirmed { color: #2e7d5a !important; }
+        .lookup-details { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; padding-block: 24px; border-bottom: 1px solid var(--line); }
+        .lookup-details div { display: grid; gap: 6px; }
+        .lookup-details small { color: var(--taupe); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; }
+        .lookup-details strong { font-size: 12px; }
+        .lookup-details span { color: var(--taupe); font-size: 10px; }
+        .lookup-cancel { min-height: 44px; margin-top: 20px; padding: 0 14px; border: 1px solid #b75f52; background: transparent; color: #9a4d42; font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+        .lookup-cancel:hover { background: #9a4d42; color: white; }
+        @media (max-width: 800px) { .lookup-intro { grid-template-columns: 1fr; gap: 18px; } .lookup-details { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 560px) { .lookup-main { padding-block: calc(var(--header-height) + 30px) 80px; } .lookup-intro h1 { font-size: 70px; } .lookup-form { padding: 22px 18px; } .lookup-field-grid { grid-template-columns: 1fr; } .lookup-form-heading, .lookup-result-heading { align-items: start; flex-direction: column; gap: 8px; } .lookup-details { grid-template-columns: 1fr; } }
+      `}</style>
     </div>
   );
 }
 
 export default function MyBookingsPage() {
-  return (
-    <Suspense fallback={<div className="p-10 text-center text-sm font-semibold">Đang tải...</div>}>
-      <MyBookingsContent />
-    </Suspense>
-  );
+  return <Suspense fallback={<div className="lookup-loading">Đang mở hồ sơ…</div>}><MyBookingsContent /></Suspense>;
 }

@@ -150,3 +150,34 @@ test("experiences and offers stay editorial and route to real customer actions",
   await expect(page.getByRole("link", { name: /Xem rate plan/i }).first()).toHaveAttribute("href", /\/booking\?offer=/);
   await expect(page.locator("body")).toContainText(/Giá.*xác nhận|báo giá/i);
 });
+
+test("booking lookup preserves the existing request contract and uses real booking fields", async ({ page }) => {
+  let lookupBody: unknown;
+  await page.route("**/api/bookings/lookup", async (route) => {
+    if (route.request().method() === "POST") {
+      lookupBody = route.request().postDataJSON();
+      await route.fulfill({
+        contentType: "application/json",
+        body: JSON.stringify({ success: true, data: { id: "booking-1", bookingNumber: "AUR-260910-ABC123", guestName: "Nguyễn Văn A", guestEmail: "nguyen@example.com", guestPhone: "0901234567", checkIn: "2026-09-10", checkOut: "2026-09-12", nights: 2, totalAmount: 5500000, status: "PENDING_PAYMENT", cancelToken: "token-1234567890", roomCategory: { name: "Deluxe Ocean King" }, ratePlan: { name: "Flexible" } } }),
+      });
+      return;
+    }
+    await route.fulfill({ contentType: "application/json", body: JSON.stringify({ success: true, data: {} }) });
+  });
+  await page.goto("/my-bookings");
+  await expect(page.getByRole("heading", { name: /Tra cứu kỳ nghỉ/i })).toBeVisible();
+  await page.getByLabel(/Mã đặt phòng/i).fill("AUR-260910-ABC123");
+  await page.getByLabel(/Email đặt phòng/i).fill("nguyen@example.com");
+  await page.getByRole("button", { name: /Tra cứu/i }).click();
+  await expect(page.getByLabel("Chi tiết xác nhận đặt phòng").getByText("Deluxe Ocean King")).toBeVisible();
+  expect(lookupBody).toEqual({ bookingNumber: "AUR-260910-ABC123", email: "nguyen@example.com" });
+  await expect(page.locator("body")).not.toContainText(/QR Check-in|Mã QR|Deluxe Ocean Suite/i);
+});
+
+test("account entry has no fabricated stay history and links to real customer states", async ({ page }) => {
+  await page.goto("/account");
+  await expect(page.getByRole("heading", { name: /Cánh cửa vào kỳ nghỉ/i })).toBeVisible();
+  await expect(page.locator("body")).not.toContainText("AUR-260715-B9A1");
+  await expect(page.getByRole("link", { name: /Mở tra cứu/i })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Mở tài khoản/i })).toBeVisible();
+});
