@@ -20,8 +20,17 @@ test.describe("Aurora Interactive Element Audit E2E", () => {
   });
 
   test("booking wizard advances through step 1 to step 2", async ({ page }) => {
+    await page.route("**/api/rooms", async (route) => route.fulfill({
+      contentType: "application/json",
+      body: JSON.stringify({ success: true, data: [{ id: "cat-1", slug: "deluxe-ocean-king", name: "Deluxe Ocean King", basePrice: 2500000, ratePlans: [{ id: "rp-flex", name: "Flexible", priceMultiplier: 1 }] }] }),
+    }));
+    await page.route("**/api/quote", async (route) => route.fulfill({
+      contentType: "application/json",
+      body: JSON.stringify({ success: true, data: { roomSubtotal: 5000000, serviceSubtotal: 0, discountTotal: 0, taxAndFeeTotal: 500000, totalAmount: 5500000, nights: 2, rooms: [] } }),
+    }));
     await page.goto("/booking");
-    await page.getByRole("button", { name: /Tiếp Tục/i }).click();
-    await expect(page.getByText("Bước 2: Thông Tin Liên Hệ Khách Hàng")).toBeVisible();
+    await expect(page.getByText(/Báo giá đã được xác nhận/i)).toBeVisible();
+    await page.getByRole("button", { name: /Tiếp tục nhập thông tin/i }).click();
+    await expect(page.getByRole("heading", { name: /Thông tin khách & thanh toán/i })).toBeVisible();
   });
 });
