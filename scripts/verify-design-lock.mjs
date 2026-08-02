@@ -4,7 +4,7 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 
 const SPEC =
-  "docs/superpowers/specs/2026-07-31-aurora-hotel-system-design.md";
+  "docs/superpowers/specs/2026-08-02-aurora-customer-frontend-redesign-design.md";
 
 const canonicalText = (value) => value.replace(/\r\n/g, "\n");
 const sha256 = (value) =>

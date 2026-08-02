@@ -10,7 +10,7 @@ blueprint:
   sha256: 25feb3781b3d7f613ccd938afd5caed66f8314c7aba16d4e08f61059a5471866
 experience:
   path: experience-blueprint.yml
-  sha256: 91505645c810b460b8bc702de49a6af4b2071347d636eb1eb25b1d027ee70a40
+  sha256: 546a6739c37c8b5a172a891bb3082bac345212df9078fb2bfbda3b8b814a8c8b
 profile: next-monolith
 stack:
   language: typescript

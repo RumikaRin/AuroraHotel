@@ -28,6 +28,8 @@ direction:
     - "Apple product experiences: learn hierarchy, restraint, and interaction
       clarity without imitating visual assets"
   antiPatterns:
+    - Dark navy/forest-green brand surfaces
+    - Chromatic or rainbow decorative gradients
     - Neon or cyberpunk visual language
     - Strong decorative gradients
     - Site-wide glassmorphism
@@ -58,10 +60,10 @@ color:
   constraints:
     - "Brand name: Aurora Hotel"
     - "Slogan: Where Every Stay Becomes a Memory"
-    - "Primary colors: Aurora Midnight #17211D, Warm Ivory #F7F4ED, Champagne
-      Gold #C5A46D used sparingly"
-    - "Secondary colors: Forest Green #355B4B, Terracotta #B97857, Mist Gray
-      #DADDD8, Charcoal #242826, White #FFFFFF"
+    - "Primary colors: Espresso #261E1A, Warm Ivory #FBF8F2, Antique Brass
+      #B59A6B used sparingly"
+    - "Secondary colors: Warm Carbon #191512, Linen #F3EEE7, Walnut #665044,
+      Muted Terracotta #A76D55, Taupe #887A70, White #FFFFFF"
     - "Semantic colors: success #2E7D5A, warning #C48138, error #B84A4A,
       information #3F6D8C"
     - Use an intentional premium serif display face paired with a highly
@@ -113,9 +115,6 @@ quality:
     - discovery:seo
 designSystem:
   path: design.md
-  status: draft
+  status: locked
 coverage:
-  unresolved:
-    - design.tokens
-    - design.component-rules
-    - design.owner-approval
+  unresolved: []
