@@ -55,3 +55,28 @@ test("homepage room reel keeps real room destinations and quiet motion fallback"
   expect(Number.parseFloat(motion.transition)).toBeLessThan(0.1);
   expect(Number.parseFloat(motion.animation)).toBeLessThan(0.1);
 });
+
+test("rooms preserve booking dates and provide an accessible image lightbox", async ({ page }) => {
+  await page.goto("/rooms?checkIn=2026-09-10&checkOut=2026-09-13&guests=2");
+  await expect(page.getByRole("heading", { name: /Một căn phòng/i })).toBeVisible();
+  await expect(page.locator("[data-testid=rooms-search-summary]")).toContainText("10/09/2026");
+  const detailLink = page.locator('main a[href^="/rooms/"]').first();
+  await expect(detailLink).toHaveAttribute("href", /checkIn=2026-09-10/);
+  const galleryButton = page.locator('button[aria-label^="Mở thư viện ảnh"]').first();
+  await galleryButton.click();
+  const dialog = page.getByRole("dialog", { name: /Bộ sưu tập ảnh/i });
+  await expect(dialog).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(dialog).toBeHidden();
+});
+
+test("room detail keeps rate-plan context and labels the quote as server-owned", async ({ page }) => {
+  await page.goto("/rooms/deluxe-ocean-king?checkIn=2026-09-10&checkOut=2026-09-13&guests=2");
+  await expect(page.getByRole("heading", { name: "Deluxe Ocean King" })).toBeVisible();
+  await expect(page.getByText("Giá tham khảo từ")).toBeVisible();
+  await expect(page.getByText(/Giá và tổng tiền cuối cùng được xác nhận/)).toBeVisible();
+  await expect(page.getByRole("link", { name: /Chọn ngày & đặt phòng/ })).toHaveAttribute("href", /checkIn=2026-09-10/);
+  const earlyPlan = page.getByRole("radio", { name: /Đặt sớm/i });
+  await earlyPlan.click();
+  await expect(earlyPlan).toHaveAttribute("aria-checked", "true");
+});
