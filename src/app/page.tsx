@@ -303,7 +303,7 @@ export default async function HomePage() {
           display: flex; gap: 16px; align-items: baseline; color: var(--clay); margin-bottom: 24px;
         }
         .chapter-mark strong { font: 500 44px/1 "Cormorant Garamond", serif; }
-        .chapter-mark span { font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+        .chapter-mark span { font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--walnut); }
 
         .prologue-copy h2 {
           font: 400 clamp(44px, 5.5vw, 76px)/0.92 "Cormorant Garamond", serif;
@@ -322,7 +322,7 @@ export default async function HomePage() {
           margin-bottom: 28px;
         }
         .prologue-copy p {
-          color: var(--muted);
+          color: var(--walnut);
           font-size: 13px;
           line-height: 1.85;
           margin-bottom: 32px;

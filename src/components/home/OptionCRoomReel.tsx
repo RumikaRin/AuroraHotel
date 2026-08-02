@@ -169,7 +169,7 @@ export function OptionCRoomReel({ rooms }: OptionCRoomReelProps) {
       </div>
 
       {/* Side nav */}
-      <div className="reel-side-nav" role="tablist" aria-label="Danh sách hạng phòng">
+      <nav className="reel-side-nav" aria-label="Danh sách hạng phòng">
         <button
           className="reel-nav-arrow"
           type="button"
@@ -183,8 +183,7 @@ export function OptionCRoomReel({ rooms }: OptionCRoomReelProps) {
             <button
               key={i}
               type="button"
-              role="tab"
-              aria-selected={i === index}
+              aria-pressed={i === index}
               aria-label={`Chuyển tới ${room.name || `Phòng ${i + 1}`}`}
               className={`reel-indicator ${i === index ? "active" : ""}`}
               onClick={() => goTo(i)}
@@ -199,7 +198,7 @@ export function OptionCRoomReel({ rooms }: OptionCRoomReelProps) {
         >
           ↓
         </button>
-      </div>
+      </nav>
 
       <style>{`
         .stay-reel-full {
