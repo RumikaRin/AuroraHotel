@@ -49,3 +49,4 @@ agy_models.txt
 # Personal & Academic Documents
 *.docx
 
+.env*
