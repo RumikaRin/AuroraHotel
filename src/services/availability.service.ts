@@ -70,7 +70,7 @@ export async function searchAvailableCategories(
 
     let minRemaining = Infinity;
     for (const da of availabilities) {
-      const remaining = da.totalInventory - da.bookedCount - da.holdCount;
+      const remaining = da.totalInventory - da.bookedCount - da.holdCount - da.blockedCount;
       if (remaining < minRemaining) {
         minRemaining = remaining;
       }
@@ -108,7 +108,7 @@ export async function reserveAvailability(
   }
 
   for (const da of availabilities) {
-    const available = da.totalInventory - da.bookedCount - da.holdCount;
+    const available = da.totalInventory - da.bookedCount - da.holdCount - da.blockedCount;
     if (available < 1) {
       throw new ConflictError(`Room no longer available for date ${da.date.toISOString().slice(0, 10)}`);
     }

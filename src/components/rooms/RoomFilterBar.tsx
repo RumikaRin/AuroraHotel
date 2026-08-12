@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { AuroraSelect } from "@/components/controls/AuroraSelect";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 
 export interface FilterCriteria {
   searchQuery: string;
@@ -16,6 +18,7 @@ interface RoomFilterBarProps {
 }
 
 export function RoomFilterBar({ onFilterChange, onOpenCompare, selectedCompareCount }: RoomFilterBarProps) {
+  const { lang, t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState("");
   const [maxPrice, setMaxPrice] = useState(25000000);
   const [viewType, setViewType] = useState("ALL");
@@ -36,47 +39,57 @@ export function RoomFilterBar({ onFilterChange, onOpenCompare, selectedCompareCo
     <div className="room-filter-bar">
       <div className="room-filter-heading">
         <div>
-          <p className="room-filter-eyebrow">Refine your stay</p>
-          <h2>Tìm đúng nhịp nghỉ</h2>
+          <p className="room-filter-eyebrow">{t("rooms.filter.refine")}</p>
+          <h2>{t("rooms.filter.title")}</h2>
         </div>
         <div className="room-filter-actions">
           <button type="button" onClick={onOpenCompare} disabled={selectedCompareCount === 0} className="room-compare-button">
-            So sánh {selectedCompareCount > 0 ? `(${selectedCompareCount})` : ""}
+            {t("rooms.filter.compare", { count: selectedCompareCount > 0 ? `(${selectedCompareCount})` : "" })}
           </button>
-          <button type="button" onClick={handleReset} className="room-reset-button">Đặt lại</button>
+          <button type="button" onClick={handleReset} className="room-reset-button">{t("rooms.filter.reset")}</button>
         </div>
       </div>
 
       <div className="room-filter-grid">
-        <label>
-          <span>Tên hạng phòng</span>
+        <label className="room-filter-field">
+          <span>{t("rooms.filter.name")}</span>
           <input
             type="search"
-            placeholder="Deluxe, Suite, Villa..."
+            placeholder={t("rooms.filter.namePlaceholder")}
             value={searchQuery}
             onChange={(event) => update({ searchQuery: event.target.value })}
           />
         </label>
-        <label>
-          <span>Tầm nhìn</span>
-          <select value={viewType} onChange={(event) => update({ viewType: event.target.value })}>
-            <option value="ALL">Tất cả tầm nhìn</option>
-            <option value="OCEAN">Hướng biển</option>
-            <option value="GARDEN">Hướng vườn</option>
-            <option value="POOL">Hướng hồ bơi</option>
-          </select>
-        </label>
-        <label>
-          <span>Sức chứa tối thiểu <b>{minCapacity}+ khách</b></span>
-          <select value={minCapacity} onChange={(event) => update({ minCapacity: Number(event.target.value) })}>
-            <option value={1}>1+ khách</option>
-            <option value={2}>2+ khách</option>
-            <option value={3}>3+ khách</option>
-            <option value={4}>4+ khách</option>
-          </select>
-        </label>
-        <label>
-          <span>Giá tối đa <b>{maxPrice.toLocaleString("vi-VN")} ₫</b></span>
+        <div className="room-filter-field">
+          <span>{t("rooms.filter.view")}</span>
+          <AuroraSelect
+            label={t("rooms.filter.view")}
+            value={viewType}
+            onValueChange={(nextView) => update({ viewType: nextView })}
+            options={[
+              { value: "ALL", label: t("rooms.filter.allViews") },
+              { value: "OCEAN", label: t("rooms.filter.ocean") },
+              { value: "GARDEN", label: t("rooms.filter.garden") },
+              { value: "POOL", label: t("rooms.filter.pool") },
+            ]}
+          />
+        </div>
+        <div className="room-filter-field">
+          <span>{t("rooms.filter.capacity")} <b>{t("rooms.filter.guestsMin", { count: minCapacity })}</b></span>
+          <AuroraSelect
+            label={t("rooms.filter.capacity")}
+            value={minCapacity}
+            onValueChange={(nextCapacity) => update({ minCapacity: nextCapacity })}
+            options={[
+              { value: 1, label: t("rooms.filter.guestsMin", { count: 1 }) },
+              { value: 2, label: t("rooms.filter.guestsMin", { count: 2 }) },
+              { value: 3, label: t("rooms.filter.guestsMin", { count: 3 }) },
+              { value: 4, label: t("rooms.filter.guestsMin", { count: 4 }) },
+            ]}
+          />
+        </div>
+        <label className="room-filter-field">
+          <span>{t("rooms.filter.price")} <b>{maxPrice.toLocaleString(lang === "en" ? "en-US" : "vi-VN")} ₫</b></span>
           <input
             type="range"
             min={2000000}
@@ -100,11 +113,11 @@ export function RoomFilterBar({ onFilterChange, onOpenCompare, selectedCompareCo
         .room-compare-button:disabled { cursor: not-allowed; opacity: .36; }
         .room-reset-button { border: 0; background: transparent; color: var(--taupe); text-decoration: underline; text-underline-offset: 4px; }
         .room-filter-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.25fr; gap: 18px; padding-top: 24px; }
-        .room-filter-grid label { display: grid; align-content: start; gap: 9px; }
-        .room-filter-grid label > span { color: var(--taupe); font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
-        .room-filter-grid label > span b { float: right; color: var(--muted-terracotta); font-size: 9px; font-weight: 700; letter-spacing: 0; text-transform: none; }
-        .room-filter-grid input[type="search"], .room-filter-grid select { width: 100%; min-height: 44px; border: 1px solid #d9cfc3; border-radius: 6px; background: var(--warm-ivory); color: var(--espresso); padding: 0 12px; font-size: 12px; outline: none; }
-        .room-filter-grid input[type="search"]:focus, .room-filter-grid select:focus { border-color: var(--antique-brass); box-shadow: 0 0 0 3px rgba(181,154,107,.15); }
+        .room-filter-field { display: grid; align-content: start; gap: 9px; min-width: 0; }
+        .room-filter-field > span { color: var(--taupe); font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+        .room-filter-field > span b { float: right; color: var(--muted-terracotta); font-size: 9px; font-weight: 700; letter-spacing: 0; text-transform: none; }
+        .room-filter-grid input[type="search"] { width: 100%; min-height: 46px; border: 1px solid #d9cfc3; border-radius: 7px; background: var(--warm-ivory); color: var(--espresso); padding: 0 12px; font-size: 12px; outline: none; }
+        .room-filter-grid input[type="search"]:focus { border-color: var(--antique-brass); box-shadow: 0 0 0 3px rgba(181,154,107,.15); }
         .room-filter-grid input[type="range"] { width: 100%; min-height: 44px; accent-color: var(--antique-brass); }
         @media (max-width: 760px) {
           .room-filter-bar { padding: 22px 18px; }

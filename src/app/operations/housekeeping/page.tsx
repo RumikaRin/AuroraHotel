@@ -5,22 +5,26 @@ import Link from "next/link";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 
-const INITIAL_ROOMS = [
-  { id: "rm-101", number: "101", category: "Deluxe Ocean King", status: "CLEAN", floor: 1 },
-  { id: "rm-102", number: "102", category: "Deluxe Ocean King", status: "DIRTY", floor: 1 },
-  { id: "rm-201", number: "201", category: "Executive Bay Suite", status: "INSPECTING", floor: 2 },
-  { id: "rm-301", number: "301", category: "Presidential Villa", status: "MAINTENANCE", floor: 3 },
+import { RoomMatrixGrid, MatrixRoomItem } from "@/components/operations/RoomMatrixGrid";
+
+const INITIAL_HOUSEKEEPING_ROOMS: MatrixRoomItem[] = [
+  { id: "rm-101", roomNumber: "101", categoryName: "Deluxe Ocean King", status: "CLEAN", floor: 1 },
+  { id: "rm-102", roomNumber: "102", categoryName: "Deluxe Ocean King", status: "DIRTY", floor: 1 },
+  { id: "rm-103", roomNumber: "103", categoryName: "Deluxe Ocean King", status: "CLEAN", floor: 1 },
+  { id: "rm-201", roomNumber: "201", categoryName: "Executive Bay Suite", status: "INSPECTING", floor: 2 },
+  { id: "rm-202", roomNumber: "202", categoryName: "Executive Bay Suite", status: "DIRTY", floor: 2 },
+  { id: "rm-301", roomNumber: "301", categoryName: "Presidential Villa", status: "MAINTENANCE", floor: 3 },
 ];
 
 export default function HousekeepingPage() {
-  const [rooms, setRooms] = useState(INITIAL_ROOMS);
+  const [rooms, setRooms] = useState<MatrixRoomItem[]>(INITIAL_HOUSEKEEPING_ROOMS);
   const [actionMessage, setActionMessage] = useState("");
 
-  const updateStatus = (roomId: string, newStatus: string) => {
+  const updateStatus = (roomId: string, newStatus: MatrixRoomItem["status"]) => {
     setRooms((prev) =>
       prev.map((r) => (r.id === roomId ? { ...r, status: newStatus } : r))
     );
-    setActionMessage(`Đã cập nhật phòng ${roomId} sang trạng thái ${newStatus}`);
+    setActionMessage(`Đã cập nhật phòng sang trạng thái ${newStatus}`);
   };
 
   return (
@@ -31,7 +35,7 @@ export default function HousekeepingPage() {
         <div className="flex justify-between items-center bg-[#17211D] text-[#F7F4ED] p-6 rounded-2xl border border-[#C5A46D]/30">
           <div>
             <span className="text-xs text-[#C5A46D] font-bold uppercase tracking-wider">HOUSEKEEPING MANAGEMENT</span>
-            <h1 className="font-serif-display text-2xl font-light">Quản Lý Trạng Thái Dọn Dẹp Buồng Phòng</h1>
+            <h1 className="font-serif-luxury text-2xl font-bold">Quản Lý Trạng Thái Dọn Dẹp Buồng Phòng</h1>
           </div>
           <Link href="/admin" className="text-xs text-[#C5A46D] border border-[#C5A46D]/40 px-3 py-1.5 rounded-lg hover:bg-[#C5A46D]/10">
             Về Dashboard Quản Trị
@@ -44,7 +48,17 @@ export default function HousekeepingPage() {
           </div>
         )}
 
-        {/* Room Status Cards Grid */}
+        {/* Interactive Floor Matrix */}
+        <div className="space-y-4">
+          <h2 className="font-serif-luxury text-2xl font-bold text-aurora-midnight">
+            Hàng Đợi Trạng Thái Buồng Phòng Trực Quan
+          </h2>
+          <RoomMatrixGrid
+            rooms={rooms}
+            onStatusChange={updateStatus}
+            isHousekeeperView
+          />
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {rooms.map((room) => (
             <div
@@ -68,8 +82,8 @@ export default function HousekeepingPage() {
                     {room.status}
                   </span>
                 </div>
-                <div className="text-3xl font-mono font-bold text-[#17211D]">Phòng {room.number}</div>
-                <div className="text-xs text-[#242826]/70">{room.category}</div>
+                <div className="text-3xl font-mono font-bold text-[#17211D]">Phòng {room.roomNumber}</div>
+                <div className="text-xs text-[#242826]/70">{room.categoryName}</div>
               </div>
 
               {/* Status transition controls */}

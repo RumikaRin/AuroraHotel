@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useState, useRef } from "react";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 
 interface Room {
   id: string;
@@ -24,14 +25,15 @@ const reelImages = [
   "/images/aurora/presidential-villa.jpg",
 ];
 
-function formatVND(amount: number) {
-  return new Intl.NumberFormat("vi-VN", {
+function formatVND(amount: number, lang: "vi" | "en") {
+  return new Intl.NumberFormat(lang === "en" ? "en-US" : "vi-VN", {
     style: "currency",
     currency: "VND",
   }).format(amount);
 }
 
 export function OptionCRoomReel({ rooms }: OptionCRoomReelProps) {
+  const { lang, t } = useLanguage();
   const [index, setIndex] = useState(0);
   const touchStartY = useRef<number | null>(null);
   const roomCount = rooms.length;
@@ -79,8 +81,9 @@ export function OptionCRoomReel({ rooms }: OptionCRoomReelProps) {
   return (
     <section
       className="snap-section stay-reel-full"
-      aria-label="Bộ sưu tập phòng nghỉ Aurora"
+      aria-label={t("home.reelAria")}
       id="suites"
+      data-scroll-section="rooms"
       data-header-tone="dark"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
@@ -115,13 +118,13 @@ export function OptionCRoomReel({ rooms }: OptionCRoomReelProps) {
 
         <div className="reel-middle-copy">
           <div className="eyebrow" style={{ color: "var(--gold)" }}>
-            {current?.type || "Signature Suite"}
+            {current?.type || t("home.reelFallback")}
           </div>
           <h2>{current?.name}</h2>
           <p>{current?.description}</p>
         </div>
 
-        <nav className="reel-room-list" aria-label="Chọn hạng phòng nổi bật">
+        <nav className="reel-room-list" aria-label={t("home.reelRoomList")}>
           {rooms.map((room, i) => (
             <button
               key={room.id}
@@ -132,7 +135,7 @@ export function OptionCRoomReel({ rooms }: OptionCRoomReelProps) {
             >
               <span>{String(i + 1).padStart(2, "0")}</span>
               <strong>{room.name}</strong>
-              <small>{room.type || "Aurora stay"}</small>
+              <small>{room.type || t("home.reelStay")}</small>
             </button>
           ))}
         </nav>
@@ -140,42 +143,42 @@ export function OptionCRoomReel({ rooms }: OptionCRoomReelProps) {
         <div className="reel-bottom-bar">
           <div className="reel-facts-row">
             <div className="reel-fact-item">
-              <small>Diện tích</small>
+              <small>{t("home.reelArea")}</small>
               <strong>{amenities[0] || "48 m²"}</strong>
             </div>
             <div className="reel-fact-item">
-              <small>Sức chứa</small>
+              <small>{t("home.reelCapacity")}</small>
               <strong>{amenities[1] || "2 Khách"}</strong>
             </div>
             <div className="reel-fact-item">
-              <small>Loại giường</small>
+              <small>{t("home.reelBed")}</small>
               <strong>{amenities[2] || "King Bed"}</strong>
             </div>
             <div className="reel-fact-item">
-              <small>Chính sách Rate Plan</small>
+              <small>{t("home.reelRatePlan")}</small>
               <strong>{amenities[3] || "Flexible & Saver"}</strong>
             </div>
           </div>
 
           <div className="reel-action-group">
             <div className="reel-price-tag">
-              <small>Giá khởi điểm từ</small>
-              <strong>{formatVND(current?.basePrice || 3250000)}</strong>
+              <small>{t("home.reelPrice")}</small>
+              <strong>{formatVND(current?.basePrice || 3250000, lang)}</strong>
             </div>
             <Link href={`/rooms/${current?.slug || ""}`} className="btn-reel-cta">
-              Xem phòng & giá
+              {t("home.reelCta")}
             </Link>
           </div>
         </div>
       </div>
 
       {/* Side nav */}
-      <nav className="reel-side-nav" aria-label="Danh sách hạng phòng">
+      <nav className="reel-side-nav" aria-label={t("home.reelListAria")}>
         <button
           className="reel-nav-arrow"
           type="button"
           onClick={() => goTo(index - 1)}
-          aria-label="Phòng trước"
+          aria-label={t("home.reelPrevious")}
         >
           ↑
         </button>
@@ -185,7 +188,7 @@ export function OptionCRoomReel({ rooms }: OptionCRoomReelProps) {
               key={i}
               type="button"
               aria-pressed={i === index}
-              aria-label={`Chuyển tới ${room.name || `Phòng ${i + 1}`}`}
+              aria-label={t("home.reelGoTo", { name: room.name || `${t("rooms.details")} ${i + 1}` })}
               className={`reel-indicator ${i === index ? "active" : ""}`}
               onClick={() => goTo(i)}
             />
@@ -195,7 +198,7 @@ export function OptionCRoomReel({ rooms }: OptionCRoomReelProps) {
           className="reel-nav-arrow"
           type="button"
           onClick={() => goTo(index + 1)}
-          aria-label="Phòng tiếp"
+          aria-label={t("home.reelNext")}
         >
           ↓
         </button>
@@ -205,7 +208,7 @@ export function OptionCRoomReel({ rooms }: OptionCRoomReelProps) {
         .stay-reel-full {
           position: relative;
           width: 100%;
-          min-height: max(100svh, 760px);
+          min-height: max(100svh, 720px);
           color: #fff;
           overflow: hidden;
           background: var(--warm-carbon);
@@ -232,8 +235,8 @@ export function OptionCRoomReel({ rooms }: OptionCRoomReelProps) {
         .reel-content-wrap {
           position: relative;
           z-index: 3;
-          min-height: max(100svh, 760px);
-          padding-block: 56px 48px;
+          min-height: max(100svh, 720px);
+          padding-block: 96px 48px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;

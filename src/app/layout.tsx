@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { LanguageProvider } from "@/components/i18n/LanguageProvider";
 
 export const metadata: Metadata = {
   title: {
@@ -27,7 +28,7 @@ export default function RootLayout({
         className="min-h-screen bg-aurora-ivory text-aurora-midnight antialiased font-interface"
         suppressHydrationWarning
       >
-        {children}
+        <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
   );

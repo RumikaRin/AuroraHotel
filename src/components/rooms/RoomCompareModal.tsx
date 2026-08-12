@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 
 export interface CompareRoomItem {
   slug: string;
@@ -29,6 +30,7 @@ export function RoomCompareModal({
   rooms,
   onRemoveRoom,
 }: RoomCompareModalProps) {
+  const { t } = useLanguage();
   const closeRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -50,10 +52,10 @@ export function RoomCompareModal({
         <div className="flex justify-between items-center pb-4 border-b border-aurora-line">
           <div>
             <h3 id="compare-rooms-title" className="font-serif-luxury text-2xl text-aurora-midnight font-bold">
-              Bảng So Sánh Các Hạng Phòng
+              {t("rooms.compare.title")}
             </h3>
             <p className="text-xs text-aurora-muted">
-              So sánh diện tích, tầm nhìn, sức chứa và tiện nghi giữa các phòng đã chọn.
+              {t("rooms.compare.description")}
             </p>
           </div>
           <button
@@ -61,6 +63,7 @@ export function RoomCompareModal({
             type="button"
             onClick={onClose}
             className="p-2 rounded-full hover:bg-aurora-line/50 text-aurora-midnight transition-all cursor-pointer"
+            aria-label={t("rooms.lightbox.close")}
           >
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -71,7 +74,7 @@ export function RoomCompareModal({
         {/* Content Body */}
         {rooms.length === 0 ? (
           <div className="py-12 text-center text-aurora-muted">
-            Chưa có phòng nào được chọn để so sánh. Hãy chọn ít nhất 1-3 phòng từ danh sách.
+            {t("rooms.compare.empty")}
           </div>
         ) : (
           <div className="overflow-x-auto py-4 flex-1">
@@ -85,7 +88,8 @@ export function RoomCompareModal({
                     type="button"
                     onClick={() => onRemoveRoom(room.slug)}
                     className="absolute top-2 right-2 z-10 bg-black/60 text-white hover:bg-red-600 p-1.5 rounded-full transition-all cursor-pointer"
-                    title="Bỏ so sánh"
+                    title={t("rooms.compare.remove")}
+                    aria-label={t("rooms.compare.remove")}
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -101,29 +105,29 @@ export function RoomCompareModal({
                     {room.name}
                   </h4>
                   <div className="text-sm font-bold text-aurora-gold mb-3">
-                    {room.priceFormatted} <span className="text-xs font-normal text-aurora-muted">/ đêm</span>
+                    {room.priceFormatted} <span className="text-xs font-normal text-aurora-muted">{t("rooms.compare.perNight")}</span>
                   </div>
 
                   {/* Property Table */}
                   <div className="space-y-2.5 text-xs text-aurora-ink border-t border-aurora-line pt-3 mb-4 flex-1">
                     <div className="flex justify-between py-1 border-b border-gray-100">
-                      <span className="text-aurora-muted">Sức chứa:</span>
-                      <span className="font-semibold">{room.capacity} Khách</span>
+                      <span className="text-aurora-muted">{t("rooms.compare.capacity")}</span>
+                      <span className="font-semibold">{t("rooms.guestsCount", { count: room.capacity })}</span>
                     </div>
                     <div className="flex justify-between py-1 border-b border-gray-100">
-                      <span className="text-aurora-muted">Diện tích:</span>
+                      <span className="text-aurora-muted">{t("rooms.compare.area")}</span>
                       <span className="font-semibold">{room.area}</span>
                     </div>
                     <div className="flex justify-between py-1 border-b border-gray-100">
-                      <span className="text-aurora-muted">Loại giường:</span>
+                      <span className="text-aurora-muted">{t("rooms.compare.bed")}</span>
                       <span className="font-semibold">{room.bedType}</span>
                     </div>
                     <div className="flex justify-between py-1 border-b border-gray-100">
-                      <span className="text-aurora-muted">Tầm nhìn:</span>
+                      <span className="text-aurora-muted">{t("rooms.compare.view")}</span>
                       <span className="font-semibold">{room.view}</span>
                     </div>
                     <div className="pt-2">
-                      <span className="text-aurora-muted block mb-1">Tiện nghi nổi bật:</span>
+                      <span className="text-aurora-muted block mb-1">{t("rooms.compare.amenities")}</span>
                       <div className="flex flex-wrap gap-1">
                         {room.amenities.map((item) => (
                           <span key={item} className="bg-aurora-ivory text-aurora-midnight px-2 py-0.5 rounded text-[11px] font-medium border border-aurora-line">
@@ -139,7 +143,7 @@ export function RoomCompareModal({
                     href={`/rooms/${room.slug}`}
                     className="block text-center w-full py-2.5 rounded-lg bg-aurora-midnight text-white text-xs font-bold hover:bg-aurora-gold hover:text-aurora-midnight transition-all cursor-pointer"
                   >
-                    Đặt Hạng Phòng Này
+                    {t("rooms.compare.book")}
                   </Link>
                 </div>
               ))}

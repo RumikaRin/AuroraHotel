@@ -3,6 +3,8 @@ import { requireAdmin } from "@/server/auth/guards";
 import { db } from "@/lib/db.ts";
 import Link from "next/link";
 
+import { ExportCsvButton } from "@/components/admin/ExportCsvButton";
+
 export const metadata = { title: "Báo cáo Doanh thu & Công suất - Aurora Hotel" };
 export const dynamic = "force-dynamic";
 
@@ -24,14 +26,22 @@ export default async function AdminReportsPage() {
 
   return (
     <div className="space-y-6 p-6 max-w-7xl mx-auto font-sans">
-      <div className="flex justify-between items-center bg-[#17211D] text-[#F7F4ED] p-6 rounded-2xl border border-[#C5A46D]/30">
+      <div className="flex flex-wrap justify-between items-center bg-[#17211D] text-[#F7F4ED] p-6 rounded-2xl border border-[#C5A46D]/30 gap-4">
         <div>
           <span className="text-xs text-[#C5A46D] font-bold uppercase tracking-wider">OCCUPANCY & REVENUE REPORTS</span>
-          <h1 className="font-serif-display text-2xl font-light">Báo Cáo Doanh Thu & Công Suất Phòng</h1>
+          <h1 className="font-serif-luxury text-2xl font-bold">Báo Cáo Doanh Thu & Công Suất Phòng</h1>
         </div>
-        <Link href="/admin" className="text-xs text-[#C5A46D] border border-[#C5A46D]/40 px-3 py-1.5 rounded-lg hover:bg-[#C5A46D]/10">
-          Về Dashboard Quản Trị
-        </Link>
+        <div className="flex items-center gap-3">
+          <ExportCsvButton
+            totalBookings={totalBookingsCount}
+            totalRevenue={totalRevenue}
+            adr={adr}
+            totalAvailableRooms={totalAvailableRooms}
+          />
+          <Link href="/admin" className="text-xs text-[#C5A46D] border border-[#C5A46D]/40 px-3 py-2 rounded-lg hover:bg-[#C5A46D]/10">
+            Về Dashboard Quản Trị
+          </Link>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">

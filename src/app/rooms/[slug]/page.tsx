@@ -5,19 +5,22 @@ import Image from "next/image";
 import Link from "next/link";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 
 type RoomDetail = {
   id: string;
   name: string;
   nameEn: string;
   description: string;
+  descriptionEn: string;
   basePrice: number;
   maxOccupancy: number;
   areaSqM: number;
   bedConfig: string;
   images: string[];
   features: string[];
-  ratePlans: Array<{ id: string; name: string; multiplier: number; cancellation: string; inclusions: string }>;
+  featuresEn: string[];
+  ratePlans: Array<{ id: string; name: string; nameEn: string; multiplier: number; cancellation: string; cancellationEn: string; inclusions: string; inclusionsEn: string }>;
 };
 
 const ROOM_DETAILS: Record<string, RoomDetail> = {
@@ -26,6 +29,7 @@ const ROOM_DETAILS: Record<string, RoomDetail> = {
     name: "Deluxe Ocean King",
     nameEn: "Deluxe Ocean King Suite",
     description: "Phòng Deluxe cao cấp hướng biển với giường King sang trọng, ban công riêng biệt ngắm bình minh trên vịnh. Thiết kế tinh tế kết hợp hài hòa giữa chất liệu gỗ tự nhiên và màu sắc trầm ấm của phong cách đương đại Việt Nam.",
+    descriptionEn: "A refined ocean-facing Deluxe room with a king bed, private balcony, and morning views over the bay. Natural timber and warm contemporary Vietnamese tones shape a calm, considered retreat.",
     basePrice: 2500000,
     maxOccupancy: 2,
     areaSqM: 45,
@@ -38,9 +42,16 @@ const ROOM_DETAILS: Record<string, RoomDetail> = {
       "Wi-Fi tốc độ cao & TV thông minh 55 inch",
       "Áo choàng & sản phẩm tắm thảo mộc độc quyền",
     ],
+    featuresEn: [
+      "Private balcony facing the ocean",
+      "Marble bathroom with a separate soaking tub",
+      "Espresso machine and premium tea",
+      "High-speed Wi-Fi and a 55-inch smart TV",
+      "Bathrobes and signature botanical bath amenities",
+    ],
     ratePlans: [
-      { id: "rp-flex", name: "Linh hoạt · Flexible rate", multiplier: 1, cancellation: "Miễn phí huỷ phòng trước 48 giờ", inclusions: "Ăn sáng tự chọn cho 2 người lớn & đồ uống chào mừng" },
-      { id: "rp-non-ref", name: "Đặt sớm · Non-refundable", multiplier: .85, cancellation: "Không hoàn huỷ sau khi thanh toán thành công", inclusions: "Ăn sáng & giảm 15% dịch vụ Spa" },
+      { id: "rp-flex", name: "Linh hoạt · Flexible rate", nameEn: "Flexible rate", multiplier: 1, cancellation: "Miễn phí huỷ phòng trước 48 giờ", cancellationEn: "Free cancellation up to 48 hours before arrival", inclusions: "Ăn sáng tự chọn cho 2 người lớn & đồ uống chào mừng", inclusionsEn: "Breakfast for two adults and a welcome drink" },
+      { id: "rp-non-ref", name: "Đặt sớm · Non-refundable", nameEn: "Advance saver · Non-refundable", multiplier: .85, cancellation: "Không hoàn huỷ sau khi thanh toán thành công", cancellationEn: "Non-refundable after successful payment", inclusions: "Ăn sáng & giảm 15% dịch vụ Spa", inclusionsEn: "Breakfast and 15% off spa services" },
     ],
   },
   "executive-bay-suite": {
@@ -48,6 +59,7 @@ const ROOM_DETAILS: Record<string, RoomDetail> = {
     name: "Executive Bay Suite",
     nameEn: "Executive Bay Suite",
     description: "Không gian sang trọng bậc nhất với phòng khách riêng biệt, tầm nhìn 180 độ ra đại dương và quyền lợi Club Lounge độc quyền.",
+    descriptionEn: "A generous suite with a separate living room, sweeping 180-degree ocean views, and access to the exclusive Club Lounge.",
     basePrice: 4200000,
     maxOccupancy: 3,
     areaSqM: 75,
@@ -59,8 +71,14 @@ const ROOM_DETAILS: Record<string, RoomDetail> = {
       "Bồn Jacuzzi ngắm biển",
       "Dịch vụ quản gia theo yêu cầu",
     ],
+    featuresEn: [
+      "Executive Club Lounge access and afternoon tea",
+      "Separate living room with a leather sofa",
+      "Ocean-view Jacuzzi bath",
+      "Butler service on request",
+    ],
     ratePlans: [
-      { id: "rp-flex", name: "Linh hoạt · Flexible rate", multiplier: 1, cancellation: "Miễn phí huỷ phòng trước 48 giờ", inclusions: "Ăn sáng Club Lounge & tiệc cocktail chiều" },
+      { id: "rp-flex", name: "Linh hoạt · Flexible rate", nameEn: "Flexible rate", multiplier: 1, cancellation: "Miễn phí huỷ phòng trước 48 giờ", cancellationEn: "Free cancellation up to 48 hours before arrival", inclusions: "Ăn sáng Club Lounge & tiệc cocktail chiều", inclusionsEn: "Club Lounge breakfast and evening cocktails" },
     ],
   },
 };
@@ -83,6 +101,7 @@ export default function RoomDetailPage({
 }) {
   const { slug } = use(params);
   const query = use(searchParams);
+  const { lang, t } = useLanguage();
   const room = ROOM_DETAILS[slug] || ROOM_DETAILS["deluxe-ocean-king"];
   const [selectedPlanId, setSelectedPlanId] = useState(room.ratePlans[0]?.id || "rp-flex");
   const [selectedImage, setSelectedImage] = useState(room.images[0] || "");
@@ -91,25 +110,29 @@ export default function RoomDetailPage({
   bookingParams.set("roomCategoryId", room.id);
   bookingParams.set("ratePlanId", selectedPlan?.id || "rp-flex");
   const bookingHref = `/booking?${bookingParams.toString()}`;
+  const roomName = lang === "en" ? room.nameEn : room.name;
+  const roomDescription = lang === "en" ? room.descriptionEn : room.description;
+  const roomFeatures = lang === "en" ? room.featuresEn : room.features;
+  const formatPrice = (amount: number) => new Intl.NumberFormat(lang === "en" ? "en-US" : "vi-VN", { style: "currency", currency: "VND", maximumFractionDigits: 0 }).format(amount);
 
   return (
     <div className="room-detail-page">
       <Header />
 
       <main className="wrap room-detail-main">
-        <nav className="room-breadcrumb" aria-label="Điều hướng mẩu tin">
-          <Link href="/">Aurora</Link><span aria-hidden="true">/</span><Link href="/rooms">Rooms & suites</Link><span aria-hidden="true">/</span><strong>{room.name}</strong>
+        <nav className="room-breadcrumb" aria-label={t("roomDetail.breadcrumb")}>
+          <Link href="/">Aurora</Link><span aria-hidden="true">/</span><Link href="/rooms">{t("roomDetail.rooms")}</Link><span aria-hidden="true">/</span><strong>{roomName}</strong>
         </nav>
 
         <div className="room-detail-layout">
-          <section className="room-detail-gallery" aria-label={`Thư viện ảnh ${room.name}`}>
+          <section className="room-detail-gallery" aria-label={t("roomDetail.gallery", { name: roomName })}>
             <div className="room-detail-main-image">
-              <Image src={selectedImage} alt={`${room.name} · ảnh chính`} fill priority sizes="(max-width: 900px) 100vw, 62vw" className="room-detail-photo" />
-              <span className="room-detail-image-label">{room.nameEn}</span>
+              <Image src={selectedImage} alt={t("roomDetail.mainImage", { name: roomName })} fill priority sizes="(max-width: 900px) 100vw, 62vw" className="room-detail-photo" />
+              <span className="room-detail-image-label">{roomName}</span>
             </div>
-            <div className="room-detail-thumbs" aria-label="Các ảnh trong phòng">
+            <div className="room-detail-thumbs" aria-label={t("roomDetail.images")}>
               {room.images.map((image, index) => (
-                <button key={image} type="button" className={selectedImage === image ? "active" : ""} onClick={() => setSelectedImage(image)} aria-label={`Chọn ảnh ${index + 1}`} aria-pressed={selectedImage === image}>
+                <button key={image} type="button" className={selectedImage === image ? "active" : ""} onClick={() => setSelectedImage(image)} aria-label={t("roomDetail.selectImage", { count: index + 1 })} aria-pressed={selectedImage === image}>
                   <Image src={image} alt="" fill sizes="120px" className="room-detail-thumb" />
                 </button>
               ))}
@@ -117,35 +140,35 @@ export default function RoomDetailPage({
           </section>
 
           <aside className="room-detail-panel" aria-labelledby="room-detail-title">
-            <p className="room-detail-eyebrow">Aurora room details</p>
-            <h1 id="room-detail-title">{room.name}</h1>
-            <p className="room-detail-meta">{room.areaSqM} m² <span>·</span> {room.bedConfig} <span>·</span> tối đa {room.maxOccupancy} khách</p>
-            <p className="room-detail-description">{room.description}</p>
+            <p className="room-detail-eyebrow">{t("roomDetail.eyebrow")}</p>
+            <h1 id="room-detail-title">{roomName}</h1>
+            <p className="room-detail-meta">{room.areaSqM} m² <span>·</span> {room.bedConfig} <span>·</span> {t("roomDetail.maxGuests", { count: room.maxOccupancy })}</p>
+            <p className="room-detail-description">{roomDescription}</p>
 
             <div className="room-plan-section">
-              <div className="room-plan-heading"><h2>Chọn cách lưu trú</h2><span>Rate plan</span></div>
-              <div className="room-plan-list" role="radiogroup" aria-label="Chọn rate plan">
+              <div className="room-plan-heading"><h2>{t("roomDetail.chooseStay")}</h2><span>{t("roomDetail.ratePlan")}</span></div>
+              <div className="room-plan-list" role="radiogroup" aria-label={t("roomDetail.chooseRatePlan")}>
                 {room.ratePlans.map((plan) => (
                   <button key={plan.id} type="button" role="radio" aria-checked={selectedPlanId === plan.id} className={`room-plan-option ${selectedPlanId === plan.id ? "active" : ""}`} onClick={() => setSelectedPlanId(plan.id)}>
                     <span className="room-plan-radio" aria-hidden="true" />
-                    <span className="room-plan-copy"><strong>{plan.name}</strong><small>{plan.cancellation}</small><em>{plan.inclusions}</em></span>
-                    <span className="room-plan-price">{Math.round(room.basePrice * plan.multiplier).toLocaleString("vi-VN")} ₫<small>/ đêm</small></span>
+                    <span className="room-plan-copy"><strong>{lang === "en" ? plan.nameEn : plan.name}</strong><small>{lang === "en" ? plan.cancellationEn : plan.cancellation}</small><em>{lang === "en" ? plan.inclusionsEn : plan.inclusions}</em></span>
+                    <span className="room-plan-price">{formatPrice(Math.round(room.basePrice * plan.multiplier))}<small>{t("roomDetail.perNight")}</small></span>
                   </button>
                 ))}
               </div>
             </div>
 
             <div className="room-detail-cta">
-              <div><small>Giá tham khảo từ</small><strong>{Math.round(room.basePrice * (selectedPlan?.multiplier || 1)).toLocaleString("vi-VN")} ₫</strong></div>
-              <Link href={bookingHref}>Chọn ngày & đặt phòng <span aria-hidden="true">↗</span></Link>
+              <div><small>{t("roomDetail.from")}</small><strong>{formatPrice(Math.round(room.basePrice * (selectedPlan?.multiplier || 1)))}</strong></div>
+              <Link href={bookingHref}>{t("roomDetail.book")} <span aria-hidden="true">↗</span></Link>
             </div>
-            <p className="room-quote-note">Giá và tổng tiền cuối cùng được xác nhận theo ngày lưu trú ở bước báo giá.</p>
+            <p className="room-quote-note">{t("roomDetail.quoteNote")}</p>
           </aside>
         </div>
 
         <section className="room-detail-features" aria-labelledby="features-title">
-          <div><p className="room-detail-eyebrow">The details</p><h2 id="features-title">Những điều đã được nghĩ đến</h2></div>
-          <div className="room-feature-grid">{room.features.map((feature) => <span key={feature}><i aria-hidden="true">✦</i>{feature}</span>)}</div>
+          <div><p className="room-detail-eyebrow">{t("roomDetail.detailsEyebrow")}</p><h2 id="features-title">{t("roomDetail.featuresTitle")}</h2></div>
+          <div className="room-feature-grid">{roomFeatures.map((feature) => <span key={feature}><i aria-hidden="true">✦</i>{feature}</span>)}</div>
         </section>
       </main>
 
@@ -153,7 +176,7 @@ export default function RoomDetailPage({
 
       <style>{`
         .room-detail-page { min-height: 100vh; background: var(--warm-ivory); color: var(--espresso); }
-        .room-detail-main { padding-block: 34px 120px; }
+        .room-detail-main { padding-block: calc(var(--header-height) + 34px) 120px; }
         .room-breadcrumb { display: flex; align-items: center; gap: 10px; color: var(--taupe); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
         .room-breadcrumb a:hover { color: var(--muted-terracotta); }
         .room-breadcrumb strong { color: var(--espresso); font-weight: 700; }
@@ -199,7 +222,7 @@ export default function RoomDetailPage({
         .room-feature-grid span { display: flex; gap: 10px; padding-block: 16px; border-bottom: 1px solid var(--line); color: var(--walnut); font-size: 12px; line-height: 1.5; }
         .room-feature-grid i { color: var(--antique-brass); font-style: normal; }
         @media (max-width: 900px) { .room-detail-layout, .room-detail-features { grid-template-columns: 1fr; gap: 34px; } .room-detail-panel { padding-top: 0; } .room-detail-main-image { height: min(92vw, 620px); min-height: 380px; } .room-detail-features { margin-top: 60px; } }
-        @media (max-width: 560px) { .room-detail-main { padding-block: 24px 72px; } .room-breadcrumb { overflow-x: auto; white-space: nowrap; } .room-detail-panel h1 { font-size: 64px; } .room-detail-meta { flex-wrap: wrap; } .room-plan-option { grid-template-columns: 16px 1fr; } .room-plan-price { grid-column: 2; } .room-detail-cta { align-items: start; flex-direction: column; } .room-detail-cta a { width: 100%; justify-content: center; } .room-feature-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 560px) { .room-detail-main { padding-block: calc(var(--header-height) + 24px) 72px; } .room-breadcrumb { overflow-x: auto; white-space: nowrap; } .room-detail-panel h1 { font-size: 64px; } .room-detail-meta { flex-wrap: wrap; } .room-plan-option { grid-template-columns: 16px 1fr; } .room-plan-price { grid-column: 2; } .room-detail-cta { align-items: start; flex-direction: column; } .room-detail-cta a { width: 100%; justify-content: center; } .room-feature-grid { grid-template-columns: 1fr; } }
       `}</style>
     </div>
   );

@@ -3,15 +3,18 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { AvailabilityPicker } from "@/components/booking/AvailabilityPicker";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 
 const slides = [
-  { src: "/images/aurora/hero-01-hd.png", alt: "Không gian nghỉ dưỡng Aurora mở ra giữa cây xanh và ánh sáng tự nhiên" },
-  { src: "/images/aurora/hero-02-hd.png", alt: "Hồ bơi và kiến trúc đương đại của Aurora Hotel" },
-  { src: "/images/aurora/hero-03-hd.png", alt: "Nội thất nghỉ dưỡng với vật liệu ấm và ánh sáng dịu" },
+  { src: "/images/aurora/hero-01-hd.png", altKey: "home.heroSlideOne" },
+  { src: "/images/aurora/hero-02-hd.png", altKey: "home.heroSlideTwo" },
+  { src: "/images/aurora/hero-03-hd.png", altKey: "home.heroSlideThree" },
 ];
 
 export function HeroCarousel() {
   const router = useRouter();
+  const { t } = useLanguage();
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -66,13 +69,13 @@ export function HeroCarousel() {
         const data = await res.json();
         const count = Array.isArray(data.data) ? data.data.length : 0;
         if (count > 0) {
-          setNotice(`${count} hạng phòng khả dụng`);
+          setNotice(t("home.availableCount", { count }));
           setNoticeType("success");
           setTimeout(() => {
             router.push(`/rooms?checkIn=${checkIn}&checkOut=${checkOut}&guests=${guests}`);
           }, 600);
         } else {
-          setNotice("Không có phòng trống trong khoảng ngày đã chọn.");
+          setNotice(t("home.noAvailability"));
           setNoticeType("error");
         }
       } else {
@@ -86,7 +89,7 @@ export function HeroCarousel() {
   };
 
   return (
-    <section className="snap-section hero" aria-label="Giới thiệu Aurora Hotel" id="top" data-header-tone="dark">
+    <section className="snap-section hero" aria-label={t("home.heroAria")} id="top" data-scroll-section="hero" data-header-tone="dark">
       {/* Slide images — horizontal slide track */}
       <div
         className="hero-track"
@@ -96,7 +99,7 @@ export function HeroCarousel() {
           <figure key={i} className="hero-slide">
             <Image
               src={slide.src}
-              alt={slide.alt}
+              alt={t(slide.altKey)}
               fill
               priority={i === 0}
               quality={92}
@@ -110,19 +113,19 @@ export function HeroCarousel() {
       {/* Content overlay */}
       <div className="hero-layout wrap">
         <div className="hero-copy">
-          <div className="eyebrow" style={{ color: "#e3c895" }}>Aurora Reserve · Đà Nẵng</div>
+          <div className="eyebrow" style={{ color: "#e3c895" }}>{t("home.heroEyebrow")}</div>
           <h1>
-            Thành phố ở gần.<br /><em>Kỳ nghỉ ở rất xa.</em>
+            {t("home.heroTitleOne")}<br /><em>{t("home.heroTitleTwo")}</em>
           </h1>
           <p>
-            Phòng khách sạn tinh tế, suite nghỉ dưỡng riêng tư và những khoảnh khắc bên biển — cùng một Aurora, cùng một hành trình đặt phòng minh bạch.
+            {t("home.heroDescription")}
           </p>
         </div>
 
-        <div className="hero-ui" aria-label="Điều khiển ảnh giới thiệu">
+        <div className="hero-ui" aria-label={t("home.heroControls")}>
           <div className="hero-counter">
             <strong>{String(index + 1).padStart(2, "0")}</strong>
-            <span>Chuyển từ phải sang trái</span>
+            <span>{t("home.heroDirection")}</span>
           </div>
           <div className="hero-progress">
             {slides.map((_, i) => (
@@ -131,7 +134,7 @@ export function HeroCarousel() {
                 type="button"
                 className={i === index ? "active" : ""}
                 onClick={() => { go(i); startTimer(); }}
-                aria-label={`Hiển thị ảnh giới thiệu ${i + 1}`}
+                aria-label={t("home.heroSlide", { count: i + 1 })}
                 aria-current={i === index ? "true" : undefined}
               />
             ))}
@@ -142,13 +145,13 @@ export function HeroCarousel() {
                 className="circle-button"
                 type="button"
                 onClick={() => { go(index - 1); startTimer(); }}
-                aria-label="Ảnh trước"
+                aria-label={t("home.heroPrevious")}
               >←</button>
               <button
                 className="circle-button"
                 type="button"
                 onClick={() => { go(index + 1); startTimer(); }}
-                aria-label="Ảnh tiếp"
+                aria-label={t("home.heroNext")}
               >→</button>
             </div>
             <button
@@ -157,7 +160,7 @@ export function HeroCarousel() {
               onClick={() => setPaused((p) => !p)}
               aria-pressed={paused}
             >
-              {paused ? "Tiếp tục" : "Tạm dừng"}
+              {paused ? t("home.heroResume") : t("home.heroPause")}
             </button>
           </div>
         </div>
@@ -168,46 +171,16 @@ export function HeroCarousel() {
         <div className="key-number">01</div>
         <div className="booking-body">
           <form onSubmit={handleBookingSearch} className="booking-row">
-            <div className="field">
-              <small>Nhận phòng</small>
-              <input
-                type="date"
-                name="checkIn"
-                value={checkIn}
-                onChange={(e) => setCheckIn(e.target.value)}
-                min={checkIn || undefined}
-                aria-label="Ngày nhận phòng"
-                required
-              />
-            </div>
-            <div className="field">
-              <small>Trả phòng</small>
-              <input
-                type="date"
-                name="checkOut"
-                value={checkOut}
-                onChange={(e) => setCheckOut(e.target.value)}
-                min={checkIn}
-                aria-label="Ngày trả phòng"
-                required
-              />
-            </div>
-            <div className="field">
-              <small>Số khách</small>
-              <select
-                name="guests"
-                value={guests}
-                onChange={(e) => setGuests(e.target.value)}
-                aria-label="Số khách"
-              >
-                <option value="1">1 khách · 1 phòng</option>
-                <option value="2">2 khách · 1 phòng</option>
-                <option value="3">3 khách · 1 phòng</option>
-                <option value="4">4 khách · 2 phòng</option>
-              </select>
-            </div>
-            <button type="submit" disabled={isSearching}>
-              {isSearching ? "Đang kiểm tra…" : "Kiểm tra phòng"}
+            <AvailabilityPicker
+              checkIn={checkIn}
+              checkOut={checkOut}
+              guests={guests}
+              onCheckInChange={setCheckIn}
+              onCheckOutChange={setCheckOut}
+              onGuestsChange={setGuests}
+            />
+            <button className="booking-submit" type="submit" disabled={isSearching}>
+              {isSearching ? t("home.checking") : t("home.checkAvailability")}
             </button>
           </form>
           {notice && (
@@ -223,8 +196,8 @@ export function HeroCarousel() {
             </div>
           )}
           <div className="booking-note">
-            <span><b>✓ Giá trực tiếp minh bạch</b> · Tổng thuế phí hiển thị rõ ràng</span>
-            <span><b>✓ Điều kiện hủy rõ ràng</b> trước khi chọn rate plan</span>
+            <span><b>✓ {t("home.directRate")}</b> · {t("home.taxTransparency")}</span>
+            <span><b>✓ {t("home.clearCancellation")}</b> {t("home.beforeRatePlan")}</span>
           </div>
         </div>
       </div>
@@ -232,7 +205,7 @@ export function HeroCarousel() {
       <style>{`
         .hero {
           position: relative;
-          min-height: max(100dvh, 760px);
+          min-height: max(100svh, 720px);
           overflow: hidden;
           background: var(--warm-carbon);
           color: white;
@@ -393,6 +366,7 @@ export function HeroCarousel() {
           display: grid;
           grid-template-columns: 1.1fr 1.1fr 1fr .75fr;
           align-items: center;
+          position: relative;
         }
         .field {
           padding: 10px 20px;
@@ -406,21 +380,7 @@ export function HeroCarousel() {
           letter-spacing: .12em;
           font-weight: 700;
         }
-        .field input, .field select {
-          width: 100%;
-          border: 0;
-          background: transparent;
-          color: var(--espresso);
-          font-size: 13px;
-          font-weight: 600;
-          margin-top: 4px;
-          outline: none;
-        }
-        .field input:focus-visible, .field select:focus-visible {
-          outline: 2px solid var(--gold);
-          border-radius: 4px;
-        }
-        .booking-row button {
+        .booking-row .booking-submit {
           border: 0;
           background: var(--espresso);
           color: #fff;
@@ -430,9 +390,11 @@ export function HeroCarousel() {
           font-weight: 700;
           min-height: 46px;
           border-radius: 6px;
-          transition: background 0.2s;
+          cursor: pointer;
+          transition: background 220ms cubic-bezier(.22,.8,.22,1), transform 220ms cubic-bezier(.22,.8,.22,1);
         }
-        .booking-row button:hover { background: var(--walnut); }
+        .booking-row .booking-submit:hover { background: var(--walnut); transform: translateY(-1px); }
+        .booking-row .booking-submit:focus-visible { outline: 2px solid var(--antique-brass); outline-offset: 3px; }
         .booking-note {
           padding: 6px 18px 2px;
           color: #353b37;
@@ -446,9 +408,10 @@ export function HeroCarousel() {
           font-size: 11px;
           font-weight: 600;
         }
-        .booking-row button:disabled {
+        .booking-row .booking-submit:disabled {
           opacity: 0.6;
           cursor: wait;
+          transform: none;
         }
 
         @media (max-width: 980px) {
@@ -465,11 +428,28 @@ export function HeroCarousel() {
         }
 
         @media (max-width: 620px) {
-          .booking-key { grid-template-columns: 1fr; }
+          .booking-key {
+            width: min(100% - 28px, 440px);
+            grid-template-columns: 1fr;
+            border-radius: 16px 16px 0 0;
+            box-shadow: 0 -2px 22px rgba(38,30,26,.16), 0 20px 48px rgba(38,30,26,.22);
+          }
           .key-number { display: none; }
-          .booking-row { grid-template-columns: 1fr; gap: 12px; }
-          .field { border-right: 0; border-bottom: 1px solid var(--line); padding: 8px 12px; }
-          .booking-note { flex-direction: column; gap: 6px; }
+          .booking-body { padding: 8px 10px 9px; }
+          .booking-row { grid-template-columns: 1fr 1fr; }
+          .field { min-width: 0; padding: 7px 10px 9px; border-bottom: 1px solid var(--line); }
+          .field:nth-child(1) { border-right: 1px solid var(--line); }
+          .field:nth-child(2) { border-right: 0; }
+          .field:nth-child(3) { border-bottom: 0; border-right: 1px solid var(--line); }
+          .booking-row .booking-submit {
+            min-height: 58px;
+            margin: 6px 0 0 6px;
+            padding: 9px 8px;
+            border-radius: 10px;
+            line-height: 1.35;
+          }
+          .booking-note { padding: 8px 4px 1px; flex-direction: column; gap: 4px; font-size: 8.5px; }
+          .booking-notice { padding: 7px 4px 0; }
         }
       `}</style>
     </section>

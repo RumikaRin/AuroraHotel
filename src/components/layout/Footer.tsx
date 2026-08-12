@@ -1,6 +1,11 @@
+"use client";
+
 import Link from "next/link";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 
 export function Footer() {
+  const { t } = useLanguage();
+
   return (
     <footer
       style={{
@@ -22,23 +27,23 @@ export function Footer() {
             AURORA HOTEL
           </strong>
           <p>
-            Nơi mỗi kỳ nghỉ trở thành kỷ niệm. Trải nghiệm nghỉ dưỡng đương đại bên biển tại Đà Nẵng.
+            {t("footer.description")}
           </p>
         </div>
         <div className="footer-column">
-          <h3>Khám phá</h3>
-          <Link href="/rooms">Phòng và Suites</Link>
-          <Link href="/experiences">Trải nghiệm</Link>
-          <Link href="/offers">Ưu đãi</Link>
+          <h3>{t("footer.explore")}</h3>
+          <Link href="/rooms">{t("footer.rooms")}</Link>
+          <Link href="/experiences">{t("footer.experiences")}</Link>
+          <Link href="/offers">{t("footer.offers")}</Link>
         </div>
         <div className="footer-column">
-          <h3>Hỗ trợ</h3>
-          <Link href="/my-bookings">Quản lý booking</Link>
-          <Link href="/login">Đăng nhập tài khoản</Link>
+          <h3>{t("footer.support")}</h3>
+          <Link href="/my-bookings">{t("footer.manageBooking")}</Link>
+          <Link href="/login">{t("footer.login")}</Link>
         </div>
         <div className="footer-column">
-          <h3>Liên hệ</h3>
-          <p>123 Luxury Coastal Boulevard<br />Đà Nẵng, Việt Nam</p>
+          <h3>{t("footer.contact")}</h3>
+          <p className="footer-address">{t("footer.address")}</p>
           <a href="tel:+842363999999">+84 236 399 9999</a>
           <a href="mailto:reservations@aurorahotel.com">reservations@aurorahotel.com</a>
         </div>
@@ -57,8 +62,8 @@ export function Footer() {
       >
         <span>© {new Date().getFullYear()} Aurora Hotel. All rights reserved.</span>
         <div style={{ display: "flex", gap: 24 }}>
-          <Link href="/privacy" style={{ minHeight: 44, display: "inline-flex", alignItems: "center" }}>Quyền riêng tư</Link>
-          <Link href="/terms" style={{ minHeight: 44, display: "inline-flex", alignItems: "center" }}>Điều khoản sử dụng</Link>
+          <Link href="/privacy" style={{ minHeight: 44, display: "inline-flex", alignItems: "center" }}>{t("footer.privacy")}</Link>
+          <Link href="/terms" style={{ minHeight: 44, display: "inline-flex", alignItems: "center" }}>{t("footer.terms")}</Link>
         </div>
       </div>
 
@@ -76,6 +81,7 @@ export function Footer() {
           font-size: 10px;
           line-height: 1.8;
         }
+        .footer-address { white-space: pre-line; }
         .footer-brand p { max-width: 300px; margin-top: 18px; }
         .footer-column h3 {
           margin-bottom: 17px;

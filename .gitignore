@@ -39,3 +39,13 @@ test-results/
 
 # Vercel local project metadata
 .vercel
+
+# Temporary files & AI agent tool caches
+agy_models.txt
+.agent/
+.agent-os/
+.gemini/
+
+# Personal & Academic Documents
+*.docx
+

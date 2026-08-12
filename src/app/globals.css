@@ -40,6 +40,9 @@
 
 html {
   scroll-behavior: smooth;
+  /* Major sections own their safe top inset so the transparent header can
+     stay over the artwork without pushing the section into a blank band. */
+  scroll-padding-top: 0;
   height: 100vh;
   overflow-y: scroll;
 }
@@ -55,9 +58,20 @@ body {
 
 body.menu-open { overflow: hidden; }
 
-.snap-section {
+html[data-scroll-mode="chapter"] {
+  scroll-snap-type: y mandatory;
+}
+
+html[data-scroll-mode="chapter"] .snap-section {
   width: 100%;
   position: relative;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+html[data-scroll-mode="chapter"] [data-scroll-section] {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
 
@@ -182,12 +196,17 @@ img { display: block; max-width: 100%; }
 /* ---- Reduced Motion ---- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  html[data-scroll-mode="chapter"] { scroll-snap-type: none; }
   *, *::before, *::after {
     scroll-behavior: auto !important;
     transition-duration: .01ms !important;
     animation-duration: .01ms !important;
     animation-iteration-count: 1 !important;
   }
+}
+
+@media (max-width: 900px) {
+  html[data-scroll-mode="chapter"] { scroll-snap-type: none; }
 }
 
 /* ---- Scrollbar ---- */

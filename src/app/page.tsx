@@ -7,6 +7,7 @@ import { HeroCarousel } from "@/components/home/HeroCarousel";
 import { OptionCRoomReel } from "@/components/home/OptionCRoomReel";
 import { DirectBookingBenefits } from "@/components/public/DirectBookingBenefits";
 import { SanctuaryExperiences } from "@/components/public/SanctuaryExperiences";
+import { LocalizedText } from "@/components/i18n/LocalizedText";
 
 export const dynamic = "force-dynamic";
 
@@ -74,7 +75,7 @@ export default async function HomePage() {
 
   return (
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-      <a className="skip-link" href="#main-content">Đi đến nội dung chính</a>
+      <a className="skip-link" href="#main-content"><LocalizedText id="home.skip" /></a>
       <Header />
 
       <main id="main-content">
@@ -91,27 +92,27 @@ export default async function HomePage() {
         {/* ═══════════════════════════════════════════
             SECTION 3: CHAPTER I — PROLOGUE (100VH SNAP, WARM SAND #efe9dd)
            ═══════════════════════════════════════════ */}
-        <section className="prologue-section" aria-label="Prologue - Câu chuyện Aurora" data-header-tone="light">
+        <section className="prologue-section" aria-label="Prologue - Câu chuyện Aurora" data-scroll-section="prologue" data-header-tone="light">
           <div className="wrap prologue-grid">
             <div className="prologue-copy">
               <div className="chapter-mark">
                 <strong>I</strong>
-                <span>Prologue</span>
+                <span><LocalizedText id="home.prologueMark" /></span>
               </div>
               <h2>
-                A stay told through<br />
-                <em>light, texture & time.</em>
+                <LocalizedText id="home.prologueTitleOne" /><br />
+                <em><LocalizedText id="home.prologueTitleTwo" /></em>
               </h2>
 
               <div className="prologue-pullquote">
-                &ldquo;Nơi ánh nắng tự nhiên chạm vào bề mặt đá nhám và mảng gỗ tự nhiên, tạo nên nhịp nghỉ chậm rãi dành riêng cho bạn.&rdquo;
+                <LocalizedText id="home.prologueQuote" />
               </div>
 
               <p>
-                Aurora là trải nghiệm nghỉ dưỡng mang tinh thần Việt Nam đương đại — tiết chế, tự nhiên và được chăm chút để bạn tìm lại cảm giác thư thái thực sự bên bờ biển Đà Nẵng.
+                <LocalizedText id="home.prologueDescription" />
               </p>
               <Link href="/experiences" className="text-link">
-                Khám phá câu chuyện Aurora <span aria-hidden="true">↗</span>
+                <LocalizedText id="home.prologueCta" /> <span aria-hidden="true">↗</span>
               </Link>
             </div>
 
@@ -119,7 +120,7 @@ export default async function HomePage() {
               <div className="mosaic-main">
                 <Image
                   src="/images/prologue-architecture.png"
-                  alt="Kiến trúc resort Aurora"
+                  alt="Aurora resort architecture"
                   fill
                   style={{ objectFit: "cover" }}
                   sizes="40vw"
@@ -128,14 +129,14 @@ export default async function HomePage() {
               <div className="mosaic-sub">
                 <Image
                   src="/images/prologue-detail.png"
-                  alt="Góc thư giãn spa & resort"
+                  alt="Aurora spa and resort retreat"
                   fill
                   style={{ objectFit: "cover" }}
                   sizes="30vw"
                 />
                 <div className="mosaic-caption">
-                  <span>Natural materials</span>
-                  <span>Da Nang, Vietnam</span>
+                  <span><LocalizedText id="home.naturalMaterials" /></span>
+                  <span><LocalizedText id="home.location" /></span>
                 </div>
               </div>
             </div>
@@ -155,35 +156,35 @@ export default async function HomePage() {
         {/* ═══════════════════════════════════════════
             SECTION 6: CHAPTER IV — THE BOOKING LEDGER (DEEP FOREST NIGHT #1c2a24)
            ═══════════════════════════════════════════ */}
-        <section className="ledger-section" id="ledger" aria-label="Minh bạch giá và rate plan" data-header-tone="dark">
+        <section className="ledger-section" id="ledger" aria-label="Minh bạch giá và rate plan" data-scroll-section="ledger" data-header-tone="dark">
           <div className="wrap ledger-grid">
             <div className="ledger-copy">
               <div className="chapter-mark">
                 <strong>IV</strong>
-                <span>The Booking Ledger</span>
+                <span><LocalizedText id="home.ledgerMark" /></span>
               </div>
               <h2>
-                Luxury also means<br />
-                <em>clarity.</em>
+                <LocalizedText id="home.ledgerTitleOne" /><br />
+                <em><LocalizedText id="home.ledgerTitleTwo" /></em>
               </h2>
               <p>
-                Minh bạch trong từng giao dịch. Khách hàng nhìn thấy toàn bộ quyền lợi, điều kiện hủy và tổng tiền phải trả trước khi xác nhận đặt phòng. Không giấu phí, không tạo áp lực giả.
+                <LocalizedText id="home.ledgerDescription" />
               </p>
               <Link href="/rooms" className="text-link">
-                Kiểm tra phòng trống <span aria-hidden="true">↗</span>
+                <LocalizedText id="home.ledgerCta" /> <span aria-hidden="true">↗</span>
               </Link>
             </div>
 
             <div className="hairline-ledger-table">
               <div className="ledger-table-header">
                 <h3>{roomCategories[0]?.name || "Premier Garden Suite"}</h3>
-                <span>3 nights · 2 guests</span>
+                <span><LocalizedText id="home.ledgerStay" /></span>
               </div>
 
               <div className="ledger-table-row">
                 <div className="rate-desc">
-                  <strong>Flexible Stay Plan</strong>
-                  <span>Miễn phí hủy phòng trước 48h · Bao gồm điểm tâm sáng mỗi ngày</span>
+                  <strong><LocalizedText id="home.flexPlan" /></strong>
+                  <span><LocalizedText id="home.flexDescription" /></span>
                 </div>
                 <div className="rate-cost">
                   <strong>
@@ -195,15 +196,15 @@ export default async function HomePage() {
                     href={`/rooms/${roomCategories[0]?.slug || "premier-garden-suite"}`}
                     className="btn-table-rate"
                   >
-                    Chọn Rate
+                    <LocalizedText id="home.chooseRate" />
                   </Link>
                 </div>
               </div>
 
               <div className="ledger-table-row">
                 <div className="rate-desc">
-                  <strong>Advance Saver Plan</strong>
-                  <span>Gói ưu đãi tiết kiệm khi đặt sớm · Không hoàn hủy</span>
+                  <strong><LocalizedText id="home.advancePlan" /></strong>
+                  <span><LocalizedText id="home.advanceDescription" /></span>
                 </div>
                 <div className="rate-cost">
                   <strong>
@@ -215,13 +216,13 @@ export default async function HomePage() {
                     href={`/rooms/${roomCategories[0]?.slug || "premier-garden-suite"}`}
                     className="btn-table-rate"
                   >
-                    Chọn Rate
+                    <LocalizedText id="home.chooseRate" />
                   </Link>
                 </div>
               </div>
 
               <div className="ledger-footer-note">
-                <span>Đã bao gồm thuế và phí dịch vụ</span>
+                <span><LocalizedText id="home.ledgerTax" /></span>
                 <Link
                   href="/rooms"
                   style={{
@@ -233,7 +234,7 @@ export default async function HomePage() {
                     alignItems: "center",
                   }}
                 >
-                  Xem chi tiết cấu trúc giá →
+                  <LocalizedText id="home.ledgerDetails" />
                 </Link>
               </div>
             </div>
@@ -243,26 +244,26 @@ export default async function HomePage() {
         {/* ═══════════════════════════════════════════
             SECTION 7: CHAPTER V — EPILOGUE (WARM IVORY #f7f4ed)
            ═══════════════════════════════════════════ */}
-        <section className="epilogue-section" aria-label="Khởi đầu kỳ nghỉ" data-header-tone="light">
+        <section className="epilogue-section" aria-label="Khởi đầu kỳ nghỉ" data-scroll-section="epilogue" data-header-tone="light">
           <div className="wrap epilogue-grid">
             <div className="epilogue-copy">
               <div className="chapter-mark">
                 <strong>V</strong>
-                <span>Epilogue</span>
+                <span><LocalizedText id="home.epilogueMark" /></span>
               </div>
               <h2>
-                Your next chapter<br />
-                <em>starts here.</em>
+                <LocalizedText id="home.epilogueTitleOne" /><br />
+                <em><LocalizedText id="home.epilogueTitleTwo" /></em>
               </h2>
               <p>
-                Chọn ngày lưu trú, so sánh các gói rate plan phù hợp và hoàn tất quá trình giữ phòng trong ba bước minh bạch.
+                <LocalizedText id="home.epilogueDescription" />
               </p>
               <div className="epilogue-links">
                 <Link href="/rooms" className="text-link">
-                  Bắt đầu đặt phòng <span aria-hidden="true">↗</span>
+                  <LocalizedText id="home.epilogueBook" /> <span aria-hidden="true">↗</span>
                 </Link>
                 <Link href="/rooms" className="text-link" style={{ borderColor: "#8a8f8b", color: "#69726c" }}>
-                  Xem tất cả Suites <span aria-hidden="true">↗</span>
+                  <LocalizedText id="home.epilogueRooms" /> <span aria-hidden="true">↗</span>
                 </Link>
               </div>
             </div>
@@ -270,13 +271,13 @@ export default async function HomePage() {
             <div className="epilogue-photo-wrapper">
               <Image
                 src="/images/epilogue-resort.png"
-                alt="Kỳ nghỉ tại Aurora"
+                alt="An Aurora stay"
                 fill
                 style={{ objectFit: "cover" }}
                 sizes="40vw"
               />
               <div className="epilogue-badge">
-                <span>16.0544° N, 108.2022° E · Da Nang Beach</span>
+                <span><LocalizedText id="home.epilogueLocation" /></span>
               </div>
             </div>
           </div>
@@ -286,17 +287,39 @@ export default async function HomePage() {
       <Footer />
 
       <style>{`
+        /* Desktop-only chapter rhythm: each editorial section occupies one
+           deliberate viewport. Mobile keeps natural document flow. */
+        @media (min-width: 901px) {
+          html[data-scroll-mode="chapter"] main [data-scroll-section] {
+            height: 100svh;
+            min-height: 720px;
+            max-height: 100svh;
+            overflow: clip;
+          }
+          .prologue-section,
+          .ledger-section,
+          .epilogue-section { padding-block: clamp(54px, 7svh, 88px); }
+          .mosaic-main,
+          .epilogue-photo-wrapper { height: min(520px, calc(100svh - 126px)); }
+          .mosaic-sub { height: min(400px, calc(100svh - 190px)); }
+          .sanctuary-section { padding-block: clamp(36px, 5svh, 54px); }
+          .bento-grid { height: clamp(250px, 37svh, 330px); }
+        }
+
         /* Prologue styles */
         .prologue-section {
           background: var(--linen);
           border-top: 1px solid var(--line);
           border-bottom: 1px solid var(--line);
-          padding-block: 120px;
+          min-height: max(100svh, 720px);
+          display: flex;
+          align-items: center;
+          padding-block: clamp(88px, 9svh, 120px);
         }
         .prologue-grid {
           display: grid;
-          grid-template-columns: 0.85fr 1.15fr;
-          gap: 72px;
+          grid-template-columns: 1fr 1fr;
+          gap: 64px;
           align-items: center;
         }
         .chapter-mark {
@@ -366,7 +389,10 @@ export default async function HomePage() {
         .ledger-section {
           background: var(--warm-carbon);
           color: white;
-          padding-block: 120px;
+          min-height: max(100svh, 720px);
+          display: flex;
+          align-items: center;
+          padding-block: clamp(88px, 9svh, 120px);
         }
         .ledger-grid {
           display: grid;
@@ -434,7 +460,10 @@ export default async function HomePage() {
         .epilogue-section {
           background: var(--warm-ivory);
           border-top: 1px solid var(--line);
-          padding-block: 120px;
+          min-height: max(100svh, 720px);
+          display: flex;
+          align-items: center;
+          padding-block: clamp(88px, 9svh, 120px);
         }
         .epilogue-grid {
           display: grid;
@@ -476,7 +505,11 @@ export default async function HomePage() {
         }
 
         @media (max-width: 980px) {
-          .prologue-section, .ledger-section, .epilogue-section { padding-block: 64px; }
+          .prologue-section, .ledger-section, .epilogue-section {
+            min-height: unset;
+            display: block;
+            padding-block: 64px;
+          }
           .prologue-grid, .photo-mosaic, .ledger-grid, .epilogue-grid { grid-template-columns: 1fr; gap: 36px; }
           .mosaic-main, .epilogue-photo-wrapper { height: clamp(280px, 45vh, 420px); }
           .mosaic-sub { height: 260px; margin-top: 0; }

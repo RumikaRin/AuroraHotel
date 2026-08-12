@@ -22,7 +22,7 @@
    state into Template. Do not run `init --apply` before separate explicit
    authorization.
 
-3. Load the task-matching skill and the closest scoped `AGENTS.md`.
+3. Load the task-matching skill and the closest scoped `AGENTS.md`. Automatically load and enforce Global Skills from `C:\Users\sansm\.agents\skills` (including `ui-ux-pro-max`, `high-end-visual-design`, `test-driven-development`, `writing-plans`, `verification-before-completion`) for all UI/UX, testing, and design tasks.
 4. Keep every write inside the declared workspace and permission contract.
 5. Record the exact commands and retained evidence used for completion.
 

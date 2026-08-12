@@ -3,9 +3,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 
 export function LoginForm() {
   const router = useRouter();
+  const { t } = useLanguage();
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
@@ -22,7 +24,7 @@ export function LoginForm() {
     setPending(false);
     if (result?.error) {
       // NextAuth hides the exact reason on purpose (no account enumeration).
-      setError("Email hoặc mật khẩu không đúng, hoặc email chưa xác minh.");
+      setError(t("login.error"));
       return;
     }
     router.push("/profile");
@@ -42,7 +44,7 @@ export function LoginForm() {
         />
       </label>
       <label>
-        Mật khẩu
+        {t("login.password")}
         <input
           name="password"
           type="password"
@@ -61,7 +63,7 @@ export function LoginForm() {
         disabled={pending}
         className="login-submit"
       >
-        {pending ? "Đang đăng nhập..." : "Đăng nhập"}
+        {pending ? t("login.pending") : t("login.submit")}
       </button>
     </form>
   );

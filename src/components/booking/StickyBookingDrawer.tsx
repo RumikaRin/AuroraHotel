@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 
 interface StickyBookingDrawerProps {
   totalAmountFormatted: string;
@@ -14,22 +15,23 @@ interface StickyBookingDrawerProps {
 
 export function StickyBookingDrawer({ totalAmountFormatted, roomCount, nightCount, discountFormatted, onNextStep, nextStepText, isSubmitting = false }: StickyBookingDrawerProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const { t } = useLanguage();
 
   return (
-    <aside className="booking-mobile-drawer" aria-label="Tóm tắt đặt phòng trên di động">
+    <aside className="booking-mobile-drawer" aria-label={t("booking.drawerSummary")}>
       {isExpanded && (
         <div className="booking-mobile-details">
-          <div><span>Số phòng</span><strong>{roomCount}</strong></div>
-          <div><span>Thời gian lưu trú</span><strong>{nightCount ? `${nightCount} đêm` : "Chưa đủ ngày"}</strong></div>
-          {discountFormatted && <div><span>Ưu đãi</span><strong>-{discountFormatted}</strong></div>}
-          <p>Giá hiển thị là dữ liệu từ báo giá hiện tại; hệ thống sẽ kiểm tra lại khi gửi yêu cầu.</p>
+          <div><span>{t("booking.drawerRooms")}</span><strong>{roomCount}</strong></div>
+          <div><span>{t("booking.drawerStay")}</span><strong>{nightCount ? t("booking.nights", { count: nightCount }) : t("booking.notEnoughDates")}</strong></div>
+          {discountFormatted && <div><span>{t("booking.drawerOffer")}</span><strong>-{discountFormatted}</strong></div>}
+          <p>{t("booking.drawerNote")}</p>
         </div>
       )}
       <div className="booking-mobile-bar">
         <button type="button" className="booking-mobile-toggle" onClick={() => setIsExpanded((expanded) => !expanded)} aria-expanded={isExpanded}>
-          <span>Chi tiết tổng đơn</span><strong>{totalAmountFormatted}</strong>
+          <span>{t("booking.drawerDetails")}</span><strong>{totalAmountFormatted}</strong>
         </button>
-        <button type="button" className="booking-mobile-next" onClick={onNextStep} disabled={isSubmitting}>{isSubmitting ? "Đang cập nhật…" : nextStepText} <span aria-hidden="true">↗</span></button>
+        <button type="button" className="booking-mobile-next" onClick={onNextStep} disabled={isSubmitting}>{isSubmitting ? t("booking.drawerUpdating") : nextStepText} <span aria-hidden="true">↗</span></button>
       </div>
       <style>{`
         .booking-mobile-drawer { display: none; }

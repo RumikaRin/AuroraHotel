@@ -80,7 +80,6 @@ export async function redeemCoupon(
     where: {
       id: couponId,
       isActive: true,
-      currentUsageCount: { lt: client.coupon.fields ? undefined : 999999 },
     },
     data: {
       currentUsageCount: { increment: 1 },

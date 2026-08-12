@@ -1,20 +1,21 @@
 import Link from "next/link";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { LocalizedText } from "@/components/i18n/LocalizedText";
 
 export const metadata = { title: "Tài khoản khách | Aurora Hotel & Resort" };
 
 export default function AccountPage() {
   return (
     <div className="account-page">
-      <a className="skip-link" href="#main-content">Đi đến nội dung chính</a>
+      <a className="skip-link" href="#main-content"><LocalizedText id="common.skipToContent" /></a>
       <Header />
       <main id="main-content" className="wrap account-main">
-        <div className="account-intro"><p className="account-eyebrow">Aurora · guest space</p><h1>Cánh cửa vào<br /><em>kỳ nghỉ của bạn.</em></h1><p>Một nơi để bắt đầu đặt phòng, đăng nhập tài khoản hoặc mở lại hồ sơ bằng mã đặt phòng.</p></div>
-        <section className="account-actions" aria-label="Các lựa chọn tài khoản">
-          <article><span className="account-card-index">01</span><p className="account-eyebrow">Guest account</p><h2>Tài khoản đã đăng nhập</h2><p>Xem thông tin được lưu trong hồ sơ Aurora sau khi đăng nhập thành công.</p><Link href="/profile">Mở tài khoản ↗</Link></article>
-          <article><span className="account-card-index">02</span><p className="account-eyebrow">Booking lookup</p><h2>Tra cứu không cần đăng nhập</h2><p>Dùng mã đặt phòng và email để xem trạng thái hoặc gửi yêu cầu huỷ theo điều kiện.</p><Link href="/my-bookings">Mở tra cứu ↗</Link></article>
-          <article><span className="account-card-index">03</span><p className="account-eyebrow">Find your stay</p><h2>Bắt đầu một kỳ nghỉ mới</h2><p>Chọn phòng và suite từ inventory hiện có, sau đó xem báo giá server-owned.</p><Link href="/rooms">Xem phòng ↗</Link></article>
+        <div className="account-intro"><p className="account-eyebrow"><LocalizedText id="account.eyebrow" /></p><h1><LocalizedText id="account.titleOne" /><br /><em><LocalizedText id="account.titleTwo" /></em></h1><p><LocalizedText id="account.description" /></p></div>
+        <section className="account-actions">
+          <article><span className="account-card-index">01</span><p className="account-eyebrow"><LocalizedText id="account.signedInEyebrow" /></p><h2><LocalizedText id="account.signedInTitle" /></h2><p><LocalizedText id="account.signedInDescription" /></p><Link href="/profile"><LocalizedText id="account.openAccount" /></Link></article>
+          <article><span className="account-card-index">02</span><p className="account-eyebrow"><LocalizedText id="account.lookupEyebrow" /></p><h2><LocalizedText id="account.lookupTitle" /></h2><p><LocalizedText id="account.lookupDescription" /></p><Link href="/my-bookings"><LocalizedText id="account.openLookup" /></Link></article>
+          <article><span className="account-card-index">03</span><p className="account-eyebrow"><LocalizedText id="account.findEyebrow" /></p><h2><LocalizedText id="account.findTitle" /></h2><p><LocalizedText id="account.findDescription" /></p><Link href="/rooms"><LocalizedText id="account.viewRooms" /></Link></article>
         </section>
       </main>
       <Footer />

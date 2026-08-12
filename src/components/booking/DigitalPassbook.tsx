@@ -1,5 +1,7 @@
 "use client";
 
+import { useLanguage } from "@/components/i18n/LanguageProvider";
+
 interface DigitalPassbookProps {
   bookingNumber: string;
   guestName: string;
@@ -12,28 +14,29 @@ interface DigitalPassbookProps {
 }
 
 export function DigitalPassbook({ bookingNumber, guestName, guestEmail, roomCategoryName, checkIn, checkOut, totalAmountFormatted, status }: DigitalPassbookProps) {
+  const { t } = useLanguage();
   const handlePrint = () => window.print();
   const isConfirmed = status === "CONFIRMED";
 
   return (
-    <section className="digital-passbook" aria-label="Chi tiết xác nhận đặt phòng">
+    <section className="digital-passbook" aria-label={t("passbook.aria")}>
       <div className="digital-passbook-header">
-        <div><p>Aurora · booking record</p><h2>Chi tiết đặt phòng</h2></div>
-        <div className="digital-passbook-number"><small>Mã đặt phòng</small><strong>{bookingNumber}</strong></div>
+        <div><p>{t("passbook.eyebrow")}</p><h2>{t("passbook.title")}</h2></div>
+        <div className="digital-passbook-number"><small>{t("passbook.bookingNumber")}</small><strong>{bookingNumber}</strong></div>
       </div>
       <div className="digital-passbook-body">
         <div className="digital-passbook-details">
-          <div><small>Khách hàng</small><strong>{guestName || "Khách Aurora"}</strong><span>{guestEmail}</span></div>
-          <div><small>Hạng phòng</small><strong>{roomCategoryName}</strong><span className={isConfirmed ? "confirmed" : "pending"}>{isConfirmed ? "Đã xác nhận" : status}</span></div>
-          <div><small>Nhận phòng</small><strong>{checkIn}</strong><span>Từ 14:00</span></div>
-          <div><small>Trả phòng</small><strong>{checkOut}</strong><span>Trước 12:00</span></div>
-          <div><small>Tổng tiền</small><strong>{totalAmountFormatted}</strong><span>Theo báo giá hệ thống</span></div>
+          <div><small>{t("passbook.guest")}</small><strong>{guestName || t("passbook.defaultGuest")}</strong><span>{guestEmail}</span></div>
+          <div><small>{t("passbook.room")}</small><strong>{roomCategoryName}</strong><span className={isConfirmed ? "confirmed" : "pending"}>{isConfirmed ? t("status.CONFIRMED") : t(`status.${status}`)}</span></div>
+          <div><small>{t("passbook.checkIn")}</small><strong>{checkIn}</strong><span>{t("passbook.checkInTime")}</span></div>
+          <div><small>{t("passbook.checkOut")}</small><strong>{checkOut}</strong><span>{t("passbook.checkOutTime")}</span></div>
+          <div><small>{t("passbook.total")}</small><strong>{totalAmountFormatted}</strong><span>{t("passbook.quote")}</span></div>
         </div>
         <div className="digital-passbook-recovery">
           <span className="digital-passbook-icon" aria-hidden="true">↗</span>
-          <h3>Tra cứu khi cần</h3>
-          <p>Mã đặt phòng và email là hai thông tin thật dùng để mở lại hồ sơ khi bạn cần.</p>
-          <button type="button" onClick={handlePrint}>In / lưu hồ sơ</button>
+          <h3>{t("passbook.recoveryTitle")}</h3>
+          <p>{t("passbook.recoveryDescription")}</p>
+          <button type="button" onClick={handlePrint}>{t("passbook.print")}</button>
         </div>
       </div>
       <style>{`

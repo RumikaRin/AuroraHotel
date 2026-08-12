@@ -1,13 +1,18 @@
+"use client";
+
+import { useLanguage } from "@/components/i18n/LanguageProvider";
+
 export function DirectBookingBenefits() {
+  const { t } = useLanguage();
   const benefits = [
-    { symbol: "✦", label: "Cam kết giá tốt nhất" },
-    { symbol: "✦", label: "Miễn phí bữa sáng" },
-    { symbol: "✦", label: "Hủy phòng linh hoạt" },
-    { symbol: "✦", label: "Ưu tiên nhận phòng sớm" },
+    { symbol: "✦", label: t("home.benefitBestRate") },
+    { symbol: "✦", label: t("home.benefitBreakfast") },
+    { symbol: "✦", label: t("home.benefitCancellation") },
+    { symbol: "✦", label: t("home.benefitEarlyCheckIn") },
   ];
 
   return (
-    <section aria-label="Quyền lợi đặt phòng trực tiếp" data-header-tone="light">
+    <section aria-label={t("home.directRate")} data-header-tone="light">
       <div className="benefits-strip">
         <div className="benefits-inner wrap">
           {benefits.map((b, i) => (

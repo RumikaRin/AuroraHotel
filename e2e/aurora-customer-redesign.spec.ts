@@ -54,12 +54,218 @@ test("transparent header adapts its foreground to the section beneath it", async
   await expect(header).toHaveAttribute("data-header-tone", "dark");
 });
 
+test("homepage uses one-gesture section stops while keeping reduced-motion escape hatches", async ({ page }) => {
+  await page.goto("/");
+
+  const rhythm = await page.evaluate(() => {
+    const root = getComputedStyle(document.documentElement);
+    const sections = [...document.querySelectorAll<HTMLElement>("[data-scroll-section]")];
+    return {
+      scrollMode: document.documentElement.dataset.scrollMode,
+      scrollSnapType: root.scrollSnapType,
+      scrollPaddingTop: root.scrollPaddingTop,
+      sectionCount: sections.length,
+      sectionHeights: sections.map((section) => Math.round(section.getBoundingClientRect().height)),
+      sectionSnapAlign: sections.map((section) => getComputedStyle(section).scrollSnapAlign),
+      supportsMandatory: CSS.supports("scroll-snap-type", "y mandatory"),
+    };
+  });
+
+  expect(rhythm.scrollSnapType).toBe("y mandatory");
+  expect(rhythm.scrollMode).toBe("chapter");
+  expect(rhythm.supportsMandatory).toBe(true);
+  expect(rhythm.scrollPaddingTop).toBe("0px");
+  expect(rhythm.sectionCount).toBeGreaterThanOrEqual(5);
+  expect(rhythm.sectionHeights.every((height) => Math.abs(height - 720) <= 8)).toBe(true);
+  expect(rhythm.sectionSnapAlign.every((value) => value === "start")).toBe(true);
+});
+
+test("non-home customer pages keep the header readable without chapter snapping", async ({ page }) => {
+  await page.goto("/offers");
+
+  const offers = await page.evaluate(() => {
+    const header = document.querySelector("header");
+    const sections = [...document.querySelectorAll<HTMLElement>("[data-scroll-section]")];
+    const heroContent = document.querySelector<HTMLElement>(".offers-hero-content");
+    return {
+      background: header ? getComputedStyle(header).backgroundColor : "",
+      scrollMode: document.documentElement.dataset.scrollMode,
+      scrollSnapType: getComputedStyle(document.documentElement).scrollSnapType,
+      sectionCount: sections.length,
+      snapStops: sections.map((section) => getComputedStyle(section).scrollSnapStop),
+      heroContentTop: heroContent?.getBoundingClientRect().top ?? 0,
+    };
+  });
+
+  expect(offers.background).toBe("rgba(0, 0, 0, 0)");
+  expect(offers.scrollMode).toBe("free");
+  expect(offers.scrollSnapType).toBe("none");
+  expect(offers.sectionCount).toBeGreaterThanOrEqual(2);
+  expect(offers.snapStops.every((value) => value === "normal")).toBe(true);
+  expect(offers.heroContentTop).toBeGreaterThanOrEqual(82);
+
+  await page.goto("/rooms/deluxe-ocean-king");
+  const breadcrumbTop = await page.locator(".room-breadcrumb").evaluate((element) => element.getBoundingClientRect().top);
+  expect(breadcrumbTop).toBeGreaterThanOrEqual(82);
+});
+
 test("homepage leads with the approved direct-on-image hotel story", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { name: /Thành phố ở gần/ })).toBeVisible();
   await expect(page.locator(".hero-copy")).not.toHaveCSS("background-color", "rgb(255, 255, 255)");
   await expect(page.locator("#booking")).toContainText("Giá trực tiếp minh bạch");
   expect(await page.locator('main a[href="/experiences"]').count()).toBeGreaterThan(0);
+});
+
+test("homepage guest picker uses a custom accessible listbox", async ({ page }) => {
+  await page.goto("/");
+
+  await expect(page.locator(".booking-key select")).toHaveCount(0);
+  const trigger = page.getByRole("button", { name: /chọn số khách/i });
+  await trigger.click();
+  await expect(page.getByRole("listbox", { name: /chọn số khách/i })).toBeVisible();
+  await page.getByRole("option", { name: /3 khách.*1 phòng/i }).click();
+  await expect(trigger).toContainText("3 khách");
+});
+
+test("customer polish: room discovery uses a photo hero and custom filter listboxes", async ({ page }) => {
+  await page.goto("/rooms");
+
+  await expect(page.locator(".rooms-hero-image")).toBeVisible();
+  await expect(page.locator(".room-filter-bar select")).toHaveCount(0);
+
+  const viewTrigger = page.getByRole("button", { name: /tầm nhìn/i });
+  await viewTrigger.click();
+  await expect(page.getByRole("listbox", { name: /tầm nhìn/i })).toBeVisible();
+  await page.getByRole("option", { name: "Hướng biển" }).click();
+  await expect(viewTrigger).toContainText("Hướng biển");
+});
+
+test("customer polish: mobile filter sheet exposes one accessible close action", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/rooms");
+  await page.getByRole("button", { name: /tầm nhìn/i }).click();
+
+  await expect(page.getByRole("button", { name: "Đóng Tầm nhìn" })).toHaveCount(1);
+});
+
+test("customer polish: booking flow replaces native selects without changing quote inputs", async ({ page }) => {
+  let quoteBody: unknown;
+  await page.route("**/api/rooms", async (route) => route.fulfill({
+    contentType: "application/json",
+    body: JSON.stringify({ success: true, data: [{ id: "cat-1", slug: "deluxe-ocean-king", name: "Deluxe Ocean King", basePrice: 2500000, ratePlans: [{ id: "rp-flex", name: "Flexible", priceMultiplier: 1 }] }] }),
+  }));
+  await page.route("**/api/quote", async (route) => {
+    quoteBody = route.request().postDataJSON();
+    await route.fulfill({
+      contentType: "application/json",
+      body: JSON.stringify({ success: true, data: { roomSubtotal: 5000000, serviceSubtotal: 0, discountTotal: 0, taxAndFeeTotal: 500000, totalAmount: 5500000, nights: 2, rooms: [] } }),
+    });
+  });
+
+  await page.goto("/booking?roomCategoryId=cat-1&checkIn=2026-09-10&checkOut=2026-09-12&guests=2");
+  await expect(page.locator(".booking-flow select")).toHaveCount(0);
+  const guestTrigger = page.getByRole("button", { name: /số khách.*2 khách/i });
+  await guestTrigger.click();
+  await page.getByRole("option", { name: /3 khách/i }).click();
+  await expect.poll(() => quoteBody).toEqual({
+    checkIn: "2026-09-10",
+    checkOut: "2026-09-12",
+    rooms: [{ roomCategoryId: "cat-1", ratePlanId: "rp-flex", numGuests: 3 }],
+  });
+});
+
+test("customer polish: language selection updates customer copy beyond the header", async ({ page }) => {
+  await page.goto("/rooms");
+  await page.getByRole("button", { name: /chuyển ngôn ngữ sang tiếng anh/i }).click();
+
+  await expect(page.locator("html")).toHaveAttribute("lang", "en");
+  await expect(page.getByRole("heading", { name: "A room worth remembering." })).toBeVisible();
+});
+
+test("customer polish: language selection also updates the booking journey", async ({ page }) => {
+  await page.route("**/api/rooms", async (route) => route.fulfill({
+    contentType: "application/json",
+    body: JSON.stringify({ success: true, data: [{ id: "cat-1", slug: "deluxe-ocean-king", name: "Deluxe Ocean King", basePrice: 2500000, ratePlans: [{ id: "rp-flex", name: "Flexible", priceMultiplier: 1 }] }] }),
+  }));
+  await page.route("**/api/quote", async (route) => route.fulfill({
+    contentType: "application/json",
+    body: JSON.stringify({ success: true, data: { roomSubtotal: 5000000, serviceSubtotal: 0, discountTotal: 0, taxAndFeeTotal: 500000, totalAmount: 5500000, nights: 2, rooms: [] } }),
+  }));
+  await page.goto("/booking?roomCategoryId=cat-1&checkIn=2026-09-10&checkOut=2026-09-12&guests=2");
+  await page.getByRole("button", { name: /chuyển ngôn ngữ sang tiếng anh/i }).click();
+
+  await expect(page.getByRole("heading", { name: "Book at your own pace." })).toBeVisible();
+  await expect(page.getByText("System-confirmed quote for your current choices.")).toBeVisible();
+});
+
+test("customer polish: language selection carries through offer and experience stories", async ({ page }) => {
+  await page.goto("/offers");
+  await page.getByRole("button", { name: /chuyển ngôn ngữ sang tiếng anh/i }).click();
+  await expect(page.getByRole("heading", { name: /A direct reason to book/i })).toBeVisible();
+
+  await page.goto("/experiences");
+  await expect(page.getByRole("heading", { name: /Where every sense/i })).toBeVisible();
+  await expect(page.getByText("A day told through small moments.")).toBeVisible();
+});
+
+test("customer polish: mobile navigation contains its own visible exit action", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  await page.getByRole("button", { name: "Mở menu" }).click();
+
+  const menu = page.locator("#mobileMenu");
+  await expect(menu.getByRole("button", { name: "Đóng menu" })).toBeVisible();
+  await menu.getByRole("button", { name: "Đóng menu" }).click();
+  await expect(menu).not.toHaveClass(/open/);
+});
+
+test("customer polish: experiences tells the stay story through dedicated moments", async ({ page }) => {
+  await page.goto("/experiences");
+  await expect(page.locator("[data-testid=experience-moments]")).toBeVisible();
+  await expect(page.locator("[data-testid=experience-moments] article")).toHaveCount(3);
+});
+
+test("homepage date picker becomes a mobile bottom sheet", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+
+  await expect(page.locator('.booking-key input[type="date"]')).toHaveCount(0);
+  await page.getByRole("button", { name: /chọn ngày nhận phòng/i }).click();
+  await expect(page.getByRole("dialog", { name: /chọn ngày lưu trú/i })).toBeVisible();
+});
+
+test("custom booking controls preserve the availability query handoff", async ({ page }) => {
+  const availabilityQueries: URL[] = [];
+  await page.route("**/api/availability?*", async (route) => {
+    availabilityQueries.push(new URL(route.request().url()));
+    await route.fulfill({
+      contentType: "application/json",
+      body: JSON.stringify({ success: true, data: [{ id: "room-1" }] }),
+    });
+  });
+
+  await page.goto("/");
+  const checkIn = page.getByRole("button", { name: /chọn ngày nhận phòng/i });
+  await expect(checkIn).toContainText(/\d{2}\/\d{2}\/\d{4}/);
+  await checkIn.click();
+
+  const firstChoice = page.locator(".availability-picker-day:not(:disabled)").nth(4);
+  await firstChoice.click();
+  await expect(page.getByText(/Chọn ngày trả phòng sau ngày nhận phòng/i)).toBeVisible();
+  await page.locator(".availability-picker-day:not(:disabled)").nth(2).click();
+  await expect(page.getByRole("dialog", { name: /chọn ngày lưu trú/i })).toBeHidden();
+
+  await page.getByRole("button", { name: /chọn số khách/i }).click();
+  await page.getByRole("option", { name: /3 khách.*1 phòng/i }).click();
+  await page.getByRole("button", { name: /kiểm tra phòng/i }).click();
+  await page.waitForURL(/\/rooms\?checkIn=.*&checkOut=.*&guests=3/);
+
+  expect(availabilityQueries).toHaveLength(1);
+  const query = availabilityQueries[0].searchParams;
+  expect(query.get("checkIn")).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+  expect(query.get("checkOut")).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+  expect(query.get("guests")).toBe("3");
 });
 
 test("homepage room reel keeps real room destinations and quiet motion fallback", async ({ page }) => {

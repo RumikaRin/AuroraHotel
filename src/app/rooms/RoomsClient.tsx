@@ -8,6 +8,7 @@ import { Footer } from "@/components/layout/Footer";
 import { RoomFilterBar, FilterCriteria } from "@/components/rooms/RoomFilterBar";
 import { RoomLightbox } from "@/components/rooms/RoomLightbox";
 import { RoomCompareModal, CompareRoomItem } from "@/components/rooms/RoomCompareModal";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 
 export interface RoomCategoryData {
   id: string;
@@ -33,19 +34,19 @@ interface RoomsClientProps {
   };
 }
 
-function formatDate(value?: string) {
-  if (!value) return "Chưa chọn";
+function formatDate(value: string | undefined, lang: "vi" | "en") {
+  if (!value) return lang === "en" ? "Not selected" : "Chưa chọn";
   const date = new Date(`${value}T00:00:00`);
   if (Number.isNaN(date.getTime())) return value;
-  return new Intl.DateTimeFormat("vi-VN", {
+  return new Intl.DateTimeFormat(lang === "en" ? "en-GB" : "vi-VN", {
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
   }).format(date);
 }
 
-function formatPrice(amount: number) {
-  return new Intl.NumberFormat("vi-VN", {
+function formatPrice(amount: number, lang: "vi" | "en") {
+  return new Intl.NumberFormat(lang === "en" ? "en-US" : "vi-VN", {
     style: "currency",
     currency: "VND",
     maximumFractionDigits: 0,
@@ -53,6 +54,7 @@ function formatPrice(amount: number) {
 }
 
 export function RoomsClient({ initialCategories, searchContext }: RoomsClientProps) {
+  const { lang, t } = useLanguage();
   const [filters, setFilters] = useState<FilterCriteria>({
     searchQuery: "",
     maxPrice: 25000000,
@@ -90,14 +92,14 @@ export function RoomsClient({ initialCategories, searchContext }: RoomsClientPro
     .map((category) => ({
       slug: category.slug,
       name: category.name,
-      priceFormatted: formatPrice(category.basePrice),
+      priceFormatted: formatPrice(category.basePrice, lang),
       image: category.image,
       capacity: category.maxOccupancy,
       area: `${category.areaSqM} m²`,
       bedType: category.bedConfig,
-      view: category.viewType === "OCEAN" ? "Hướng biển" : category.viewType === "GARDEN" ? "Hướng vườn" : "Hướng hồ bơi",
+      view: category.viewType === "OCEAN" ? t("rooms.filter.ocean") : category.viewType === "GARDEN" ? t("rooms.filter.garden") : t("rooms.filter.pool"),
       amenities: category.amenities,
-    })), [initialCategories, compareSlugs]);
+    })), [initialCategories, compareSlugs, lang, t]);
 
   const bookingQuery = useMemo(() => {
     const query = new URLSearchParams();
@@ -122,26 +124,35 @@ export function RoomsClient({ initialCategories, searchContext }: RoomsClientPro
       <Header />
 
       <main>
-        <section className="rooms-hero" aria-labelledby="rooms-title" data-header-tone="dark">
+        <section className="rooms-hero" aria-labelledby="rooms-title" data-scroll-section="rooms-hero" data-header-tone="dark">
+          <Image
+            src="/images/aurora/presidential-villa.jpg"
+            alt="Không gian resort Aurora nhìn ra biển và hồ bơi riêng"
+            fill
+            priority
+            sizes="100vw"
+            className="rooms-hero-image"
+          />
+          <div className="rooms-hero-overlay" />
           <div className="wrap rooms-hero-inner">
-            <p className="rooms-eyebrow">Aurora · Hotel & Resort</p>
-            <h1 id="rooms-title">Một căn phòng<br /><em>để nhớ.</em></h1>
+            <p className="rooms-eyebrow">{t("rooms.eyebrow")}</p>
+            <h1 id="rooms-title">{t("rooms.titleLineOne")}<br /><em>{t("rooms.titleLineTwo")}</em></h1>
             <p className="rooms-hero-lede">
-              Từ phòng hướng biển trong lòng thành phố đến những suite mở ra vườn nhiệt đới — chọn không gian khớp với nhịp nghỉ của bạn.
+              {t("rooms.lede")}
             </p>
 
             {hasSearchContext && (
-              <div className="rooms-search-summary" data-testid="rooms-search-summary" aria-label="Lịch tìm phòng đã chọn">
-                <span><small>Nhận phòng</small><strong>{formatDate(searchContext?.checkIn)}</strong></span>
-                <span><small>Trả phòng</small><strong>{formatDate(searchContext?.checkOut)}</strong></span>
-                <span><small>Khách</small><strong>{searchContext?.guests || "2"} người</strong></span>
-                <Link href="/#booking">Đổi ngày</Link>
+              <div className="rooms-search-summary" data-testid="rooms-search-summary" aria-label={t("rooms.changeDates")}>
+                <span><small>{t("rooms.checkIn")}</small><strong>{formatDate(searchContext?.checkIn, lang)}</strong></span>
+                <span><small>{t("rooms.checkOut")}</small><strong>{formatDate(searchContext?.checkOut, lang)}</strong></span>
+                <span><small>{t("rooms.guests")}</small><strong>{t("rooms.guestsCount", { count: searchContext?.guests || "2" })}</strong></span>
+                <Link href="/#booking">{t("rooms.changeDates")}</Link>
               </div>
             )}
           </div>
         </section>
 
-        <section className="wrap rooms-toolbar" aria-label="Bộ lọc hạng phòng" data-header-tone="light">
+        <section className="wrap rooms-toolbar" aria-label={t("rooms.filter.title")} data-scroll-section="rooms-toolbar" data-header-tone="light">
           <RoomFilterBar
             onFilterChange={setFilters}
             onOpenCompare={() => setIsCompareOpen(true)}
@@ -149,30 +160,30 @@ export function RoomsClient({ initialCategories, searchContext }: RoomsClientPro
           />
         </section>
 
-        <section className="wrap rooms-results" aria-labelledby="rooms-results-title" data-header-tone="light">
+        <section className="wrap rooms-results" aria-labelledby="rooms-results-title" data-scroll-section="rooms-results" data-header-tone="light">
           <div className="rooms-results-heading">
             <div>
-              <p className="rooms-eyebrow">The stay collection</p>
-              <h2 id="rooms-results-title">Không gian theo cách của bạn</h2>
+              <p className="rooms-eyebrow">{t("rooms.collection")}</p>
+              <h2 id="rooms-results-title">{t("rooms.resultsTitle")}</h2>
             </div>
-            <span>{filteredCategories.length} hạng phòng</span>
+            <span>{t("rooms.categoryCount", { count: filteredCategories.length })}</span>
           </div>
 
           {filteredCategories.length === 0 ? (
             <div className="rooms-empty">
-              <h3>Không tìm thấy hạng phòng phù hợp</h3>
-              <p>Vui lòng thử điều chỉnh lại bộ lọc giá, tầm nhìn hoặc sức chứa.</p>
+              <h3>{t("rooms.emptyTitle")}</h3>
+              <p>{t("rooms.emptyDescription")}</p>
             </div>
           ) : (
             <div className="room-results-list">
               {filteredCategories.map((category, index) => {
                 const isComparing = compareSlugs.includes(category.slug);
                 return (
-                  <article className={`room-card ${index % 2 === 1 ? "room-card-reverse" : ""}`} key={category.id}>
+                  <article className={`room-card ${index % 2 === 1 ? "room-card-reverse" : ""}`} data-scroll-section={`room-${index + 1}`} key={category.id}>
                     <div className="room-card-media">
                       <Image
                         src={category.image}
-                        alt={`Không gian ${category.name}`}
+                        alt={`${lang === "en" ? "Stay in" : "Không gian"} ${category.name}`}
                         fill
                         sizes="(max-width: 900px) 100vw, 58vw"
                         className="room-card-image"
@@ -184,33 +195,33 @@ export function RoomsClient({ initialCategories, searchContext }: RoomsClientPro
                         type="button"
                         className="room-gallery-trigger"
                         onClick={() => setLightboxData({ isOpen: true, title: category.name, images: category.gallery })}
-                        aria-label={`Mở thư viện ảnh ${category.name}`}
+                        aria-label={t("rooms.openGallery", { name: category.name })}
                       >
-                        Xem thư viện ảnh <span aria-hidden="true">↗</span>
+                        {t("rooms.gallery")} <span aria-hidden="true">↗</span>
                       </button>
                     </div>
 
                     <div className="room-card-content">
                       <div>
                         <div className="room-card-kicker">
-                          <span>{category.viewType === "OCEAN" ? "Ocean collection" : category.viewType === "GARDEN" ? "Garden collection" : "Aurora collection"}</span>
+                          <span>{category.viewType === "OCEAN" ? t("rooms.oceanCollection") : category.viewType === "GARDEN" ? t("rooms.gardenCollection") : t("rooms.auroraCollection")}</span>
                           <button
                             type="button"
                             className={`compare-toggle ${isComparing ? "selected" : ""}`}
                             onClick={() => toggleCompare(category.slug)}
                             aria-pressed={isComparing}
                           >
-                            {isComparing ? "Đã chọn" : "+ So sánh"}
+                            {isComparing ? t("rooms.compared") : t("rooms.compare")}
                           </button>
                         </div>
                         <h3>{category.name}</h3>
                         <p className="room-card-description">{category.description}</p>
                       </div>
 
-                      <div className="room-card-facts" aria-label={`Thông tin ${category.name}`}>
-                        <span><small>Diện tích</small><strong>{category.areaSqM} m²</strong></span>
-                        <span><small>Sức chứa</small><strong>{category.maxOccupancy} khách</strong></span>
-                        <span><small>Giường</small><strong>{category.bedConfig}</strong></span>
+                      <div className="room-card-facts" aria-label={`${t("rooms.details")} ${category.name}`}>
+                        <span><small>{t("rooms.area")}</small><strong>{category.areaSqM} m²</strong></span>
+                        <span><small>{t("rooms.capacity")}</small><strong>{t("rooms.guestsCount", { count: category.maxOccupancy })}</strong></span>
+                        <span><small>{t("rooms.bed")}</small><strong>{category.bedConfig}</strong></span>
                       </div>
 
                       <div className="room-card-amenities">
@@ -219,12 +230,12 @@ export function RoomsClient({ initialCategories, searchContext }: RoomsClientPro
 
                       <div className="room-card-footer">
                         <div>
-                          <small>Giá từ mỗi đêm</small>
-                          <strong>{formatPrice(category.basePrice)}</strong>
+                          <small>{t("rooms.fromPerNight")}</small>
+                          <strong>{formatPrice(category.basePrice, lang)}</strong>
                         </div>
                         <div className="room-card-actions">
-                          <Link href={withBookingQuery(`/rooms/${category.slug}`)} className="room-secondary-action">Chi tiết</Link>
-                          <Link href={withRoomBookingQuery(category.id)} className="room-primary-action">Đặt phòng</Link>
+                          <Link href={withBookingQuery(`/rooms/${category.slug}`)} className="room-secondary-action">{t("rooms.details")}</Link>
+                          <Link href={withRoomBookingQuery(category.id)} className="room-primary-action">{t("rooms.book")}</Link>
                         </div>
                       </div>
                     </div>
@@ -254,9 +265,10 @@ export function RoomsClient({ initialCategories, searchContext }: RoomsClientPro
 
       <style>{`
         .rooms-page { min-height: 100vh; background: var(--warm-ivory); color: var(--espresso); }
-        .rooms-hero { position: relative; overflow: hidden; background: var(--espresso); color: var(--warm-ivory); }
-        .rooms-hero::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 78% 20%, rgba(181,154,107,.18), transparent 30%); pointer-events: none; }
-        .rooms-hero-inner { position: relative; z-index: 1; padding-block: clamp(96px, 12vw, 170px) 112px; }
+        .rooms-hero { position: relative; min-height: max(100svh, 720px); overflow: hidden; background: var(--warm-carbon); color: var(--warm-ivory); }
+        .rooms-hero-image { object-fit: cover; object-position: center 58%; }
+        .rooms-hero-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(25,21,18,.84) 0%, rgba(25,21,18,.48) 42%, rgba(25,21,18,.16) 76%), linear-gradient(0deg, rgba(25,21,18,.72) 0%, rgba(25,21,18,0) 54%); }
+        .rooms-hero-inner { position: relative; z-index: 1; min-height: max(100svh, 720px); display: flex; flex-direction: column; justify-content: center; padding-block: 110px; }
         .rooms-eyebrow { margin: 0 0 18px; color: var(--antique-brass); font-size: 10px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
         .rooms-hero h1 { max-width: 780px; margin: 0; font: 500 clamp(58px, 9vw, 132px)/.82 var(--font-display); letter-spacing: -.055em; }
         .rooms-hero h1 em { color: var(--antique-brass); font-style: italic; font-weight: 400; }
@@ -266,17 +278,17 @@ export function RoomsClient({ initialCategories, searchContext }: RoomsClientPro
         .rooms-search-summary small { color: rgba(243,238,231,.56); font-size: 9px; letter-spacing: .13em; text-transform: uppercase; }
         .rooms-search-summary strong { font-size: 13px; font-weight: 600; }
         .rooms-search-summary a { min-height: 44px; display: inline-flex; align-items: center; color: var(--antique-brass); font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; border-bottom: 1px solid currentColor; }
-        .rooms-toolbar { position: relative; z-index: 2; margin-top: -44px; }
-        .rooms-results { padding-block: 54px 120px; }
+        .rooms-toolbar { position: relative; z-index: 2; margin-top: -44px; padding-top: var(--header-height); }
+        .rooms-results { padding-block: calc(var(--header-height) + 54px) 120px; }
         .rooms-results-heading { display: flex; align-items: end; justify-content: space-between; padding-bottom: 22px; border-bottom: 1px solid var(--line); }
         .rooms-results-heading .rooms-eyebrow { margin-bottom: 8px; }
         .rooms-results-heading h2 { margin: 0; font: 500 clamp(36px, 4vw, 58px)/.92 var(--font-display); letter-spacing: -.035em; }
         .rooms-results-heading > span { color: var(--taupe); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
         .room-results-list { display: grid; gap: 34px; padding-top: 34px; }
-        .room-card { display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(360px, .88fr); min-height: 520px; overflow: hidden; border: 1px solid #e2d8cc; background: var(--linen); }
+        .room-card { display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(360px, .88fr); min-height: clamp(620px, 100svh, 820px); overflow: hidden; border: 1px solid #e2d8cc; background: var(--linen); }
         .room-card-reverse { grid-template-columns: minmax(360px, .88fr) minmax(0, 1.12fr); }
         .room-card-reverse .room-card-media { order: 2; }
-        .room-card-media { position: relative; min-height: 520px; overflow: hidden; background: var(--walnut); }
+        .room-card-media { position: relative; min-height: clamp(620px, 100svh, 820px); overflow: hidden; background: var(--walnut); }
         .room-card-image { object-fit: cover; transition: transform .8s var(--ease); }
         .room-card:hover .room-card-image { transform: scale(1.035); }
         .room-card-media-overlay { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(25,21,18,.7), transparent 48%); }
@@ -308,12 +320,14 @@ export function RoomsClient({ initialCategories, searchContext }: RoomsClientPro
         .rooms-empty h3 { margin: 0 0 8px; font: 500 34px/1 var(--font-display); }
         .rooms-empty p { color: var(--taupe); font-size: 13px; }
         @media (max-width: 900px) {
-          .rooms-hero-inner { padding-bottom: 92px; }
+          .rooms-hero-inner { min-height: 720px; padding-block: 100px 92px; }
+          .rooms-toolbar { margin-top: -24px; padding-top: 0; }
+          .rooms-results { padding-block: 54px 120px; }
           .rooms-search-summary { width: 100%; gap: 14px; flex-wrap: wrap; }
           .rooms-search-summary span { min-width: 0; flex: 1 1 112px; }
           .room-card, .room-card-reverse { grid-template-columns: 1fr; }
           .room-card-reverse .room-card-media { order: 0; }
-          .room-card-media { min-height: 390px; }
+          .room-card, .room-card-media { min-height: 390px; }
           .room-card-content { padding: 30px 24px; }
         }
         @media (max-width: 560px) {

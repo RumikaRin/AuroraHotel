@@ -16,7 +16,22 @@ interface ReceptionBooking {
   assignedRoom?: string;
 }
 
+import { RoomMatrixGrid, MatrixRoomItem } from "@/components/operations/RoomMatrixGrid";
+
+const INITIAL_ROOM_MATRIX: MatrixRoomItem[] = [
+  { id: "r-101", roomNumber: "101", floor: 1, categoryName: "Deluxe Ocean King", status: "OCCUPIED", guestName: "Nguyễn Văn A", checkOutDate: "2026-08-03" },
+  { id: "r-102", roomNumber: "102", floor: 1, categoryName: "Deluxe Ocean King", status: "CLEAN" },
+  { id: "r-103", roomNumber: "103", floor: 1, categoryName: "Deluxe Ocean King", status: "DIRTY" },
+  { id: "r-104", roomNumber: "104", floor: 1, categoryName: "Deluxe Ocean King", status: "CLEAN" },
+  { id: "r-201", roomNumber: "201", floor: 2, categoryName: "Executive Bay Suite", status: "OCCUPIED", guestName: "Trần Thị B", checkOutDate: "2026-08-04" },
+  { id: "r-202", roomNumber: "202", floor: 2, categoryName: "Executive Bay Suite", status: "INSPECTING" },
+  { id: "r-203", roomNumber: "203", floor: 2, categoryName: "Executive Bay Suite", status: "MAINTENANCE" },
+  { id: "r-301", roomNumber: "301", floor: 3, categoryName: "Family Garden Villa", status: "CLEAN" },
+  { id: "r-302", roomNumber: "302", floor: 3, categoryName: "Presidential Oceanfront Villa", status: "CLEAN" },
+];
+
 export default function ReceptionPage() {
+  const [matrixRooms, setMatrixRooms] = useState<MatrixRoomItem[]>(INITIAL_ROOM_MATRIX);
   const [bookings, setBookings] = useState<ReceptionBooking[]>([]);
   const [actionMessage, setActionMessage] = useState<string>("");
 
@@ -66,6 +81,22 @@ export default function ReceptionPage() {
             ✓ {actionMessage}
           </div>
         )}
+
+        {/* Room Matrix Grid */}
+        <div className="space-y-4">
+          <h2 className="font-serif-luxury text-2xl font-bold text-aurora-midnight">
+            Sơ Đồ Phòng Theo Tầng & Trạng Thái Trực Quan
+          </h2>
+          <RoomMatrixGrid
+            rooms={matrixRooms}
+            onStatusChange={(roomId, newStatus) => {
+              setMatrixRooms((prev) =>
+                prev.map((r) => (r.id === roomId ? { ...r, status: newStatus } : r))
+              );
+              setActionMessage(`Đã cập nhật trạng thái phòng thành ${newStatus}`);
+            }}
+          />
+        </div>
 
         {/* Bookings table */}
         <div className="bg-[#FFFDF8] rounded-3xl p-6 border border-[#DADDD8] shadow-sm space-y-4">

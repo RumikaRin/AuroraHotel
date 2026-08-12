@@ -5,6 +5,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { StickyBookingDrawer } from "@/components/booking/StickyBookingDrawer";
+import { AuroraSelect } from "@/components/controls/AuroraSelect";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 
 type RatePlan = { id: string; name: string; priceMultiplier: number };
 type Category = { id: string; name: string; slug: string; basePrice: number; ratePlans: RatePlan[] };
@@ -24,16 +26,9 @@ type BookingResult = {
   status: "CONFIRMED" | "PENDING_PAYMENT" | "REPLAYED";
 };
 
-const PAYMENT_OPTIONS = [
-  { value: "CREDIT_CARD", title: "Thẻ thanh toán", description: "Thanh toán qua cổng thẻ được hỗ trợ." },
-  { value: "BANK_TRANSFER", title: "Chuyển khoản ngân hàng", description: "Thông tin chuyển khoản sẽ theo hướng dẫn của hệ thống." },
-  { value: "CASH", title: "Thanh toán tiền mặt tại quầy", description: "Thanh toán tại quầy theo điều kiện của đơn đặt phòng." },
-  { value: "MOCK_PAYMENT", title: "Thanh toán mô phỏng (Demo)", description: "Dùng cho môi trường demo nội bộ." },
-] as const;
-
-function formatPrice(amount?: number) {
+function formatPrice(amount: number | undefined, lang: "vi" | "en") {
   if (typeof amount !== "number" || !Number.isFinite(amount)) return "—";
-  return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND", maximumFractionDigits: 0 }).format(amount);
+  return new Intl.NumberFormat(lang === "en" ? "en-US" : "vi-VN", { style: "currency", currency: "VND", maximumFractionDigits: 0 }).format(amount);
 }
 
 function calculateNights(checkIn: string, checkOut: string) {
@@ -44,6 +39,7 @@ function calculateNights(checkIn: string, checkOut: string) {
 function BookingContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { lang, t } = useLanguage();
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [categories, setCategories] = useState<Category[]>([]);
   const [roomCategoryId, setRoomCategoryId] = useState(searchParams.get("roomCategoryId") || "");
@@ -62,13 +58,19 @@ function BookingContent() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const idempotencyKeyRef = useRef<string | null>(null);
+  const paymentOptions = [
+    { value: "CREDIT_CARD", title: t("booking.paymentCardTitle"), description: t("booking.paymentCardDescription") },
+    { value: "BANK_TRANSFER", title: t("booking.paymentTransferTitle"), description: t("booking.paymentTransferDescription") },
+    { value: "CASH", title: t("booking.paymentCashTitle"), description: t("booking.paymentCashDescription") },
+    { value: "MOCK_PAYMENT", title: t("booking.paymentDemoTitle"), description: t("booking.paymentDemoDescription") },
+  ] as const;
 
   useEffect(() => {
     let active = true;
     fetch("/api/rooms")
       .then(async (response) => {
         const json = await response.json();
-        if (!response.ok || !json.success || !Array.isArray(json.data)) throw new Error("Không thể tải danh sách hạng phòng.");
+        if (!response.ok || !json.success || !Array.isArray(json.data)) throw new Error(t("booking.roomLoadFailed"));
         if (!active) return;
         const data = json.data as Category[];
         setCategories(data);
@@ -81,9 +83,9 @@ function BookingContent() {
           if (selectedPlan) setRatePlanId(selectedPlan.id);
         }
       })
-      .catch((error: unknown) => { if (active) setErrorMessage(error instanceof Error ? error.message : "Không thể tải danh sách hạng phòng."); });
+      .catch((error: unknown) => { if (active) setErrorMessage(error instanceof Error ? error.message : t("booking.roomLoadFailed")); });
     return () => { active = false; };
-  }, [searchParams]);
+  }, [searchParams, t]);
 
   useEffect(() => {
     if (!roomCategoryId || !checkIn || !checkOut) return;
@@ -104,19 +106,19 @@ function BookingContent() {
         });
         const json = await response.json();
         if (!response.ok || !json.success || !json.data) {
-          throw new Error(json.error?.message || json.message || "Không thể xác nhận báo giá cho ngày đã chọn.");
+          throw new Error(json.error?.message || json.message || t("booking.quoteFailed"));
         }
         setQuote(json.data as Quote);
       } catch (error: unknown) {
         if ((error as Error)?.name === "AbortError") return;
         setQuote(null);
-        setErrorMessage(error instanceof Error ? error.message : "Không thể xác nhận báo giá cho ngày đã chọn.");
+        setErrorMessage(error instanceof Error ? error.message : t("booking.quoteFailed"));
       } finally {
         if (!controller.signal.aborted) setIsQuoteLoading(false);
       }
     }, 250);
     return () => { window.clearTimeout(timer); controller.abort(); };
-  }, [roomCategoryId, ratePlanId, checkIn, checkOut, guests]);
+  }, [roomCategoryId, ratePlanId, checkIn, checkOut, guests, t]);
 
   useEffect(() => {
     idempotencyKeyRef.current = null;
@@ -134,7 +136,7 @@ function BookingContent() {
 
   const handleGuestStep = () => {
     if (!canContinue) {
-      setErrorMessage("Vui lòng chờ báo giá được xác nhận trước khi tiếp tục.");
+      setErrorMessage(t("booking.waitQuote"));
       return;
     }
     setErrorMessage("");
@@ -143,11 +145,11 @@ function BookingContent() {
 
   const handleSubmitBooking = async () => {
     if (!guestName.trim() || !guestEmail.trim() || !guestPhone.trim()) {
-      setErrorMessage("Vui lòng nhập họ tên, email và số điện thoại để tiếp tục.");
+      setErrorMessage(t("booking.missingGuest"));
       return;
     }
     if (!quote || !roomCategoryId || !ratePlanId) {
-      setErrorMessage("Báo giá chưa sẵn sàng. Vui lòng kiểm tra lại ngày lưu trú.");
+      setErrorMessage(t("booking.quoteNotReady"));
       return;
     }
 
@@ -177,12 +179,12 @@ function BookingContent() {
         router.push(`/login?callbackUrl=${encodeURIComponent(window.location.pathname + window.location.search)}`);
         return;
       }
-      if (!response.ok) throw new Error(json.error?.message || json.message || "Đặt phòng thất bại. Vui lòng thử lại.");
+      if (!response.ok) throw new Error(json.error?.message || json.message || t("booking.checkoutFailed"));
 
       if (json.replayed) {
         setBookingResult({ bookingId: typeof json.bookingId === "string" ? json.bookingId : undefined, totalAmount: quote.totalAmount, status: "REPLAYED" });
       } else {
-        if (typeof json.bookingNumber !== "string" || !json.bookingNumber) throw new Error("Hệ thống chưa trả về mã đặt phòng hợp lệ.");
+        if (typeof json.bookingNumber !== "string" || !json.bookingNumber) throw new Error(t("booking.invalidResponse"));
         setBookingResult({
           bookingId: typeof json.bookingId === "string" ? json.bookingId : undefined,
           bookingNumber: json.bookingNumber,
@@ -192,7 +194,7 @@ function BookingContent() {
       }
       setStep(3);
     } catch (error: unknown) {
-      setErrorMessage(error instanceof Error ? error.message : "Đã xảy ra lỗi không xác định.");
+      setErrorMessage(error instanceof Error ? error.message : t("booking.unknownError"));
     } finally {
       setIsSubmitting(false);
     }
@@ -203,13 +205,13 @@ function BookingContent() {
       <Header />
       <main className="wrap booking-main" id="main-content">
         <div className="booking-intro">
-          <p className="booking-eyebrow">Aurora · Direct booking</p>
-          <h1>Đặt phòng<br /><em>theo nhịp của bạn.</em></h1>
-          <p>Chọn ngày, xem báo giá từ hệ thống và hoàn tất thông tin trong một hành trình rõ ràng.</p>
+          <p className="booking-eyebrow">{t("booking.introEyebrow")}</p>
+          <h1>{t("booking.titleOne")}<br /><em>{t("booking.titleTwo")}</em></h1>
+          <p>{t("booking.intro")}</p>
         </div>
 
-        <ol className="booking-steps" aria-label="Các bước đặt phòng">
-          {["Chọn phòng & ngày", "Thông tin khách", "Xác nhận"] .map((label, index) => {
+        <ol className="booking-steps" aria-label={t("booking.stepsAria")}>
+          {[t("booking.stepOne"), t("booking.stepTwo"), t("booking.stepThree")].map((label, index) => {
             const number = index + 1;
             return <li key={label} className={step >= number ? "active" : ""}><span>{String(number).padStart(2, "0")}</span><strong>{label}</strong></li>;
           })}
@@ -221,55 +223,55 @@ function BookingContent() {
 
             {step === 1 && (
               <div className="booking-card">
-                <div className="booking-card-heading"><p className="booking-eyebrow">Bước 01</p><h2>Chọn ngày & hạng phòng</h2><span>Giá được xác nhận qua báo giá hệ thống</span></div>
+                <div className="booking-card-heading"><p className="booking-eyebrow">{t("booking.stepOneEyebrow")}</p><h2>{t("booking.stepOneTitle")}</h2><span>{t("booking.systemQuote")}</span></div>
                 <div className="booking-field-grid">
-                  <label><span>Nhận phòng</span><input type="date" value={checkIn} onChange={(event) => setCheckIn(event.target.value)} required /></label>
-                  <label><span>Trả phòng</span><input type="date" value={checkOut} min={checkIn} onChange={(event) => setCheckOut(event.target.value)} required /></label>
-                  <label><span>Số khách</span><select value={guests} onChange={(event) => setGuests(event.target.value)}><option value="1">1 khách</option><option value="2">2 khách</option><option value="3">3 khách</option><option value="4">4 khách</option></select></label>
+                  <label><span>{t("booking.checkIn")}</span><input type="date" value={checkIn} onChange={(event) => setCheckIn(event.target.value)} required /></label>
+                  <label><span>{t("booking.checkOut")}</span><input type="date" value={checkOut} min={checkIn} onChange={(event) => setCheckOut(event.target.value)} required /></label>
+                  <div className="booking-select-field"><span>{t("booking.guests")}</span><AuroraSelect label={t("booking.guests")} value={guests} onValueChange={setGuests} options={["1", "2", "3", "4"].map((value) => ({ value, label: t("booking.guestCount", { count: value }) }))} /></div>
                 </div>
-                <label className="booking-wide-field"><span>Hạng phòng</span><select value={roomCategoryId} onChange={(event) => handleCategoryChange(event.target.value)}>{categories.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}</select></label>
-                <label className="booking-wide-field"><span>Rate plan</span><select value={ratePlanId} onChange={(event) => setRatePlanId(event.target.value)}>{selectedCategory?.ratePlans?.map((plan) => <option key={plan.id} value={plan.id}>{plan.name} · {Math.round(plan.priceMultiplier * 100)}% giá chuẩn</option>)}</select></label>
-                <div className="booking-quote-state">{isQuoteLoading ? "Đang cập nhật báo giá…" : quote ? "Báo giá đã được xác nhận cho lựa chọn hiện tại." : "Chọn ngày để xem báo giá."}</div>
-                <button type="button" className="booking-primary-button" onClick={handleGuestStep}>Tiếp tục nhập thông tin <span aria-hidden="true">↗</span></button>
+                <div className="booking-wide-field booking-select-field"><span>{t("booking.roomCategory")}</span><AuroraSelect label={t("booking.roomCategory")} value={roomCategoryId} onValueChange={handleCategoryChange} placeholder={t("booking.loadingRoom")} disabled={categories.length === 0} options={categories.map((category) => ({ value: category.id, label: category.name, description: t("booking.perNight", { price: formatPrice(category.basePrice, lang) }) }))} /></div>
+                <div className="booking-wide-field booking-select-field"><span>{t("booking.ratePlan")}</span><AuroraSelect label={t("booking.ratePlan")} value={ratePlanId} onValueChange={setRatePlanId} placeholder={t("booking.loadingRate")} disabled={!selectedCategory?.ratePlans?.length} options={(selectedCategory?.ratePlans || []).map((plan) => ({ value: plan.id, label: plan.name, description: t("booking.standardRate", { percentage: Math.round(plan.priceMultiplier * 100) }) }))} /></div>
+                <div className="booking-quote-state">{isQuoteLoading ? t("booking.updatingQuote") : quote ? t("booking.quoteConfirmed") : t("booking.chooseDates")}</div>
+                <button type="button" className="booking-primary-button" onClick={handleGuestStep}>{t("booking.continue")} <span aria-hidden="true">↗</span></button>
               </div>
             )}
 
             {step === 2 && (
               <div className="booking-card">
-                <div className="booking-card-heading"><p className="booking-eyebrow">Bước 02</p><h2>Thông tin khách & thanh toán</h2><span>Thông tin này được gửi nguyên vẹn tới checkout hiện có.</span></div>
+                <div className="booking-card-heading"><p className="booking-eyebrow">{t("booking.stepTwoEyebrow")}</p><h2>{t("booking.stepTwoTitle")}</h2><span>{t("booking.existingCheckout")}</span></div>
                 <div className="booking-field-stack">
-                  <label><span>Họ & tên *</span><input type="text" placeholder="Nguyễn Văn A" value={guestName} onChange={(event) => setGuestName(event.target.value)} autoComplete="name" /></label>
-                  <div className="booking-field-grid"><label><span>Email *</span><input type="email" placeholder="nguyen@example.com" value={guestEmail} onChange={(event) => setGuestEmail(event.target.value)} autoComplete="email" /></label><label><span>Số điện thoại *</span><input type="tel" placeholder="+84 90 123 4567" value={guestPhone} onChange={(event) => setGuestPhone(event.target.value)} autoComplete="tel" /></label></div>
-                  <label><span>Yêu cầu đặc biệt <small>(tuỳ chọn)</small></span><textarea rows={4} placeholder="Ví dụ: tầng cao, giường phụ, dịp kỷ niệm..." value={specialRequests} onChange={(event) => setSpecialRequests(event.target.value)} /></label>
+                  <label><span>{t("booking.name")}</span><input type="text" placeholder="Nguyễn Văn A" value={guestName} onChange={(event) => setGuestName(event.target.value)} autoComplete="name" /></label>
+                  <div className="booking-field-grid"><label><span>{t("booking.email")}</span><input type="email" placeholder="nguyen@example.com" value={guestEmail} onChange={(event) => setGuestEmail(event.target.value)} autoComplete="email" /></label><label><span>{t("booking.phone")}</span><input type="tel" placeholder="+84 90 123 4567" value={guestPhone} onChange={(event) => setGuestPhone(event.target.value)} autoComplete="tel" /></label></div>
+                  <label><span>{t("booking.specialRequests")} <small>{t("booking.optional")}</small></span><textarea rows={4} placeholder={t("booking.specialPlaceholder")} value={specialRequests} onChange={(event) => setSpecialRequests(event.target.value)} /></label>
                 </div>
-                <div className="payment-section"><div className="payment-heading"><h3>Phương thức thanh toán</h3><span>Chọn một phương thức được hỗ trợ</span></div><div className="payment-options">{PAYMENT_OPTIONS.map((option) => <button type="button" key={option.value} className={paymentMethod === option.value ? "selected" : ""} onClick={() => setPaymentMethod(option.value)} aria-pressed={paymentMethod === option.value}><span className="payment-radio" aria-hidden="true" /><span><strong>{option.title}</strong><small>{option.description}</small></span></button>)}</div></div>
-                <div className="booking-form-actions"><button type="button" className="booking-secondary-button" onClick={() => setStep(1)}>← Quay lại</button><button type="button" className="booking-primary-button" onClick={handleSubmitBooking} disabled={isSubmitting}>{isSubmitting ? "Đang gửi yêu cầu…" : "Gửi yêu cầu đặt phòng ↗"}</button></div>
+                <div className="payment-section"><div className="payment-heading"><h3>{t("booking.paymentTitle")}</h3><span>{t("booking.paymentSubtitle")}</span></div><div className="payment-options">{paymentOptions.map((option) => <button type="button" key={option.value} className={paymentMethod === option.value ? "selected" : ""} onClick={() => setPaymentMethod(option.value)} aria-pressed={paymentMethod === option.value}><span className="payment-radio" aria-hidden="true" /><span><strong>{option.title}</strong><small>{option.description}</small></span></button>)}</div></div>
+                <div className="booking-form-actions"><button type="button" className="booking-secondary-button" onClick={() => setStep(1)}>{t("booking.back")}</button><button type="button" className="booking-primary-button" onClick={handleSubmitBooking} disabled={isSubmitting}>{isSubmitting ? t("booking.submitting") : t("booking.submit")}</button></div>
               </div>
             )}
 
             {step === 3 && bookingResult && (
               <div className={`booking-card booking-result ${bookingResult.status === "CONFIRMED" ? "confirmed" : "pending"}`}>
-                <p className="booking-eyebrow">Bước 03 · {bookingResult.status === "CONFIRMED" ? "Confirmed" : bookingResult.status === "REPLAYED" ? "Recovered" : "Pending payment"}</p>
-                <h2>{bookingResult.status === "CONFIRMED" ? "Đặt phòng đã được xác nhận." : bookingResult.status === "REPLAYED" ? "Yêu cầu này đã được nhận trước đó." : "Yêu cầu đặt phòng đang chờ thanh toán."}</h2>
-                <p>{bookingResult.status === "CONFIRMED" ? "Hệ thống đã trả về mã đặt phòng chính thức. Bạn có thể dùng email để tra cứu lại bất cứ lúc nào." : bookingResult.status === "REPLAYED" ? "Không tạo thêm đơn mới. Dùng mã hệ thống bên dưới để tiếp tục tra cứu." : "Đơn đã được tạo, nhưng trạng thái thanh toán chưa hoàn tất. Vui lòng kiểm tra hướng dẫn thanh toán và tra cứu đơn."}</p>
-                <div className="booking-result-facts">{bookingResult.bookingNumber ? <div><small>Mã đặt phòng</small><strong>{bookingResult.bookingNumber}</strong></div> : null}{bookingResult.bookingId ? <div><small>Mã hệ thống</small><strong>{bookingResult.bookingId}</strong></div> : null}<div><small>Tổng tiền từ báo giá</small><strong>{formatPrice(bookingResult.totalAmount)}</strong></div></div>
-                <div className="booking-result-actions">{bookingResult.bookingNumber ? <button type="button" className="booking-primary-button" onClick={() => router.push(`/my-bookings?bookingNumber=${encodeURIComponent(bookingResult.bookingNumber || "")}&email=${encodeURIComponent(guestEmail)}`)}>Tra cứu đơn đặt phòng ↗</button> : <button type="button" className="booking-secondary-button" onClick={() => router.push("/my-bookings")}>Mở trang tra cứu đơn</button>}<button type="button" className="booking-secondary-button" onClick={() => router.push("/rooms")}>Quay lại xem phòng</button></div>
+                <p className="booking-eyebrow">{t("booking.stepThree")} · {bookingResult.status === "CONFIRMED" ? t("booking.resultConfirmedLabel") : bookingResult.status === "REPLAYED" ? t("booking.resultReplayedLabel") : t("booking.resultPendingLabel")}</p>
+                <h2>{bookingResult.status === "CONFIRMED" ? t("booking.success") : bookingResult.status === "REPLAYED" ? t("booking.replayed") : t("booking.pending")}</h2>
+                <p>{bookingResult.status === "CONFIRMED" ? t("booking.resultConfirmedBody") : bookingResult.status === "REPLAYED" ? t("booking.resultReplayedBody") : t("booking.resultPendingBody")}</p>
+                <div className="booking-result-facts">{bookingResult.bookingNumber ? <div><small>{t("booking.resultBookingReference")}</small><strong>{bookingResult.bookingNumber}</strong></div> : null}{bookingResult.bookingId ? <div><small>{t("booking.resultSystemReference")}</small><strong>{bookingResult.bookingId}</strong></div> : null}<div><small>{t("booking.resultQuoteTotal")}</small><strong>{formatPrice(bookingResult.totalAmount, lang)}</strong></div></div>
+                <div className="booking-result-actions">{bookingResult.bookingNumber ? <button type="button" className="booking-primary-button" onClick={() => router.push(`/my-bookings?bookingNumber=${encodeURIComponent(bookingResult.bookingNumber || "")}&email=${encodeURIComponent(guestEmail)}`)}>{t("booking.resultLookup")}</button> : <button type="button" className="booking-secondary-button" onClick={() => router.push("/my-bookings")}>{t("booking.resultOpenLookup")}</button>}<button type="button" className="booking-secondary-button" onClick={() => router.push("/rooms")}>{t("booking.resultBackRooms")}</button></div>
               </div>
             )}
           </section>
 
-          <aside className="booking-summary" aria-label="Tóm tắt báo giá">
+          <aside className="booking-summary" aria-label={t("booking.summaryTitle")}>
             <div className="booking-summary-card">
-              <div className="booking-summary-heading"><p className="booking-eyebrow">Booking ledger</p><h2>Tóm tắt lựa chọn</h2></div>
-              <dl><div><dt>Hạng phòng</dt><dd>{selectedCategory?.name || "Đang chọn"}</dd></div><div><dt>Lưu trú</dt><dd>{nights ? `${nights} đêm` : "Chưa đủ ngày"}</dd></div><div><dt>Nhận · trả phòng</dt><dd>{checkIn} → {checkOut}</dd></div><div><dt>Số khách</dt><dd>{guests} người</dd></div></dl>
-              <div className="booking-summary-price"><div><span>Giá phòng</span><strong>{formatPrice(quote?.roomSubtotal)}</strong></div><div><span>Thuế & phí</span><strong>{formatPrice(quote?.taxAndFeeTotal)}</strong></div><div className="total"><span>Tổng từ báo giá</span><strong>{formatPrice(quote?.totalAmount)}</strong></div></div>
-              <p className="booking-summary-note">Tổng tiền, điều kiện hủy và khả dụng là dữ liệu server; thay đổi ngày hoặc rate plan sẽ gọi lại báo giá.</p>
+              <div className="booking-summary-heading"><p className="booking-eyebrow">{t("booking.summaryEyebrow")}</p><h2>{t("booking.summaryTitle")}</h2></div>
+              <dl><div><dt>{t("booking.summaryRoom")}</dt><dd>{selectedCategory?.name || t("booking.selecting")}</dd></div><div><dt>{t("booking.summaryStay")}</dt><dd>{nights ? t("booking.nights", { count: nights }) : t("booking.notEnoughDates")}</dd></div><div><dt>{t("booking.summaryDates")}</dt><dd>{checkIn} → {checkOut}</dd></div><div><dt>{t("booking.summaryGuests")}</dt><dd>{t("booking.guestCount", { count: guests })}</dd></div></dl>
+              <div className="booking-summary-price"><div><span>{t("booking.roomPrice")}</span><strong>{formatPrice(quote?.roomSubtotal, lang)}</strong></div><div><span>{t("booking.taxes")}</span><strong>{formatPrice(quote?.taxAndFeeTotal, lang)}</strong></div><div className="total"><span>{t("booking.quoteTotal")}</span><strong>{formatPrice(quote?.totalAmount, lang)}</strong></div></div>
+              <p className="booking-summary-note">{t("booking.summaryNote")}</p>
             </div>
           </aside>
         </div>
       </main>
 
-      {step < 3 && <StickyBookingDrawer totalAmountFormatted={formatPrice(quote?.totalAmount)} roomCount={1} nightCount={nights} onNextStep={step === 1 ? handleGuestStep : handleSubmitBooking} nextStepText={step === 1 ? "Tiếp tục" : "Gửi yêu cầu"} isSubmitting={isSubmitting || isQuoteLoading} />}
+      {step < 3 && <StickyBookingDrawer totalAmountFormatted={formatPrice(quote?.totalAmount, lang)} roomCount={1} nightCount={nights} onNextStep={step === 1 ? handleGuestStep : handleSubmitBooking} nextStepText={step === 1 ? t("booking.continue") : t("booking.submit")} isSubmitting={isSubmitting || isQuoteLoading} />}
       <Footer />
 
       <style>{`
@@ -297,13 +299,13 @@ function BookingContent() {
         .booking-card-heading > span { display: block; margin-top: 13px; color: var(--taupe); font-size: 11px; }
         .booking-field-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 26px; }
         .booking-field-stack { display: grid; gap: 17px; margin-top: 24px; }
-        .booking-field-grid label, .booking-field-stack label, .booking-wide-field { display: grid; gap: 8px; }
+        .booking-field-grid label, .booking-field-grid .booking-select-field, .booking-field-stack label, .booking-wide-field { display: grid; gap: 8px; min-width: 0; }
         .booking-wide-field { margin-top: 18px; }
-        .booking-field-grid label > span, .booking-field-stack label > span, .booking-wide-field > span { color: var(--taupe); font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+        .booking-field-grid label > span, .booking-field-grid .booking-select-field > span, .booking-field-stack label > span, .booking-wide-field > span { color: var(--taupe); font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
         .booking-field-grid label > span small, .booking-field-stack label > span small { font-size: 9px; font-weight: 400; letter-spacing: 0; text-transform: none; }
-        .booking-field-grid input, .booking-field-grid select, .booking-field-stack input, .booking-field-stack textarea, .booking-wide-field select { width: 100%; min-height: 46px; border: 1px solid #d9cfc3; border-radius: 5px; background: var(--linen); color: var(--espresso); padding: 0 12px; font-size: 12px; outline: none; }
+        .booking-field-grid input, .booking-field-stack input, .booking-field-stack textarea { width: 100%; min-height: 46px; border: 1px solid #d9cfc3; border-radius: 5px; background: var(--linen); color: var(--espresso); padding: 0 12px; font-size: 12px; outline: none; }
         .booking-field-stack textarea { min-height: 112px; padding-block: 12px; resize: vertical; }
-        .booking-field-grid input:focus, .booking-field-grid select:focus, .booking-field-stack input:focus, .booking-field-stack textarea:focus, .booking-wide-field select:focus { border-color: var(--antique-brass); box-shadow: 0 0 0 3px rgba(181,154,107,.15); }
+        .booking-field-grid input:focus, .booking-field-stack input:focus, .booking-field-stack textarea:focus { border-color: var(--antique-brass); box-shadow: 0 0 0 3px rgba(181,154,107,.15); }
         .booking-quote-state { margin-top: 20px; padding: 12px 14px; background: rgba(181,154,107,.1); color: var(--walnut); font-size: 11px; line-height: 1.5; }
         .booking-primary-button, .booking-secondary-button { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 0 18px; border-radius: 5px; font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
         .booking-primary-button { border: 1px solid var(--espresso); background: var(--espresso); color: var(--warm-ivory); transition: background .2s var(--ease), transform .2s var(--ease); }
@@ -358,5 +360,10 @@ function BookingContent() {
 }
 
 export default function BookingPage() {
-  return <Suspense fallback={<div className="booking-loading">Đang tải hành trình đặt phòng…</div>}><BookingContent /></Suspense>;
+  return <Suspense fallback={<BookingLoading />}><BookingContent /></Suspense>;
+}
+
+function BookingLoading() {
+  const { t } = useLanguage();
+  return <div className="booking-loading">{t("booking.loadingJourney")}</div>;
 }

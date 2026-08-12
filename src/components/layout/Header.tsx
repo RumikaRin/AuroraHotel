@@ -3,19 +3,25 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { getTranslation, Language } from "../../domain/i18n.ts";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 
 type HeaderTone = "dark" | "light";
 
+function initialToneForPath(pathname: string): HeaderTone {
+  return pathname === "/" || pathname === "/rooms" || pathname === "/experiences" || pathname === "/offers"
+    ? "dark"
+    : "light";
+}
+
 export function Header() {
   const pathname = usePathname();
-  const [lang, setLang] = useState<Language>("vi");
+  const { lang, t, toggleLanguage } = useLanguage();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [headerTone, setHeaderTone] = useState<HeaderTone>(pathname === "/" ? "dark" : "light");
+  const [headerTone, setHeaderTone] = useState<HeaderTone>(initialToneForPath(pathname));
   const menuBtnRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    const fallbackTone: HeaderTone = pathname === "/" ? "dark" : "light";
+    const fallbackTone = initialToneForPath(pathname);
     const toneSections = Array.from(
       document.querySelectorAll<HTMLElement>("main [data-header-tone]"),
     );
@@ -23,7 +29,10 @@ export function Header() {
 
     const updateTone = () => {
       frame = 0;
-      const headerProbeY = Math.min(42, Math.max(1, window.innerHeight / 2));
+      // Match the tone to the visual layer actually behind the header. This
+      // keeps the transition calm when a short utility strip sits between two
+      // major sections.
+      const headerProbeY = Math.min(48, Math.max(1, window.innerHeight * 0.07));
       const activeSection = toneSections.find((section) => {
         const rect = section.getBoundingClientRect();
         return rect.top <= headerProbeY && rect.bottom > headerProbeY;
@@ -52,15 +61,109 @@ export function Header() {
     };
   }, [pathname]);
 
+  useEffect(() => {
+    const root = document.documentElement;
+    root.dataset.scrollMode = pathname === "/" ? "chapter" : "free";
+    return () => {
+      delete root.dataset.scrollMode;
+    };
+  }, [pathname]);
+
+  useEffect(() => {
+    if (pathname !== "/") return;
+
+    const desktopQuery = window.matchMedia("(min-width: 901px)");
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (!desktopQuery.matches || reducedMotionQuery.matches) return;
+
+    let isAnimating = false;
+    let unlockTimer: number | undefined;
+
+    const getScrollSections = () =>
+      Array.from(document.querySelectorAll<HTMLElement>("main [data-scroll-section]"))
+        .filter((section) => section.getClientRects().length > 0)
+        .sort(
+          (a, b) =>
+            a.getBoundingClientRect().top + window.scrollY -
+            (b.getBoundingClientRect().top + window.scrollY),
+        );
+
+    const handleWheel = (event: WheelEvent) => {
+      if (event.defaultPrevented || event.ctrlKey || event.shiftKey || Math.abs(event.deltaY) < 8) return;
+
+      const target = event.target instanceof Element ? event.target : null;
+      if (target?.closest("input, textarea, select, [contenteditable='true'], [data-scroll-free]")) return;
+
+      const sections = getScrollSections();
+      if (sections.length < 2) return;
+
+      const currentY = window.scrollY;
+      const viewportHeight = window.innerHeight;
+      const positions = sections.map((section) => section.getBoundingClientRect().top + currentY);
+      let currentIndex = 0;
+
+      positions.forEach((position, index) => {
+        if (position <= currentY + 12) currentIndex = index;
+      });
+
+      const currentSection = sections[currentIndex];
+      const currentSectionTop = positions[currentIndex];
+      const currentSectionHeight = currentSection?.getBoundingClientRect().height || viewportHeight;
+      const currentSectionBottom = currentSectionTop + currentSectionHeight;
+      const direction = event.deltaY > 0 ? 1 : -1;
+      let destination: number | undefined;
+
+      if (direction > 0) {
+        const nestedDestination = positions.find(
+          (position, index) => index > currentIndex && position > currentY + 24 && position < currentSectionBottom - 12,
+        );
+        if (nestedDestination !== undefined) {
+          destination = nestedDestination;
+        } else if (currentSectionHeight > viewportHeight + 120 && currentY < currentSectionBottom - viewportHeight - 24) {
+          destination = Math.min(currentY + Math.max(viewportHeight * 0.88, 520), currentSectionBottom - viewportHeight);
+        } else {
+          destination = positions[currentIndex + 1];
+        }
+      } else if (currentY > currentSectionTop + 24) {
+        destination = Math.max(currentSectionTop, currentY - Math.max(viewportHeight * 0.88, 520));
+        if (destination <= currentSectionTop + 24) destination = currentSectionTop;
+      } else {
+        destination = positions[currentIndex - 1];
+      }
+
+      if (destination === undefined || Math.abs(destination - currentY) < 12) return;
+
+      event.preventDefault();
+      if (isAnimating) return;
+
+      isAnimating = true;
+      window.scrollTo({ top: Math.round(destination), behavior: "smooth" });
+      if (unlockTimer !== undefined) window.clearTimeout(unlockTimer);
+      unlockTimer = window.setTimeout(() => {
+        isAnimating = false;
+        unlockTimer = undefined;
+      }, 820);
+    };
+
+    window.addEventListener("wheel", handleWheel, { passive: false });
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+      if (unlockTimer !== undefined) window.clearTimeout(unlockTimer);
+    };
+  }, [pathname]);
+
   const isDarkTone = headerTone === "dark";
+  const isHomepage = pathname === "/";
   const headerForeground = isDarkTone ? "var(--warm-ivory)" : "var(--espresso)";
   const headerMutedForeground = isDarkTone ? "rgba(251,248,242,.78)" : "rgba(38,30,26,.72)";
   const headerControlBorder = isDarkTone ? "rgba(255,255,255,.34)" : "rgba(38,30,26,.24)";
   const headerControlBackground = isDarkTone ? "rgba(25,21,18,.28)" : "rgba(251,248,242,.42)";
-
-  const toggleLanguage = () => {
-    setLang((prev) => (prev === "vi" ? "en" : "vi"));
-  };
+  const shouldFloatOverHero = isDarkTone && ["/", "/rooms", "/experiences", "/offers"].includes(pathname);
+  const headerSurface = shouldFloatOverHero
+    ? "transparent"
+    : isDarkTone
+      ? "rgba(25,21,18,.96)"
+      : "rgba(251,248,242,.96)";
 
   const closeMenu = useCallback(() => {
     setMenuOpen(false);
@@ -99,6 +202,7 @@ export function Header() {
 
   return (
     <header
+      className="site-header"
       data-header-tone={headerTone}
       style={{
         position: "fixed",
@@ -106,11 +210,17 @@ export function Header() {
         left: 0,
         right: 0,
         zIndex: 50,
-        backgroundColor: "transparent",
+        backgroundColor: headerSurface,
+        backgroundImage: isHomepage
+          ? isDarkTone
+            ? "linear-gradient(180deg, rgba(25,21,18,.16) 0%, rgba(25,21,18,0) 100%)"
+            : "linear-gradient(180deg, rgba(251,248,242,.28) 0%, rgba(251,248,242,0) 100%)"
+          : "none",
         backdropFilter: "none",
+        WebkitBackdropFilter: "none",
         boxShadow: "none",
         color: headerForeground,
-        transition: "color 0.3s ease",
+        transition: "color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease",
       }}
     >
       <div
@@ -135,7 +245,7 @@ export function Header() {
             minWidth: 44,
             justifyContent: "center",
           }}
-          aria-label="Aurora Hotel, về trang chủ"
+          aria-label={t("nav.home")}
         >
           <strong
             style={{
@@ -155,14 +265,14 @@ export function Header() {
               textTransform: "uppercase" as const,
             }}
           >
-            {getTranslation(lang, "nav.slogan")}
+            {t("nav.slogan")}
           </small>
         </Link>
 
         {/* Desktop Nav */}
         <nav
           className="desktop-nav"
-          aria-label="Điều hướng chính"
+          aria-label={t("header.primaryNavigation")}
           style={{
             display: "flex",
             alignItems: "center",
@@ -188,7 +298,7 @@ export function Header() {
                 color: isActive(link.href) ? headerForeground : headerMutedForeground,
               }}
             >
-              {getTranslation(lang, link.key)}
+              {t(link.key)}
             </Link>
           ))}
         </nav>
@@ -215,7 +325,7 @@ export function Header() {
               fontSize: 10,
               fontWeight: 700,
             }}
-            aria-label={`Chuyển ngôn ngữ sang ${lang === "vi" ? "tiếng Anh" : "tiếng Việt"}`}
+            aria-label={t(lang === "vi" ? "header.switchToEnglish" : "header.switchToVietnamese")}
           >
             {lang.toUpperCase()}
           </button>
@@ -235,7 +345,7 @@ export function Header() {
               transition: "transform .2s var(--ease), background .2s var(--ease)",
             }}
           >
-            {getTranslation(lang, "nav.bookNow")}
+            {t("nav.bookNow")}
           </Link>
           {/* Mobile menu button */}
           <button
@@ -255,7 +365,7 @@ export function Header() {
             }}
             aria-expanded={menuOpen}
             aria-controls="mobileMenu"
-            aria-label={menuOpen ? "Đóng menu" : "Mở menu"}
+            aria-label={t(menuOpen ? "header.closeMenu" : "header.openMenu")}
           >
             <svg width="18" height="14" viewBox="0 0 18 14" fill="none" stroke="currentColor" strokeWidth="1.5">
               {menuOpen ? (
@@ -278,11 +388,11 @@ export function Header() {
       {/* Mobile overlay menu */}
       <nav
         id="mobileMenu"
-        aria-label="Điều hướng di động"
+        aria-label={t("header.mobileNavigation")}
         className={`mobile-overlay ${menuOpen ? "open" : ""}`}
         style={{
           position: "fixed",
-          zIndex: 19,
+          zIndex: 60,
           inset: 0,
           display: "flex",
           visibility: menuOpen ? "visible" : "hidden",
@@ -297,6 +407,45 @@ export function Header() {
           transition: "opacity .25s var(--ease), transform .25s var(--ease), visibility .25s",
         }}
       >
+        <div
+          className="mobile-menu-utility"
+          style={{
+            position: "absolute",
+            top: 22,
+            left: 28,
+            right: 28,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 16,
+          }}
+        >
+          <span style={{ color: "var(--antique-brass)", font: '600 19px/1 "Cormorant Garamond", serif', letterSpacing: ".08em" }}>AURORA HOTEL</span>
+          <button
+            type="button"
+            onClick={closeMenu}
+            className="mobile-menu-close"
+            aria-label={t("header.closeMenu")}
+            style={{
+              minHeight: 44,
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 9,
+              padding: "0 13px",
+              border: "1px solid rgba(243,238,231,.42)",
+              borderRadius: "var(--radius-control)",
+              background: "rgba(25,21,18,.28)",
+              color: "var(--warm-ivory)",
+              fontSize: 9,
+              fontWeight: 700,
+              letterSpacing: ".1em",
+              textTransform: "uppercase" as const,
+            }}
+          >
+            {t("header.closeMenu")}
+            <svg aria-hidden="true" width="15" height="15" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.35"><line x1="2" y1="2" x2="16" y2="16" /><line x1="16" y1="2" x2="2" y2="16" /></svg>
+          </button>
+        </div>
         {navLinks.map((link) => (
           <Link
             key={link.href}
@@ -308,7 +457,7 @@ export function Header() {
               font: '500 clamp(34px, 8vw, 52px)/1 "Cormorant Garamond", serif',
             }}
           >
-            {getTranslation(lang, link.key)}
+            {t(link.key)}
           </Link>
         ))}
         <div style={{ display: "flex", gap: 16, marginTop: 24, alignItems: "center" }}>
@@ -325,7 +474,7 @@ export function Header() {
               textTransform: "uppercase" as const,
             }}
           >
-            {getTranslation(lang, "nav.bookNow")}
+            {t("nav.bookNow")}
           </Link>
           <button
             onClick={toggleLanguage}
@@ -340,7 +489,7 @@ export function Header() {
               fontSize: 11,
               fontWeight: 700,
             }}
-            aria-label={`Chuyển ngôn ngữ sang ${lang === "vi" ? "tiếng Anh" : "tiếng Việt"}`}
+            aria-label={t(lang === "vi" ? "header.switchToEnglish" : "header.switchToVietnamese")}
           >
             {lang === "vi" ? "EN" : "VI"}
           </button>

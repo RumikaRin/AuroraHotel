@@ -1,11 +1,14 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 
 interface ExperienceItem {
   id: string;
   tagline: string;
-  title: string;
-  description: string;
+  titleKey: string;
+  descriptionKey: string;
   image: string;
   imageAlt: string;
   featured?: boolean;
@@ -15,9 +18,8 @@ const EXPERIENCES: ExperienceItem[] = [
   {
     id: "culinary",
     tagline: "Fine Dining & Seafood",
-    title: "Ẩm Thực Thượng Hạng",
-    description:
-      "Hải sản tươi ngon chọn lọc theo ngày kết hợp nghệ thuật ẩm thực đương đại do các đầu bếp tài hoa thể hiện.",
+    titleKey: "home.sanctuaryCulinary",
+    descriptionKey: "home.sanctuaryCulinaryDescription",
     image: "/images/aurora/hero-03.jpg",
     imageAlt: "Bàn tiệc ẩm thực cao cấp bên bờ biển",
     featured: true,
@@ -25,27 +27,24 @@ const EXPERIENCES: ExperienceItem[] = [
   {
     id: "wellness",
     tagline: "Holistic Wellness & Spa",
-    title: "Tái Tạo Năng Lượng",
-    description:
-      "Liệu trình trị liệu độc quyền kết hợp thảo dược thiên nhiên Việt Nam và bấm huyệt chuyên sâu.",
+    titleKey: "home.sanctuaryWellness",
+    descriptionKey: "home.sanctuaryWellnessDescription",
     image: "/images/aurora/executive-suite.jpg",
     imageAlt: "Không gian spa thư giãn với đá nóng thảo dược",
   },
   {
     id: "private-beach",
     tagline: "Private Oceanfront Oasis",
-    title: "Bãi Biển & Bể Bơi Vô Cực",
-    description:
-      "Thả mình trong làn nước trong xanh riêng biệt, tận hưởng ly cocktail nhiệt đới và hoàng hôn rực rỡ.",
+    titleKey: "home.sanctuaryBeach",
+    descriptionKey: "home.sanctuaryBeachDescription",
     image: "/images/aurora/hero-02.jpg",
     imageAlt: "Bể bơi vô cực hướng biển với bầu trời hoàng hôn",
   },
   {
     id: "butler-service",
     tagline: "Tailored Butler Care",
-    title: "Quản Gia Cá Nhân 24/7",
-    description:
-      "Đội ngũ quản gia chuyên nghiệp tận tâm thấu hiểu và phục vụ từng chi tiết trong kỳ nghỉ của bạn.",
+    titleKey: "home.sanctuaryButler",
+    descriptionKey: "home.sanctuaryButlerDescription",
     image: "/images/aurora/presidential-villa.jpg",
     imageAlt: "Quản gia phục vụ tại phòng suite sang trọng",
     featured: true,
@@ -53,18 +52,19 @@ const EXPERIENCES: ExperienceItem[] = [
 ];
 
 export function SanctuaryExperiences() {
+  const { t } = useLanguage();
   return (
-    <section aria-label="Trải nghiệm nghỉ dưỡng" id="experiences" data-header-tone="dark">
+    <section aria-label={t("home.sanctuaryAria")} id="experiences" data-scroll-section="experiences" data-header-tone="dark">
       <div className="sanctuary-section">
         <div className="wrap">
           <div className="sanctuary-header">
             <span className="sanctuary-eyebrow">Chapter II · Sanctuary Experiences</span>
             <h2 className="sanctuary-title">
-              Một kỳ nghỉ,<br />
-              <em>nhiều nhịp điệu.</em>
+              {t("home.sanctuaryTitleOne")}<br />
+              <em>{t("home.sanctuaryTitleTwo")}</em>
             </h2>
             <p className="sanctuary-subtitle">
-              Từ bữa tối bên biển đến một buổi sáng thật chậm trong suite — Aurora để mỗi ngày của bạn có khoảng thở riêng.
+              {t("home.sanctuaryDescription")}
             </p>
           </div>
 
@@ -89,8 +89,8 @@ export function SanctuaryExperiences() {
 
                 <div className="bento-card-body">
                   <span className="bento-card-tagline">{item.tagline}</span>
-                  <h3 className="bento-card-title">{item.title}</h3>
-                  <p className="bento-card-desc">{item.description}</p>
+                  <h3 className="bento-card-title">{t(item.titleKey)}</h3>
+                  <p className="bento-card-desc">{t(item.descriptionKey)}</p>
                 </div>
               </div>
             ))}
@@ -102,7 +102,7 @@ export function SanctuaryExperiences() {
               className="text-link"
               style={{ color: "white", borderColor: "rgba(255,255,255,0.4)" }}
             >
-              Khám phá tất cả trải nghiệm <span aria-hidden="true">↗</span>
+              {t("home.sanctuaryCta")} <span aria-hidden="true">↗</span>
             </Link>
           </div>
         </div>
@@ -111,13 +111,16 @@ export function SanctuaryExperiences() {
       <style>{`
         .sanctuary-section {
           background: var(--espresso);
-          padding-block: 120px;
+          min-height: max(100svh, 720px);
+          display: flex;
+          align-items: center;
+          padding-block: clamp(44px, 6svh, 72px);
           border-top: 1px solid rgba(181,154,107,0.24);
           border-bottom: 1px solid rgba(181,154,107,0.24);
         }
         .sanctuary-header {
           text-align: center;
-          margin-bottom: 64px;
+          margin-bottom: clamp(24px, 3svh, 36px);
         }
         .sanctuary-eyebrow {
           display: block;
@@ -129,7 +132,7 @@ export function SanctuaryExperiences() {
           margin-bottom: 18px;
         }
         .sanctuary-title {
-          font: 500 clamp(40px, 5.2vw, 76px)/0.92 "Cormorant Garamond", serif;
+          font: 500 clamp(40px, 4.4vw, 64px)/0.92 "Cormorant Garamond", serif;
           color: white;
           letter-spacing: -0.035em;
           margin-bottom: 20px;
@@ -150,7 +153,9 @@ export function SanctuaryExperiences() {
         /* ASYMMETRIC BENTO GRID STYLES */
         .bento-grid {
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
+          grid-template-columns: 2fr 1fr 1fr 2fr;
+          grid-template-rows: minmax(0, 1fr);
+          height: clamp(260px, 42svh, 330px);
           gap: 24px;
         }
         .bento-card {
@@ -162,7 +167,7 @@ export function SanctuaryExperiences() {
           display: flex;
           flex-direction: column;
           justify-content: flex-end;
-          min-height: 380px;
+          min-height: 0;
           transition: border-color 0.3s, transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
         }
         .bento-card:hover {
@@ -170,10 +175,10 @@ export function SanctuaryExperiences() {
           transform: translateY(-3px);
         }
         .bento-large {
-          grid-column: span 2;
+          grid-column: auto;
         }
         .bento-wide {
-          grid-column: span 2;
+          grid-column: auto;
         }
         .bento-card-image {
           position: absolute;
@@ -195,7 +200,7 @@ export function SanctuaryExperiences() {
         .bento-card-body {
           position: relative;
           z-index: 2;
-          padding: 32px 36px;
+          padding: 24px 28px;
         }
         .bento-card-tagline {
           display: inline-block;
@@ -225,7 +230,7 @@ export function SanctuaryExperiences() {
 
         .sanctuary-cta {
           text-align: center;
-          margin-top: 56px;
+          margin-top: clamp(20px, 3svh, 32px);
         }
         .sanctuary-cta .text-link:hover {
           color: var(--antique-brass) !important;
@@ -233,8 +238,8 @@ export function SanctuaryExperiences() {
         }
 
         @media (max-width: 980px) {
-          .sanctuary-section { padding-block: 80px; }
-          .bento-grid { grid-template-columns: 1fr; gap: 20px; }
+          .sanctuary-section { min-height: unset; display: block; padding-block: 80px; }
+          .bento-grid { grid-template-columns: 1fr; grid-template-rows: none; height: auto; gap: 20px; }
           .bento-large, .bento-wide { grid-column: span 1; }
           .bento-card { min-height: 320px; }
           .bento-card-body { padding: 24px; }
