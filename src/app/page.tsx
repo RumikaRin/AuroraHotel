@@ -90,14 +90,13 @@ export default async function HomePage() {
         <DirectBookingBenefits />
 
         {/* ═══════════════════════════════════════════
-            SECTION 3: CHAPTER I — PROLOGUE (100VH SNAP, WARM SAND #efe9dd)
+            SECTION 3: PROLOGUE
            ═══════════════════════════════════════════ */}
         <section className="prologue-section" aria-label="Prologue - Câu chuyện Aurora" data-scroll-section="prologue" data-header-tone="light">
           <div className="wrap prologue-grid">
             <div className="prologue-copy">
               <div className="chapter-mark">
-                <strong>I</strong>
-                <span><LocalizedText id="home.prologueMark" /></span>
+                <span className="eyebrow"><LocalizedText id="home.prologueMark" /></span>
               </div>
               <h2>
                 <LocalizedText id="home.prologueTitleOne" /><br />
@@ -112,7 +111,7 @@ export default async function HomePage() {
                 <LocalizedText id="home.prologueDescription" />
               </p>
               <Link href="/experiences" className="text-link">
-                <LocalizedText id="home.prologueCta" /> <span aria-hidden="true">↗</span>
+                <LocalizedText id="home.prologueCta" /> <span aria-hidden="true">→</span>
               </Link>
             </div>
 
@@ -154,14 +153,13 @@ export default async function HomePage() {
         <SanctuaryExperiences />
 
         {/* ═══════════════════════════════════════════
-            SECTION 6: CHAPTER IV — THE BOOKING LEDGER (DEEP FOREST NIGHT #1c2a24)
+            SECTION 6: THE BOOKING LEDGER
            ═══════════════════════════════════════════ */}
         <section className="ledger-section" id="ledger" aria-label="Minh bạch giá và rate plan" data-scroll-section="ledger" data-header-tone="dark">
           <div className="wrap ledger-grid">
             <div className="ledger-copy">
               <div className="chapter-mark">
-                <strong>IV</strong>
-                <span><LocalizedText id="home.ledgerMark" /></span>
+                <span className="eyebrow" style={{ color: "var(--antique-brass)" }}><LocalizedText id="home.ledgerMark" /></span>
               </div>
               <h2>
                 <LocalizedText id="home.ledgerTitleOne" /><br />
@@ -171,7 +169,7 @@ export default async function HomePage() {
                 <LocalizedText id="home.ledgerDescription" />
               </p>
               <Link href="/rooms" className="text-link">
-                <LocalizedText id="home.ledgerCta" /> <span aria-hidden="true">↗</span>
+                <LocalizedText id="home.ledgerCta" /> <span aria-hidden="true">→</span>
               </Link>
             </div>
 
@@ -242,14 +240,13 @@ export default async function HomePage() {
         </section>
 
         {/* ═══════════════════════════════════════════
-            SECTION 7: CHAPTER V — EPILOGUE (WARM IVORY #f7f4ed)
+            SECTION 7: EPILOGUE
            ═══════════════════════════════════════════ */}
         <section className="epilogue-section" aria-label="Khởi đầu kỳ nghỉ" data-scroll-section="epilogue" data-header-tone="light">
           <div className="wrap epilogue-grid">
             <div className="epilogue-copy">
               <div className="chapter-mark">
-                <strong>V</strong>
-                <span><LocalizedText id="home.epilogueMark" /></span>
+                <span className="eyebrow"><LocalizedText id="home.epilogueMark" /></span>
               </div>
               <h2>
                 <LocalizedText id="home.epilogueTitleOne" /><br />
@@ -260,10 +257,10 @@ export default async function HomePage() {
               </p>
               <div className="epilogue-links">
                 <Link href="/rooms" className="text-link">
-                  <LocalizedText id="home.epilogueBook" /> <span aria-hidden="true">↗</span>
+                  <LocalizedText id="home.epilogueBook" /> <span aria-hidden="true">→</span>
                 </Link>
-                <Link href="/rooms" className="text-link" style={{ borderColor: "#8a8f8b", color: "#69726c" }}>
-                  <LocalizedText id="home.epilogueRooms" /> <span aria-hidden="true">↗</span>
+                <Link href="/rooms" className="text-link" style={{ borderColor: "var(--line)", color: "var(--walnut)" }}>
+                  <LocalizedText id="home.epilogueRooms" /> <span aria-hidden="true">→</span>
                 </Link>
               </div>
             </div>
@@ -326,8 +323,9 @@ export default async function HomePage() {
           font: 400 20px/1.5 "Cormorant Garamond", serif;
           font-style: italic;
           color: var(--espresso);
-          padding-left: 20px;
-          border-left: 2px solid var(--gold);
+          padding-block: 10px;
+          border-top: 1px solid var(--line);
+          border-bottom: 1px solid var(--line);
           margin-bottom: 28px;
         }
         .prologue-copy p {
@@ -349,13 +347,13 @@ export default async function HomePage() {
           position: relative;
           height: 520px;
           overflow: hidden;
-          border-radius: 4px;
+          border-radius: var(--radius-surface, 20px);
         }
         .mosaic-sub {
           position: relative;
           height: 400px;
           overflow: hidden;
-          border-radius: 4px;
+          border-radius: var(--radius-surface, 20px);
           margin-top: 60px;
           border: 1px solid var(--line);
         }
@@ -365,9 +363,9 @@ export default async function HomePage() {
           background: rgba(251,248,242,0.94);
           backdrop-filter: blur(8px);
           padding: 12px 18px;
-          font-size: 10px;
+          font-size: 11px;
           color: var(--espresso);
-          border-radius: 4px;
+          border-radius: var(--radius-control, 10px);
           display: flex; justify-content: space-between;
         }
 
@@ -471,17 +469,17 @@ export default async function HomePage() {
           position: relative;
           height: 520px;
           overflow: hidden;
-          border-radius: 4px;
+          border-radius: var(--radius-surface, 20px);
         }
         .epilogue-badge {
           position: absolute;
           bottom: 24px; left: 24px;
           background: rgba(25,21,18,0.88);
           backdrop-filter: blur(8px);
-          color: white;
+          color: var(--warm-ivory);
           padding: 14px 22px;
-          border-radius: 4px;
-          font-size: 10px;
+          border-radius: var(--radius-control, 10px);
+          font-size: 11px;
           letter-spacing: 0.1em;
           text-transform: uppercase;
         }

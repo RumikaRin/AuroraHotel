@@ -62,29 +62,29 @@ export default function ReceptionPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F7F4ED] text-[#242826] flex flex-col font-sans">
+    <div className="min-h-screen bg-aurora-ivory text-aurora-espresso flex flex-col font-sans">
       <Header />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1 w-full space-y-8">
-        <div className="flex justify-between items-center bg-[#17211D] text-[#F7F4ED] p-6 rounded-2xl border border-[#C5A46D]/30">
+        <div className="flex justify-between items-center bg-aurora-espresso text-aurora-ivory p-6 rounded-surface border border-aurora-brass/30">
           <div>
-            <span className="text-xs text-[#C5A46D] font-bold uppercase tracking-wider">RECEPTIONIST DESK</span>
+            <span className="text-xs text-aurora-brass font-bold uppercase tracking-wider">RECEPTIONIST DESK</span>
             <h1 className="font-serif-display text-2xl font-light">Nghiệp Vụ Lễ Tân & Check-in / Out</h1>
           </div>
-          <Link href="/admin" className="text-xs text-[#C5A46D] border border-[#C5A46D]/40 px-3 py-1.5 rounded-lg hover:bg-[#C5A46D]/10">
+          <Link href="/admin" className="text-xs text-aurora-brass border border-aurora-brass/40 px-4 py-2 min-h-[44px] inline-flex items-center rounded-control hover:bg-aurora-brass/10">
             Về Dashboard Quản Trị
           </Link>
         </div>
 
         {actionMessage && (
-          <div className="p-4 rounded-xl bg-[#2E7D5A]/10 border border-[#2E7D5A] text-[#2E7D5A] text-xs font-semibold">
+          <div className="p-4 rounded-input bg-aurora-success/10 border border-aurora-success text-aurora-success text-xs font-semibold">
             ✓ {actionMessage}
           </div>
         )}
 
         {/* Room Matrix Grid */}
         <div className="space-y-4">
-          <h2 className="font-serif-luxury text-2xl font-bold text-aurora-midnight">
+          <h2 className="font-serif-luxury text-2xl font-bold text-aurora-espresso">
             Sơ Đồ Phòng Theo Tầng & Trạng Thái Trực Quan
           </h2>
           <RoomMatrixGrid
@@ -99,12 +99,12 @@ export default function ReceptionPage() {
         </div>
 
         {/* Bookings table */}
-        <div className="bg-[#FFFDF8] rounded-3xl p-6 border border-[#DADDD8] shadow-sm space-y-4">
-          <h2 className="font-serif-display text-xl text-[#17211D]">Danh Sách Đơn Đặt Phòng Lưu Trú</h2>
+        <div className="bg-aurora-ivory rounded-surface p-6 border border-aurora-mist shadow-sm space-y-4">
+          <h2 className="font-serif-display text-xl text-aurora-espresso">Danh Sách Đơn Đặt Phòng Lưu Trú</h2>
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs border-collapse">
               <thead>
-                <tr className="border-b border-[#DADDD8] text-[#17211D] font-bold">
+                <tr className="border-b border-aurora-mist text-aurora-espresso font-bold">
                   <th className="p-3">Mã Đơn</th>
                   <th className="p-3">Tên Khách</th>
                   <th className="p-3">Hạng Phòng</th>
@@ -113,17 +113,17 @@ export default function ReceptionPage() {
                   <th className="p-3 text-right">Thao Tác Lễ Tân</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#DADDD8]/60">
+              <tbody className="divide-y divide-aurora-mist/60">
                 {bookings.map((b) => (
-                  <tr key={b.id} className="hover:bg-[#F7F4ED]/50">
-                    <td className="p-3 font-mono font-bold text-[#17211D]">{b.bookingNumber}</td>
+                  <tr key={b.id} className="hover:bg-aurora-linen/50">
+                    <td className="p-3 font-mono font-bold text-aurora-espresso">{b.bookingNumber}</td>
                     <td className="p-3 font-semibold">{b.guestName}</td>
                     <td className="p-3">{b.roomCategoryName}</td>
-                    <td className="p-3 font-mono text-[#355B4B] font-bold">{b.assignedRoom || "Chưa gán"}</td>
+                    <td className="p-3 font-mono text-aurora-walnut font-bold">{b.assignedRoom || "Chưa gán"}</td>
                     <td className="p-3">
                       <span className={`px-2.5 py-1 rounded-md text-[11px] font-bold ${
-                        b.status === "CONFIRMED" ? "bg-[#2E7D5A]/10 text-[#2E7D5A]" :
-                        b.status === "CHECKED_IN" ? "bg-[#3F6D8C]/10 text-[#3F6D8C]" : "bg-[#DADDD8] text-[#242826]"
+                        b.status === "CONFIRMED" ? "bg-aurora-success/10 text-aurora-success" :
+                        b.status === "CHECKED_IN" ? "bg-aurora-information/10 text-aurora-information" : "bg-aurora-mist text-aurora-espresso"
                       }`}>
                         {b.status}
                       </span>
@@ -132,7 +132,7 @@ export default function ReceptionPage() {
                       {b.status === "CONFIRMED" && (
                         <button
                           onClick={() => handleCheckIn(b.id)}
-                          className="px-3 py-1.5 rounded-lg bg-[#2E7D5A] text-white text-[11px] font-semibold hover:bg-[#256649]"
+                          className="px-3 py-2 min-h-[44px] rounded-control bg-aurora-success text-white text-[11px] font-semibold hover:opacity-90"
                         >
                           Check-in
                         </button>
@@ -140,7 +140,7 @@ export default function ReceptionPage() {
                       {b.status === "CHECKED_IN" && (
                         <button
                           onClick={() => handleCheckOut(b.id)}
-                          className="px-3 py-1.5 rounded-lg bg-[#C48138] text-white text-[11px] font-semibold hover:bg-[#a66d2e]"
+                          className="px-3 py-2 min-h-[44px] rounded-control bg-aurora-warning text-white text-[11px] font-semibold hover:opacity-90"
                         >
                           Check-out
                         </button>

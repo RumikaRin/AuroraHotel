@@ -58,7 +58,7 @@ export function SanctuaryExperiences() {
       <div className="sanctuary-section">
         <div className="wrap">
           <div className="sanctuary-header">
-            <span className="sanctuary-eyebrow">Chapter II · Sanctuary Experiences</span>
+            <span className="sanctuary-eyebrow">{t("home.sanctuaryEyebrow") || "Sanctuary Experiences"}</span>
             <h2 className="sanctuary-title">
               {t("home.sanctuaryTitleOne")}<br />
               <em>{t("home.sanctuaryTitleTwo")}</em>
@@ -102,7 +102,7 @@ export function SanctuaryExperiences() {
               className="text-link"
               style={{ color: "white", borderColor: "rgba(255,255,255,0.4)" }}
             >
-              {t("home.sanctuaryCta")} <span aria-hidden="true">↗</span>
+              {t("home.sanctuaryCta")} <span aria-hidden="true">→</span>
             </Link>
           </div>
         </div>
@@ -111,10 +111,9 @@ export function SanctuaryExperiences() {
       <style>{`
         .sanctuary-section {
           background: var(--espresso);
-          min-height: max(100svh, 720px);
           display: flex;
           align-items: center;
-          padding-block: clamp(44px, 6svh, 72px);
+          padding-block: clamp(80px, 9vw, 128px);
           border-top: 1px solid rgba(181,154,107,0.24);
           border-bottom: 1px solid rgba(181,154,107,0.24);
         }
@@ -124,8 +123,8 @@ export function SanctuaryExperiences() {
         }
         .sanctuary-eyebrow {
           display: block;
-          color: var(--gold);
-          font-size: 10px;
+          color: var(--antique-brass);
+          font-size: 11px;
           font-weight: 700;
           letter-spacing: 0.22em;
           text-transform: uppercase;

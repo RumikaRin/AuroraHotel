@@ -28,29 +28,29 @@ export default function HousekeepingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F7F4ED] text-[#242826] flex flex-col font-sans">
+    <div className="min-h-screen bg-aurora-ivory text-aurora-espresso flex flex-col font-sans">
       <Header />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1 w-full space-y-8">
-        <div className="flex justify-between items-center bg-[#17211D] text-[#F7F4ED] p-6 rounded-2xl border border-[#C5A46D]/30">
+        <div className="flex justify-between items-center bg-aurora-espresso text-aurora-ivory p-6 rounded-surface border border-aurora-brass/30">
           <div>
-            <span className="text-xs text-[#C5A46D] font-bold uppercase tracking-wider">HOUSEKEEPING MANAGEMENT</span>
-            <h1 className="font-serif-luxury text-2xl font-bold">Quản Lý Trạng Thái Dọn Dẹp Buồng Phòng</h1>
+            <span className="text-xs text-aurora-brass font-bold uppercase tracking-wider">HOUSEKEEPING COMMAND</span>
+            <h1 className="font-serif-display text-2xl font-light">Quản Lý & Phân Luồng Dọn Phòng</h1>
           </div>
-          <Link href="/admin" className="text-xs text-[#C5A46D] border border-[#C5A46D]/40 px-3 py-1.5 rounded-lg hover:bg-[#C5A46D]/10">
+          <Link href="/admin" className="text-xs text-aurora-brass border border-aurora-brass/40 px-4 py-2 min-h-[44px] inline-flex items-center rounded-control hover:bg-aurora-brass/10">
             Về Dashboard Quản Trị
           </Link>
         </div>
 
         {actionMessage && (
-          <div className="p-4 rounded-xl bg-[#2E7D5A]/10 border border-[#2E7D5A] text-[#2E7D5A] text-xs font-semibold">
+          <div className="p-4 rounded-input bg-aurora-success/10 border border-aurora-success text-aurora-success text-xs font-semibold">
             ✓ {actionMessage}
           </div>
         )}
 
         {/* Interactive Floor Matrix */}
         <div className="space-y-4">
-          <h2 className="font-serif-luxury text-2xl font-bold text-aurora-midnight">
+          <h2 className="font-serif-luxury text-2xl font-bold text-aurora-espresso">
             Hàng Đợi Trạng Thái Buồng Phòng Trực Quan
           </h2>
           <RoomMatrixGrid
@@ -63,54 +63,54 @@ export default function HousekeepingPage() {
           {rooms.map((room) => (
             <div
               key={room.id}
-              className="bg-[#FFFDF8] rounded-3xl p-6 border border-[#DADDD8] shadow-sm flex flex-col justify-between space-y-4"
+              className="bg-aurora-ivory rounded-surface p-6 border border-aurora-mist shadow-sm flex flex-col justify-between space-y-4"
             >
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
-                  <span className="text-xs font-bold text-[#355B4B]">Tầng {room.floor}</span>
+                  <span className="text-xs font-bold text-aurora-walnut">Tầng {room.floor}</span>
                   <span
-                    className={`px-2.5 py-1 rounded-md text-[10px] font-bold ${
+                    className={`px-2.5 py-1 rounded-md text-[11px] font-bold ${
                       room.status === "CLEAN"
-                        ? "bg-[#2E7D5A]/10 text-[#2E7D5A]"
+                        ? "bg-aurora-success/10 text-aurora-success"
                         : room.status === "DIRTY"
-                        ? "bg-[#B84A4A]/10 text-[#B84A4A]"
+                        ? "bg-aurora-error/10 text-aurora-error"
                         : room.status === "INSPECTING"
-                        ? "bg-[#C48138]/10 text-[#C48138]"
-                        : "bg-[#DADDD8] text-[#242826]"
+                        ? "bg-aurora-warning/10 text-aurora-warning"
+                        : "bg-aurora-mist text-aurora-espresso"
                     }`}
                   >
                     {room.status}
                   </span>
                 </div>
-                <div className="text-3xl font-mono font-bold text-[#17211D]">Phòng {room.roomNumber}</div>
-                <div className="text-xs text-[#242826]/70">{room.categoryName}</div>
+                <div className="text-3xl font-mono font-bold text-aurora-espresso">Phòng {room.roomNumber}</div>
+                <div className="text-xs text-aurora-taupe">{room.categoryName}</div>
               </div>
 
               {/* Status transition controls */}
-              <div className="space-y-2 pt-3 border-t border-[#DADDD8]">
-                <span className="text-[11px] font-semibold text-[#17211D]">Cập nhật trạng thái:</span>
-                <div className="grid grid-cols-2 gap-1.5">
+              <div className="space-y-2 pt-3 border-t border-aurora-mist">
+                <span className="text-[11px] font-semibold text-aurora-espresso">Cập nhật trạng thái:</span>
+                <div className="grid grid-cols-2 gap-2">
                   <button
                     onClick={() => updateStatus(room.id, "CLEAN")}
-                    className="px-2 py-1.5 rounded-lg bg-[#2E7D5A]/10 text-[#2E7D5A] text-[11px] font-bold hover:bg-[#2E7D5A] hover:text-white transition-all"
+                    className="px-2 py-2 min-h-[44px] rounded-control bg-aurora-success/10 text-aurora-success text-[11px] font-bold hover:bg-aurora-success hover:text-white transition-all"
                   >
                     Clean
                   </button>
                   <button
                     onClick={() => updateStatus(room.id, "DIRTY")}
-                    className="px-2 py-1.5 rounded-lg bg-[#B84A4A]/10 text-[#B84A4A] text-[11px] font-bold hover:bg-[#B84A4A] hover:text-white transition-all"
+                    className="px-2 py-2 min-h-[44px] rounded-control bg-aurora-error/10 text-aurora-error text-[11px] font-bold hover:bg-aurora-error hover:text-white transition-all"
                   >
                     Dirty
                   </button>
                   <button
                     onClick={() => updateStatus(room.id, "INSPECTING")}
-                    className="px-2 py-1.5 rounded-lg bg-[#C48138]/10 text-[#C48138] text-[11px] font-bold hover:bg-[#C48138] hover:text-white transition-all"
+                    className="px-2 py-2 min-h-[44px] rounded-control bg-aurora-warning/10 text-aurora-warning text-[11px] font-bold hover:bg-aurora-warning hover:text-white transition-all"
                   >
                     Inspect
                   </button>
                   <button
                     onClick={() => updateStatus(room.id, "MAINTENANCE")}
-                    className="px-2 py-1.5 rounded-lg bg-[#242826]/10 text-[#242826] text-[11px] font-bold hover:bg-[#242826] hover:text-white transition-all"
+                    className="px-2 py-2 min-h-[44px] rounded-control bg-aurora-espresso/10 text-aurora-espresso text-[11px] font-bold hover:bg-aurora-espresso hover:text-white transition-all"
                   >
                     Maint
                   </button>

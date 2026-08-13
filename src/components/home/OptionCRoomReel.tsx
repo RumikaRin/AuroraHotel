@@ -105,9 +105,8 @@ export function OptionCRoomReel({ rooms }: OptionCRoomReelProps) {
 
       <div className="wrap reel-content-wrap">
         <div className="reel-head">
-          <div className="chapter-mark" style={{ color: "#d8bb83", marginBottom: 0 }}>
-            <strong style={{ font: '500 44px/1 "Cormorant Garamond", serif' }}>III</strong>
-            <span className="eyebrow" style={{ color: "#d8bb83" }}>
+          <div className="chapter-mark" style={{ color: "var(--antique-brass)", marginBottom: 0 }}>
+            <span className="eyebrow" style={{ color: "var(--antique-brass)" }}>
               The Stay Collection
             </span>
           </div>
