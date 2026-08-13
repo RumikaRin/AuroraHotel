@@ -44,18 +44,6 @@ export function HeroCarousel() {
     setIndex(((next % slides.length) + slides.length) % slides.length);
   }, []);
 
-  const startTimer = useCallback(() => {
-    if (timerRef.current) clearInterval(timerRef.current);
-    if (!paused) {
-      timerRef.current = setInterval(() => go(index + 1), 7600);
-    }
-  }, [paused, go, index]);
-
-  useEffect(() => {
-    startTimer();
-    return () => { if (timerRef.current) clearInterval(timerRef.current); };
-  }, [startTimer]);
-
   /* Booking search handler */
   const handleBookingSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -133,7 +121,7 @@ export function HeroCarousel() {
                 key={i}
                 type="button"
                 className={i === index ? "active" : ""}
-                onClick={() => { go(i); startTimer(); }}
+                onClick={() => go(i)}
                 aria-label={t("home.heroSlide", { count: i + 1 })}
                 aria-current={i === index ? "true" : undefined}
               />
@@ -144,13 +132,13 @@ export function HeroCarousel() {
               <button
                 className="circle-button"
                 type="button"
-                onClick={() => { go(index - 1); startTimer(); }}
+                onClick={() => go(index - 1)}
                 aria-label={t("home.heroPrevious")}
               >←</button>
               <button
                 className="circle-button"
                 type="button"
-                onClick={() => { go(index + 1); startTimer(); }}
+                onClick={() => go(index + 1)}
                 aria-label={t("home.heroNext")}
               >→</button>
             </div>

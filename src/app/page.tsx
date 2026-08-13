@@ -287,23 +287,11 @@ export default async function HomePage() {
       <Footer />
 
       <style>{`
-        /* Desktop-only chapter rhythm: each editorial section occupies one
-           deliberate viewport. Mobile keeps natural document flow. */
-        @media (min-width: 901px) {
-          html[data-scroll-mode="chapter"] main [data-scroll-section] {
-            height: 100svh;
-            min-height: 720px;
-            max-height: 100svh;
-            overflow: clip;
-          }
-          .prologue-section,
-          .ledger-section,
-          .epilogue-section { padding-block: clamp(54px, 7svh, 88px); }
-          .mosaic-main,
-          .epilogue-photo-wrapper { height: min(520px, calc(100svh - 126px)); }
-          .mosaic-sub { height: min(400px, calc(100svh - 190px)); }
-          .sanctuary-section { padding-block: clamp(36px, 5svh, 54px); }
-          .bento-grid { height: clamp(250px, 37svh, 330px); }
+        /* Editorial section rhythm with natural vertical scrolling */
+        .prologue-section,
+        .ledger-section,
+        .epilogue-section {
+          padding-block: clamp(80px, 9vw, 128px);
         }
 
         /* Prologue styles */
@@ -311,10 +299,8 @@ export default async function HomePage() {
           background: var(--linen);
           border-top: 1px solid var(--line);
           border-bottom: 1px solid var(--line);
-          min-height: max(100svh, 720px);
           display: flex;
           align-items: center;
-          padding-block: clamp(88px, 9svh, 120px);
         }
         .prologue-grid {
           display: grid;
@@ -389,10 +375,8 @@ export default async function HomePage() {
         .ledger-section {
           background: var(--warm-carbon);
           color: white;
-          min-height: max(100svh, 720px);
           display: flex;
           align-items: center;
-          padding-block: clamp(88px, 9svh, 120px);
         }
         .ledger-grid {
           display: grid;
@@ -460,10 +444,8 @@ export default async function HomePage() {
         .epilogue-section {
           background: var(--warm-ivory);
           border-top: 1px solid var(--line);
-          min-height: max(100svh, 720px);
           display: flex;
           align-items: center;
-          padding-block: clamp(88px, 9svh, 120px);
         }
         .epilogue-grid {
           display: grid;
