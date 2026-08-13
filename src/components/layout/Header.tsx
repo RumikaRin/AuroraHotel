@@ -169,18 +169,16 @@ export function Header() {
           <small
             style={{
               marginTop: 6,
-              color: isDarkTone ? "var(--gold-light)" : "var(--muted-terracotta)",
-              fontSize: 7,
+              color: isDarkTone ? "var(--antique-brass)" : "var(--muted-terracotta)",
+              fontSize: 10,
               fontWeight: 700,
-              letterSpacing: ".22em",
+              letterSpacing: ".18em",
               textTransform: "uppercase" as const,
             }}
           >
             {t("nav.slogan")}
           </small>
         </Link>
-
-        {/* Desktop Nav */}
         <nav
           className="desktop-nav"
           aria-label={t("header.primaryNavigation")}

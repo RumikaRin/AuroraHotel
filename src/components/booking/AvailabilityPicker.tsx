@@ -574,8 +574,10 @@ export function AvailabilityPicker({
           cursor: pointer;
         }
         .availability-picker-dismiss {
-          width: 38px;
-          height: 38px;
+          width: 44px;
+          height: 44px;
+          min-width: 44px;
+          min-height: 44px;
           margin: -4px -4px 0 0;
           border: 1px solid rgba(102,80,68,.24);
           border-radius: 50%;
@@ -596,7 +598,7 @@ export function AvailabilityPicker({
         .availability-picker-range-summary small {
           display: block;
           color: var(--taupe);
-          font-size: 8px;
+          font-size: 10px;
           font-weight: 700;
           letter-spacing: .12em;
           text-transform: uppercase;
@@ -631,15 +633,17 @@ export function AvailabilityPicker({
         }
         .availability-picker-calendar-head {
           display: grid;
-          grid-template-columns: 40px 1fr 40px;
+          grid-template-columns: 44px 1fr 44px;
           align-items: center;
           margin-bottom: 10px;
           text-align: center;
         }
         .availability-picker-calendar-head strong { color: var(--espresso); font-size: 13px; font-weight: 700; }
         .availability-picker-month-button {
-          width: 36px;
-          height: 36px;
+          width: 44px;
+          height: 44px;
+          min-width: 44px;
+          min-height: 44px;
           border-radius: 50%;
           transition: background 180ms cubic-bezier(.22,.8,.22,1), transform 180ms cubic-bezier(.22,.8,.22,1);
         }
@@ -647,15 +651,15 @@ export function AvailabilityPicker({
         .availability-picker-weekdays,
         .availability-picker-days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); }
         .availability-picker-weekdays { margin-bottom: 4px; }
-        .availability-picker-weekdays span { color: var(--taupe); font-size: 9px; font-weight: 700; line-height: 26px; text-align: center; }
+        .availability-picker-weekdays span { color: var(--taupe); font-size: 11px; font-weight: 700; line-height: 26px; text-align: center; }
         .availability-picker-day {
           position: relative;
-          min-height: 38px;
+          min-height: 44px;
           border: 0;
           border-radius: 10px;
           background: transparent;
           color: var(--espresso);
-          font-size: 12px;
+          font-size: 13px;
           font-weight: 600;
           cursor: pointer;
           transition: transform 180ms cubic-bezier(.22,.8,.22,1), background 180ms cubic-bezier(.22,.8,.22,1), color 180ms cubic-bezier(.22,.8,.22,1);

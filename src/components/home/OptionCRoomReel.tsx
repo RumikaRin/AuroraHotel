@@ -297,13 +297,11 @@ export function OptionCRoomReel({ rooms }: OptionCRoomReelProps) {
           transform: translateX(-4px);
         }
         .reel-room-list button > span {
-          grid-row: span 2;
-          align-self: center;
           color: var(--antique-brass);
           font: 500 18px/1 var(--font-display);
         }
         .reel-room-list strong { font: 600 15px/1.1 var(--font-display); }
-        .reel-room-list small { color: rgba(255,255,255,.55); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; }
+        .reel-room-list small { color: rgba(255,255,255,.55); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
         .reel-room-list button.active small { color: rgba(243,238,231,.68); }
         .reel-bottom-bar {
           display: grid;
@@ -315,19 +313,23 @@ export function OptionCRoomReel({ rooms }: OptionCRoomReelProps) {
         }
         .reel-facts-row { display: flex; gap: 48px; }
         .reel-fact-item small {
-          display: block; color: rgba(243,238,231,.62); font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700;
+          display: block; color: rgba(243,238,231,.62); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700;
         }
         .reel-fact-item strong { display: block; margin-top: 6px; font-size: 12px; font-weight: 600; color: white; }
         .reel-action-group { display: flex; align-items: center; gap: 32px; }
         .reel-price-tag { text-align: right; }
-        .reel-price-tag small { display: block; color: rgba(243,238,231,.62); font-size: 8px; text-transform: uppercase; letter-spacing: 0.1em; }
+        .reel-price-tag small { display: block; color: rgba(243,238,231,.62); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; }
         .reel-price-tag strong { display: block; color: var(--antique-brass); font-size: 24px; font-weight: 600; margin-top: 2px; }
         .btn-reel-cta {
-          padding: 16px 28px;
-          border-radius: 8px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 48px;
+          padding: 14px 28px;
+          border-radius: var(--radius-control, 10px);
           background: var(--warm-ivory);
           color: var(--espresso);
-          font-size: 9px;
+          font-size: 11px;
           font-weight: 700;
           letter-spacing: 0.12em;
           text-transform: uppercase;
@@ -357,17 +359,27 @@ export function OptionCRoomReel({ rooms }: OptionCRoomReelProps) {
           transition: background 0.2s, border-color 0.2s;
         }
         .reel-nav-arrow:hover { background: var(--warm-ivory); color: var(--espresso); border-color: var(--warm-ivory); }
-        .reel-nav-indicators { display: flex; flex-direction: column; gap: 8px; margin-block: 8px; }
+        .reel-nav-indicators { display: flex; flex-direction: column; gap: 4px; margin-block: 8px; }
         .reel-indicator {
-          width: 6px; height: 36px;
+          position: relative;
+          width: 44px; height: 44px;
           padding: 0;
           border: 0;
+          background: transparent;
+          display: grid;
+          place-items: center;
+          cursor: pointer;
+        }
+        .reel-indicator::after {
+          content: "";
+          display: block;
+          width: 6px;
+          height: 28px;
           background: rgba(255,255,255,0.3);
           transition: background 0.3s, height 0.3s;
-          cursor: pointer;
           border-radius: 3px;
         }
-        .reel-indicator.active { background: var(--gold); height: 56px; }
+        .reel-indicator.active::after { background: var(--antique-brass); height: 38px; } 56px; }
 
         @media (max-width: 980px) {
           .reel-content-wrap { padding-block: 40px 32px; min-height: max(100svh, 700px); }

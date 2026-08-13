@@ -143,31 +143,31 @@ export function AuroraSelect<T extends SelectValue>({
 
       <style>{`
         .aurora-select { position: relative; min-width: 0; }
-        .aurora-select-trigger { width: 100%; min-height: 46px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 13px; border: 1px solid #d9cfc3; border-radius: 7px; background: var(--warm-ivory); color: var(--espresso); text-align: left; font: 600 12px/1.2 var(--font-interface); cursor: pointer; transition: border-color 190ms cubic-bezier(.22,.8,.22,1), background 190ms cubic-bezier(.22,.8,.22,1), box-shadow 190ms cubic-bezier(.22,.8,.22,1); }
-        .aurora-select-trigger:hover { border-color: rgba(181,154,107,.82); background: #fffdf8; }
+        .aurora-select-trigger { width: 100%; min-height: 48px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 14px; border: 1px solid var(--line); border-radius: var(--radius-input, 12px); background: var(--warm-ivory); color: var(--espresso); text-align: left; font: 600 13px/1.2 var(--font-interface); cursor: pointer; transition: border-color 190ms cubic-bezier(.22,.8,.22,1), background 190ms cubic-bezier(.22,.8,.22,1), box-shadow 190ms cubic-bezier(.22,.8,.22,1); }
+        .aurora-select-trigger:hover { border-color: var(--antique-brass); background: #fffdf8; }
         .aurora-select-trigger:focus-visible { outline: none; border-color: var(--antique-brass); box-shadow: 0 0 0 3px rgba(181,154,107,.18); }
         .aurora-select-trigger:disabled { cursor: wait; opacity: .58; }
         .aurora-select-value { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .aurora-select-chevron { width: 18px; height: 18px; flex: 0 0 auto; color: var(--walnut); transition: transform 220ms cubic-bezier(.22,.8,.22,1); }
         .aurora-select-trigger[aria-expanded="true"] .aurora-select-chevron { transform: rotate(180deg); }
         .aurora-select-scrim { display: none; }
-        .aurora-select-panel { position: absolute; z-index: 30; top: calc(100% + 8px); right: 0; left: 0; min-width: max(100%, 220px); overflow: hidden; border: 1px solid rgba(181,154,107,.42); border-radius: 12px; background: var(--warm-ivory); box-shadow: 0 18px 44px rgba(38,30,26,.16); animation: aurora-select-popover-in 220ms cubic-bezier(.22,.8,.22,1) both; }
+        .aurora-select-panel { position: absolute; z-index: 30; top: calc(100% + 8px); right: 0; left: 0; min-width: max(100%, 220px); overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius-input, 12px); background: var(--warm-ivory); box-shadow: 0 18px 44px rgba(38,30,26,.16); animation: aurora-select-popover-in 220ms cubic-bezier(.22,.8,.22,1) both; }
         .aurora-select-mobile-heading { display: none; }
         .aurora-select-list { display: grid; gap: 2px; padding: 6px; }
-        .aurora-select-option { min-height: 43px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 9px 10px; border: 1px solid transparent; border-radius: 7px; background: transparent; color: var(--espresso); text-align: left; cursor: pointer; transition: background 170ms cubic-bezier(.22,.8,.22,1), border-color 170ms cubic-bezier(.22,.8,.22,1), transform 170ms cubic-bezier(.22,.8,.22,1); }
+        .aurora-select-option { min-height: 44px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 12px; border: 1px solid transparent; border-radius: var(--radius-control, 10px); background: transparent; color: var(--espresso); text-align: left; cursor: pointer; transition: background 170ms cubic-bezier(.22,.8,.22,1), border-color 170ms cubic-bezier(.22,.8,.22,1), transform 170ms cubic-bezier(.22,.8,.22,1); }
         .aurora-select-option:hover, .aurora-select-option:focus-visible { border-color: rgba(181,154,107,.5); background: rgba(181,154,107,.1); outline: none; transform: translateX(2px); }
-        .aurora-select-option strong { display: block; font: 600 12px/1.3 var(--font-interface); }
-        .aurora-select-option small { display: block; margin-top: 3px; color: var(--taupe); font: 10px/1.35 var(--font-interface); }
+        .aurora-select-option strong { display: block; font: 600 13px/1.3 var(--font-interface); }
+        .aurora-select-option small { display: block; margin-top: 3px; color: var(--taupe); font: 11px/1.35 var(--font-interface); }
         .aurora-select-option i { width: 8px; height: 8px; flex: 0 0 auto; border: 1px solid rgba(102,80,68,.42); border-radius: 50%; }
         .aurora-select-option.is-selected { border-color: rgba(181,154,107,.68); background: rgba(181,154,107,.15); }
         .aurora-select-option.is-selected i { border-color: var(--antique-brass); background: var(--antique-brass); box-shadow: inset 0 0 0 2px var(--warm-ivory); }
         @keyframes aurora-select-popover-in { from { opacity: 0; transform: translateY(8px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
         @media (max-width: 680px) {
           .aurora-select-scrim { position: fixed; z-index: 59; inset: 0; display: block; border: 0; background: rgba(25,21,18,.52); animation: aurora-select-scrim-in 190ms cubic-bezier(.22,.8,.22,1) both; }
-          .aurora-select-panel { position: fixed; z-index: 60; top: auto; right: 0; bottom: 0; left: 0; min-width: 0; max-height: min(72dvh, calc(100dvh - 90px)); padding: 8px 14px max(18px, env(safe-area-inset-bottom)); border: 1px solid rgba(181,154,107,.45); border-bottom: 0; border-radius: 22px 22px 0 0; box-shadow: 0 -24px 80px rgba(25,21,18,.25); animation: aurora-select-sheet-in 280ms cubic-bezier(.22,.8,.22,1) both; }
+          .aurora-select-panel { position: fixed; z-index: 60; top: auto; right: 0; bottom: 0; left: 0; min-width: 0; max-height: min(72dvh, calc(100dvh - 90px)); padding: 8px 14px max(18px, env(safe-area-inset-bottom)); border: 1px solid var(--line); border-bottom: 0; border-radius: 22px 22px 0 0; box-shadow: 0 -24px 80px rgba(25,21,18,.25); animation: aurora-select-sheet-in 280ms cubic-bezier(.22,.8,.22,1) both; }
           .aurora-select-mobile-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 8px 4px 12px; color: var(--espresso); font: 600 21px/1 var(--font-display); }
           .aurora-select-mobile-heading > span::before { content: ""; display: block; width: 36px; height: 3px; margin: -3px auto 14px; border-radius: 99px; background: rgba(102,80,68,.28); }
-          .aurora-select-mobile-heading button { width: 40px; height: 40px; display: inline-grid; place-items: center; border: 1px solid rgba(102,80,68,.22); border-radius: 50%; background: transparent; color: var(--espresso); }
+          .aurora-select-mobile-heading button { width: 44px; height: 44px; min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; border: 1px solid rgba(102,80,68,.22); border-radius: 50%; background: transparent; color: var(--espresso); cursor: pointer; }
           .aurora-select-list { max-height: min(53dvh, calc(100dvh - 180px)); overflow: auto; padding: 3px 0 0; }
           .aurora-select-option { min-height: 54px; padding: 12px 11px; }
           .aurora-select-option strong { font-size: 14px; }

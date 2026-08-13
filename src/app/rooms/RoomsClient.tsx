@@ -269,15 +269,15 @@ export function RoomsClient({ initialCategories, searchContext }: RoomsClientPro
         .rooms-hero-image { object-fit: cover; object-position: center 58%; }
         .rooms-hero-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(25,21,18,.84) 0%, rgba(25,21,18,.48) 42%, rgba(25,21,18,.16) 76%), linear-gradient(0deg, rgba(25,21,18,.72) 0%, rgba(25,21,18,0) 54%); }
         .rooms-hero-inner { position: relative; z-index: 1; min-height: max(100svh, 720px); display: flex; flex-direction: column; justify-content: center; padding-block: 110px; }
-        .rooms-eyebrow { margin: 0 0 18px; color: var(--antique-brass); font-size: 10px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
+        .rooms-eyebrow { margin: 0 0 18px; color: var(--antique-brass); font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
         .rooms-hero h1 { max-width: 780px; margin: 0; font: 500 clamp(58px, 9vw, 132px)/.82 var(--font-display); letter-spacing: -.055em; }
         .rooms-hero h1 em { color: var(--antique-brass); font-style: italic; font-weight: 400; }
         .rooms-hero-lede { max-width: 480px; margin: 30px 0 0; color: rgba(243,238,231,.72); font-size: 14px; line-height: 1.8; }
-        .rooms-search-summary { display: flex; align-items: end; gap: 32px; width: fit-content; margin-top: 46px; padding: 18px 22px; border: 1px solid rgba(181,154,107,.42); border-radius: 10px; background: rgba(25,21,18,.32); }
+        .rooms-search-summary { display: flex; align-items: end; gap: 32px; width: fit-content; margin-top: 46px; padding: 18px 22px; border: 1px solid rgba(181,154,107,.42); border-radius: var(--radius-control, 10px); background: rgba(25,21,18,.32); }
         .rooms-search-summary span { display: grid; gap: 4px; min-width: 112px; }
-        .rooms-search-summary small { color: rgba(243,238,231,.56); font-size: 9px; letter-spacing: .13em; text-transform: uppercase; }
+        .rooms-search-summary small { color: rgba(243,238,231,.56); font-size: 11px; letter-spacing: .13em; text-transform: uppercase; }
         .rooms-search-summary strong { font-size: 13px; font-weight: 600; }
-        .rooms-search-summary a { min-height: 44px; display: inline-flex; align-items: center; color: var(--antique-brass); font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; border-bottom: 1px solid currentColor; }
+        .rooms-search-summary a { min-height: 44px; display: inline-flex; align-items: center; color: var(--antique-brass); font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; border-bottom: 1px solid currentColor; }
         .rooms-toolbar { position: relative; z-index: 2; margin-top: -44px; padding-top: var(--header-height); }
         .rooms-results { padding-block: calc(var(--header-height) + 54px) 120px; }
         .rooms-results-heading { display: flex; align-items: end; justify-content: space-between; padding-bottom: 22px; border-bottom: 1px solid var(--line); }
@@ -285,7 +285,7 @@ export function RoomsClient({ initialCategories, searchContext }: RoomsClientPro
         .rooms-results-heading h2 { margin: 0; font: 500 clamp(36px, 4vw, 58px)/.92 var(--font-display); letter-spacing: -.035em; }
         .rooms-results-heading > span { color: var(--taupe); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
         .room-results-list { display: grid; gap: 34px; padding-top: 34px; }
-        .room-card { display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(360px, .88fr); min-height: clamp(620px, 100svh, 820px); overflow: hidden; border: 1px solid #e2d8cc; background: var(--linen); }
+        .room-card { display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(360px, .88fr); min-height: clamp(620px, 100svh, 820px); overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius-surface, 20px); background: var(--linen); }
         .room-card-reverse { grid-template-columns: minmax(360px, .88fr) minmax(0, 1.12fr); }
         .room-card-reverse .room-card-media { order: 2; }
         .room-card-media { position: relative; min-height: clamp(620px, 100svh, 820px); overflow: hidden; background: var(--walnut); }
@@ -293,28 +293,28 @@ export function RoomsClient({ initialCategories, searchContext }: RoomsClientPro
         .room-card:hover .room-card-image { transform: scale(1.035); }
         .room-card-media-overlay { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(25,21,18,.7), transparent 48%); }
         .room-card-index { position: absolute; top: 24px; left: 26px; color: rgba(251,248,242,.86); font: 500 18px/1 var(--font-display); }
-        .room-gallery-trigger { position: absolute; right: 22px; bottom: 22px; min-height: 44px; padding: 0 14px; border: 1px solid rgba(251,248,242,.42); border-radius: 7px; background: rgba(25,21,18,.46); color: var(--warm-ivory); font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; backdrop-filter: blur(8px); transition: background .2s var(--ease), border-color .2s var(--ease); }
+        .room-gallery-trigger { position: absolute; right: 22px; bottom: 22px; min-height: 44px; padding: 0 16px; border: 1px solid rgba(251,248,242,.42); border-radius: var(--radius-control, 10px); background: rgba(25,21,18,.46); color: var(--warm-ivory); font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; backdrop-filter: blur(8px); transition: background .2s var(--ease), border-color .2s var(--ease); }
         .room-gallery-trigger:hover { border-color: var(--antique-brass); background: rgba(38,30,26,.85); }
         .room-card-content { display: flex; flex-direction: column; justify-content: space-between; gap: 28px; padding: clamp(28px, 4vw, 54px); }
-        .room-card-kicker { display: flex; justify-content: space-between; align-items: center; gap: 12px; color: var(--muted-terracotta); font-size: 9px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+        .room-card-kicker { display: flex; justify-content: space-between; align-items: center; gap: 12px; color: var(--muted-terracotta); font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
         .room-card-kicker > span { padding-top: 2px; }
-        .compare-toggle { min-height: 38px; padding: 0 10px; border: 1px solid #d5c8ba; border-radius: 6px; background: transparent; color: var(--taupe); font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+        .compare-toggle { min-height: 44px; padding: 0 14px; border: 1px solid var(--line); border-radius: var(--radius-control, 10px); background: transparent; color: var(--taupe); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
         .compare-toggle:hover, .compare-toggle.selected { border-color: var(--antique-brass); background: rgba(181,154,107,.14); color: var(--espresso); }
         .room-card-content h3 { margin: 28px 0 16px; font: 500 clamp(36px, 4vw, 58px)/.9 var(--font-display); letter-spacing: -.04em; }
         .room-card-description { max-width: 480px; margin: 0; color: var(--taupe); font-size: 13px; line-height: 1.85; }
-        .room-card-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding-block: 20px; border-top: 1px solid #d9cfc3; border-bottom: 1px solid #d9cfc3; }
+        .room-card-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding-block: 20px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
         .room-card-facts span { display: grid; gap: 7px; }
-        .room-card-facts small, .room-card-footer small { color: var(--taupe); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; }
+        .room-card-facts small, .room-card-footer small { color: var(--taupe); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
         .room-card-facts strong { font-size: 12px; font-weight: 600; }
         .room-card-amenities { display: flex; flex-wrap: wrap; gap: 7px; }
-        .room-card-amenities span { padding: 7px 9px; border: 1px solid #d9cfc3; color: var(--walnut); font-size: 10px; }
+        .room-card-amenities span { padding: 7px 11px; border: 1px solid var(--line); border-radius: 6px; color: var(--walnut); font-size: 11px; }
         .room-card-footer { display: flex; align-items: end; justify-content: space-between; gap: 20px; padding-top: 4px; }
         .room-card-footer > div:first-child { display: grid; gap: 7px; }
-        .room-card-footer strong { color: var(--espresso); font: 600 23px/1 var(--font-display); }
-        .room-card-actions { display: flex; align-items: center; gap: 10px; }
-        .room-secondary-action, .room-primary-action { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; padding: 0 16px; font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+        .room-card-footer strong { color: var(--espresso); font: 600 23px/1 var(--font-display); font-variant-numeric: tabular-nums; }
+        .room-card-actions { display: flex; align-items: center; gap: 12px; }
+        .room-secondary-action, .room-primary-action { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; padding: 0 18px; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
         .room-secondary-action { border-bottom: 1px solid var(--taupe); color: var(--walnut); }
-        .room-primary-action { border-radius: 6px; background: var(--espresso); color: var(--warm-ivory); transition: background .2s var(--ease), transform .2s var(--ease); }
+        .room-primary-action { border-radius: var(--radius-control, 10px); background: var(--espresso); color: var(--warm-ivory); transition: background .2s var(--ease), transform .2s var(--ease); }
         .room-primary-action:hover { background: var(--walnut); transform: translateY(-2px); }
         .rooms-empty { padding: 80px 20px; border: 1px solid var(--line); text-align: center; }
         .rooms-empty h3 { margin: 0 0 8px; font: 500 34px/1 var(--font-display); }

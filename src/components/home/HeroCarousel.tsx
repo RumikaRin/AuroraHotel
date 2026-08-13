@@ -295,8 +295,82 @@ export function HeroCarousel() {
           background: transparent;
         }
         .hero-progress button.active::after {
+          z-index: 1;
+        }
+        .hero-layout {
+          position: relative;
+          z-index: 3;
+          flex: 1;
+          display: grid;
+          grid-template-columns: 1.35fr .65fr;
+          align-items: end;
+          padding-top: 110px;
+          padding-bottom: 210px;
+        }
+        .hero-copy { max-width: 880px; }
+        .hero-copy h1 {
+          font: 500 clamp(44px, 5.5vw, 88px)/.9 "Cormorant Garamond", serif;
+          letter-spacing: -.035em;
+          margin: 18px 0 20px;
+        }
+        .hero-copy h1 em {
+          font-weight: 400;
+          font-style: italic;
+          color: var(--gold-light);
+        }
+        .hero-copy p {
+          max-width: 480px;
+          margin: 0;
+          color: rgba(255,255,255,.8);
+          font-size: 13px;
+          line-height: 1.8;
+        }
+        .hero-ui {
+          justify-self: end;
+          align-self: end;
+          width: 290px;
+          margin-bottom: 1vh;
+        }
+        .hero-counter {
+          display: flex;
+          justify-content: space-between;
+          align-items: end;
+          margin-bottom: 16px;
+        }
+        .hero-counter strong {
+          font: 500 44px/1 "Cormorant Garamond", serif;
+        }
+        .hero-counter span {
+          color: #d8ded9;
+          font-size: 10px;
+          letter-spacing: .15em;
+          text-transform: uppercase;
+        }
+        .hero-progress {
+          display: flex;
+          height: 1px;
+          background: rgba(255,255,255,.32);
+        }
+        .hero-progress button {
+          position: relative;
+          flex: 1;
+          height: 44px;
+          margin-top: -21px;
+          padding: 0;
+          border: 0;
+          background: transparent;
+          cursor: pointer;
+        }
+        .hero-progress button::after {
+          content: "";
+          position: absolute;
+          left: 0; right: 0; top: 21px;
+          height: 1px;
+          background: transparent;
+        }
+        .hero-progress button.active::after {
           height: 2px;
-          background: var(--gold);
+          background: var(--antique-brass);
         }
         .hero-controls {
           display: flex;
@@ -304,25 +378,29 @@ export function HeroCarousel() {
           align-items: center;
           margin-top: 17px;
         }
-        .arrow-group { display: flex; gap: 8px; }
+        .arrow-group { display: flex; gap: 10px; }
         .circle-button {
-          width: 42px;
-          height: 42px;
+          width: 44px;
+          height: 44px;
+          min-width: 44px;
+          min-height: 44px;
           border: 1px solid rgba(255,255,255,.4);
           border-radius: 50%;
           background: transparent;
           color: white;
+          display: grid;
+          place-items: center;
           transition: background .2s, color .2s;
         }
         .circle-button:hover {
-          background: var(--paper);
-          color: var(--night);
+          background: var(--warm-ivory);
+          color: var(--espresso);
         }
         .pause-button {
           border: 0;
           background: transparent;
           color: white;
-          font-size: 9px;
+          font-size: 10px;
           letter-spacing: .12em;
           text-transform: uppercase;
         }
@@ -341,6 +419,8 @@ export function HeroCarousel() {
           display: grid;
           grid-template-columns: 84px 1fr;
           border: 1px solid var(--line);
+          border-radius: var(--radius-surface, 20px);
+          overflow: hidden;
         }
         .key-number {
           display: grid;
@@ -362,8 +442,8 @@ export function HeroCarousel() {
         }
         .field small {
           display: block;
-          color: #3b423d;
-          font-size: 9px;
+          color: var(--walnut);
+          font-size: 11px;
           text-transform: uppercase;
           letter-spacing: .12em;
           font-weight: 700;
@@ -371,13 +451,13 @@ export function HeroCarousel() {
         .booking-row .booking-submit {
           border: 0;
           background: var(--espresso);
-          color: #fff;
-          font-size: 9px;
+          color: var(--warm-ivory);
+          font-size: 11px;
           letter-spacing: .13em;
           text-transform: uppercase;
           font-weight: 700;
-          min-height: 46px;
-          border-radius: 6px;
+          min-height: 48px;
+          border-radius: var(--radius-control, 10px);
           cursor: pointer;
           transition: background 220ms cubic-bezier(.22,.8,.22,1), transform 220ms cubic-bezier(.22,.8,.22,1);
         }
@@ -385,15 +465,15 @@ export function HeroCarousel() {
         .booking-row .booking-submit:focus-visible { outline: 2px solid var(--antique-brass); outline-offset: 3px; }
         .booking-note {
           padding: 6px 18px 2px;
-          color: #353b37;
-          font-size: 9px;
+          color: var(--walnut);
+          font-size: 11px;
           display: flex;
           gap: 24px;
         }
-        .booking-note span b { color: var(--leaf); font-weight: 600; }
+        .booking-note span b { color: var(--success); font-weight: 600; }
         .booking-notice {
           padding: 6px 18px 0;
-          font-size: 11px;
+          font-size: 12px;
           font-weight: 600;
         }
         .booking-row .booking-submit:disabled {
@@ -419,7 +499,7 @@ export function HeroCarousel() {
           .booking-key {
             width: min(100% - 28px, 440px);
             grid-template-columns: 1fr;
-            border-radius: 16px 16px 0 0;
+            border-radius: 20px 20px 0 0;
             box-shadow: 0 -2px 22px rgba(38,30,26,.16), 0 20px 48px rgba(38,30,26,.22);
           }
           .key-number { display: none; }
@@ -430,13 +510,13 @@ export function HeroCarousel() {
           .field:nth-child(2) { border-right: 0; }
           .field:nth-child(3) { border-bottom: 0; border-right: 1px solid var(--line); }
           .booking-row .booking-submit {
-            min-height: 58px;
+            min-height: 54px;
             margin: 6px 0 0 6px;
             padding: 9px 8px;
             border-radius: 10px;
             line-height: 1.35;
           }
-          .booking-note { padding: 8px 4px 1px; flex-direction: column; gap: 4px; font-size: 8.5px; }
+          .booking-note { padding: 8px 4px 1px; flex-direction: column; gap: 4px; font-size: 10px; }
           .booking-notice { padding: 7px 4px 0; }
         }
       `}</style>

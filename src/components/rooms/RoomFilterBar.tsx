@@ -102,21 +102,21 @@ export function RoomFilterBar({ onFilterChange, onOpenCompare, selectedCompareCo
       </div>
 
       <style>{`
-        .room-filter-bar { padding: 26px 30px 30px; border: 1px solid rgba(181,154,107,.34); border-radius: 12px; background: rgba(251,248,242,.96); box-shadow: 0 18px 44px rgba(38,30,26,.12); }
+        .room-filter-bar { padding: 26px 30px 30px; border: 1px solid var(--line); border-radius: var(--radius-surface, 20px); background: rgba(251,248,242,.96); box-shadow: 0 18px 44px rgba(38,30,26,.12); }
         .room-filter-heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; padding-bottom: 22px; border-bottom: 1px solid var(--line); }
-        .room-filter-eyebrow { margin: 0 0 7px; color: var(--muted-terracotta); font-size: 9px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+        .room-filter-eyebrow { margin: 0 0 7px; color: var(--muted-terracotta); font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
         .room-filter-heading h2 { margin: 0; color: var(--espresso); font: 500 34px/1 var(--font-display); letter-spacing: -.03em; }
         .room-filter-actions { display: flex; align-items: center; gap: 12px; }
-        .room-compare-button, .room-reset-button { min-height: 42px; padding: 0 14px; border-radius: 6px; font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
-        .room-compare-button { border: 1px solid var(--espresso); background: var(--espresso); color: var(--warm-ivory); }
+        .room-compare-button, .room-reset-button { min-height: 48px; padding: 0 16px; border-radius: var(--radius-control, 10px); font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; }
+        .room-compare-button { border: 1px solid var(--espresso); background: var(--espresso); color: var(--warm-ivory); transition: background .2s var(--ease); }
         .room-compare-button:hover:not(:disabled) { background: var(--walnut); border-color: var(--walnut); }
         .room-compare-button:disabled { cursor: not-allowed; opacity: .36; }
         .room-reset-button { border: 0; background: transparent; color: var(--taupe); text-decoration: underline; text-underline-offset: 4px; }
         .room-filter-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.25fr; gap: 18px; padding-top: 24px; }
         .room-filter-field { display: grid; align-content: start; gap: 9px; min-width: 0; }
-        .room-filter-field > span { color: var(--taupe); font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
-        .room-filter-field > span b { float: right; color: var(--muted-terracotta); font-size: 9px; font-weight: 700; letter-spacing: 0; text-transform: none; }
-        .room-filter-grid input[type="search"] { width: 100%; min-height: 46px; border: 1px solid #d9cfc3; border-radius: 7px; background: var(--warm-ivory); color: var(--espresso); padding: 0 12px; font-size: 12px; outline: none; }
+        .room-filter-field > span { color: var(--taupe); font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+        .room-filter-field > span b { float: right; color: var(--muted-terracotta); font-size: 11px; font-weight: 700; letter-spacing: 0; text-transform: none; }
+        .room-filter-grid input[type="search"] { width: 100%; min-height: 48px; border: 1px solid var(--line); border-radius: var(--radius-input, 12px); background: var(--warm-ivory); color: var(--espresso); padding: 0 14px; font-size: 13px; outline: none; }
         .room-filter-grid input[type="search"]:focus { border-color: var(--antique-brass); box-shadow: 0 0 0 3px rgba(181,154,107,.15); }
         .room-filter-grid input[type="range"] { width: 100%; min-height: 44px; accent-color: var(--antique-brass); }
         @media (max-width: 760px) {
