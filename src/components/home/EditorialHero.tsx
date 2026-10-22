@@ -15,12 +15,15 @@ export function EditorialHero() {
 
     gsap.registerPlugin(ScrollTrigger);
 
-    const tween = gsap.to(bgRef.current, {
+    const heroEl = heroRef.current;
+    const bgEl = bgRef.current;
+
+    const tween = gsap.to(bgEl, {
       y: "22%",
       scale: 1.0,
       ease: "none",
       scrollTrigger: {
-        trigger: heroRef.current,
+        trigger: heroEl,
         start: "top top",
         end: "bottom top",
         scrub: true,
@@ -30,7 +33,7 @@ export function EditorialHero() {
     return () => {
       tween.kill();
       ScrollTrigger.getAll().forEach((trigger) => {
-        if (trigger.vars.trigger === heroRef.current) trigger.kill();
+        if (trigger.vars.trigger === heroEl) trigger.kill();
       });
     };
   }, []);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -75,6 +75,27 @@ const ROOMS_DATA: RoomData[] = [
 
 export function KineticRoomAccordion() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
+    };
+  }, []);
+
+  const handleMouseEnter = (idx: number) => {
+    if (typeof window !== "undefined" && window.innerWidth > 1024) {
+      if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
+      hoverTimerRef.current = setTimeout(() => {
+        setActiveIndex(idx);
+      }, 50);
+    }
+  };
+
+  const handleClick = (idx: number) => {
+    if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
+    setActiveIndex(idx);
+  };
 
   return (
     <section className="py-32 px-6 sm:px-12 md:px-16 bg-[var(--bg-surface)] transition-colors duration-500" id="suites">
@@ -97,12 +118,8 @@ export function KineticRoomAccordion() {
             return (
               <div
                 key={room.id}
-                onClick={() => setActiveIndex(idx)}
-                onMouseEnter={() => {
-                  if (typeof window !== "undefined" && window.innerWidth > 1024) {
-                    setActiveIndex(idx);
-                  }
-                }}
+                onClick={() => handleClick(idx)}
+                onMouseEnter={() => handleMouseEnter(idx)}
                 className={`relative rounded-lg overflow-hidden cursor-pointer bg-[var(--bg-surface-card)] border border-[var(--brass-hairline)] shadow-2xl transition-[flex-grow] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] min-h-[380px] lg:min-h-0 ${
                   isActive ? "lg:flex-[3.5]" : "lg:flex-[1]"
                 }`}
@@ -124,7 +141,7 @@ export function KineticRoomAccordion() {
 
                 {/* Collapsed Rotated Label (Desktop only) */}
                 <div
-                  className={`hidden lg:block absolute bottom-9 left-7 font-serif-luxury text-xl tracking-[0.14em] text-white whitespace-nowrap pointer-events-none drop-shadow-lg transition-opacity duration-300 [writing-mode:vertical-rl] rotate-180 ${
+                  className={`hidden lg:block absolute bottom-9 left-7 font-serif-luxury text-xl tracking-[0.14em] text-white whitespace-nowrap pointer-events-none drop-shadow-lg transition-opacity duration-200 [writing-mode:vertical-rl] rotate-180 ${
                     isActive ? "opacity-0" : "opacity-90"
                   }`}
                 >
@@ -133,10 +150,10 @@ export function KineticRoomAccordion() {
 
                 {/* Anti-Jitter Typography Container Locked to Fixed 540px Width */}
                 <div
-                  className={`absolute bottom-0 left-0 w-[540px] max-w-[calc(100%-40px)] p-6 sm:p-10 transition-all duration-500 ease-out ${
+                  className={`absolute bottom-0 left-0 w-full sm:w-[540px] sm:min-w-[540px] lg:w-[540px] lg:min-w-[540px] lg:max-w-none p-6 sm:p-10 transition-opacity ease-out ${
                     isActive
-                      ? "opacity-100 translate-y-0 pointer-events-auto"
-                      : "opacity-0 translate-y-6 pointer-events-none lg:block hidden"
+                      ? "opacity-100 pointer-events-auto duration-300 delay-150"
+                      : "opacity-0 pointer-events-none duration-100"
                   }`}
                 >
                   <div className="text-[10px] tracking-[0.18em] text-[#e2c799] uppercase mb-1.5 drop-shadow">

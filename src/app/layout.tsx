@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import "./globals.css";
 import { LanguageProvider } from "@/components/i18n/LanguageProvider";
 import { LenisProvider } from "@/components/layout/LenisProvider";
@@ -21,11 +20,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const headersList = await headers();
-  const nonce = headersList.get("x-nonce") ?? undefined;
 
   return (
     <html lang="vi" suppressHydrationWarning>

@@ -113,7 +113,7 @@ export function SpatialMasterplan() {
                   Bản đồ
                 </button>
                 <a
-                  href="https://www.google.com/maps/place/B%C3%A1n+%C4%91%E1%BA%A3o+S%C6%A1n+Tr%C3%A0"
+                  href={`https://www.google.com/maps/search/?api=1&query=${activeZone.lat},${activeZone.lng}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[var(--accent-brass)] hover:underline ml-2 text-[11px]"
@@ -141,10 +141,10 @@ export function SpatialMasterplan() {
               ))}
             </div>
 
-            {/* Iframe Container with Pointer Shield */}
+            {/* Iframe Container with Dynamic Lenis Isolation */}
             <div
               className="relative w-full h-[460px] bg-[#0a0807]"
-              data-lenis-prevent
+              {...(isInteractive ? { "data-lenis-prevent": true } : {})}
               onMouseLeave={() => setIsInteractive(false)}
             >
               <iframe
@@ -153,7 +153,8 @@ export function SpatialMasterplan() {
                 className={`w-full h-full border-none ${isInteractive ? "pointer-events-auto" : "pointer-events-none"}`}
                 loading="lazy"
                 allowFullScreen
-                data-lenis-prevent
+                referrerPolicy="no-referrer-when-downgrade"
+                {...(isInteractive ? { "data-lenis-prevent": true } : {})}
               />
 
               {/* Pointer Shield for Lenis Scroll Safety */}

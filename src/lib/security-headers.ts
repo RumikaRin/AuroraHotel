@@ -39,6 +39,7 @@ export function buildContentSecurityPolicy(
     "font-src 'self' data:",
     "connect-src 'self'",
     "worker-src 'self' blob:",
+    "frame-src 'self' https://www.google.com https://maps.google.com https://*.google.com",
     "object-src 'none'",
     "base-uri 'self'",
     "form-action 'self'",
