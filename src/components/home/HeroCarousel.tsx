@@ -17,7 +17,6 @@ export function HeroCarousel() {
   const { t } = useLanguage();
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const reduceMotion = useRef(false);
 
   /* Booking form state */
