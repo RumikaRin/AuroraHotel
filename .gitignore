@@ -45,6 +45,7 @@ agy_models.txt
 .agent/
 .agent-os/
 .gemini/
+screenshots/
 
 # Personal & Academic Documents
 *.docx
