@@ -87,8 +87,11 @@ All colors are centrally declared on `:root` and adapt dynamically to the dual a
   - 06:00 Sunrise Cliffside Yoga
   - Herbal Hydrotherapy in Wild Cedarwood Tub
 
-### Chapter 7: Bespoke Expeditions & Seasonal Experiences
-- Eco-safari spotlight for the Red-shanked Douc Langur (queen of primates), private catamaran charter, and curated 3D2N / 4D3N packages with transparent rate structures.
+### Chapter 7: Bespoke Expeditions & Curated Seasonal Journeys
+- **Eco-Safari Spotlight:** Spotlight for the Red-shanked Douc Langur (queen of primates), private catamaran charter, and curated itinerary preview.
+- **Asymmetric Editorial Journeys (Anti-SaaS Standard):** Completely eliminates generic 3-column pricing tables, SaaS checkmarks (`✓`), and "Most Popular" floating pill badges. Replaces them with a luxury editorial dossier:
+  - *Left Column (Signature Journey Hero):* Panoramic photographic showcase featuring the 4D3N "Hành Trình Tĩnh Tại Sơn Trà & Dạ Tiệc Bờ Sóng" with presidential villa stay, private catamaran cruise, 5-course chef dinner on sand, and forest spa therapy.
+  - *Right Column (The Curated Stays Ledger):* Two horizontal editorial cards with photography thumbnails for "Kỳ Nghỉ Trăng Mật Hoàng Hôn" (Honeymoon) and "Đặc Quyền Mùa Tĩnh Lặng" (Early Bird).
 
 ### Chapter 8: Accolades, Arrival Concierge & Giant Watermark Colophon
 - 4-item awards & sustainability row (Condé Nast nominee, EarthCheck eco-standard).
@@ -112,7 +115,7 @@ src/
 │   │   ├── OceanGastronomy.tsx         # Dining & wine cellar split section
 │   │   ├── WellnessSanctuary.tsx       # 3-column botanical spa grid
 │   │   ├── EcoExpeditions.tsx          # Catamaran & wildlife safari spotlight
-│   │   ├── CuratedPackages.tsx         # Seasonal package cards
+│   │   ├── CuratedJourneys.tsx         # Asymmetric luxury editorial seasonal stays
 │   │   ├── AccoladesRow.tsx            # Awards and eco-certification
 │   │   └── ConciergeFaq.tsx            # Accessible arrival FAQ accordion
 │   └── layout/
