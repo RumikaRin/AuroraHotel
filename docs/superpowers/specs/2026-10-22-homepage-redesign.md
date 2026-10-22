@@ -46,9 +46,9 @@ All colors are centrally declared on `:root` and adapt dynamically to the dual a
 
 ## 3. Structural Macro-Architecture (8 Narrative Chapters)
 
-### Chapter 0: Ambient Telemetry HUD & Fixed Editorial Nav
-- **HUD Bar:** Sticky top ticker displaying real coordinates (`16.0982° N, 108.2755° E · ALT: 42M`), live Da Nang time (`Asia/Ho_Chi_Minh`), interactive Web Audio wave soundscape toggle, and Dawn/Dusk atmosphere switch.
-- **Header Navigation:** Frosted glass backing (`backdrop-filter: blur(24px)`), hairline brass border on scroll, animated underline hover transitions, and direct "Đặt kỳ nghỉ" (Reserve) anchor.
+### Chapter 0: Refined Fixed Editorial Navigation (Zero HUD Clutter)
+- **Removal of Telemetry HUD:** Completely eliminated the tech-nerdy top coordinate ticker, live clock, and telemetry bar to maintain pure quiet luxury aesthetic.
+- **Integrated Header Navigation:** Positioned directly at `top: 0` with frosted glass backing (`backdrop-filter: blur(24px)` on scroll), elegant brand mark, editorial anchor links, compact Web Audio wave soundscape toggle, Dawn/Dusk atmosphere switch, and direct "Đặt kỳ nghỉ" CTA button.
 
 ### Chapter 1: Hero & Integrated Booking Ribbon
 - **Hero Image Parallax:** Background scaled to `1.15` and scrubbed via GSAP ScrollTrigger to `y: 22%`.
@@ -70,13 +70,21 @@ All colors are centrally declared on `:root` and adapt dynamically to the dual a
   4. *04 · Bến du thuyền* (`16.0965, 108.2540` · Aurora Marina & Catamaran Fleet)
 - **Dynamic Content Transition:** Clicking any zone selector pill smoothly re-centers the Google Map iframe and crossfades the zone card details (tag, title, description, square meters, exclusive perks, and preview photo) via GSAP crossfade.
 
-### Chapter 4: Kinetic Accordion Suites Showcase
+### Chapter 4: Kinetic Accordion Suites Showcase (Anti-Jitter Architecture)
 - **Layout:** 4 expansive vertical panels displaying the resort collection.
-- **Smooth Interpolation Engine:**
+- **Zero-Jitter Typography Protection:**
+  - Expanded text container locked to fixed `540px` width (`max-width: calc(100% - 40px)`), completely preventing browser text reflow/re-wrapping jumps while the panel width changes.
+  - Heading locked to single line (`white-space: nowrap`) eliminating mid-word breaks from `overflow-wrap: anywhere`.
+  - Specs and action rows protected with `white-space: nowrap`.
+- **Asymmetric Timing Engine:**
+  - Collapse: Instant fade-out + slide-down in 140ms before container width shrinks.
+  - Expand: Smooth drift-up and opacity fade-in over 450ms with a 220ms delay, arriving only after panel expansion is well underway.
+  - Rotated collapsed label: 100ms instant exit, 220ms delayed entrance.
+- **Interpolation Engine:**
   - Expanded panel: `flex-grow: 3.5`
   - Collapsed panels: `flex-grow: 1.0`
   - Tweening: GSAP velocity easing (`power2.out`, 0.75s, `overwrite: "auto"`).
-  - 60ms debounce on mouse hover to eliminate rapid mouse sweep jitter.
+  - 100ms debounce on mouse hover to eliminate rapid mouse sweep flutter.
   - Quick-select pill tabs on top allowing keyboard and touch access.
 - **Mobile Fallback:** Transitions to stacked cards under 768px with touch-friendly layout.
 
