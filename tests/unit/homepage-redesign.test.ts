@@ -96,3 +96,23 @@ describe("KineticRoomAccordion Component", () => {
   });
 });
 
+describe("Gastronomy, Wellness & Expeditions Components", () => {
+  it("renders OceanGastronomy, WellnessSanctuary, and EcoExpeditions without dead controls", async () => {
+    const gastro = await readFile("src/components/home/OceanGastronomy.tsx", "utf8");
+    assert.match(gastro, /ẨM THỰC BẢN ĐỊA & HẦM RƯỢU TỰ NHIÊN/);
+    assert.match(gastro, /Nhà hàng Vách Đá Sa Thạch/);
+    assert.doesNotMatch(gastro, /href="#"/);
+
+    const wellness = await readFile("src/components/home/WellnessSanctuary.tsx", "utf8");
+    assert.match(wellness, /LIỆU TRÌNH PHỤC HỒI THÂN TÂM/);
+    assert.match(wellness, /Spa Mộc giữa Rừng Nguyên Sinh/);
+    assert.doesNotMatch(wellness, /href="#"/);
+
+    const expeditions = await readFile("src/components/home/EcoExpeditions.tsx", "utf8");
+    assert.match(expeditions, /HẢI TRÌNH & BẢO TỒN THIÊN NHIÊN/);
+    assert.match(expeditions, /Voọc Chà Vá Chân Nâu/);
+    assert.doesNotMatch(expeditions, /href="#"/);
+  });
+});
+
+
