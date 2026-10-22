@@ -20,6 +20,9 @@ export async function GET(request: Request) {
         status: "PENDING_PAYMENT",
         createdAt: { lt: holdExpirationCutoff },
       },
+      include: {
+        bookingRooms: true,
+      },
       take: 50,
     });
 
@@ -30,14 +33,21 @@ export async function GET(request: Request) {
         data: { status: "CANCELLED" },
       });
       if (count === 1) {
-        await releaseAvailability(
-          {
-            roomCategoryId: bk.roomCategoryId,
-            checkIn: bk.checkIn,
-            checkOut: bk.checkOut,
-          },
-          db
-        );
+        const categoryIds =
+          bk.bookingRooms && bk.bookingRooms.length > 0
+            ? bk.bookingRooms.map((r) => r.roomCategoryId)
+            : [bk.roomCategoryId];
+
+        for (const catId of categoryIds) {
+          await releaseAvailability(
+            {
+              roomCategoryId: catId,
+              checkIn: bk.checkIn,
+              checkOut: bk.checkOut,
+            },
+            db
+          );
+        }
         releasedHoldsCount++;
       }
     }
