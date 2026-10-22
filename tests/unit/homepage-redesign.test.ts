@@ -115,4 +115,25 @@ describe("Gastronomy, Wellness & Expeditions Components", () => {
   });
 });
 
+describe("CuratedJourneys, FAQ & Footer Components", () => {
+  it("implements zero-layout-shift FAQ accordion and watermark footer", async () => {
+    const journeys = await readFile("src/components/home/CuratedJourneys.tsx", "utf8");
+    assert.match(journeys, /id=["']packages["']/);
+    assert.match(journeys, /Hành Trình Tĩnh Tại Sơn Trà & Dạ Tiệc Bờ Sóng/);
+    assert.doesNotMatch(journeys, /href="#"/);
+
+    const faq = await readFile("src/components/home/ConciergeFaq.tsx", "utf8");
+    assert.match(faq, /"use client"/);
+    assert.match(faq, /gridTemplateRows|grid-template-rows:\s*0fr|grid-template-rows:\s*1fr/, "Grid fraction height animation required");
+    assert.match(faq, /faq-icon/, "Rotating icon element required");
+    assert.doesNotMatch(faq, /href="#"/);
+
+    const footer = await readFile("src/components/layout/EditorialFooter.tsx", "utf8");
+    assert.match(footer, /A U R O R A/, "Giant watermark colophon wordmark required");
+    assert.match(footer, /Bãi Bụt, Bán đảo Sơn Trà, TP\. Đà Nẵng/);
+    assert.doesNotMatch(footer, /href="#"/);
+  });
+});
+
+
 
