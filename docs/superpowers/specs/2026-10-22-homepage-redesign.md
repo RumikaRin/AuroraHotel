@@ -52,7 +52,8 @@ All colors are centrally declared on `:root` and adapt dynamically to the dual a
 
 ### Chapter 1: Hero & Integrated Booking Ribbon
 - **Hero Image Parallax:** Background scaled to `1.15` and scrubbed via GSAP ScrollTrigger to `y: 22%`.
-- **Inline Pill Video/Image:** Hero headline incorporates an editorial capsule element showcasing subtle moving ocean textures.
+- **Pure Editorial Headline Typography:** Authentic localized eyebrow (`KHU NGHỈ DƯỠNG BIỆT LẬP · BÁN ĐẢO SƠN TRÀ, ĐÀ NẴNG`) and balanced two-line monumental display headline ("Thành phố ở gần. / Kỳ nghỉ ở rất xa."). Completely eliminates gimmicky inline image pills that disrupt reading flow and create orphan line breaks.
+- **Directional Scrim Protection:** Multi-stop linear gradient (`rgba(17,14,12,0.88)` left scrim) and typography text-shadow ensuring maximum contrast against glowing building lights and beach daylight.
 - **Hairline Booking Ribbon:** Replaces bulky forms with a clean 4-column hairline bar: Check-in, Check-out, Guests & Rooms, and Search CTA.
 
 ### Chapter 2: Architectural Manifesto
