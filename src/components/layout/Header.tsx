@@ -29,9 +29,6 @@ export function Header() {
 
     const updateTone = () => {
       frame = 0;
-      // Match the tone to the visual layer actually behind the header. This
-      // keeps the transition calm when a short utility strip sits between two
-      // major sections.
       const headerProbeY = Math.min(48, Math.max(1, window.innerHeight * 0.07));
       const activeSection = toneSections.find((section) => {
         const rect = section.getBoundingClientRect();
@@ -61,20 +58,9 @@ export function Header() {
     };
   }, [pathname]);
 
-
-
   const isDarkTone = headerTone === "dark";
   const isHomepage = pathname === "/";
-  const headerForeground = isDarkTone ? "var(--warm-ivory)" : "var(--espresso)";
-  const headerMutedForeground = isDarkTone ? "rgba(251,248,242,.78)" : "rgba(38,30,26,.72)";
-  const headerControlBorder = isDarkTone ? "rgba(255,255,255,.34)" : "rgba(38,30,26,.24)";
-  const headerControlBackground = isDarkTone ? "rgba(25,21,18,.28)" : "rgba(251,248,242,.42)";
   const shouldFloatOverHero = isDarkTone && ["/", "/rooms", "/experiences", "/offers"].includes(pathname);
-  const headerSurface = shouldFloatOverHero
-    ? "transparent"
-    : isDarkTone
-      ? "rgba(25,21,18,.96)"
-      : "rgba(251,248,242,.96)";
 
   const closeMenu = useCallback(() => {
     setMenuOpen(false);
@@ -92,7 +78,7 @@ export function Header() {
     else openMenu();
   }, [menuOpen, closeMenu, openMenu]);
 
-  // Escape key
+  // Escape key handler
   useEffect(() => {
     if (!menuOpen) return;
     const handler = (e: KeyboardEvent) => {
@@ -115,97 +101,24 @@ export function Header() {
     <header
       className="site-header"
       data-header-tone={headerTone}
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 50,
-        backgroundColor: headerSurface,
-        backgroundImage: isHomepage
-          ? isDarkTone
-            ? "linear-gradient(180deg, rgba(25,21,18,.16) 0%, rgba(25,21,18,0) 100%)"
-            : "linear-gradient(180deg, rgba(251,248,242,.28) 0%, rgba(251,248,242,0) 100%)"
-          : "none",
-        backdropFilter: "none",
-        WebkitBackdropFilter: "none",
-        boxShadow: "none",
-        color: headerForeground,
-        transition: "color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease",
-      }}
+      data-floating={shouldFloatOverHero ? "true" : "false"}
+      data-homepage={isHomepage ? "true" : "false"}
     >
-      <div
-        className="wrap"
-        style={{
-          height: "var(--header-height)",
-          display: "grid",
-          gridTemplateColumns: "1fr auto 1fr",
-          alignItems: "center",
-          gap: 32,
-          borderBottom: `1px solid ${isDarkTone ? "rgba(255,255,255,.2)" : "rgba(38,30,26,.16)"}`,
-        }}
-      >
+      <div className="wrap header-inner">
         {/* Brand */}
-        <Link
-          href="/"
-          style={{
-            display: "inline-flex",
-            flexDirection: "column",
-            justifySelf: "start",
-            minHeight: 44,
-            minWidth: 44,
-            justifyContent: "center",
-          }}
-          aria-label={t("nav.home")}
-        >
-          <strong
-            style={{
-              font: '600 28px/1 "Cormorant Garamond", serif',
-              letterSpacing: ".1em",
-            }}
-          >
-            AURORA HOTEL
-          </strong>
-          <small
-            style={{
-              marginTop: 6,
-              color: isDarkTone ? "var(--antique-brass)" : "var(--muted-terracotta)",
-              fontSize: 10,
-              fontWeight: 700,
-              letterSpacing: ".18em",
-              textTransform: "uppercase" as const,
-            }}
-          >
-            {t("nav.slogan")}
-          </small>
+        <Link href="/" className="header-brand" aria-label={t("nav.home")}>
+          <strong className="header-brand-title">AURORA HOTEL</strong>
+          <small className="header-brand-slogan">{t("nav.slogan")}</small>
         </Link>
-        <nav
-          className="desktop-nav"
-          aria-label={t("header.primaryNavigation")}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 30,
-            whiteSpace: "nowrap" as const,
-          }}
-        >
+
+        {/* Desktop Navigation */}
+        <nav className="desktop-nav" aria-label={t("header.primaryNavigation")}>
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               aria-current={isActive(link.href) ? "page" : undefined}
-              style={{
-                position: "relative",
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                minHeight: 44,
-                minWidth: 44,
-                paddingBlock: 12,
-                fontSize: 11,
-                fontWeight: 600,
-                color: isActive(link.href) ? headerForeground : headerMutedForeground,
-              }}
+              className={`desktop-nav-link ${isActive(link.href) ? "active" : ""}`}
             >
               {t(link.key)}
             </Link>
@@ -213,65 +126,25 @@ export function Header() {
         </nav>
 
         {/* Actions */}
-        <div
-          style={{
-            display: "flex",
-            justifySelf: "end",
-            alignItems: "center",
-            gap: 12,
-          }}
-        >
+        <div className="header-actions">
           <button
+            type="button"
             onClick={toggleLanguage}
             className="lang-btn"
-            style={{
-              minWidth: 44,
-              minHeight: 44,
-              border: `1px solid ${headerControlBorder}`,
-              borderRadius: "var(--radius-control)",
-              background: headerControlBackground,
-              color: headerForeground,
-              fontSize: 10,
-              fontWeight: 700,
-            }}
             aria-label={t(lang === "vi" ? "header.switchToEnglish" : "header.switchToVietnamese")}
           >
             {lang.toUpperCase()}
           </button>
-          <Link
-            href="/search"
-            className="header-book"
-            style={{
-              display: "inline-flex",
-              minHeight: 46,
-              alignItems: "center",
-              padding: "0 20px",
-              borderRadius: "var(--radius-control)",
-              background: "var(--gold)",
-              color: "var(--night)",
-              fontSize: 11,
-              fontWeight: 700,
-              transition: "transform .2s var(--ease), background .2s var(--ease)",
-            }}
-          >
+
+          <Link href="/search" className="header-book-btn">
             {t("nav.bookNow")}
           </Link>
-          {/* Mobile menu button */}
+
           <button
             ref={menuBtnRef}
+            type="button"
             onClick={toggleMenu}
             className="menu-button"
-            style={{
-              display: "none",
-              width: 44,
-              height: 44,
-              alignItems: "center",
-              justifyContent: "center",
-              border: `1px solid ${headerControlBorder}`,
-              borderRadius: "var(--radius-control)",
-              background: headerControlBackground,
-              color: headerForeground,
-            }}
             aria-expanded={menuOpen}
             aria-controls="mobileMenu"
             aria-label={t(menuOpen ? "header.closeMenu" : "header.openMenu")}
@@ -298,152 +171,55 @@ export function Header() {
       <nav
         id="mobileMenu"
         aria-label={t("header.mobileNavigation")}
-        className={`mobile-overlay ${menuOpen ? "open" : ""}`}
-        style={{
-          position: "fixed",
-          zIndex: 60,
-          inset: 0,
-          display: "flex",
-          visibility: menuOpen ? "visible" : "hidden",
-          flexDirection: "column" as const,
-          justifyContent: "center",
-          gap: 6,
-          transform: menuOpen ? "translateY(0)" : "translateY(-16px)",
-          padding: "100px 28px 34px",
-          background: "rgba(25,21,18,.98)",
-          opacity: menuOpen ? 1 : 0,
-          pointerEvents: menuOpen ? "auto" as const : "none" as const,
-          transition: "opacity .25s var(--ease), transform .25s var(--ease), visibility .25s",
-        }}
+        className={`mobile-overlay ${menuOpen ? "is-open" : ""}`}
       >
-        <div
-          className="mobile-menu-utility"
-          style={{
-            position: "absolute",
-            top: 22,
-            left: 28,
-            right: 28,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: 16,
-          }}
-        >
-          <span style={{ color: "var(--antique-brass)", font: '600 19px/1 "Cormorant Garamond", serif', letterSpacing: ".08em" }}>AURORA HOTEL</span>
+        <div className="mobile-menu-utility">
+          <span className="mobile-brand-title">AURORA HOTEL</span>
           <button
             type="button"
             onClick={closeMenu}
             className="mobile-menu-close"
             aria-label={t("header.closeMenu")}
-            style={{
-              minHeight: 44,
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 9,
-              padding: "0 13px",
-              border: "1px solid rgba(243,238,231,.42)",
-              borderRadius: "var(--radius-control)",
-              background: "rgba(25,21,18,.28)",
-              color: "var(--warm-ivory)",
-              fontSize: 9,
-              fontWeight: 700,
-              letterSpacing: ".1em",
-              textTransform: "uppercase" as const,
-            }}
           >
-            {t("header.closeMenu")}
-            <svg aria-hidden="true" width="15" height="15" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.35"><line x1="2" y1="2" x2="16" y2="16" /><line x1="16" y1="2" x2="2" y2="16" /></svg>
+            <span>{t("header.closeMenu")}</span>
+            <svg aria-hidden="true" width="15" height="15" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.35">
+              <line x1="2" y1="2" x2="16" y2="16" />
+              <line x1="16" y1="2" x2="2" y2="16" />
+            </svg>
           </button>
         </div>
-        {navLinks.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            onClick={closeMenu}
-            style={{
-              padding: "11px 0",
-              color: "white",
-              font: '500 clamp(34px, 8vw, 52px)/1 "Cormorant Garamond", serif',
-            }}
-          >
-            {t(link.key)}
-          </Link>
-        ))}
-        <div style={{ display: "flex", gap: 16, marginTop: 24, alignItems: "center" }}>
+
+        <div className="mobile-nav-links">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={closeMenu}
+              className={`mobile-nav-link ${isActive(link.href) ? "active" : ""}`}
+            >
+              {t(link.key)}
+            </Link>
+          ))}
+        </div>
+
+        <div className="mobile-menu-actions">
           <Link
             href="/search"
             onClick={closeMenu}
-            style={{
-              padding: "14px 24px",
-              borderRadius: "var(--radius-control)",
-              background: "var(--antique-brass)",
-              color: "var(--night)",
-              font: '700 11px/1 Manrope, sans-serif',
-              letterSpacing: ".1em",
-              textTransform: "uppercase" as const,
-            }}
+            className="mobile-book-btn"
           >
             {t("nav.bookNow")}
           </Link>
           <button
+            type="button"
             onClick={toggleLanguage}
-            style={{
-              minWidth: 44,
-              minHeight: 44,
-              padding: "0 16px",
-              border: "1px solid rgba(255,255,255,.4)",
-              borderRadius: "var(--radius-control)",
-              background: "rgba(255,255,255,.1)",
-              color: "white",
-              fontSize: 11,
-              fontWeight: 700,
-            }}
+            className="mobile-lang-btn"
             aria-label={t(lang === "vi" ? "header.switchToEnglish" : "header.switchToVietnamese")}
           >
             {lang === "vi" ? "EN" : "VI"}
           </button>
         </div>
       </nav>
-
-      <style>{`
-        @media (min-width: 901px) {
-          .menu-button { display: none !important; }
-          .mobile-overlay { display: none !important; }
-        }
-        @media (max-width: 900px) {
-          .desktop-nav { display: none !important; }
-          .lang-btn { display: none !important; }
-          .header-book { display: none !important; }
-          .menu-button { display: inline-flex !important; }
-          header .wrap {
-            grid-template-columns: 1fr auto !important;
-          }
-        }
-        @media (max-width: 620px) {
-          header .wrap strong { font-size: 22px !important; }
-          header .wrap small { max-width: 220px; font-size: 6px !important; }
-        }
-        .desktop-nav a { position: relative; }
-        .desktop-nav a::after {
-          content: "";
-          position: absolute;
-          right: 0; bottom: 5px; left: 0;
-          height: 1px;
-          transform: scaleX(0);
-          transform-origin: right;
-          background: var(--gold);
-          transition: transform .25s var(--ease);
-        }
-        .desktop-nav a:hover::after,
-        .desktop-nav a:focus-visible::after {
-          transform: scaleX(1);
-          transform-origin: left;
-        }
-        .header-book:hover {
-          transform: translateY(-2px);
-          background: var(--gold-light) !important;
-        }
-      `}</style>
     </header>
   );
 }
