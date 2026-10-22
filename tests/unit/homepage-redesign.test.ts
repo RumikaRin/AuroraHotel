@@ -81,3 +81,18 @@ describe("SpatialMasterplan Component", () => {
     assert.doesNotMatch(file, /href="#"/, "Dead link violation forbidden");
   });
 });
+
+describe("KineticRoomAccordion Component", () => {
+  it("implements anti-jitter typography with locked 540px width and eliminates quick-selector pills", async () => {
+    const file = await readFile("src/components/home/KineticRoomAccordion.tsx", "utf8");
+    assert.match(file, /id=["']suites["']/);
+    assert.match(file, /Deluxe King Oceanfront/);
+    assert.match(file, /Executive Ocean Suite/);
+    assert.match(file, /Presidential Cliffside Villa/);
+    assert.match(file, /Grand Reserve Penthouse/);
+    assert.match(file, /w-\[540px\]|max-w-\[calc\(100%-40px\)\]|width:\s*540px/, "Typography container constraint missing");
+    assert.doesNotMatch(file, /room-selector-pills/, "Quick selector pills must be removed");
+    assert.doesNotMatch(file, /href="#"/, "Dead link violation forbidden");
+  });
+});
+
