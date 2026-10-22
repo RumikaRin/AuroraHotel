@@ -66,7 +66,7 @@ speed, clarity, and moderate information density.
   the rejected Stay Atlas rows.
 - Hotel Rooms and Resort Suites are presentation groupings over the same existing
   room-category inventory, not new properties or inventory.
-- Vertical scrolling remains native; Lenis, Locomotive Scroll, and pinned scroll narratives are prohibited.
+- Vertical scrolling utilizes Lenis on desktop (lerp: 0.08, duration: 1.2s, smoothWheel: true) while strictly preserving 100% native momentum scrolling on touch devices (pointer: coarse). Custom wheel event hijacking and pinned scroll narratives are prohibited.
 
 ## Spacing, shape, and hierarchy
 - Desktop content width: 1280–1440px (12-column grid)

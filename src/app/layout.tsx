@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { LanguageProvider } from "@/components/i18n/LanguageProvider";
+import { LenisProvider } from "@/components/layout/LenisProvider";
 
 export const metadata: Metadata = {
   title: {
@@ -28,7 +29,11 @@ export default function RootLayout({
         className="min-h-screen bg-aurora-ivory text-aurora-midnight antialiased font-interface"
         suppressHydrationWarning
       >
-        <LanguageProvider>{children}</LanguageProvider>
+        <LanguageProvider>
+          <LenisProvider>
+            {children}
+          </LenisProvider>
+        </LanguageProvider>
       </body>
     </html>
   );
