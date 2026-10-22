@@ -38,25 +38,6 @@ export default function AccountPage() {
         </section>
       </main>
       <Footer />
-      <style>{`
-        .account-page { min-height: 100vh; background: var(--linen); color: var(--espresso); }
-        .account-main { padding-block: calc(var(--header-height) + 56px) 120px; }
-        .account-intro { display: grid; grid-template-columns: 1fr .62fr; gap: 45px; align-items: end; padding-bottom: 56px; }
-        .account-eyebrow { margin: 0 0 14px; color: var(--muted-terracotta); font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
-        .account-intro h1 { margin: 0; font: 500 clamp(58px, 8vw, 112px)/.82 var(--font-display); letter-spacing: -.055em; }
-        .account-intro h1 em { color: var(--muted-terracotta); font-style: italic; font-weight: 400; }
-        .account-intro > p:last-child { max-width: 360px; margin: 0 0 4px; color: var(--taupe); font-size: 13px; line-height: 1.8; }
-        .account-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        .account-actions article { position: relative; min-height: 280px; display: flex; flex-direction: column; align-items: start; padding: clamp(24px, 3vw, 36px); border: 1px solid var(--line); border-radius: var(--radius-surface, 20px); background: var(--warm-ivory); box-shadow: 0 12px 32px rgba(38,30,26,.06); transition: transform .2s var(--ease), border-color .2s var(--ease), box-shadow .2s var(--ease); }
-        .account-actions article:hover { border-color: var(--antique-brass); transform: translateY(-3px); box-shadow: 0 20px 48px rgba(181,154,107,.15); }
-        .account-actions article .account-eyebrow { margin-top: 0; margin-bottom: 12px; }
-        .account-actions h2 { margin: 0; font: 500 32px/.94 var(--font-display); letter-spacing: -.03em; }
-        .account-actions article > p:not(.account-eyebrow) { margin: 18px 0 24px; color: var(--taupe); font-size: 13px; line-height: 1.7; }
-        .account-actions a { margin-top: auto; min-height: 44px; display: inline-flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--walnut); color: var(--walnut); font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; transition: color .2s var(--ease), border-color .2s var(--ease); }
-        .account-actions a:hover { color: var(--muted-terracotta); border-color: var(--muted-terracotta); }
-        @media (max-width: 800px) { .account-intro { grid-template-columns: 1fr; gap: 18px; } .account-actions { grid-template-columns: 1fr; } .account-actions article { min-height: 220px; } }
-        @media (max-width: 560px) { .account-main { padding-block: calc(var(--header-height) + 30px) 80px; } .account-intro h1 { font-size: 70px; } }
-      `}</style>
     </div>
   );
 }

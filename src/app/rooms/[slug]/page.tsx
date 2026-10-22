@@ -14,15 +14,19 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const category = await db.roomCategory.findUnique({
-    where: { slug, isActive: true },
-  });
-  if (!category) return { title: "Room Not Found | Aurora Hotel" };
+  try {
+    const category = await db.roomCategory.findUnique({
+      where: { slug, isActive: true },
+    });
+    if (!category) return { title: "Room Not Found | Aurora Hotel" };
 
-  return {
-    title: `${category.name} | Aurora Hotel`,
-    description: category.description.slice(0, 160),
-  };
+    return {
+      title: `${category.name} | Aurora Hotel`,
+      description: category.description.slice(0, 160),
+    };
+  } catch {
+    return { title: "Chi tiết hạng phòng | Aurora Hotel" };
+  }
 }
 
 export default async function RoomDetailPage({
@@ -35,12 +39,17 @@ export default async function RoomDetailPage({
   const { slug } = await params;
   const search = await searchParams;
 
-  const category = await db.roomCategory.findUnique({
-    where: { slug, isActive: true },
-    include: {
-      ratePlans: { where: { isActive: true } },
-    },
-  });
+  let category = null;
+  try {
+    category = await db.roomCategory.findUnique({
+      where: { slug, isActive: true },
+      include: {
+        ratePlans: { where: { isActive: true } },
+      },
+    });
+  } catch (error) {
+    console.warn(`[RoomDetailPage] DB lookup failed for slug: ${slug}`, error);
+  }
 
   if (!category) {
     notFound();

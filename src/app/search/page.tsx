@@ -20,21 +20,12 @@ function SearchRedirectContent() {
   }, [router, searchParams]);
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        display: "grid",
-        placeItems: "center",
-        background: "var(--night)",
-        color: "white",
-        fontFamily: "var(--font-interface)",
-      }}
-    >
-      <div style={{ textAlign: "center" }}>
-        <p style={{ font: '500 24px "Cormorant Garamond", serif', color: "var(--gold)" }}>
+    <div className="search-loading-page">
+      <div className="search-loading-box">
+        <p className="search-loading-title">
           {t("search.loadingAvailability")}
         </p>
-        <small style={{ color: "#a0aaa3", fontSize: 11 }}>Aurora Hotel Da Nang</small>
+        <small className="search-loading-brand">Aurora Hotel Da Nang</small>
       </div>
     </div>
   );
@@ -51,15 +42,7 @@ export default function SearchPage() {
 function SearchLoading() {
   const { t } = useLanguage();
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        display: "grid",
-        placeItems: "center",
-        background: "var(--night)",
-        color: "white",
-      }}
-    >
+    <div className="search-loading-page">
       {t("search.loading")}
     </div>
   );

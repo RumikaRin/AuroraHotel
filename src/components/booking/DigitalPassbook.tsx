@@ -39,29 +39,6 @@ export function DigitalPassbook({ bookingNumber, guestName, guestEmail, roomCate
           <button type="button" onClick={handlePrint}>{t("passbook.print")}</button>
         </div>
       </div>
-      <style>{`
-        .digital-passbook { margin-block: 32px; overflow: hidden; border: 1px solid rgba(181,154,107,.42); background: var(--warm-ivory); color: var(--espresso); }
-        .digital-passbook-header { display: flex; align-items: end; justify-content: space-between; gap: 20px; padding: 28px; background: var(--espresso); color: var(--warm-ivory); }
-        .digital-passbook-header p, .digital-passbook-number small { margin: 0 0 8px; color: var(--antique-brass); font-size: 9px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
-        .digital-passbook-header h2 { margin: 0; font: 500 40px/.9 var(--font-display); }
-        .digital-passbook-number { display: grid; justify-items: end; gap: 4px; }
-        .digital-passbook-number strong { font: 600 20px/1 var(--font-display); }
-        .digital-passbook-body { display: grid; grid-template-columns: 1fr 260px; gap: 28px; padding: 28px; }
-        .digital-passbook-details { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
-        .digital-passbook-details div { display: grid; gap: 6px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
-        .digital-passbook-details small { color: var(--taupe); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; }
-        .digital-passbook-details strong { font-size: 13px; }
-        .digital-passbook-details span { color: var(--taupe); font-size: 10px; }
-        .digital-passbook-details span.confirmed { color: #2e7d5a; font-weight: 700; }
-        .digital-passbook-details span.pending { color: var(--muted-terracotta); font-weight: 700; }
-        .digital-passbook-recovery { display: grid; align-content: start; gap: 10px; padding: 20px; border: 1px solid var(--line); background: var(--linen); }
-        .digital-passbook-icon { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 50%; background: var(--antique-brass); color: var(--espresso); font-size: 18px; }
-        .digital-passbook-recovery h3 { margin: 0; font: 500 28px/.95 var(--font-display); }
-        .digital-passbook-recovery p { margin: 0; color: var(--taupe); font-size: 11px; line-height: 1.6; }
-        .digital-passbook-recovery button { min-height: 44px; border: 0; background: var(--espresso); color: var(--warm-ivory); font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
-        @media (max-width: 700px) { .digital-passbook-header { align-items: start; flex-direction: column; } .digital-passbook-number { justify-items: start; } .digital-passbook-body { grid-template-columns: 1fr; padding: 18px; } .digital-passbook-details { grid-template-columns: 1fr; } }
-        @media print { .digital-passbook { border: 0; } .digital-passbook-recovery button { display: none; } }
-      `}</style>
     </section>
   );
 }

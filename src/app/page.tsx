@@ -42,33 +42,33 @@ export default async function HomePage() {
     roomCategories = [
       {
         id: "cat-1",
-        name: "Premier Garden Suite",
-        slug: "premier-garden-suite",
-        basePrice: 3250000,
+        name: "Deluxe King Room",
+        slug: "deluxe-king",
+        basePrice: 2500000,
         description:
-          "Không gian riêng tư 48m² hướng vườn, ban công mở đón ánh sáng ấm áp và các đường nét vật liệu tự nhiên dành cho một nhịp nghỉ chậm hơn.",
-        type: "Signature Suite",
-        amenities: ["48 m²", "2 Khách", "King Bed", "Flexible & Saver"],
+          "Không gian riêng tư 35m² trang bị giường King lớn, phòng tắm đá cẩm thạch sang trọng và góc nhìn trọn vẹn bờ biển Đà Nẵng.",
+        type: "Deluxe Collection",
+        amenities: ["35 m²", "2 Khách", "King Bed", "Ocean View"],
       },
       {
         id: "cat-2",
-        name: "Deluxe Ocean King",
-        slug: "deluxe-ocean-king",
-        basePrice: 2450000,
+        name: "Executive Suite",
+        slug: "executive-suite",
+        basePrice: 4500000,
         description:
-          "Căn phòng hướng biển với tầm nhìn thẳng ra bãi biển Đà Nẵng, trang bị giường King lớn và góc thư giãn đọc sách riêng biệt.",
-        type: "Ocean Collection",
-        amenities: ["36 m²", "2 Khách", "King Bed", "2 Rate Plans"],
+          "Bộ sưu tập Suite thượng lưu 65m² với khu vực phòng khách riêng, ban công lộng gió và đặc quyền Executive Lounge cao cấp.",
+        type: "Signature Suite",
+        amenities: ["65 m²", "3 Khách", "Super King Bed", "Executive Lounge"],
       },
       {
         id: "cat-3",
-        name: "Family Retreat Villa",
-        slug: "family-retreat-villa",
-        basePrice: 4100000,
+        name: "Presidential Suite",
+        slug: "presidential-suite",
+        basePrice: 12000000,
         description:
-          "Bối cảnh nghỉ dưỡng rộng rãi 62m² dành cho gia đình 4 khách, tích hợp khu sinh hoạt chung và trọn gói điểm tâm sáng cao cấp.",
-        type: "Family Collection",
-        amenities: ["62 m²", "4 Khách", "King + Twin", "Breakfast Included"],
+          "Tuyệt tác nghỉ dưỡng 120m² trên tầng cao nhất với tầm nhìn 360 độ toàn cảnh biển, dịch vụ quản gia 24/7 và bàn tiệc ẩm thực riêng biệt.",
+        type: "Presidential Collection",
+        amenities: ["120 m²", "4 Khách", "Grand King", "Butler Service"],
       },
     ];
   }

@@ -46,6 +46,7 @@ agy_models.txt
 .agent-os/
 .gemini/
 screenshots/
+.gstack/qa-reports/screenshots/
 
 # Personal & Academic Documents
 *.docx

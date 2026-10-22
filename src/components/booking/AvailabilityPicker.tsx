@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  type CSSProperties,
   type MouseEvent as ReactMouseEvent,
   useCallback,
   useEffect,
@@ -153,7 +152,6 @@ export function AvailabilityPicker({
   const [draftCheckIn, setDraftCheckIn] = useState(checkIn);
   const [draftCheckOut, setDraftCheckOut] = useState(checkOut);
   const [visibleMonth, setVisibleMonth] = useState(() => startOfMonth(toLocalDate(checkIn) || new Date()));
-  const [panelStyle, setPanelStyle] = useState<CSSProperties>({});
   const today = useMemo(() => startOfDay(new Date()), []);
 
   const guestOptions = GUEST_OPTIONS.map((option) => ({ ...option, label: t(option.labelKey) }));
@@ -199,7 +197,11 @@ export function AvailabilityPicker({
       ? Math.max(margin, trigger.top - height - 12)
       : Math.min(window.innerHeight - height - margin, trigger.bottom + 12);
 
-    setPanelStyle({ left, top, width });
+    if (panelRef.current) {
+      panelRef.current.style.left = `${left}px`;
+      panelRef.current.style.top = `${top}px`;
+      panelRef.current.style.width = `${width}px`;
+    }
   }, [activePanel, isMobile]);
 
   useEffect(() => {
@@ -408,7 +410,6 @@ export function AvailabilityPicker({
         ref={panelRef}
         id={activePanel === "dates" ? datePanelId : guestPanelId}
         className={`availability-picker-panel availability-picker-panel--${activePanel}`}
-        style={isMobile ? undefined : panelStyle}
         role="dialog"
         aria-label={activePanel === "dates" ? t("availability.chooseStayDates") : t("availability.chooseGuests")}
         aria-modal={isMobile ? true : undefined}
