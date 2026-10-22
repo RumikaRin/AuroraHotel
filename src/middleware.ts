@@ -122,7 +122,9 @@ export default async function middleware(request: NextRequest, event: unknown) {
   // 2. Auth guard only where it can block navigation. Public routes keep the
   // plain pass-through so the nonce request override reaches the renderer.
   const needsAuthGuard =
-    pathname.startsWith("/admin") || pathname.startsWith("/profile");
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/profile") ||
+    pathname.startsWith("/operations");
   if (!needsAuthGuard) {
     return nextWithNonce(requestHeaders, nonce);
   }

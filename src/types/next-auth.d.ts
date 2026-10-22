@@ -2,22 +2,31 @@
 
 import type { DefaultSession } from "next-auth";
 
+export type RoleType =
+  | "ADMIN"
+  | "MANAGER"
+  | "RECEPTIONIST"
+  | "HOUSEKEEPER"
+  | "CUSTOMER"
+  | "GUEST"
+  | "STAFF";
+
 declare module "next-auth" {
   interface Session {
     user: {
       id: string;
-      role: "ADMIN" | "STAFF" | "CUSTOMER";
+      role: RoleType;
     } & DefaultSession["user"];
   }
 
   interface User {
-    role?: string;
+    role?: RoleType | string;
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
     id?: string;
-    role?: string;
+    role?: RoleType | string;
   }
 }

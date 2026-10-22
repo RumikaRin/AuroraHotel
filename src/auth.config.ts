@@ -4,6 +4,17 @@
 // config with the Credentials provider lives in src/auth.ts.
 
 import type { NextAuthConfig } from "next-auth";
+import type { RoleType } from "@/types/next-auth";
+
+const ALLOWED_ROLES: RoleType[] = [
+  "ADMIN",
+  "MANAGER",
+  "RECEPTIONIST",
+  "HOUSEKEEPER",
+  "CUSTOMER",
+  "GUEST",
+  "STAFF",
+];
 
 export const authConfig = {
   pages: {
@@ -13,10 +24,8 @@ export const authConfig = {
     session({ session, token }) {
       if (session.user) {
         session.user.id = typeof token.id === "string" ? token.id : "";
-        session.user.role =
-          token.role === "ADMIN" || token.role === "STAFF" || token.role === "CUSTOMER"
-            ? token.role
-            : "CUSTOMER";
+        const tokenRole = token.role as RoleType;
+        session.user.role = ALLOWED_ROLES.includes(tokenRole) ? tokenRole : "CUSTOMER";
       }
       return session;
     },
@@ -28,7 +37,23 @@ export const authConfig = {
         // Returning false redirects to pages.signIn with a callbackUrl.
         if (!isLoggedIn) return false;
         const role = auth.user.role;
-        if (role !== "ADMIN" && role !== "STAFF") {
+        if (role !== "ADMIN" && role !== "MANAGER" && role !== "STAFF") {
+          return Response.redirect(new URL("/", nextUrl));
+        }
+      }
+
+      if (pathname.startsWith("/operations/reception")) {
+        if (!isLoggedIn) return false;
+        const role = auth.user.role;
+        if (role !== "ADMIN" && role !== "MANAGER" && role !== "RECEPTIONIST") {
+          return Response.redirect(new URL("/", nextUrl));
+        }
+      }
+
+      if (pathname.startsWith("/operations/housekeeping")) {
+        if (!isLoggedIn) return false;
+        const role = auth.user.role;
+        if (role !== "ADMIN" && role !== "MANAGER" && role !== "HOUSEKEEPER") {
           return Response.redirect(new URL("/", nextUrl));
         }
       }
