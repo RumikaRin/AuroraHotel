@@ -42,13 +42,25 @@ All colors are centrally declared on `:root` and adapt dynamically to the dual a
 - **Body & Micro Sans:** `Plus Jakarta Sans` (300 light, 400 regular, 600 semibold). Tracking `0.08em–0.22em` on uppercase metadata and buttons.
 - **Tabular Figures:** `font-variant-numeric: tabular-nums` applied across all prices, coordinates, square meters, and time indicators.
 
+### 2.3 Photographic Canvas Scrim & Dual-Theme Contrast Protection Rule
+- **The Core Problem:** Global theme switching (`dusk` ↔ `dawn`) transforms text tokens from pure white (`#ffffff`) to deep espresso (`#1c1410`). However, fixed elements like the unscrolled navbar (`.site-nav:not(.scrolled)`), the hero headline, and the kinetic room accordion panels sit directly over dark nighttime or twilight photography with dark scrim gradients. In Dawn mode, applying dark espresso text globally rendered these elements invisible.
+- **The Architectural Rule:**
+  1. *Unscrolled Navigation (`.site-nav:not(.scrolled)`):* Floats over the dark hero photograph and must ALWAYS retain luminous light tokens (`#ffffff` brand title, `rgba(255,255,255,0.92)` nav links, `#e2c799` champagne brass accents) across both Dusk and Dawn modes.
+  2. *Scrolled Navigation (`.site-nav.scrolled`):* Possesses an opaque/frosted background (`#110e0c` in Dusk, `#faf6f0` in Dawn). Only in the scrolled state does the navbar adopt the active theme's primary text tokens (`#1c1410` on ivory glass).
+  3. *Hero Container Typography:* The eyebrow, monumental headline, and poetic description sit on a dark photographic canvas and must ALWAYS use `#ffffff`, `#e2c799`, and `#d4cbc2` with multi-stop drop shadows.
+  4. *Kinetic Room Accordion Cards (`.room-panel`):* Every card has a rich photographic background with a bottom scrim (`rgba(20,16,14,0.95)`). All collapsed and expanded titles, descriptions, spec tags, and price indicators must ALWAYS retain white and champagne brass typography regardless of the document's theme attribute.
+  5. *Dynamic Map Bar:* `.map-zone-pills-bar` uses `var(--bg-surface-card)` instead of hardcoded dark RGBAs, allowing pills to display high contrast in both atmosphere modes.
+
 ---
 
 ## 3. Structural Macro-Architecture (8 Narrative Chapters)
 
-### Chapter 0: Refined Fixed Editorial Navigation (Zero HUD Clutter)
+### Chapter 0: Refined Fixed Editorial Navigation (Zero HUD Clutter & Dual-State Scrim)
 - **Removal of Telemetry HUD:** Completely eliminated the tech-nerdy top coordinate ticker, live clock, and telemetry bar to maintain pure quiet luxury aesthetic.
-- **Integrated Header Navigation:** Positioned directly at `top: 0` with frosted glass backing (`backdrop-filter: blur(24px)` on scroll), elegant brand mark, editorial anchor links, compact Web Audio wave soundscape toggle, Dawn/Dusk atmosphere switch, and direct "Đặt kỳ nghỉ" CTA button.
+- **Integrated Header Navigation:** Positioned directly at `top: 0` with dual-state contrast engine:
+  - *Unscrolled State:* Transparent background, luminous white/champagne typography floating over the hero landscape.
+  - *Scrolled State:* Frosted glass backing (`backdrop-filter: blur(24px)`), adapting dynamically to Dusk (obsidian glass + white text) or Dawn (warm ivory glass + deep espresso text).
+  - Compact Web Audio wave soundscape toggle, Dawn/Dusk atmosphere switch, and direct "Đặt kỳ nghỉ" CTA button.
 
 ### Chapter 1: Hero & Integrated Booking Ribbon
 - **Hero Image Parallax:** Background scaled to `1.15` and scrubbed via GSAP ScrollTrigger to `y: 22%`.
