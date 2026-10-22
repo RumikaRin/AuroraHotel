@@ -25,3 +25,21 @@ describe("Homepage Redesign - Tokens & Dependencies", () => {
     assert.match(css, /overflow-x:\s*clip/, "overflow-x: clip root safety rail missing");
   });
 });
+
+describe("EditorialHeader Component", () => {
+  it("exports EditorialHeader with Awwwards micro-indexes and segmented theme switcher", async () => {
+    const file = await readFile("src/components/layout/EditorialHeader.tsx", "utf8");
+    assert.match(file, /"use client"/, "EditorialHeader must be a client component");
+    assert.match(file, /01[\s\S]*?Triết lý/, "Missing 01 Triet ly micro-index");
+    assert.match(file, /02[\s\S]*?Phân khu/, "Missing 02 Phan khu micro-index");
+    assert.match(file, /03[\s\S]*?Suites & Villas/, "Missing 03 Suites micro-index");
+    assert.match(file, /04[\s\S]*?Ẩm thực/, "Missing 04 Am thuc micro-index");
+    assert.match(file, /05[\s\S]*?Trị liệu/, "Missing 05 Tri lieu micro-index");
+    assert.match(file, /06[\s\S]*?Đặc quyền/, "Missing 06 Dac quyen micro-index");
+    assert.match(file, /theme-switch-segmented/, "Segmented theme switcher container missing");
+    assert.match(file, /Tối/, "Dusk 'Tối' label missing");
+    assert.match(file, /Sáng/, "Dawn 'Sáng' label missing");
+    assert.doesNotMatch(file, /href="#"/, "Dead link violation (href='#') forbidden");
+    assert.doesNotMatch(file, /onClick=\{\(\)\s*=>\s*\{\}\}/, "Empty onClick handler forbidden");
+  });
+});
