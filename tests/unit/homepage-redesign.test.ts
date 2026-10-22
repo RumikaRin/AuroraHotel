@@ -68,3 +68,16 @@ describe("ManifestoScrub Component", () => {
     assert.match(file, /id=["']manifesto["']/);
   });
 });
+
+describe("SpatialMasterplan Component", () => {
+  it("implements Google Maps embed with pointer shield and data-lenis-prevent attribute", async () => {
+    const file = await readFile("src/components/home/SpatialMasterplan.tsx", "utf8");
+    assert.match(file, /data-lenis-prevent/, "data-lenis-prevent attribute required for iframe container");
+    assert.match(file, /map-pointer-shield/, "Pointer shield required to prevent Lenis scroll trap");
+    assert.match(file, /16\.12[\s\S]*?108\.285/, "Hotspot 01 Cliffside coordinates missing");
+    assert.match(file, /16\.102[\s\S]*?108\.263/, "Hotspot 02 Beachfront coordinates missing");
+    assert.match(file, /16\.108[\s\S]*?108\.27/, "Hotspot 03 Spa coordinates missing");
+    assert.match(file, /16\.0965[\s\S]*?108\.254/, "Hotspot 04 Marina coordinates missing");
+    assert.doesNotMatch(file, /href="#"/, "Dead link violation forbidden");
+  });
+});
