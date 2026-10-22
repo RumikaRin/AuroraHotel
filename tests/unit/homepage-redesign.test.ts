@@ -58,3 +58,13 @@ describe("EditorialHero Component", () => {
     assert.doesNotMatch(file, /href="#"/, "Dead link violation forbidden");
   });
 });
+
+describe("ManifestoScrub Component", () => {
+  it("renders architectural manifesto and Sơn Trà conservation narrative", async () => {
+    const file = await readFile("src/components/home/ManifestoScrub.tsx", "utf8");
+    assert.match(file, /TRIẾT LÝ KIẾN TRÚC & NGHỈ DƯỠNG TĨNH TẠI/);
+    assert.match(file, /SƠN TRÀ PENINSULA · KHU BẢO TỒN TỰ NHIÊN NGUYÊN SINH/);
+    assert.match(file, /Chúng tôi không đơn thuần xây dựng một khách sạn nghỉ dưỡng/);
+    assert.match(file, /id=["']manifesto["']/);
+  });
+});
