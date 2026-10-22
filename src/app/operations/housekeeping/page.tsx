@@ -1,30 +1,54 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-
 import { RoomMatrixGrid, MatrixRoomItem } from "@/components/operations/RoomMatrixGrid";
 
-const INITIAL_HOUSEKEEPING_ROOMS: MatrixRoomItem[] = [
-  { id: "rm-101", roomNumber: "101", categoryName: "Deluxe Ocean King", status: "CLEAN", floor: 1 },
-  { id: "rm-102", roomNumber: "102", categoryName: "Deluxe Ocean King", status: "DIRTY", floor: 1 },
-  { id: "rm-103", roomNumber: "103", categoryName: "Deluxe Ocean King", status: "CLEAN", floor: 1 },
-  { id: "rm-201", roomNumber: "201", categoryName: "Executive Bay Suite", status: "INSPECTING", floor: 2 },
-  { id: "rm-202", roomNumber: "202", categoryName: "Executive Bay Suite", status: "DIRTY", floor: 2 },
-  { id: "rm-301", roomNumber: "301", categoryName: "Presidential Villa", status: "MAINTENANCE", floor: 3 },
-];
-
 export default function HousekeepingPage() {
-  const [rooms, setRooms] = useState<MatrixRoomItem[]>(INITIAL_HOUSEKEEPING_ROOMS);
+  const [rooms, setRooms] = useState<MatrixRoomItem[]>([]);
   const [actionMessage, setActionMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
-  const updateStatus = (roomId: string, newStatus: MatrixRoomItem["status"]) => {
-    setRooms((prev) =>
-      prev.map((r) => (r.id === roomId ? { ...r, status: newStatus } : r))
-    );
-    setActionMessage(`Đã cập nhật phòng sang trạng thái ${newStatus}`);
+  const fetchRooms = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const res = await fetch("/api/operations/housekeeping");
+      if (!res.ok) throw new Error("Failed to fetch housekeeping rooms");
+      const json = await res.json();
+      if (json.success) {
+        setRooms(json.rooms || []);
+      }
+    } catch {
+      setActionMessage("Lỗi tải danh sách buồng phòng.");
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchRooms();
+  }, [fetchRooms]);
+
+  const updateStatus = async (roomId: string, newStatus: MatrixRoomItem["status"]) => {
+    try {
+      const res = await fetch("/api/operations/cleaning", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ roomId, status: newStatus }),
+      });
+      const json = await res.json();
+      if (!res.ok || !json.success) {
+        throw new Error(json.error || "Cập nhật trạng thái thất bại");
+      }
+      setRooms((prev) =>
+        prev.map((r) => (r.id === roomId ? { ...r, status: newStatus } : r))
+      );
+      setActionMessage(`Đã cập nhật phòng sang trạng thái ${newStatus}`);
+    } catch (err) {
+      setActionMessage(err instanceof Error ? err.message : "Lỗi cập nhật");
+    }
   };
 
   return (
@@ -53,12 +77,17 @@ export default function HousekeepingPage() {
           <h2 className="font-serif-luxury text-2xl font-bold text-aurora-espresso">
             Hàng Đợi Trạng Thái Buồng Phòng Trực Quan
           </h2>
-          <RoomMatrixGrid
-            rooms={rooms}
-            onStatusChange={updateStatus}
-            isHousekeeperView
-          />
+          {isLoading ? (
+            <div className="p-8 text-center text-xs text-aurora-taupe">Đang tải trạng thái buồng phòng...</div>
+          ) : (
+            <RoomMatrixGrid
+              rooms={rooms}
+              onStatusChange={updateStatus}
+              isHousekeeperView
+            />
+          )}
         </div>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {rooms.map((room) => (
             <div

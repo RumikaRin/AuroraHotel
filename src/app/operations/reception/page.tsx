@@ -1,65 +1,106 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { RoomMatrixGrid, MatrixRoomItem } from "@/components/operations/RoomMatrixGrid";
 
 interface ReceptionBooking {
   id: string;
   bookingNumber: string;
   guestName: string;
+  roomCategoryId: string;
   roomCategoryName: string;
   status: string;
   checkIn: string;
   checkOut: string;
-  assignedRoom?: string;
+  assignedRoom?: string | null;
+  assignedRoomId?: string | null;
 }
 
-import { RoomMatrixGrid, MatrixRoomItem } from "@/components/operations/RoomMatrixGrid";
-
-const INITIAL_ROOM_MATRIX: MatrixRoomItem[] = [
-  { id: "r-101", roomNumber: "101", floor: 1, categoryName: "Deluxe Ocean King", status: "OCCUPIED", guestName: "Nguyễn Văn A", checkOutDate: "2026-08-03" },
-  { id: "r-102", roomNumber: "102", floor: 1, categoryName: "Deluxe Ocean King", status: "CLEAN" },
-  { id: "r-103", roomNumber: "103", floor: 1, categoryName: "Deluxe Ocean King", status: "DIRTY" },
-  { id: "r-104", roomNumber: "104", floor: 1, categoryName: "Deluxe Ocean King", status: "CLEAN" },
-  { id: "r-201", roomNumber: "201", floor: 2, categoryName: "Executive Bay Suite", status: "OCCUPIED", guestName: "Trần Thị B", checkOutDate: "2026-08-04" },
-  { id: "r-202", roomNumber: "202", floor: 2, categoryName: "Executive Bay Suite", status: "INSPECTING" },
-  { id: "r-203", roomNumber: "203", floor: 2, categoryName: "Executive Bay Suite", status: "MAINTENANCE" },
-  { id: "r-301", roomNumber: "301", floor: 3, categoryName: "Family Garden Villa", status: "CLEAN" },
-  { id: "r-302", roomNumber: "302", floor: 3, categoryName: "Presidential Oceanfront Villa", status: "CLEAN" },
-];
-
 export default function ReceptionPage() {
-  const [matrixRooms, setMatrixRooms] = useState<MatrixRoomItem[]>(INITIAL_ROOM_MATRIX);
+  const [matrixRooms, setMatrixRooms] = useState<MatrixRoomItem[]>([]);
   const [bookings, setBookings] = useState<ReceptionBooking[]>([]);
   const [actionMessage, setActionMessage] = useState<string>("");
+  const [selectedBookingForCheckIn, setSelectedBookingForCheckIn] = useState<ReceptionBooking | null>(null);
+  const [selectedRoomId, setSelectedRoomId] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(true);
 
-  const fetchData = async () => {
-    const mockBookings: ReceptionBooking[] = [
-      { id: "bk-101", bookingNumber: "AUR-260801-X1Y2", guestName: "Nguyễn Văn A", roomCategoryName: "Deluxe Ocean King", status: "CONFIRMED", checkIn: "2026-08-01", checkOut: "2026-08-03", assignedRoom: "101" },
-      { id: "bk-102", bookingNumber: "AUR-260801-Z9K8", guestName: "Trần Thị B", roomCategoryName: "Executive Bay Suite", status: "CHECKED_IN", checkIn: "2026-08-01", checkOut: "2026-08-04", assignedRoom: "201" },
-    ];
-    setBookings(mockBookings);
-  };
+  const fetchData = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const res = await fetch("/api/operations/reception");
+      if (!res.ok) throw new Error("Failed to load operations data");
+      const json = await res.json();
+      if (json.success) {
+        setBookings(json.bookings || []);
+        setMatrixRooms(json.rooms || []);
+      }
+    } catch {
+      setActionMessage("Lỗi tải dữ liệu phòng và đơn đặt.");
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
-  const handleCheckIn = (bookingId: string) => {
-    setBookings((prev) =>
-      prev.map((b) => (b.id === bookingId ? { ...b, status: "CHECKED_IN" } : b))
+  const initiateCheckIn = (booking: ReceptionBooking) => {
+    setSelectedBookingForCheckIn(booking);
+    // Find available CLEAN rooms for this booking's category
+    const availableClean = matrixRooms.filter(
+      (r) => r.roomCategoryId === booking.roomCategoryId && r.status === "CLEAN"
     );
-    setActionMessage(`Đã thực hiện Check-in cho đơn ${bookingId}`);
+    setSelectedRoomId(booking.assignedRoomId || (availableClean[0]?.id ?? ""));
   };
 
-  const handleCheckOut = (bookingId: string) => {
-    setBookings((prev) =>
-      prev.map((b) => (b.id === bookingId ? { ...b, status: "CHECKED_OUT" } : b))
-    );
-    setActionMessage(`Đã thực hiện Check-out cho đơn ${bookingId}. Phòng đã chuyển sang trạng thái DIRTY.`);
+  const confirmCheckIn = async () => {
+    if (!selectedBookingForCheckIn) return;
+    try {
+      const res = await fetch("/api/operations/checkin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          bookingId: selectedBookingForCheckIn.id,
+          roomId: selectedRoomId || undefined,
+        }),
+      });
+      const json = await res.json();
+      if (!res.ok || !json.success) {
+        throw new Error(json.error || "Check-in thất bại");
+      }
+      setActionMessage(`Check-in thành công cho đơn ${selectedBookingForCheckIn.bookingNumber}`);
+      setSelectedBookingForCheckIn(null);
+      fetchData();
+    } catch (err) {
+      setActionMessage(err instanceof Error ? err.message : "Check-in thất bại");
+    }
   };
+
+  const handleCheckOut = async (bookingId: string) => {
+    try {
+      const res = await fetch("/api/operations/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ bookingId }),
+      });
+      const json = await res.json();
+      if (!res.ok || !json.success) {
+        throw new Error(json.error || "Check-out thất bại");
+      }
+      setActionMessage("Check-out thành công. Phòng đã chuyển sang trạng thái DIRTY.");
+      fetchData();
+    } catch (err) {
+      setActionMessage(err instanceof Error ? err.message : "Check-out thất bại");
+    }
+  };
+
+  const cleanRoomsForCategory = selectedBookingForCheckIn
+    ? matrixRooms.filter((r) => r.roomCategoryId === selectedBookingForCheckIn.roomCategoryId && r.status === "CLEAN")
+    : [];
 
   return (
     <div className="min-h-screen bg-aurora-ivory text-aurora-espresso flex flex-col font-sans">
@@ -82,20 +123,65 @@ export default function ReceptionPage() {
           </div>
         )}
 
+        {/* Room Assignment Modal */}
+        {selectedBookingForCheckIn && (
+          <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+            <div className="bg-aurora-ivory text-aurora-espresso p-6 rounded-surface border border-aurora-brass max-w-md w-full space-y-4">
+              <h3 className="font-serif-display text-xl font-bold">Xác Nhận Check-In & Phân Phòng</h3>
+              <p className="text-xs text-aurora-taupe">
+                Đơn: <strong>{selectedBookingForCheckIn.bookingNumber}</strong> ({selectedBookingForCheckIn.guestName})
+                <br />
+                Hạng phòng: <strong>{selectedBookingForCheckIn.roomCategoryName}</strong>
+              </p>
+
+              <div>
+                <label className="text-xs font-bold block mb-2">Gợi ý phòng CLEAN khả dụng:</label>
+                {cleanRoomsForCategory.length === 0 ? (
+                  <p className="text-xs text-aurora-error">Không có phòng sạch khả dụng cho hạng phòng này.</p>
+                ) : (
+                  <select
+                    className="w-full min-h-[44px] border border-aurora-mist rounded-input p-2 text-xs bg-white"
+                    value={selectedRoomId}
+                    onChange={(e) => setSelectedRoomId(e.target.value)}
+                  >
+                    {cleanRoomsForCategory.map((rm) => (
+                      <option key={rm.id} value={rm.id}>
+                        Phòng {rm.roomNumber} (Tầng {rm.floor}) — {rm.status}
+                      </option>
+                    ))}
+                  </select>
+                )}
+              </div>
+
+              <div className="flex justify-end gap-2 pt-4 border-t border-aurora-mist">
+                <button
+                  onClick={() => setSelectedBookingForCheckIn(null)}
+                  className="px-4 py-2 min-h-[44px] border border-aurora-mist rounded-control text-xs"
+                >
+                  Huỷ
+                </button>
+                <button
+                  onClick={confirmCheckIn}
+                  disabled={cleanRoomsForCategory.length === 0 && !selectedBookingForCheckIn.assignedRoomId}
+                  className="px-4 py-2 min-h-[44px] bg-aurora-success text-white rounded-control text-xs font-bold disabled:opacity-50"
+                >
+                  Xác Nhận Check-In
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Room Matrix Grid */}
         <div className="space-y-4">
           <h2 className="font-serif-luxury text-2xl font-bold text-aurora-espresso">
             Sơ Đồ Phòng Theo Tầng & Trạng Thái Trực Quan
           </h2>
-          <RoomMatrixGrid
-            rooms={matrixRooms}
-            onStatusChange={(roomId, newStatus) => {
-              setMatrixRooms((prev) =>
-                prev.map((r) => (r.id === roomId ? { ...r, status: newStatus } : r))
-              );
-              setActionMessage(`Đã cập nhật trạng thái phòng thành ${newStatus}`);
-            }}
-          />
+          {isLoading ? (
+            <div className="p-8 text-center text-xs text-aurora-taupe">Đang tải sơ đồ phòng...</div>
+          ) : (
+            <RoomMatrixGrid rooms={matrixRooms} />
+          )}
         </div>
 
         {/* Bookings table */}
@@ -131,7 +217,7 @@ export default function ReceptionPage() {
                     <td className="p-3 text-right space-x-2">
                       {b.status === "CONFIRMED" && (
                         <button
-                          onClick={() => handleCheckIn(b.id)}
+                          onClick={() => initiateCheckIn(b)}
                           className="px-3 py-2 min-h-[44px] rounded-control bg-aurora-success text-white text-[11px] font-semibold hover:opacity-90"
                         >
                           Check-in

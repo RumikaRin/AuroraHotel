@@ -7,6 +7,7 @@ export interface MatrixRoomItem {
   roomNumber: string;
   floor: number;
   categoryName: string;
+  roomCategoryId?: string;
   status: "CLEAN" | "DIRTY" | "INSPECTING" | "MAINTENANCE" | "OCCUPIED";
   occupancyStatus?: "VACANT" | "ARRIVAL" | "OCCUPIED" | "DUE_OUT";
   housekeepingStatus?: "CLEAN" | "DIRTY" | "INSPECTING" | "MAINTENANCE";
