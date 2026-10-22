@@ -135,5 +135,25 @@ describe("CuratedJourneys, FAQ & Footer Components", () => {
   });
 });
 
+describe("Master Homepage Assembly in src/app/page.tsx", () => {
+  it("assembles all 8 narrative chapters with EditorialHeader and EditorialFooter", async () => {
+    const page = await readFile("src/app/page.tsx", "utf8");
+    assert.match(page, /EditorialHeader/);
+    assert.match(page, /EditorialHero/);
+    assert.match(page, /ManifestoScrub/);
+    assert.match(page, /SpatialMasterplan/);
+    assert.match(page, /KineticRoomAccordion/);
+    assert.match(page, /OceanGastronomy/);
+    assert.match(page, /WellnessSanctuary/);
+    assert.match(page, /EcoExpeditions/);
+    assert.match(page, /CuratedJourneys/);
+    assert.match(page, /AccoladesRow/);
+    assert.match(page, /ConciergeFaq/);
+    assert.match(page, /EditorialFooter/);
+    assert.doesNotMatch(page, /href="#"/, "Dead link violation forbidden");
+  });
+});
+
+
 
 
