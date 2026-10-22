@@ -55,12 +55,14 @@ All colors are centrally declared on `:root` and adapt dynamically to the dual a
 
 ## 3. Structural Macro-Architecture (8 Narrative Chapters)
 
-### Chapter 0: Refined Fixed Editorial Navigation (Zero HUD Clutter & Dual-State Scrim)
-- **Removal of Telemetry HUD:** Completely eliminated the tech-nerdy top coordinate ticker, live clock, and telemetry bar to maintain pure quiet luxury aesthetic.
-- **Integrated Header Navigation:** Positioned directly at `top: 0` with dual-state contrast engine:
+### Chapter 0: Refined Fixed Editorial Navigation (Awwwards Standard & Dual-State Scrim)
+- **Removal of Telemetry HUD & Soundscape Button:** Completely eliminated the tech-nerdy top coordinate ticker, live clock, and ocean soundscape button to maintain pure quiet luxury aesthetic.
+- **Awwwards Navigation Links:** 6 elevated items featuring micro-indexes (`01 · Triết lý`, `02 · Phân khu`, `03 · Suites & Villas`, `04 · Ẩm thực`, `05 · Trị liệu`, `06 · Đặc quyền`) in champagne brass, refined uppercase tracking, and magnetic gold underline animation.
+- **Dual-State Atmosphere Switcher (`Tối / Sáng`):** A sleek luxury segmented pill (`[ ☾ Tối | ☼ Sáng ]`) with active sliding brass pill, allowing instantaneous theme toggling with contrast protection across both unscrolled transparent and scrolled frosted glass states.
+- **Integrated Header Positioning:** Positioned directly at `top: 0` with dual-state contrast engine:
   - *Unscrolled State:* Transparent background, luminous white/champagne typography floating over the hero landscape.
   - *Scrolled State:* Frosted glass backing (`backdrop-filter: blur(24px)`), adapting dynamically to Dusk (obsidian glass + white text) or Dawn (warm ivory glass + deep espresso text).
-  - Compact Web Audio wave soundscape toggle, Dawn/Dusk atmosphere switch, and direct "Đặt kỳ nghỉ" CTA button.
+  - Direct "Đặt kỳ nghỉ" CTA button with gold fill hover.
 
 ### Chapter 1: Hero & Integrated Booking Ribbon
 - **Hero Image Parallax:** Background scaled to `1.15` and scrubbed via GSAP ScrollTrigger to `y: 22%`.
@@ -74,6 +76,10 @@ All colors are centrally declared on `:root` and adapt dynamically to the dual a
 
 ### Chapter 3: Interactive Spatial Masterplan (Google Maps Geographic Explorer)
 - **Authentic Geographic Context:** Replaces abstract vector blueprint shapes with an authentic Google Maps satellite/terrain embed of Bán Đảo Sơn Trà, Đà Nẵng.
+- **Lenis Smooth Scroll Conflict Resolution:**
+  - `data-lenis-prevent` isolation on map container and iframe.
+  - Interactive pointer shield (`.map-pointer-shield`) ensuring mousewheel events pass through to document scroll without trapping or freezing the page.
+  - One-click map unlock for smooth zooming and panning with an auto-locking `mouseleave` guard.
 - **Dual Map Modes:** Satellite imagery mode (`t=k`) and Standard vector/terrain mode (`t=m`), plus direct external map link.
 - **4 Geographic Hotspots & Exact Coordinates:**
   1. *01 · Vách đá Sơn Trà* (`16.1200, 108.2850` · Cliffside Sanctuary Reserve, alt: 45m)
@@ -84,6 +90,7 @@ All colors are centrally declared on `:root` and adapt dynamically to the dual a
 
 ### Chapter 4: Kinetic Accordion Suites Showcase (Anti-Jitter Architecture)
 - **Layout:** 4 expansive vertical panels displaying the resort collection.
+- **Clean Editorial Presentation:** Redundant quick-selector pill tabs eliminated to remove SaaS UI clutter, letting the photographic accordion panels speak directly.
 - **Zero-Jitter Typography Protection:**
   - Expanded text container locked to fixed `540px` width (`max-width: calc(100% - 40px)`), completely preventing browser text reflow/re-wrapping jumps while the panel width changes.
   - Heading locked to single line (`white-space: nowrap`) eliminating mid-word breaks from `overflow-wrap: anywhere`.
@@ -97,7 +104,6 @@ All colors are centrally declared on `:root` and adapt dynamically to the dual a
   - Collapsed panels: `flex-grow: 1.0`
   - Tweening: GSAP velocity easing (`power2.out`, 0.75s, `overwrite: "auto"`).
   - 100ms debounce on mouse hover to eliminate rapid mouse sweep flutter.
-  - Quick-select pill tabs on top allowing keyboard and touch access.
 - **Mobile Fallback:** Transitions to stacked cards under 768px with touch-friendly layout.
 
 ### Chapter 5: Oceanfront Gastronomy & Wine Cellar
@@ -117,7 +123,7 @@ All colors are centrally declared on `:root` and adapt dynamically to the dual a
 
 ### Chapter 8: Accolades, Arrival Concierge & Giant Watermark Colophon
 - 4-item awards & sustainability row (Condé Nast nominee, EarthCheck eco-standard).
-- FAQ accordion with accessible expandable items.
+- **Kinetic Smooth FAQ Accordion:** CSS Grid fraction height animation (`grid-template-rows: 0fr -> 1fr`) with 45° rotating circular icon (`+` to `×`), gold active border, and delayed text crossfade, eliminating all abrupt content pops.
 - Grand typographic watermark footer (`A U R O R A`) with complete resort coordinates and legal colophon.
 
 ---
