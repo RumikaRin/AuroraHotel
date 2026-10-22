@@ -11,22 +11,20 @@ interface ExperienceItem {
   descriptionKey: string;
   image: string;
   imageAlt: string;
-  featured?: boolean;
 }
 
 const EXPERIENCES: ExperienceItem[] = [
   {
     id: "culinary",
-    tagline: "Fine Dining & Seafood",
+    tagline: "FINE DINING & COASTAL CELLAR",
     titleKey: "home.sanctuaryCulinary",
     descriptionKey: "home.sanctuaryCulinaryDescription",
     image: "/images/aurora/hero-03.jpg",
     imageAlt: "Bàn tiệc ẩm thực cao cấp bên bờ biển",
-    featured: true,
   },
   {
     id: "wellness",
-    tagline: "Holistic Wellness & Spa",
+    tagline: "HOLISTIC THERAPIES & HERBAL SPA",
     titleKey: "home.sanctuaryWellness",
     descriptionKey: "home.sanctuaryWellnessDescription",
     image: "/images/aurora/executive-suite.jpg",
@@ -34,7 +32,7 @@ const EXPERIENCES: ExperienceItem[] = [
   },
   {
     id: "private-beach",
-    tagline: "Private Oceanfront Oasis",
+    tagline: "PRIVATE OCEAN OASIS & INFINITY POOL",
     titleKey: "home.sanctuaryBeach",
     descriptionKey: "home.sanctuaryBeachDescription",
     image: "/images/aurora/hero-02.jpg",
@@ -42,12 +40,11 @@ const EXPERIENCES: ExperienceItem[] = [
   },
   {
     id: "butler-service",
-    tagline: "Tailored Butler Care",
+    tagline: "BESPOKE CURATION & CONCIERGE",
     titleKey: "home.sanctuaryButler",
     descriptionKey: "home.sanctuaryButlerDescription",
     image: "/images/aurora/presidential-villa.jpg",
     imageAlt: "Quản gia phục vụ tại phòng suite sang trọng",
-    featured: true,
   },
 ];
 
@@ -57,50 +54,47 @@ export function SanctuaryExperiences() {
     <section aria-label={t("home.sanctuaryAria")} id="experiences" data-scroll-section="experiences" data-header-tone="dark">
       <div className="sanctuary-section">
         <div className="wrap">
+          {/* Section Header with serene Roman Typography */}
           <div className="sanctuary-header">
-            <span className="sanctuary-eyebrow">{t("home.sanctuaryEyebrow") || "Sanctuary Experiences"}</span>
+            <span className="sanctuary-eyebrow">{t("home.sanctuaryEyebrow") || "TRẢI NGHIỆM ĐẶC QUYỀN"}</span>
             <h2 className="sanctuary-title">
-              {t("home.sanctuaryTitleOne")}<br />
-              <em>{t("home.sanctuaryTitleTwo")}</em>
+              {t("home.sanctuaryTitleOne")} — {t("home.sanctuaryTitleTwo")}
             </h2>
             <p className="sanctuary-subtitle">
               {t("home.sanctuaryDescription")}
             </p>
           </div>
 
-          {/* ASYMMETRIC BENTO GRID */}
-          <div className="bento-grid">
+          {/* EDITORIAL HORIZON SHOWCASE (Anti-Bento luxury narrative) */}
+          <div className="editorial-showcase-grid">
             {EXPERIENCES.map((item, idx) => (
-              <div
-                key={item.id}
-                className={`bento-card ${idx === 0 ? "bento-large" : idx === 3 ? "bento-wide" : ""}`}
-              >
-                <div className="bento-card-image">
+              <article key={item.id} className="showcase-card">
+                <div className="showcase-image-wrapper">
                   <Image
                     src={item.image}
                     alt={item.imageAlt}
                     fill
                     style={{ objectFit: "cover" }}
-                    sizes={idx === 0 || idx === 3 ? "(max-width: 980px) 100vw, 66vw" : "(max-width: 980px) 100vw, 33vw"}
-                    loading="lazy"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    priority={idx === 0}
                   />
-                  <div className="bento-image-overlay" />
+                  <div className="showcase-overlay" />
+                  <span className="showcase-index">0{idx + 1}</span>
                 </div>
 
-                <div className="bento-card-body">
-                  <span className="bento-card-tagline">{item.tagline}</span>
-                  <h3 className="bento-card-title">{t(item.titleKey)}</h3>
-                  <p className="bento-card-desc">{t(item.descriptionKey)}</p>
+                <div className="showcase-content">
+                  <span className="showcase-tagline">{item.tagline}</span>
+                  <h3 className="showcase-title">{t(item.titleKey)}</h3>
+                  <p className="showcase-desc">{t(item.descriptionKey)}</p>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
 
           <div className="sanctuary-cta">
             <Link
               href="/experiences"
-              className="text-link"
-              style={{ color: "white", borderColor: "rgba(255,255,255,0.4)" }}
+              className="text-link showcase-btn"
             >
               {t("home.sanctuaryCta")} <span aria-hidden="true">→</span>
             </Link>
@@ -111,137 +105,154 @@ export function SanctuaryExperiences() {
       <style>{`
         .sanctuary-section {
           background: var(--espresso);
-          display: flex;
-          align-items: center;
-          padding-block: clamp(80px, 9vw, 128px);
-          border-top: 1px solid rgba(181,154,107,0.24);
-          border-bottom: 1px solid rgba(181,154,107,0.24);
+          padding-block: clamp(80px, 8vw, 120px);
+          border-top: 1px solid rgba(181, 154, 107, 0.2);
+          border-bottom: 1px solid rgba(181, 154, 107, 0.2);
+          color: white;
         }
         .sanctuary-header {
           text-align: center;
-          margin-bottom: clamp(24px, 3svh, 36px);
+          margin-bottom: clamp(48px, 6vw, 64px);
         }
         .sanctuary-eyebrow {
           display: block;
           color: var(--antique-brass);
+          font-family: var(--font-interface);
           font-size: 11px;
           font-weight: 700;
-          letter-spacing: 0.22em;
+          letter-spacing: 0.2em;
           text-transform: uppercase;
-          margin-bottom: 18px;
+          margin-bottom: 16px;
         }
         .sanctuary-title {
-          font: 500 clamp(40px, 4.4vw, 64px)/0.92 "Cormorant Garamond", serif;
-          color: white;
-          letter-spacing: -0.035em;
-          margin-bottom: 20px;
-        }
-        .sanctuary-title em {
-          font-style: italic;
+          font-family: var(--font-display);
+          font-size: clamp(34px, 4vw, 54px);
           font-weight: 400;
-          color: var(--gold);
+          line-height: 1.1;
+          color: white;
+          letter-spacing: -0.02em;
+          margin-bottom: 18px;
         }
         .sanctuary-subtitle {
-          max-width: 540px;
+          max-width: 600px;
           margin: 0 auto;
-          color: rgba(243,238,231,.7);
-          font-size: 13px;
-          line-height: 1.85;
+          color: rgba(243, 238, 231, 0.75);
+          font-family: var(--font-interface);
+          font-size: 14px;
+          line-height: 1.8;
         }
 
-        /* ASYMMETRIC BENTO GRID STYLES */
-        .bento-grid {
+        /* EDITORIAL 2x2 HORIZON SHOWCASE */
+        .editorial-showcase-grid {
           display: grid;
-          grid-template-columns: 2fr 1fr 1fr 2fr;
-          grid-template-rows: minmax(0, 1fr);
-          height: clamp(260px, 42svh, 330px);
-          gap: 24px;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 36px 32px;
+          margin-bottom: 52px;
         }
-        .bento-card {
-          position: relative;
-          overflow: hidden;
-          border-radius: var(--radius-surface, 16px);
-          border: 1px solid rgba(181,154,107,0.24);
-          background: var(--warm-carbon);
+        .showcase-card {
           display: flex;
           flex-direction: column;
-          justify-content: flex-end;
-          min-height: 0;
-          transition: border-color 0.3s, transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+          gap: 20px;
+          background: rgba(25, 21, 18, 0.4);
+          border: 1px solid rgba(181, 154, 107, 0.18);
+          border-radius: var(--radius-surface, 16px);
+          overflow: hidden;
+          transition: border-color 0.4s ease, transform 0.4s ease;
         }
-        .bento-card:hover {
-          border-color: rgba(181,154,107,0.7);
-          transform: translateY(-3px);
+        .showcase-card:hover {
+          border-color: rgba(181, 154, 107, 0.5);
+          transform: translateY(-4px);
         }
-        .bento-large {
-          grid-column: auto;
-        }
-        .bento-wide {
-          grid-column: auto;
-        }
-        .bento-card-image {
-          position: absolute;
-          inset: 0;
+        .showcase-image-wrapper {
+          position: relative;
           width: 100%;
-          height: 100%;
+          height: 280px;
+          overflow: hidden;
         }
-        .bento-card-image img {
+        .showcase-image-wrapper img {
           transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .bento-card:hover .bento-card-image img {
+        .showcase-card:hover .showcase-image-wrapper img {
           transform: scale(1.04);
         }
-        .bento-image-overlay {
+        .showcase-overlay {
           position: absolute;
           inset: 0;
-          background: linear-gradient(0deg, rgba(25,21,18,0.94) 0%, rgba(25,21,18,0.34) 60%, transparent 100%);
+          background: linear-gradient(180deg, rgba(25,21,18,0.1) 0%, rgba(25,21,18,0.5) 100%);
         }
-        .bento-card-body {
-          position: relative;
-          z-index: 2;
-          padding: 24px 28px;
+        .showcase-index {
+          position: absolute;
+          top: 16px;
+          left: 16px;
+          font-family: var(--font-interface);
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: 0.1em;
+          color: var(--warm-ivory);
+          background: rgba(25, 21, 18, 0.7);
+          padding: 4px 10px;
+          border-radius: 20px;
+          border: 1px solid rgba(181, 154, 107, 0.3);
         }
-        .bento-card-tagline {
-          display: inline-block;
-          color: var(--gold);
-          font-size: 9px;
+        .showcase-content {
+          padding: 0 24px 28px;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+        .showcase-tagline {
+          font-family: var(--font-interface);
+          font-size: 10px;
           font-weight: 700;
           letter-spacing: 0.18em;
+          color: var(--antique-brass);
           text-transform: uppercase;
-          margin-bottom: 8px;
-          background: rgba(25,21,18,0.66);
-          padding: 4px 10px;
-          border-radius: 4px;
-          backdrop-filter: blur(4px);
         }
-        .bento-card-title {
-          font: 500 clamp(24px, 3vw, 36px)/1.05 "Cormorant Garamond", serif;
+        .showcase-title {
+          font-family: var(--font-display);
+          font-size: 24px;
+          font-weight: 500;
           color: white;
-          margin-bottom: 8px;
-        }
-        .bento-card-desc {
-          color: rgba(243,238,231,.72);
-          font-size: 12px;
-          line-height: 1.75;
+          line-height: 1.25;
           margin: 0;
-          max-width: 520px;
+        }
+        .showcase-desc {
+          font-family: var(--font-interface);
+          font-size: 13px;
+          color: rgba(243, 238, 231, 0.72);
+          line-height: 1.7;
+          margin: 0;
         }
 
         .sanctuary-cta {
-          text-align: center;
-          margin-top: clamp(20px, 3svh, 32px);
+          display: flex;
+          justify-content: center;
         }
-        .sanctuary-cta .text-link:hover {
-          color: var(--antique-brass) !important;
-          border-color: var(--antique-brass) !important;
+        .showcase-btn {
+          color: var(--warm-ivory);
+          border: 1px solid rgba(181, 154, 107, 0.4);
+          padding: 12px 32px;
+          border-radius: var(--radius-control, 10px);
+          font-size: 12px;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          font-weight: 600;
+          transition: all 0.3s ease;
+        }
+        .showcase-btn:hover {
+          background: var(--antique-brass);
+          color: var(--espresso);
+          border-color: var(--antique-brass);
         }
 
-        @media (max-width: 980px) {
-          .sanctuary-section { min-height: unset; display: block; padding-block: 80px; }
-          .bento-grid { grid-template-columns: 1fr; grid-template-rows: none; height: auto; gap: 20px; }
-          .bento-large, .bento-wide { grid-column: span 1; }
-          .bento-card { min-height: 320px; }
-          .bento-card-body { padding: 24px; }
+        @media (max-width: 900px) {
+          .editorial-showcase-grid {
+            grid-template-columns: 1fr;
+            gap: 24px;
+          }
+          .showcase-image-wrapper {
+            height: 240px;
+          }
         }
       `}</style>
     </section>

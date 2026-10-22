@@ -100,7 +100,7 @@ export default async function HomePage() {
               </div>
               <h2>
                 <LocalizedText id="home.prologueTitleOne" /><br />
-                <em><LocalizedText id="home.prologueTitleTwo" /></em>
+                <span className="text-secondary-line"><LocalizedText id="home.prologueTitleTwo" /></span>
               </h2>
 
               <div className="prologue-pullquote">
@@ -163,7 +163,7 @@ export default async function HomePage() {
               </div>
               <h2>
                 <LocalizedText id="home.ledgerTitleOne" /><br />
-                <em><LocalizedText id="home.ledgerTitleTwo" /></em>
+                <span className="text-secondary-line"><LocalizedText id="home.ledgerTitleTwo" /></span>
               </h2>
               <p>
                 <LocalizedText id="home.ledgerDescription" />
@@ -250,7 +250,7 @@ export default async function HomePage() {
               </div>
               <h2>
                 <LocalizedText id="home.epilogueTitleOne" /><br />
-                <em><LocalizedText id="home.epilogueTitleTwo" /></em>
+                <span className="text-secondary-line"><LocalizedText id="home.epilogueTitleTwo" /></span>
               </h2>
               <p>
                 <LocalizedText id="home.epilogueDescription" />

@@ -95,6 +95,20 @@ img { display: block; max-width: 100%; }
   text-transform: uppercase;
 }
 
+.text-secondary-line {
+  display: inline-block;
+  font-style: normal;
+  font-weight: 400;
+  color: var(--antique-brass);
+}
+
+.hero-subline {
+  display: inline-block;
+  font-style: normal;
+  font-weight: 400;
+  color: #e3c895;
+}
+
 .text-link {
   display: inline-flex;
   min-height: 44px;

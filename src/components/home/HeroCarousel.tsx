@@ -102,7 +102,7 @@ export function HeroCarousel() {
         <div className="hero-copy">
           <div className="eyebrow" style={{ color: "#e3c895" }}>{t("home.heroEyebrow")}</div>
           <h1>
-            {t("home.heroTitleOne")}<br /><em>{t("home.heroTitleTwo")}</em>
+            {t("home.heroTitleOne")}<br /><span className="hero-subline">{t("home.heroTitleTwo")}</span>
           </h1>
           <p>
             {t("home.heroDescription")}
@@ -155,7 +155,6 @@ export function HeroCarousel() {
 
       {/* BOOKING KEY CONSOLE OVERLAY */}
       <div className="booking-key" id="booking">
-        <div className="key-number">01</div>
         <div className="booking-body">
           <form onSubmit={handleBookingSearch} className="booking-row">
             <AvailabilityPicker
@@ -415,20 +414,12 @@ export function HeroCarousel() {
           width: min(1280px, calc(100% - 64px));
           background: var(--warm-ivory);
           box-shadow: 0 24px 64px rgba(38,30,26,.28);
-          display: grid;
-          grid-template-columns: 84px 1fr;
+          display: block;
           border: 1px solid var(--line);
           border-radius: var(--radius-surface, 20px);
           overflow: hidden;
         }
-        .key-number {
-          display: grid;
-          place-items: center;
-          background: var(--antique-brass);
-          color: var(--espresso);
-          font: 600 28px "Cormorant Garamond", serif;
-        }
-        .booking-body { padding: 8px 14px; }
+        .booking-body { padding: 12px 20px; }
         .booking-row {
           display: grid;
           grid-template-columns: 1.1fr 1.1fr 1fr .75fr;
