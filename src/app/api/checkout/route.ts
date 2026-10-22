@@ -2,19 +2,13 @@ import type { NextRequest } from "next/server";
 import { auth } from "@/auth";
 import { jsonApiError, toApiErrorResponse } from "@/lib/api-error";
 import { bookingCheckoutSchema } from "@/lib/validation";
-import { requireUser } from "@/server/auth/guards";
+import { db } from "@/lib/db";
 import { processCheckout } from "@/services/checkout.service";
 
 export const dynamic = "force-dynamic";
 
 export async function POST(request: NextRequest) {
   try {
-    const user = await requireUser(await auth());
-    const email = (user as { email?: string }).email;
-    if (!email) {
-      return jsonApiError(request, 401, "UNAUTHORIZED", "Sign in to checkout");
-    }
-
     let body: unknown;
     try {
       body = await request.json();
@@ -33,9 +27,45 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Resolve user: Use active session or auto-upsert guest account
+    const session = await auth();
+    let checkoutUser: { id: string; email: string };
+
+    if (session?.user?.id && session?.user?.email) {
+      checkoutUser = { id: session.user.id, email: session.user.email };
+    } else {
+      const guestEmail = parsed.data.guestEmail.trim().toLowerCase();
+      let user = await db.user.findUnique({
+        where: { email: guestEmail },
+      });
+
+      if (!user) {
+        let role = await db.role.findFirst({
+          where: { type: { in: ["CUSTOMER", "GUEST"] } },
+        });
+        if (!role) {
+          role = await db.role.create({
+            data: { name: "Customer", type: "CUSTOMER" },
+          });
+        }
+
+        user = await db.user.create({
+          data: {
+            email: guestEmail,
+            name: parsed.data.guestName.trim(),
+            phone: parsed.data.guestPhone.trim(),
+            roleId: role.id,
+            password: null, // Unregistered guest account
+          },
+        });
+      }
+
+      checkoutUser = { id: user.id, email: user.email };
+    }
+
     const result = await processCheckout(
       parsed.data,
-      { id: user.id, email },
+      checkoutUser,
       request.headers.get("idempotency-key"),
     );
 

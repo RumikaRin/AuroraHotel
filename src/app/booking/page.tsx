@@ -176,8 +176,7 @@ function BookingContent() {
       });
       const json = await response.json();
       if (response.status === 401) {
-        router.push(`/login?callbackUrl=${encodeURIComponent(window.location.pathname + window.location.search)}`);
-        return;
+        throw new Error(json.error?.message || json.message || t("booking.checkoutFailed"));
       }
       if (!response.ok) throw new Error(json.error?.message || json.message || t("booking.checkoutFailed"));
 
