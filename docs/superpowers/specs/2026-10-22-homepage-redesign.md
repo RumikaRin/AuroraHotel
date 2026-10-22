@@ -24,18 +24,18 @@ The Aurora Hotel digital flagship is being redesigned from a standard hospitalit
 ### 2.1 Color Tokens (OKLCH / CSS Custom Properties)
 All colors are centrally declared on `:root` and adapt dynamically to the dual atmosphere modes (`dusk` as default, `dawn` for daytime):
 
-| Token Name | Dusk Mode (Default) | Dawn Mode | Semantic Usage |
+| Token Name | Dusk Mode (Default - High Contrast) | Dawn Mode | Semantic Usage |
 | :--- | :--- | :--- | :--- |
-| `--bg-surface` | `#14100E` (Warm Carbon) | `#FBF8F2` (Warm Ivory) | Base background canvas |
-| `--bg-surface-deep`| `#0D0A08` | `#EDE4D8` | Deep footers & blueprint maps |
-| `--bg-surface-card`| `#100C0A` | `#F4ECE1` | Card backgrounds |
-| `--bg-canvas` | `#1B1613` | `#F2EBE1` | Alternating section contrast |
-| `--text-primary` | `#FBF7F0` (Ivory) | `#211915` (Deep Espresso) | Primary headings & emphasis |
-| `--text-secondary`| `#9E9187` | `#7A6E64` | Body descriptions & captions |
-| `--text-muted` | `#6A6058` | `#A3978C` | Microcopy & metadata |
-| `--accent-brass` | `#C4AA7B` (Antique Brass) | `#9B7E4F` | Accents, borders, badges |
-| `--brass-hairline`| `rgba(196,170,123,0.28)`| `rgba(155,126,79,0.28)`| 1px hairline dividers |
-| `--brass-glow` | `rgba(196,170,123,0.12)`| `rgba(155,126,79,0.08)`| Subtle ambient glows |
+| `--bg-surface` | `#110E0C` (Obsidian Carbon) | `#FBF8F2` (Warm Ivory) | Base background canvas |
+| `--bg-surface-deep`| `#0A0807` (Deep Obsidian) | `#EDE4D8` | Deep footers & map wrappers |
+| `--bg-surface-card`| `#1C1613` (Elevated Charcoal) | `#F4ECE1` | Card & modal backgrounds |
+| `--bg-canvas` | `#181310` | `#F2EBE1` | Alternating section contrast |
+| `--text-primary` | `#FFFFFF` (Pure White, 16.5:1) | `#211915` (Deep Espresso) | Headings, titles & key values |
+| `--text-secondary`| `#D4CBC2` (Light Sand, 8.5:1) | `#5A4E44` | Body descriptions & paragraphs |
+| `--text-muted` | `#A89C90` (Muted Warm Stone, 5.5:1) | `#7A6E64` | Microcopy, labels & coordinates |
+| `--accent-brass` | `#E2C799` (Luminous Champagne Brass) | `#8E6D38` | Accents, active tabs, buttons |
+| `--brass-hairline`| `rgba(226,199,153,0.32)` | `rgba(142,109,56,0.30)`| 1px hairline dividers |
+| `--brass-glow` | `rgba(226,199,153,0.16)` | `rgba(142,109,56,0.12)`| Subtle ambient glows |
 
 ### 2.2 Typography Hierarchy
 - **Display Serif:** `Cormorant Garamond` (300 light, 400 regular, 500 medium). Tight leading (`1.05–1.12`), letter-spacing `0.02em–0.06em`. All headings maintain roman upright posture (`font-style: normal` per Gate 38a).
@@ -59,14 +59,15 @@ All colors are centrally declared on `:root` and adapt dynamically to the dual a
 - **Typography Scrub:** High-impact editorial statement ("Chúng tôi không đơn thuần xây dựng một khách sạn...") where words scrub from `opacity: 0.18` to `opacity: 1.0` as the viewport reaches 75% scroll threshold.
 - **Honest Copywriting:** Strictly localized narrative regarding Sơn Trà Peninsula conservation without fabricated metrics.
 
-### Chapter 3: Interactive Spatial Masterplan
-- **Blueprint Vector Grid:** Vector grid background with styled peninsula outline.
-- **4 Interactive Hotspot Nodes:**
-  1. *01 · Vách đá Sơn Trà* (Cliffside Sanctuary Reserve)
-  2. *02 · Bờ cát riêng* (Presidential Beachfront Villa)
-  3. *03 · Thung lũng Spa* (Botanical Spa Pavilion)
-  4. *04 · Bến du thuyền* (Aurora Yacht Marina)
-- **Dynamic Content Transition:** Clicking any node smoothly transitions the zone card details (tag, title, description, square meters, exclusive perks, and preview photo) via GSAP crossfade.
+### Chapter 3: Interactive Spatial Masterplan (Google Maps Geographic Explorer)
+- **Authentic Geographic Context:** Replaces abstract vector blueprint shapes with an authentic Google Maps satellite/terrain embed of Bán Đảo Sơn Trà, Đà Nẵng.
+- **Dual Map Modes:** Satellite imagery mode (`t=k`) and Standard vector/terrain mode (`t=m`), plus direct external map link.
+- **4 Geographic Hotspots & Exact Coordinates:**
+  1. *01 · Vách đá Sơn Trà* (`16.1200, 108.2850` · Cliffside Sanctuary Reserve, alt: 45m)
+  2. *02 · Bờ cát riêng* (`16.1020, 108.2630` · Presidential Beachfront Villa / Bãi Bụt)
+  3. *03 · Thung lũng Spa* (`16.1080, 108.2700` · Botanical Spa Pavilion & Jungle Springs)
+  4. *04 · Bến du thuyền* (`16.0965, 108.2540` · Aurora Marina & Catamaran Fleet)
+- **Dynamic Content Transition:** Clicking any zone selector pill smoothly re-centers the Google Map iframe and crossfades the zone card details (tag, title, description, square meters, exclusive perks, and preview photo) via GSAP crossfade.
 
 ### Chapter 4: Kinetic Accordion Suites Showcase
 - **Layout:** 4 expansive vertical panels displaying the resort collection.
