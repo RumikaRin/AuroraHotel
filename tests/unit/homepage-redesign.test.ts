@@ -43,3 +43,18 @@ describe("EditorialHeader Component", () => {
     assert.doesNotMatch(file, /onClick=\{\(\)\s*=>\s*\{\}\}/, "Empty onClick handler forbidden");
   });
 });
+
+describe("EditorialHero Component", () => {
+  it("renders pure editorial headline and 4-column booking ribbon without inline pill breaks", async () => {
+    const file = await readFile("src/components/home/EditorialHero.tsx", "utf8");
+    assert.match(file, /KHU NGHỈ DƯỠNG BIỆT LẬP · BÁN ĐẢO SƠN TRÀ, ĐÀ NẴNG/);
+    assert.match(file, /Thành phố ở gần\./);
+    assert.match(file, /Kỳ nghỉ ở rất xa\./);
+    assert.match(file, /booking-ribbon-bar/, "Booking ribbon container missing");
+    assert.match(file, /NHẬN PHÒNG/);
+    assert.match(file, /TRẢ PHÒNG/);
+    assert.match(file, /SỐ KHÁCH/);
+    assert.doesNotMatch(file, /pill-badge/, "Inline pill badges forbidden per editorial standard");
+    assert.doesNotMatch(file, /href="#"/, "Dead link violation forbidden");
+  });
+});
