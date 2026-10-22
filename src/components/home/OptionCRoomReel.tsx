@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useState, useRef } from "react";
 import { useLanguage } from "@/components/i18n/LanguageProvider";
@@ -96,8 +97,16 @@ export function OptionCRoomReel({ rooms }: OptionCRoomReelProps) {
           <div
             key={i}
             className={`reel-bg-item ${i === index ? "active" : ""}`}
-            style={{ backgroundImage: `url('${reelImages[i % reelImages.length]}')` }}
-          />
+          >
+            <Image
+              src={reelImages[i % reelImages.length]}
+              alt=""
+              fill
+              className="object-cover"
+              sizes="100vw"
+              priority={i === 0}
+            />
+          </div>
         ))}
       </div>
 
@@ -105,8 +114,8 @@ export function OptionCRoomReel({ rooms }: OptionCRoomReelProps) {
 
       <div className="wrap reel-content-wrap">
         <div className="reel-head">
-          <div className="chapter-mark" style={{ color: "var(--antique-brass)", marginBottom: 0 }}>
-            <span className="eyebrow" style={{ color: "var(--antique-brass)" }}>
+          <div className="chapter-mark reel-chapter-mark">
+            <span className="eyebrow reel-eyebrow">
               The Stay Collection
             </span>
           </div>
@@ -116,7 +125,7 @@ export function OptionCRoomReel({ rooms }: OptionCRoomReelProps) {
         </div>
 
         <div className="reel-middle-copy">
-          <div className="eyebrow" style={{ color: "var(--gold)" }}>
+          <div className="eyebrow reel-stay-eyebrow">
             {current?.type || t("home.reelFallback")}
           </div>
           <h2>{current?.name}</h2>
@@ -202,204 +211,6 @@ export function OptionCRoomReel({ rooms }: OptionCRoomReelProps) {
           ↓
         </button>
       </nav>
-
-      <style>{`
-        .stay-reel-full {
-          position: relative;
-          width: 100%;
-          min-height: max(100svh, 720px);
-          color: #fff;
-          overflow: hidden;
-          background: var(--warm-carbon);
-          outline: none;
-        }
-        .stay-reel-full:focus-visible {
-          outline: 2px solid var(--gold);
-          outline-offset: -4px;
-        }
-        .reel-bgs { position: absolute; inset: 0; width: 100%; height: 100%; }
-        .reel-bg-item {
-          position: absolute; inset: 0; width: 100%; height: 100%;
-          opacity: 0;
-          transition: opacity 1s cubic-bezier(.66,0,.26,1);
-          background-size: cover;
-          background-position: center;
-        }
-        .reel-bg-item.active { opacity: 1; }
-        .reel-gradient-overlay {
-          position: absolute; inset: 0; z-index: 2;
-          background: linear-gradient(90deg, rgba(25,21,18,0.9) 0%, rgba(25,21,18,0.25) 65%, rgba(25,21,18,0.65) 100%),
-                      linear-gradient(0deg, rgba(25,21,18,0.8) 0%, transparent 45%);
-        }
-        .reel-content-wrap {
-          position: relative;
-          z-index: 3;
-          min-height: max(100svh, 720px);
-          padding-block: 96px 48px;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-        }
-        .reel-head {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding-bottom: 20px;
-          border-bottom: 1px solid rgba(255,255,255,0.18);
-        }
-        .reel-head-count {
-          font: 500 36px "Cormorant Garamond", serif;
-          color: white;
-        }
-        .reel-middle-copy {
-          max-width: 760px;
-          padding-block: 20px;
-        }
-        .reel-middle-copy h2 {
-          font: 500 clamp(56px, 7vw, 98px)/0.84 "Cormorant Garamond", serif;
-          letter-spacing: -0.045em;
-          margin: 16px 0 20px;
-          color: white;
-        }
-        .reel-middle-copy p {
-          max-width: 480px;
-          color: rgba(255,255,255,0.82);
-          font-size: 13px;
-          line-height: 1.85;
-        }
-        .reel-room-list {
-          position: absolute;
-          right: 0;
-          top: 50%;
-          width: min(300px, 28vw);
-          transform: translateY(-50%);
-          display: grid;
-          gap: 8px;
-        }
-        .reel-room-list button {
-          display: grid;
-          grid-template-columns: 28px 1fr;
-          gap: 2px 12px;
-          padding: 14px 16px;
-          border: 1px solid transparent;
-          border-radius: 8px;
-          background: rgba(25,21,18,0.26);
-          color: rgba(255,255,255,0.68);
-          text-align: left;
-          transition: background .25s var(--ease), border-color .25s var(--ease), color .25s var(--ease), transform .25s var(--ease);
-        }
-        .reel-room-list button:hover,
-        .reel-room-list button.active {
-          border-color: rgba(181,154,107,.7);
-          background: rgba(38,30,26,.78);
-          color: var(--warm-ivory);
-          transform: translateX(-4px);
-        }
-        .reel-room-list button > span {
-          color: var(--antique-brass);
-          font: 500 18px/1 var(--font-display);
-        }
-        .reel-room-list strong { font: 600 15px/1.1 var(--font-display); }
-        .reel-room-list small { color: rgba(255,255,255,.55); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
-        .reel-room-list button.active small { color: rgba(243,238,231,.68); }
-        .reel-bottom-bar {
-          display: grid;
-          grid-template-columns: 1fr auto;
-          align-items: flex-end;
-          gap: 40px;
-          padding-top: 24px;
-          border-top: 1px solid rgba(255,255,255,0.18);
-        }
-        .reel-facts-row { display: flex; gap: 48px; }
-        .reel-fact-item small {
-          display: block; color: rgba(243,238,231,.62); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700;
-        }
-        .reel-fact-item strong { display: block; margin-top: 6px; font-size: 12px; font-weight: 600; color: white; }
-        .reel-action-group { display: flex; align-items: center; gap: 32px; }
-        .reel-price-tag { text-align: right; }
-        .reel-price-tag small { display: block; color: rgba(243,238,231,.62); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; }
-        .reel-price-tag strong { display: block; color: var(--antique-brass); font-size: 24px; font-weight: 600; margin-top: 2px; }
-        .btn-reel-cta {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          min-height: 48px;
-          padding: 14px 28px;
-          border-radius: var(--radius-control, 10px);
-          background: var(--warm-ivory);
-          color: var(--espresso);
-          font-size: 11px;
-          font-weight: 700;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-          transition: background 0.2s, transform 0.2s;
-        }
-        .btn-reel-cta:hover { background: var(--antique-brass); color: var(--espresso); transform: translateY(-2px); }
-
-        .reel-side-nav {
-          position: absolute;
-          right: 48px;
-          top: 50%;
-          transform: translateY(-50%);
-          z-index: 5;
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
-          align-items: center;
-        }
-        .reel-nav-arrow {
-          width: 44px; height: 44px;
-          border-radius: 50%;
-          border: 1px solid rgba(255,255,255,0.4);
-          background: rgba(25,21,18,0.62);
-          color: white;
-          font-size: 14px;
-          display: grid; place-items: center;
-          transition: background 0.2s, border-color 0.2s;
-        }
-        .reel-nav-arrow:hover { background: var(--warm-ivory); color: var(--espresso); border-color: var(--warm-ivory); }
-        .reel-nav-indicators { display: flex; flex-direction: column; gap: 4px; margin-block: 8px; }
-        .reel-indicator {
-          position: relative;
-          width: 44px; height: 44px;
-          padding: 0;
-          border: 0;
-          background: transparent;
-          display: grid;
-          place-items: center;
-          cursor: pointer;
-        }
-        .reel-indicator::after {
-          content: "";
-          display: block;
-          width: 6px;
-          height: 28px;
-          background: rgba(255,255,255,0.3);
-          transition: background 0.3s, height 0.3s;
-          border-radius: 3px;
-        }
-        .reel-indicator.active::after { background: var(--antique-brass); height: 38px; } 56px; }
-
-        @media (max-width: 980px) {
-          .reel-content-wrap { padding-block: 40px 32px; min-height: max(100svh, 700px); }
-          .reel-room-list { position: static; width: 100%; transform: none; display: flex; overflow-x: auto; padding-block: 8px 4px; scrollbar-width: none; }
-          .reel-room-list::-webkit-scrollbar { display: none; }
-          .reel-room-list button { min-width: 220px; }
-          .reel-side-nav { display: none; }
-          .reel-bottom-bar { grid-template-columns: 1fr; }
-        }
-
-        @media (max-width: 620px) {
-          .reel-bg-item { background-position: 62% center; }
-          .reel-content-wrap { padding-block: 28px 24px; }
-          .reel-middle-copy { padding-block: 12px; }
-          .reel-middle-copy h2 { font-size: clamp(48px, 16vw, 72px); }
-          .reel-facts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 20px; }
-          .reel-action-group { align-items: flex-start; flex-direction: column; gap: 14px; }
-          .reel-price-tag { text-align: left; }
-          .btn-reel-cta { width: 100%; justify-content: center; }
-        }
-      `}</style>
     </section>
   );
 }

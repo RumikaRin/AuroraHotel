@@ -80,7 +80,7 @@ export function HeroCarousel() {
       {/* Slide images — horizontal slide track */}
       <div
         className="hero-track"
-        style={{ transform: `translate3d(-${index * 33.3333}%, 0, 0)` }}
+        data-active-index={index}
       >
         {slides.map((slide, i) => (
           <figure key={i} className="hero-slide">
@@ -90,7 +90,7 @@ export function HeroCarousel() {
               fill
               priority={i === 0}
               quality={92}
-              style={{ objectFit: "cover" }}
+              className="object-cover"
               sizes="100vw"
             />
           </figure>
@@ -100,7 +100,7 @@ export function HeroCarousel() {
       {/* Content overlay */}
       <div className="hero-layout wrap">
         <div className="hero-copy">
-          <div className="eyebrow" style={{ color: "#e3c895" }}>{t("home.heroEyebrow")}</div>
+          <div className="eyebrow hero-eyebrow">{t("home.heroEyebrow")}</div>
           <h1>
             {t("home.heroTitleOne")}<br /><span className="hero-subline">{t("home.heroTitleTwo")}</span>
           </h1>
@@ -171,12 +171,9 @@ export function HeroCarousel() {
           </form>
           {notice && (
             <div
-              className="booking-notice"
+              className={`booking-notice ${noticeType === "success" ? "is-success" : "is-error"}`}
               role="alert"
               aria-live="polite"
-              style={{
-                color: noticeType === "success" ? "var(--leaf)" : "#B84A4A",
-              }}
             >
               {notice}
             </div>
@@ -187,329 +184,6 @@ export function HeroCarousel() {
           </div>
         </div>
       </div>
-
-      <style>{`
-        .hero {
-          position: relative;
-          min-height: max(100svh, 720px);
-          overflow: hidden;
-          background: var(--warm-carbon);
-          color: white;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-        }
-        .hero-track {
-          position: absolute;
-          inset: 0;
-          display: flex;
-          width: 300%;
-          height: 100%;
-          transition: transform 1.25s cubic-bezier(.66,0,.26,1);
-        }
-        .hero-slide {
-          position: relative;
-          width: 33.3333%;
-          flex: 0 0 33.3333%;
-          margin: 0;
-        }
-        .hero-slide::after {
-          content: "";
-          position: absolute;
-          inset: 0;
-          background:
-            linear-gradient(90deg, rgba(25,21,18,.72) 0%, rgba(25,21,18,.18) 68%),
-            linear-gradient(0deg, rgba(25,21,18,.78) 0%, transparent 48%);
-          z-index: 1;
-        }
-        .hero-layout {
-          position: relative;
-          z-index: 3;
-          flex: 1;
-          display: grid;
-          grid-template-columns: 1.35fr .65fr;
-          align-items: end;
-          padding-top: 110px;
-          padding-bottom: 210px;
-        }
-        .hero-copy { max-width: 880px; }
-        .hero-copy h1 {
-          font: 500 clamp(44px, 5.5vw, 88px)/.9 "Cormorant Garamond", serif;
-          letter-spacing: -.035em;
-          margin: 18px 0 20px;
-        }
-        .hero-copy h1 em {
-          font-weight: 400;
-          font-style: italic;
-          color: var(--gold-light);
-        }
-        .hero-copy p {
-          max-width: 480px;
-          margin: 0;
-          color: rgba(255,255,255,.8);
-          font-size: 13px;
-          line-height: 1.8;
-        }
-        .hero-ui {
-          justify-self: end;
-          align-self: end;
-          width: 290px;
-          margin-bottom: 1vh;
-        }
-        .hero-counter {
-          display: flex;
-          justify-content: space-between;
-          align-items: end;
-          margin-bottom: 16px;
-        }
-        .hero-counter strong {
-          font: 500 44px/1 "Cormorant Garamond", serif;
-        }
-        .hero-counter span {
-          color: #d8ded9;
-          font-size: 9px;
-          letter-spacing: .15em;
-          text-transform: uppercase;
-        }
-        .hero-progress {
-          display: flex;
-          height: 1px;
-          background: rgba(255,255,255,.32);
-        }
-        .hero-progress button {
-          position: relative;
-          flex: 1;
-          height: 18px;
-          margin-top: -8px;
-          padding: 0;
-          border: 0;
-          background: transparent;
-        }
-        .hero-progress button::after {
-          content: "";
-          position: absolute;
-          left: 0; right: 0; top: 8px;
-          height: 1px;
-          background: transparent;
-        }
-        .hero-progress button.active::after {
-          z-index: 1;
-        }
-        .hero-layout {
-          position: relative;
-          z-index: 3;
-          flex: 1;
-          display: grid;
-          grid-template-columns: 1.35fr .65fr;
-          align-items: end;
-          padding-top: 110px;
-          padding-bottom: 210px;
-        }
-        .hero-copy { max-width: 880px; }
-        .hero-copy h1 {
-          font: 500 clamp(44px, 5.5vw, 88px)/.9 "Cormorant Garamond", serif;
-          letter-spacing: -.035em;
-          margin: 18px 0 20px;
-        }
-        .hero-copy h1 em {
-          font-weight: 400;
-          font-style: italic;
-          color: var(--gold-light);
-        }
-        .hero-copy p {
-          max-width: 480px;
-          margin: 0;
-          color: rgba(255,255,255,.8);
-          font-size: 13px;
-          line-height: 1.8;
-        }
-        .hero-ui {
-          justify-self: end;
-          align-self: end;
-          width: 290px;
-          margin-bottom: 1vh;
-        }
-        .hero-counter {
-          display: flex;
-          justify-content: space-between;
-          align-items: end;
-          margin-bottom: 16px;
-        }
-        .hero-counter strong {
-          font: 500 44px/1 "Cormorant Garamond", serif;
-        }
-        .hero-counter span {
-          color: #d8ded9;
-          font-size: 10px;
-          letter-spacing: .15em;
-          text-transform: uppercase;
-        }
-        .hero-progress {
-          display: flex;
-          height: 1px;
-          background: rgba(255,255,255,.32);
-        }
-        .hero-progress button {
-          position: relative;
-          flex: 1;
-          height: 44px;
-          margin-top: -21px;
-          padding: 0;
-          border: 0;
-          background: transparent;
-          cursor: pointer;
-        }
-        .hero-progress button::after {
-          content: "";
-          position: absolute;
-          left: 0; right: 0; top: 21px;
-          height: 1px;
-          background: transparent;
-        }
-        .hero-progress button.active::after {
-          height: 2px;
-          background: var(--antique-brass);
-        }
-        .hero-controls {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-top: 17px;
-        }
-        .arrow-group { display: flex; gap: 10px; }
-        .circle-button {
-          width: 44px;
-          height: 44px;
-          min-width: 44px;
-          min-height: 44px;
-          border: 1px solid rgba(255,255,255,.4);
-          border-radius: 50%;
-          background: transparent;
-          color: white;
-          display: grid;
-          place-items: center;
-          transition: background .2s, color .2s;
-        }
-        .circle-button:hover {
-          background: var(--warm-ivory);
-          color: var(--espresso);
-        }
-        .pause-button {
-          border: 0;
-          background: transparent;
-          color: white;
-          font-size: 10px;
-          letter-spacing: .12em;
-          text-transform: uppercase;
-        }
-        .pause-button:hover { color: var(--gold); }
-
-        /* Booking Key Console */
-        .booking-key {
-          position: absolute;
-          bottom: 28px;
-          left: 50%;
-          transform: translateX(-50%);
-          z-index: 6;
-          width: min(1280px, calc(100% - 64px));
-          background: var(--warm-ivory);
-          box-shadow: 0 24px 64px rgba(38,30,26,.28);
-          display: block;
-          border: 1px solid var(--line);
-          border-radius: var(--radius-surface, 20px);
-          overflow: hidden;
-        }
-        .booking-body { padding: 12px 20px; }
-        .booking-row {
-          display: grid;
-          grid-template-columns: 1.1fr 1.1fr 1fr .75fr;
-          align-items: center;
-          position: relative;
-        }
-        .field {
-          padding: 10px 20px;
-          border-right: 1px solid var(--line);
-        }
-        .field small {
-          display: block;
-          color: var(--walnut);
-          font-size: 11px;
-          text-transform: uppercase;
-          letter-spacing: .12em;
-          font-weight: 700;
-        }
-        .booking-row .booking-submit {
-          border: 0;
-          background: var(--espresso);
-          color: var(--warm-ivory);
-          font-size: 11px;
-          letter-spacing: .13em;
-          text-transform: uppercase;
-          font-weight: 700;
-          min-height: 48px;
-          border-radius: var(--radius-control, 10px);
-          cursor: pointer;
-          transition: background 220ms cubic-bezier(.22,.8,.22,1), transform 220ms cubic-bezier(.22,.8,.22,1);
-        }
-        .booking-row .booking-submit:hover { background: var(--walnut); transform: translateY(-1px); }
-        .booking-row .booking-submit:focus-visible { outline: 2px solid var(--antique-brass); outline-offset: 3px; }
-        .booking-note {
-          padding: 6px 18px 2px;
-          color: var(--walnut);
-          font-size: 11px;
-          display: flex;
-          gap: 24px;
-        }
-        .booking-note span b { color: var(--success); font-weight: 600; }
-        .booking-notice {
-          padding: 6px 18px 0;
-          font-size: 12px;
-          font-weight: 600;
-        }
-        .booking-row .booking-submit:disabled {
-          opacity: 0.6;
-          cursor: wait;
-          transform: none;
-        }
-
-        @media (max-width: 980px) {
-          .hero-layout { grid-template-columns: 1fr; }
-          .hero-ui { display: none; }
-          .booking-key {
-            position: relative;
-            bottom: auto;
-            left: auto;
-            transform: none;
-            margin: -44px auto 0;
-          }
-          .booking-row { grid-template-columns: 1fr 1fr; }
-        }
-
-        @media (max-width: 620px) {
-          .booking-key {
-            width: min(100% - 28px, 440px);
-            grid-template-columns: 1fr;
-            border-radius: 20px 20px 0 0;
-            box-shadow: 0 -2px 22px rgba(38,30,26,.16), 0 20px 48px rgba(38,30,26,.22);
-          }
-          .key-number { display: none; }
-          .booking-body { padding: 8px 10px 9px; }
-          .booking-row { grid-template-columns: 1fr 1fr; }
-          .field { min-width: 0; padding: 7px 10px 9px; border-bottom: 1px solid var(--line); }
-          .field:nth-child(1) { border-right: 1px solid var(--line); }
-          .field:nth-child(2) { border-right: 0; }
-          .field:nth-child(3) { border-bottom: 0; border-right: 1px solid var(--line); }
-          .booking-row .booking-submit {
-            min-height: 54px;
-            margin: 6px 0 0 6px;
-            padding: 9px 8px;
-            border-radius: 10px;
-            line-height: 1.35;
-          }
-          .booking-note { padding: 8px 4px 1px; flex-direction: column; gap: 4px; font-size: 10px; }
-          .booking-notice { padding: 7px 4px 0; }
-        }
-      `}</style>
     </section>
   );
 }

@@ -74,7 +74,7 @@ export default async function HomePage() {
   }
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+    <div className="page-shell">
       <a className="skip-link" href="#main-content"><LocalizedText id="home.skip" /></a>
       <Header />
 
@@ -121,7 +121,7 @@ export default async function HomePage() {
                   src="/images/prologue-architecture.png"
                   alt="Aurora resort architecture"
                   fill
-                  style={{ objectFit: "cover" }}
+                  className="object-cover"
                   sizes="40vw"
                 />
               </div>
@@ -130,7 +130,7 @@ export default async function HomePage() {
                   src="/images/prologue-detail.png"
                   alt="Aurora spa and resort retreat"
                   fill
-                  style={{ objectFit: "cover" }}
+                  className="object-cover"
                   sizes="30vw"
                 />
                 <div className="mosaic-caption">
@@ -159,7 +159,7 @@ export default async function HomePage() {
           <div className="wrap ledger-grid">
             <div className="ledger-copy">
               <div className="chapter-mark">
-                <span className="eyebrow" style={{ color: "var(--antique-brass)" }}><LocalizedText id="home.ledgerMark" /></span>
+                <span className="eyebrow ledger-eyebrow"><LocalizedText id="home.ledgerMark" /></span>
               </div>
               <h2>
                 <LocalizedText id="home.ledgerTitleOne" /><br />
@@ -223,14 +223,7 @@ export default async function HomePage() {
                 <span><LocalizedText id="home.ledgerTax" /></span>
                 <Link
                   href="/rooms"
-                  style={{
-                    color: "white",
-                    textDecoration: "underline",
-                    minHeight: 44,
-                    minWidth: 44,
-                    display: "inline-flex",
-                    alignItems: "center",
-                  }}
+                  className="ledger-details-link"
                 >
                   <LocalizedText id="home.ledgerDetails" />
                 </Link>
@@ -259,7 +252,7 @@ export default async function HomePage() {
                 <Link href="/rooms" className="text-link">
                   <LocalizedText id="home.epilogueBook" /> <span aria-hidden="true">→</span>
                 </Link>
-                <Link href="/rooms" className="text-link" style={{ borderColor: "var(--line)", color: "var(--walnut)" }}>
+                <Link href="/rooms" className="text-link epilogue-secondary-link">
                   <LocalizedText id="home.epilogueRooms" /> <span aria-hidden="true">→</span>
                 </Link>
               </div>
@@ -270,7 +263,7 @@ export default async function HomePage() {
                 src="/images/epilogue-resort.png"
                 alt="An Aurora stay"
                 fill
-                style={{ objectFit: "cover" }}
+                className="object-cover"
                 sizes="40vw"
               />
               <div className="epilogue-badge">
@@ -282,219 +275,6 @@ export default async function HomePage() {
       </main>
 
       <Footer />
-
-      <style>{`
-        /* Editorial section rhythm with natural vertical scrolling */
-        .prologue-section,
-        .ledger-section,
-        .epilogue-section {
-          padding-block: clamp(80px, 9vw, 128px);
-        }
-
-        /* Prologue styles */
-        .prologue-section {
-          background: var(--linen);
-          border-top: 1px solid var(--line);
-          border-bottom: 1px solid var(--line);
-          display: flex;
-          align-items: center;
-        }
-        .prologue-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 64px;
-          align-items: center;
-        }
-        .chapter-mark {
-          display: flex; gap: 16px; align-items: baseline; color: var(--clay); margin-bottom: 24px;
-        }
-        .chapter-mark strong { font: 500 44px/1 "Cormorant Garamond", serif; }
-        .chapter-mark span { font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--walnut); }
-
-        .prologue-copy h2 {
-          font: 400 clamp(44px, 5.5vw, 76px)/0.92 "Cormorant Garamond", serif;
-          letter-spacing: -0.035em;
-          color: var(--espresso);
-          margin-bottom: 28px;
-        }
-        .prologue-copy h2 em { color: var(--clay); font-style: italic; }
-
-        .prologue-pullquote {
-          font: 400 20px/1.5 "Cormorant Garamond", serif;
-          font-style: italic;
-          color: var(--espresso);
-          padding-block: 10px;
-          border-top: 1px solid var(--line);
-          border-bottom: 1px solid var(--line);
-          margin-bottom: 28px;
-        }
-        .prologue-copy p {
-          color: var(--walnut);
-          font-size: 13px;
-          line-height: 1.85;
-          margin-bottom: 32px;
-          max-width: 480px;
-        }
-
-        .photo-mosaic {
-          position: relative;
-          display: grid;
-          grid-template-columns: 1fr 0.8fr;
-          gap: 20px;
-          align-items: center;
-        }
-        .mosaic-main {
-          position: relative;
-          height: 520px;
-          overflow: hidden;
-          border-radius: var(--radius-surface, 20px);
-        }
-        .mosaic-sub {
-          position: relative;
-          height: 400px;
-          overflow: hidden;
-          border-radius: var(--radius-surface, 20px);
-          margin-top: 60px;
-          border: 1px solid var(--line);
-        }
-        .mosaic-caption {
-          position: absolute;
-          bottom: 16px; left: 16px; right: 16px;
-          background: rgba(251,248,242,0.94);
-          backdrop-filter: blur(8px);
-          padding: 12px 18px;
-          font-size: 11px;
-          color: var(--espresso);
-          border-radius: var(--radius-control, 10px);
-          display: flex; justify-content: space-between;
-        }
-
-        /* Ledger styles */
-        .ledger-section {
-          background: var(--warm-carbon);
-          color: white;
-          display: flex;
-          align-items: center;
-        }
-        .ledger-grid {
-          display: grid;
-          grid-template-columns: 0.75fr 1.25fr;
-          gap: 80px;
-          align-items: center;
-        }
-        .ledger-copy .chapter-mark { color: var(--gold-light); }
-        .ledger-copy .chapter-mark span { color: #f1c97f; font-weight: 600; }
-        .ledger-copy h2 {
-          font: 500 clamp(48px, 6vw, 84px)/0.88 "Cormorant Garamond", serif;
-          color: white;
-          margin: 18px 0 28px;
-          letter-spacing: -0.04em;
-        }
-        .ledger-copy h2 em { color: var(--gold); font-style: italic; }
-        .ledger-copy p {
-          color: rgba(243,238,231,.7);
-          font-size: 13px;
-          line-height: 1.85;
-          margin-bottom: 32px;
-        }
-        .ledger-copy .text-link {
-          color: white; border-color: rgba(255,255,255,0.4);
-        }
-        .ledger-copy .text-link:hover { color: var(--gold); border-color: var(--gold); }
-
-        .hairline-ledger-table {
-          border-top: 1px solid rgba(243,238,231,.18);
-          border-bottom: 1px solid rgba(243,238,231,.18);
-        }
-        .ledger-table-header {
-          display: flex; justify-content: space-between; align-items: flex-end;
-          padding-block: 20px 16px; border-bottom: 1px solid rgba(243,238,231,.18);
-        }
-        .ledger-table-header h3 { font: 500 32px/1 "Cormorant Garamond", serif; margin: 0; color: white; }
-        .ledger-table-header span { font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(243,238,231,.58); }
-
-        .ledger-table-row {
-          display: grid; grid-template-columns: 1fr auto; gap: 32px;
-          padding-block: 28px; border-bottom: 1px solid rgba(243,238,231,.18);
-        }
-        .rate-desc strong { display: block; color: white; font-size: 14px; font-weight: 600; }
-        .rate-desc span { display: block; margin-top: 6px; color: rgba(243,238,231,.68); font-size: 11px; line-height: 1.6; }
-        .rate-cost { text-align: right; }
-        .rate-cost strong { display: block; color: var(--gold); font-size: 18px; font-weight: 600; }
-        .btn-table-rate {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          min-height: 44px;
-          min-width: 44px;
-          margin-top: 8px; padding: 10px 18px; border: 0; border-radius: 6px;
-          background: var(--antique-brass); color: var(--espresso); font-size: 9px; font-weight: 700;
-          letter-spacing: 0.12em; text-transform: uppercase; transition: background 0.2s, transform 0.2s;
-        }
-        .btn-table-rate:hover { background: var(--warm-ivory); transform: translateY(-1px); }
-
-        .ledger-footer-note {
-          display: flex; justify-content: space-between; padding-top: 18px;
-          font-size: 10px; color: rgba(243,238,231,.58);
-        }
-
-        /* Epilogue styles */
-        .epilogue-section {
-          background: var(--warm-ivory);
-          border-top: 1px solid var(--line);
-          display: flex;
-          align-items: center;
-        }
-        .epilogue-grid {
-          display: grid;
-          grid-template-columns: 1fr 0.9fr;
-          gap: 80px;
-          align-items: center;
-        }
-        .epilogue-copy h2 {
-          font: 500 clamp(54px, 6.5vw, 96px)/0.86 "Cormorant Garamond", serif;
-          color: var(--espresso);
-          letter-spacing: -0.04em;
-          margin: 18px 0 28px;
-        }
-        .epilogue-copy h2 em { color: var(--clay); font-style: italic; }
-        .epilogue-copy p {
-          max-width: 440px; color: var(--muted); font-size: 13px; line-height: 1.85; margin-bottom: 36px;
-        }
-        .epilogue-links {
-          display: flex; gap: 32px; align-items: center;
-        }
-
-        .epilogue-photo-wrapper {
-          position: relative;
-          height: 520px;
-          overflow: hidden;
-          border-radius: var(--radius-surface, 20px);
-        }
-        .epilogue-badge {
-          position: absolute;
-          bottom: 24px; left: 24px;
-          background: rgba(25,21,18,0.88);
-          backdrop-filter: blur(8px);
-          color: var(--warm-ivory);
-          padding: 14px 22px;
-          border-radius: var(--radius-control, 10px);
-          font-size: 11px;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-        }
-
-        @media (max-width: 980px) {
-          .prologue-section, .ledger-section, .epilogue-section {
-            min-height: unset;
-            display: block;
-            padding-block: 64px;
-          }
-          .prologue-grid, .photo-mosaic, .ledger-grid, .epilogue-grid { grid-template-columns: 1fr; gap: 36px; }
-          .mosaic-main, .epilogue-photo-wrapper { height: clamp(280px, 45vh, 420px); }
-          .mosaic-sub { height: 260px; margin-top: 0; }
-        }
-      `}</style>
     </div>
   );
 }
