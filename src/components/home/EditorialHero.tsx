@@ -1,13 +1,34 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { AvailabilityPicker } from "@/components/booking/AvailabilityPicker";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 
 export function EditorialHero() {
+  const router = useRouter();
+  const { t } = useLanguage();
   const heroRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
+
+  /* Booking search state */
+  const [checkIn, setCheckIn] = useState("");
+  const [checkOut, setCheckOut] = useState("");
+  const [guests, setGuests] = useState("2");
+  const [isSearching, setIsSearching] = useState(false);
+  const [notice, setNotice] = useState<string | null>(null);
+  const [noticeType, setNoticeType] = useState<"success" | "error">("success");
+
+  useEffect(() => {
+    const today = new Date();
+    const todayStr = today.toISOString().slice(0, 10);
+    const defaultCheckOut = new Date(Date.now() + 86400000 * 3).toISOString().slice(0, 10);
+    setCheckIn(todayStr);
+    setCheckOut(defaultCheckOut);
+  }, []);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -37,6 +58,38 @@ export function EditorialHero() {
       });
     };
   }, []);
+
+  const handleBookingSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSearching(true);
+    setNotice(null);
+
+    const targetUrl = `/rooms?checkIn=${checkIn}&checkOut=${checkOut}&guests=${guests}`;
+
+    try {
+      const res = await fetch(`/api/availability?checkIn=${checkIn}&checkOut=${checkOut}&guests=${guests}`);
+      if (res.ok) {
+        const data = await res.json();
+        const count = Array.isArray(data.data) ? data.data.length : 0;
+        if (count > 0) {
+          setNotice(t("home.availableCount", { count }));
+          setNoticeType("success");
+          setTimeout(() => {
+            router.push(targetUrl);
+          }, 450);
+        } else {
+          setNotice(t("home.noAvailability"));
+          setNoticeType("error");
+        }
+      } else {
+        router.push(targetUrl);
+      }
+    } catch {
+      router.push(targetUrl);
+    } finally {
+      setIsSearching(false);
+    }
+  };
 
   return (
     <section className="relative min-h-screen flex flex-col justify-end overflow-hidden" id="hero" ref={heroRef}>
@@ -74,54 +127,59 @@ export function EditorialHero() {
           </p>
         </div>
 
-        {/* 4-Column Hairline Booking Ribbon Bar */}
-        <div className="booking-ribbon-bar bg-[rgba(20,16,14,0.72)] backdrop-blur-xl border border-[rgba(226,199,153,0.32)] rounded-lg p-4 sm:p-6 shadow-2xl">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-center">
-            <div className="lg:border-r border-[rgba(226,199,153,0.2)] pr-4">
-              <label className="block text-[10px] tracking-[0.18em] uppercase text-[#e2c799] font-medium mb-1">
-                NHẬN PHÒNG
-              </label>
-              <input
-                type="date"
-                defaultValue="2026-10-25"
-                className="w-full bg-transparent text-white font-serif-luxury text-lg border-none focus:outline-none cursor-pointer"
+        {/* Custom Atmospheric Booking Ribbon Console */}
+        <div className="booking-ribbon-bar bg-[rgba(20,16,14,0.78)] backdrop-blur-xl border border-[rgba(226,199,153,0.32)] rounded-lg p-4 sm:p-6 shadow-2xl">
+          <form onSubmit={handleBookingSearch} className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center">
+            <div className="flex-1">
+              <AvailabilityPicker
+                checkIn={checkIn}
+                checkOut={checkOut}
+                guests={guests}
+                onCheckInChange={setCheckIn}
+                onCheckOutChange={setCheckOut}
+                onGuestsChange={setGuests}
               />
             </div>
 
-            <div className="lg:border-r border-[rgba(226,199,153,0.2)] pr-4 sm:pl-2">
-              <label className="block text-[10px] tracking-[0.18em] uppercase text-[#e2c799] font-medium mb-1">
-                TRẢ PHÒNG
-              </label>
-              <input
-                type="date"
-                defaultValue="2026-10-28"
-                className="w-full bg-transparent text-white font-serif-luxury text-lg border-none focus:outline-none cursor-pointer"
-              />
-            </div>
-
-            <div className="lg:border-r border-[rgba(226,199,153,0.2)] pr-4 sm:pl-2">
-              <label className="block text-[10px] tracking-[0.18em] uppercase text-[#e2c799] font-medium mb-1">
-                SỐ KHÁCH
-              </label>
-              <select
-                defaultValue="2"
-                className="w-full bg-transparent text-white font-serif-luxury text-lg border-none focus:outline-none cursor-pointer [&>option]:text-black"
+            <div className="flex items-center pt-2 lg:pt-0 lg:pl-4">
+              <button
+                type="submit"
+                disabled={isSearching}
+                className="w-full lg:w-auto inline-flex items-center justify-center py-3.5 px-8 bg-[#e2c799] hover:bg-[#f5e2c4] text-[#110e0c] font-semibold text-xs tracking-[0.16em] uppercase rounded transition-colors shadow-lg disabled:opacity-60 whitespace-nowrap cursor-pointer"
               >
-                <option value="1">1 Khách · 1 Phòng</option>
-                <option value="2">2 Khách · 1 Phòng</option>
-                <option value="3">3 Khách · 1 Phòng</option>
-                <option value="4">4 Khách · 2 Phòng</option>
-              </select>
+                {isSearching ? t("home.checking") : "Tìm phòng trống →"}
+              </button>
             </div>
+          </form>
 
-            <div className="sm:pl-2 flex items-center">
-              <a
-                href="#suites"
-                className="w-full inline-flex items-center justify-center py-3 px-6 bg-[#e2c799] hover:bg-[#f5e2c4] text-[#110e0c] font-semibold text-xs tracking-[0.16em] uppercase rounded transition-colors shadow-lg"
-              >
-                Tìm phòng trống →
-              </a>
+          {/* Feedback Notice Alert */}
+          {notice && (
+            <div
+              className={`mt-4 p-3 rounded text-xs tracking-wider flex items-center justify-between ${
+                noticeType === "success"
+                  ? "bg-[rgba(34,197,94,0.15)] text-[#86efac] border border-[rgba(34,197,94,0.3)]"
+                  : "bg-[rgba(239,68,68,0.15)] text-[#fca5a5] border border-[rgba(239,68,68,0.3)]"
+              }`}
+              role="alert"
+              aria-live="polite"
+            >
+              <span>{notice}</span>
+              {noticeType === "success" && (
+                <span className="animate-pulse font-mono text-[10px]">Đang chuyển hướng...</span>
+              )}
             </div>
+          )}
+
+          {/* Luxury Direct Booking Guarantees */}
+          <div className="mt-4 pt-3 border-t border-[rgba(226,199,153,0.18)] flex flex-wrap gap-4 sm:gap-8 text-[11px] text-[#b8ada2]">
+            <span className="flex items-center gap-1.5">
+              <span className="text-[#e2c799]">✓</span>
+              <strong>{t("home.directRate")}</strong> · {t("home.taxTransparency")}
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="text-[#e2c799]">✓</span>
+              <strong>{t("home.clearCancellation")}</strong> {t("home.beforeRatePlan")}
+            </span>
           </div>
         </div>
       </div>
