@@ -80,7 +80,18 @@ function BookingContent() {
         if (selectedCategory) {
           setRoomCategoryId(selectedCategory.id);
           const requestedPlan = searchParams.get("ratePlanId");
-          const selectedPlan = selectedCategory.ratePlans?.find((plan) => plan.id === requestedPlan) || selectedCategory.ratePlans?.[0];
+          const offer = searchParams.get("offer");
+          let selectedPlan = selectedCategory.ratePlans?.find((plan) => plan.id === requestedPlan);
+          if (!selectedPlan && offer === "advance-saver") {
+            selectedPlan = selectedCategory.ratePlans?.find(
+              (plan) => plan.name.toLowerCase().includes("sớm") || plan.name.toLowerCase().includes("advance") || Number(plan.priceMultiplier) < 1
+            );
+          } else if (!selectedPlan && offer === "flexible-stay") {
+            selectedPlan = selectedCategory.ratePlans?.find(
+              (plan) => plan.name.toLowerCase().includes("linh") || plan.name.toLowerCase().includes("flex")
+            );
+          }
+          if (!selectedPlan) selectedPlan = selectedCategory.ratePlans?.[0];
           if (selectedPlan) setRatePlanId(selectedPlan.id);
         }
       })
