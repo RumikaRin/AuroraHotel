@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
+import { EditorialHeader } from "@/components/layout/EditorialHeader";
+import { EditorialFooter } from "@/components/layout/EditorialFooter";
 import { db } from "@/lib/db";
 import type { Metadata } from "next";
 
@@ -73,30 +73,30 @@ export default async function RoomDetailPage({
   if (guests) bookingQuery.set("guests", guests);
 
   return (
-    <div className="min-h-screen bg-aurora-ivory text-aurora-espresso flex flex-col font-sans">
-      <Header />
+    <div className="min-h-screen bg-[var(--bg-surface)] text-[var(--text-primary)] flex flex-col font-sans">
+      <EditorialHeader />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-1 w-full space-y-10">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-28 flex-1 w-full space-y-10">
         {/* Breadcrumb */}
-        <nav className="text-xs text-aurora-taupe flex gap-2 items-center">
-          <Link href="/" className="hover:text-aurora-brass">Trang Chủ</Link>
+        <nav className="text-xs text-[var(--text-muted)] flex gap-2 items-center">
+          <Link href="/" className="hover:text-[var(--accent-brass)]">Trang Chủ</Link>
           <span>/</span>
-          <Link href="/rooms" className="hover:text-aurora-brass">Hạng Phòng</Link>
+          <Link href="/rooms" className="hover:text-[var(--accent-brass)]">Suites & Villas</Link>
           <span>/</span>
-          <span className="text-aurora-espresso font-semibold">{category.name}</span>
+          <span className="text-[var(--accent-brass)] font-semibold">{category.name}</span>
         </nav>
 
         {/* Room Header */}
         <div className="space-y-4">
-          <span className="text-xs text-aurora-brass font-bold uppercase tracking-wider">HẠNG PHÒNG NGHỈ DƯỠNG</span>
-          <h1 className="font-serif-display text-4xl sm:text-5xl font-light text-aurora-espresso">{category.name}</h1>
-          <p className="max-w-3xl text-sm sm:text-base text-aurora-taupe leading-relaxed">
+          <span className="text-xs text-[var(--accent-brass)] font-bold uppercase tracking-wider">HẠNG PHÒNG NGHỈ DƯỠNG</span>
+          <h1 className="font-serif-luxury text-4xl sm:text-5xl font-light text-[var(--text-primary)]">{category.name}</h1>
+          <p className="max-w-3xl text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed">
             {category.description}
           </p>
         </div>
 
         {/* Image Gallery */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 rounded-surface overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 rounded-surface overflow-hidden border border-[var(--brass-hairline)]">
           <div className="md:col-span-2 relative h-[360px] sm:h-[480px]">
             <Image
               src={images[0] || "/images/aurora/deluxe-king.jpg"}
@@ -121,29 +121,29 @@ export default async function RoomDetailPage({
         </div>
 
         {/* Specifications & Amenities */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 pt-8 border-t border-aurora-mist">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 pt-8 border-t border-[var(--brass-hairline)]">
           <div className="lg:col-span-2 space-y-8">
-            <div className="grid grid-cols-3 gap-4 p-6 bg-aurora-linen/40 rounded-surface border border-aurora-mist">
+            <div className="grid grid-cols-3 gap-4 p-6 bg-[var(--bg-surface-card)] rounded-surface border border-[var(--brass-hairline)]">
               <div>
-                <span className="text-xs text-aurora-taupe block">Diện tích</span>
-                <strong className="text-lg text-aurora-espresso">{category.sizeSqm} m²</strong>
+                <span className="text-xs text-[var(--text-muted)] block">Diện tích</span>
+                <strong className="text-lg text-[var(--text-primary)]">{category.sizeSqm} m²</strong>
               </div>
               <div>
-                <span className="text-xs text-aurora-taupe block">Sức chứa</span>
-                <strong className="text-lg text-aurora-espresso">Tối đa {category.maxOccupancy} khách</strong>
+                <span className="text-xs text-[var(--text-muted)] block">Sức chứa</span>
+                <strong className="text-lg text-[var(--text-primary)]">Tối đa {category.maxOccupancy} khách</strong>
               </div>
               <div>
-                <span className="text-xs text-aurora-taupe block">Giường</span>
-                <strong className="text-lg text-aurora-espresso">{category.bedConfiguration}</strong>
+                <span className="text-xs text-[var(--text-muted)] block">Giường</span>
+                <strong className="text-lg text-[var(--text-primary)]">{category.bedConfiguration}</strong>
               </div>
             </div>
 
             <div className="space-y-4">
-              <h2 className="font-serif-luxury text-2xl font-bold">Tiện Nghi Đẳng Cấp</h2>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-aurora-espresso">
+              <h2 className="font-serif-luxury text-2xl font-bold text-[var(--text-primary)]">Tiện Nghi Đẳng Cấp</h2>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-[var(--text-secondary)]">
                 {amenities.map((item, index) => (
                   <li key={index} className="flex items-center gap-2">
-                    <span className="text-aurora-brass">✓</span>
+                    <span className="text-[var(--accent-brass)]">✓</span>
                     <span>{item}</span>
                   </li>
                 ))}
@@ -153,21 +153,21 @@ export default async function RoomDetailPage({
 
           {/* Rate Plan & Booking CTA */}
           <div className="space-y-6">
-            <div className="bg-aurora-ivory p-6 rounded-surface border border-aurora-brass/40 shadow-sm space-y-6">
+            <div className="bg-[var(--bg-surface-card)] p-6 rounded-surface border border-[var(--brass-hairline)] shadow-xl space-y-6">
               <div>
-                <span className="text-xs text-aurora-taupe">Giá tiêu chuẩn mỗi đêm</span>
-                <div className="text-3xl font-serif-display font-bold text-aurora-espresso">
+                <span className="text-xs text-[var(--text-muted)]">Giá tiêu chuẩn mỗi đêm</span>
+                <div className="text-3xl font-serif-luxury font-bold text-[var(--accent-brass)]">
                   {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(category.basePrice)}
                 </div>
               </div>
 
               <div className="space-y-3">
-                <span className="text-xs font-bold text-aurora-walnut uppercase tracking-wider block">Gói giá có sẵn:</span>
+                <span className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider block">Gói giá có sẵn:</span>
                 {category.ratePlans.map((rp) => (
-                  <div key={rp.id} className="p-3 border border-aurora-mist rounded-control space-y-1">
+                  <div key={rp.id} className="p-3 border border-[var(--brass-hairline)] bg-[var(--bg-surface)] rounded-control space-y-1">
                     <div className="flex justify-between items-center text-xs font-bold">
-                      <span>{rp.name}</span>
-                      <span className="text-aurora-brass font-mono">
+                      <span className="text-[var(--text-primary)]">{rp.name}</span>
+                      <span className="text-[var(--accent-brass)] font-mono">
                         {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(
                           Math.round(category.basePrice * Number(rp.priceMultiplier))
                         )}
@@ -179,7 +179,7 @@ export default async function RoomDetailPage({
 
               <Link
                 href={`/booking?${bookingQuery.toString()}`}
-                className="w-full min-h-[48px] bg-aurora-espresso text-aurora-ivory font-bold text-xs uppercase tracking-wider rounded-control flex items-center justify-center hover:bg-aurora-walnut transition-all"
+                className="w-full min-h-[48px] bg-[var(--accent-brass)] hover:bg-[var(--accent-brass-bright)] text-[#110e0c] font-bold text-xs uppercase tracking-wider rounded-control flex items-center justify-center transition-all cursor-pointer shadow-lg"
               >
                 Đặt Phòng Ngay
               </Link>
@@ -188,7 +188,7 @@ export default async function RoomDetailPage({
         </div>
       </main>
 
-      <Footer />
+      <EditorialFooter />
     </div>
   );
 }

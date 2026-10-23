@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { StickyBookingDrawer } from "@/components/booking/StickyBookingDrawer";
+import { AvailabilityPicker } from "@/components/booking/AvailabilityPicker";
 import { AuroraSelect } from "@/components/controls/AuroraSelect";
 import { useLanguage } from "@/components/i18n/LanguageProvider";
 
@@ -223,10 +224,15 @@ function BookingContent() {
             {step === 1 && (
               <div className="booking-card">
                 <div className="booking-card-heading"><p className="booking-eyebrow">{t("booking.stepOneEyebrow")}</p><h2>{t("booking.stepOneTitle")}</h2><span>{t("booking.systemQuote")}</span></div>
-                <div className="booking-field-grid">
-                  <label><span>{t("booking.checkIn")}</span><input type="date" value={checkIn} onChange={(event) => setCheckIn(event.target.value)} required /></label>
-                  <label><span>{t("booking.checkOut")}</span><input type="date" value={checkOut} min={checkIn} onChange={(event) => setCheckOut(event.target.value)} required /></label>
-                  <div className="booking-select-field"><span>{t("booking.guests")}</span><AuroraSelect label={t("booking.guests")} value={guests} onValueChange={setGuests} options={["1", "2", "3", "4"].map((value) => ({ value, label: t("booking.guestCount", { count: value }) }))} /></div>
+                <div className="mt-6 mb-2">
+                  <AvailabilityPicker
+                    checkIn={checkIn}
+                    checkOut={checkOut}
+                    guests={guests}
+                    onCheckInChange={setCheckIn}
+                    onCheckOutChange={setCheckOut}
+                    onGuestsChange={setGuests}
+                  />
                 </div>
                 <div className="booking-wide-field booking-select-field"><span>{t("booking.roomCategory")}</span><AuroraSelect label={t("booking.roomCategory")} value={roomCategoryId} onValueChange={handleCategoryChange} placeholder={t("booking.loadingRoom")} disabled={categories.length === 0} options={categories.map((category) => ({ value: category.id, label: category.name, description: t("booking.perNight", { price: formatPrice(category.basePrice, lang) }) }))} /></div>
                 <div className="booking-wide-field booking-select-field"><span>{t("booking.ratePlan")}</span><AuroraSelect label={t("booking.ratePlan")} value={ratePlanId} onValueChange={setRatePlanId} placeholder={t("booking.loadingRate")} disabled={!selectedCategory?.ratePlans?.length} options={(selectedCategory?.ratePlans || []).map((plan) => ({ value: plan.id, label: plan.name, description: t("booking.standardRate", { percentage: Math.round(plan.priceMultiplier * 100) }) }))} /></div>

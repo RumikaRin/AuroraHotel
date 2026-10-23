@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { RoomCategoryData } from "./SuiteSpotlight";
+import { AvailabilityPicker } from "@/components/booking/AvailabilityPicker";
 
 interface Props {
   category: RoomCategoryData;
@@ -83,21 +84,21 @@ export function BookingModal({ category, onClose }: Props) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#17211D]/80 backdrop-blur-md animate-fade-in">
-      <div className="bg-[#FFFDF8] text-[#17211D] w-full max-w-2xl rounded-3xl shadow-2xl border border-[#C5A46D]/40 overflow-hidden flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
+      <div className="bg-[var(--bg-surface-card)] text-[var(--text-primary)] w-full max-w-2xl rounded-3xl shadow-2xl border border-[var(--brass-hairline)] overflow-hidden flex flex-col max-h-[90vh]">
         {/* Modal Header */}
-        <div className="bg-[#17211D] text-[#F7F4ED] p-6 border-b border-[#C5A46D]/20 flex items-center justify-between">
+        <div className="bg-[var(--bg-surface-deep)] text-[var(--text-primary)] p-6 border-b border-[var(--brass-hairline)] flex items-center justify-between">
           <div>
-            <span className="text-[10px] uppercase tracking-widest text-[#C5A46D] font-bold">
+            <span className="text-[10px] uppercase tracking-widest text-[var(--accent-brass)] font-bold">
               Đặt Phòng Trực Tiếp 5-Star
             </span>
-            <h3 className="font-serif-display text-2xl font-normal text-[#F7F4ED] mt-0.5">
+            <h3 className="font-serif-luxury text-2xl font-normal text-[var(--text-primary)] mt-0.5">
               {category.name}
             </h3>
           </div>
           <button
             onClick={onClose}
-            className="w-10 h-10 rounded-full border border-[#F7F4ED]/20 text-[#F7F4ED] hover:bg-[#F7F4ED]/10 flex items-center justify-center transition-all min-h-[44px] min-w-[44px]"
+            className="w-10 h-10 rounded-full border border-[var(--brass-hairline)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface)] flex items-center justify-center transition-all min-h-[44px] min-w-[44px]"
             aria-label="Đóng modal"
           >
             ✕
@@ -105,83 +106,46 @@ export function BookingModal({ category, onClose }: Props) {
         </div>
 
         {/* Stepper Status Bar */}
-        <div className="bg-[#F7F4ED] px-6 py-3 border-b border-[#DADDD8] flex items-center justify-between text-xs font-semibold text-[#355B4B]">
-          <span className={step === 1 ? "text-[#C5A46D] underline" : ""}>1. Ngày & Số Khách</span>
+        <div className="bg-[var(--bg-surface-deep)] px-6 py-3 border-b border-[var(--brass-hairline)] flex items-center justify-between text-xs font-semibold text-[var(--text-muted)]">
+          <span className={step === 1 ? "text-[var(--accent-brass)] underline" : ""}>1. Ngày & Số Khách</span>
           <span>→</span>
-          <span className={step === 2 ? "text-[#C5A46D] underline" : ""}>2. Thông Tin Khách</span>
+          <span className={step === 2 ? "text-[var(--accent-brass)] underline" : ""}>2. Thông Tin Khách</span>
           <span>→</span>
-          <span className={step === 3 ? "text-[#2E7D5A] underline" : ""}>3. Hoàn Tất</span>
+          <span className={step === 3 ? "text-emerald-400 underline" : ""}>3. Hoàn Tất</span>
         </div>
 
         {/* Modal Content Body */}
         <div className="p-6 overflow-y-auto flex-1 space-y-6">
           {errorMsg && (
-            <div className="p-4 rounded-xl bg-[#B84A4A]/10 border border-[#B84A4A]/30 text-xs font-semibold text-[#B84A4A]">
+            <div className="p-4 rounded-xl bg-red-950/30 border border-red-500/40 text-xs font-semibold text-red-300">
               ⚠️ {errorMsg}
             </div>
           )}
 
           {step === 1 && (
             <div className="space-y-5">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label htmlFor="modalCheckIn" className="block text-xs font-bold uppercase text-[#355B4B] mb-1">
-                    Ngày Nhận Phòng
-                  </label>
-                  <input
-                    type="date"
-                    id="modalCheckIn"
-                    value={checkIn}
-                    onChange={(e) => setCheckIn(e.target.value)}
-                    min={todayStr}
-                    className="w-full text-sm p-3 rounded-xl border border-[#DADDD8] bg-[#F7F4ED] min-h-[44px]"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="modalCheckOut" className="block text-xs font-bold uppercase text-[#355B4B] mb-1">
-                    Ngày Trả Phòng
-                  </label>
-                  <input
-                    type="date"
-                    id="modalCheckOut"
-                    value={checkOut}
-                    onChange={(e) => setCheckOut(e.target.value)}
-                    min={checkIn}
-                    className="w-full text-sm p-3 rounded-xl border border-[#DADDD8] bg-[#F7F4ED] min-h-[44px]"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label htmlFor="modalGuests" className="block text-xs font-bold uppercase text-[#355B4B] mb-1">
-                  Số Lượng Khách
-                </label>
-                <select
-                  id="modalGuests"
-                  value={guestsCount}
-                  onChange={(e) => setGuestsCount(Number(e.target.value))}
-                  className="w-full text-sm p-3 rounded-xl border border-[#DADDD8] bg-[#F7F4ED] min-h-[44px]"
-                >
-                  <option value={1}>1 Khách</option>
-                  <option value={2}>2 Khách</option>
-                  <option value={3}>3 Khách</option>
-                  <option value={4}>4 Khách</option>
-                </select>
-              </div>
+              <AvailabilityPicker
+                checkIn={checkIn}
+                checkOut={checkOut}
+                guests={String(guestsCount)}
+                onCheckInChange={setCheckIn}
+                onCheckOutChange={setCheckOut}
+                onGuestsChange={(val) => setGuestsCount(Number(val) || 2)}
+              />
 
               {/* Price Calculation Summary Card */}
-              <div className="p-4 rounded-2xl bg-[#F7F4ED] border border-[#C5A46D]/30 space-y-2">
-                <div className="flex justify-between text-xs text-[#242826]">
+              <div className="p-4 rounded-2xl bg-[var(--bg-surface)] border border-[var(--brass-hairline)] space-y-2">
+                <div className="flex justify-between text-xs text-[var(--text-secondary)]">
                   <span>Đơn giá theo đêm:</span>
-                  <span className="font-semibold">{formatVND(category.basePrice)}</span>
+                  <span className="font-semibold text-[var(--text-primary)]">{formatVND(category.basePrice)}</span>
                 </div>
-                <div className="flex justify-between text-xs text-[#242826]">
+                <div className="flex justify-between text-xs text-[var(--text-secondary)]">
                   <span>Số đêm lưu trú:</span>
-                  <span className="font-semibold">{nights} đêm</span>
+                  <span className="font-semibold text-[var(--text-primary)]">{nights} đêm</span>
                 </div>
-                <div className="pt-2 border-t border-[#DADDD8] flex justify-between text-sm font-bold text-[#17211D]">
+                <div className="pt-2 border-t border-[var(--brass-hairline)] flex justify-between text-sm font-bold text-[var(--text-primary)]">
                   <span>Tổng tiền dự kiến:</span>
-                  <span className="text-[#17211D]">{formatVND(estimatedTotal)}</span>
+                  <span className="text-[var(--accent-brass)]">{formatVND(estimatedTotal)}</span>
                 </div>
               </div>
 
@@ -189,7 +153,7 @@ export function BookingModal({ category, onClose }: Props) {
                 <button
                   type="button"
                   onClick={() => setStep(2)}
-                  className="px-6 py-3 rounded-xl text-xs font-semibold bg-[#17211D] text-[#C5A46D] hover:bg-[#242826] transition-all min-h-[44px]"
+                  className="px-6 py-3 rounded-xl text-xs font-semibold bg-[var(--accent-brass)] text-[#110e0c] hover:bg-[var(--accent-brass-bright)] transition-all min-h-[44px] cursor-pointer"
                 >
                   Tiếp Tục Nhập Thông Tin Khách →
                 </button>
@@ -200,7 +164,7 @@ export function BookingModal({ category, onClose }: Props) {
           {step === 2 && (
             <form onSubmit={handleSubmitBooking} className="space-y-4">
               <div>
-                <label htmlFor="guestName" className="block text-xs font-bold uppercase text-[#355B4B] mb-1">
+                <label htmlFor="guestName" className="block text-xs font-bold uppercase text-[var(--accent-brass)] mb-1">
                   Họ và Tên Khách Đặt *
                 </label>
                 <input
@@ -210,13 +174,13 @@ export function BookingModal({ category, onClose }: Props) {
                   placeholder="Ví dụ: Nguyễn Văn A"
                   value={guestName}
                   onChange={(e) => setGuestName(e.target.value)}
-                  className="w-full text-sm p-3 rounded-xl border border-[#DADDD8] bg-[#F7F4ED] min-h-[44px]"
+                  className="w-full text-sm p-3 rounded-xl border border-[var(--brass-hairline)] bg-[var(--bg-surface)] text-[var(--text-primary)] min-h-[44px]"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="guestEmail" className="block text-xs font-bold uppercase text-[#355B4B] mb-1">
+                  <label htmlFor="guestEmail" className="block text-xs font-bold uppercase text-[var(--accent-brass)] mb-1">
                     Email Xác Nhận *
                   </label>
                   <input
@@ -226,11 +190,11 @@ export function BookingModal({ category, onClose }: Props) {
                     placeholder="nguyenvana@gmail.com"
                     value={guestEmail}
                     onChange={(e) => setGuestEmail(e.target.value)}
-                    className="w-full text-sm p-3 rounded-xl border border-[#DADDD8] bg-[#F7F4ED] min-h-[44px]"
+                    className="w-full text-sm p-3 rounded-xl border border-[var(--brass-hairline)] bg-[var(--bg-surface)] text-[var(--text-primary)] min-h-[44px]"
                   />
                 </div>
                 <div>
-                  <label htmlFor="guestPhone" className="block text-xs font-bold uppercase text-[#355B4B] mb-1">
+                  <label htmlFor="guestPhone" className="block text-xs font-bold uppercase text-[var(--accent-brass)] mb-1">
                     Số Điện Thoại *
                   </label>
                   <input
@@ -240,13 +204,13 @@ export function BookingModal({ category, onClose }: Props) {
                     placeholder="0912345678"
                     value={guestPhone}
                     onChange={(e) => setGuestPhone(e.target.value)}
-                    className="w-full text-sm p-3 rounded-xl border border-[#DADDD8] bg-[#F7F4ED] min-h-[44px]"
+                    className="w-full text-sm p-3 rounded-xl border border-[var(--brass-hairline)] bg-[var(--bg-surface)] text-[var(--text-primary)] min-h-[44px]"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="specialRequests" className="block text-xs font-bold uppercase text-[#355B4B] mb-1">
+                <label htmlFor="specialRequests" className="block text-xs font-bold uppercase text-[var(--accent-brass)] mb-1">
                   Yêu Cầu Đặc Biệt (Tùy chọn)
                 </label>
                 <textarea
@@ -255,15 +219,15 @@ export function BookingModal({ category, onClose }: Props) {
                   placeholder="Ví dụ: Nhận phòng sớm, giường đôi tầng cao, chuẩn bị bánh sinh nhật..."
                   value={specialRequests}
                   onChange={(e) => setSpecialRequests(e.target.value)}
-                  className="w-full text-sm p-3 rounded-xl border border-[#DADDD8] bg-[#F7F4ED]"
+                  className="w-full text-sm p-3 rounded-xl border border-[var(--brass-hairline)] bg-[var(--bg-surface)] text-[var(--text-primary)]"
                 />
               </div>
 
-              <div className="pt-4 flex items-center justify-between border-t border-[#DADDD8]">
+              <div className="pt-4 flex items-center justify-between border-t border-[var(--brass-hairline)]">
                 <button
                   type="button"
                   onClick={() => setStep(1)}
-                  className="px-4 py-2.5 rounded-xl text-xs font-semibold border border-[#DADDD8] text-[#17211D] min-h-[44px]"
+                  className="px-4 py-2.5 rounded-xl text-xs font-semibold border border-[var(--brass-hairline)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] min-h-[44px]"
                 >
                   ← Quay Lại
                 </button>
@@ -271,11 +235,11 @@ export function BookingModal({ category, onClose }: Props) {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-8 py-3 rounded-xl text-xs font-semibold bg-[#C5A46D] text-[#17211D] hover:bg-[#D4B57E] transition-all shadow-md min-h-[44px] flex items-center gap-2"
+                  className="px-8 py-3 rounded-xl text-xs font-semibold bg-[var(--accent-brass)] text-[#110e0c] hover:bg-[var(--accent-brass-bright)] transition-all shadow-md min-h-[44px] flex items-center gap-2 cursor-pointer disabled:opacity-50"
                 >
                   {isSubmitting ? (
                     <>
-                      <span className="w-4 h-4 border-2 border-[#17211D] border-t-transparent rounded-full animate-spin" />
+                      <span className="w-4 h-4 border-2 border-[#110e0c] border-t-transparent rounded-full animate-spin" />
                       Đang Xử Lý Đặt Phòng...
                     </>
                   ) : (
@@ -288,34 +252,34 @@ export function BookingModal({ category, onClose }: Props) {
 
           {step === 3 && bookingResult && (
             <div className="text-center py-6 space-y-5">
-              <div className="w-16 h-16 bg-[#2E7D5A]/10 text-[#2E7D5A] border border-[#2E7D5A]/30 rounded-full flex items-center justify-center mx-auto text-2xl">
+              <div className="w-16 h-16 bg-emerald-950/40 text-emerald-400 border border-emerald-500/30 rounded-full flex items-center justify-center mx-auto text-2xl">
                 ✓
               </div>
 
               <div className="space-y-1">
-                <span className="text-xs uppercase tracking-widest text-[#355B4B] font-bold">
+                <span className="text-xs uppercase tracking-widest text-[var(--accent-brass)] font-bold">
                   Đặt Phòng Thành Công!
                 </span>
-                <h4 className="font-serif-display text-3xl font-normal text-[#17211D]">
-                  Mã Đặt Phòng: <span className="text-[#C5A46D]">{bookingResult.bookingCode}</span>
+                <h4 className="font-serif-luxury text-3xl font-normal text-[var(--text-primary)]">
+                  Mã Đặt Phòng: <span className="text-[var(--accent-brass)]">{bookingResult.bookingCode}</span>
                 </h4>
-                <p className="text-xs text-[#242826] max-w-md mx-auto">
-                  Cảm ơn quý khách <span className="font-bold">{guestName}</span>. Xác nhận đặt phòng đã được lưu trên hệ thống và gửi đến email <span className="font-bold">{guestEmail}</span>.
+                <p className="text-xs text-[var(--text-secondary)] max-w-md mx-auto">
+                  Cảm ơn quý khách <span className="font-bold text-[var(--text-primary)]">{guestName}</span>. Xác nhận đặt phòng đã được lưu trên hệ thống và gửi đến email <span className="font-bold text-[var(--text-primary)]">{guestEmail}</span>.
                 </p>
               </div>
 
-              <div className="p-4 rounded-2xl bg-[#F7F4ED] border border-[#C5A46D]/30 max-w-md mx-auto text-left text-xs space-y-1.5">
+              <div className="p-4 rounded-2xl bg-[var(--bg-surface)] border border-[var(--brass-hairline)] max-w-md mx-auto text-left text-xs space-y-1.5">
                 <div className="flex justify-between">
-                  <span className="text-[#355B4B]">Hạng phòng:</span>
-                  <span className="font-bold text-[#17211D]">{category.name}</span>
+                  <span className="text-[var(--text-muted)]">Hạng phòng:</span>
+                  <span className="font-bold text-[var(--text-primary)]">{category.name}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#355B4B]">Thời gian:</span>
-                  <span className="font-bold text-[#17211D]">{checkIn} đến {checkOut} ({nights} đêm)</span>
+                  <span className="text-[var(--text-muted)]">Thời gian:</span>
+                  <span className="font-bold text-[var(--text-primary)]">{checkIn} đến {checkOut} ({nights} đêm)</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#355B4B]">Tổng chi phí:</span>
-                  <span className="font-bold text-[#2E7D5A] text-sm">{formatVND(bookingResult.totalAmount)}</span>
+                  <span className="text-[var(--text-muted)]">Tổng chi phí:</span>
+                  <span className="font-bold text-emerald-400 text-sm">{formatVND(bookingResult.totalAmount)}</span>
                 </div>
               </div>
 
@@ -323,13 +287,13 @@ export function BookingModal({ category, onClose }: Props) {
                 <button
                   type="button"
                   onClick={onClose}
-                  className="px-6 py-3 rounded-xl text-xs font-semibold border border-[#DADDD8] text-[#17211D] hover:bg-[#F7F4ED] min-h-[44px]"
+                  className="px-6 py-3 rounded-xl text-xs font-semibold border border-[var(--brass-hairline)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface)] min-h-[44px] cursor-pointer"
                 >
                   Đóng Hộp Thoại
                 </button>
                 <a
                   href={`/my-bookings`}
-                  className="px-6 py-3 rounded-xl text-xs font-semibold bg-[#17211D] text-[#C5A46D] hover:bg-[#242826] min-h-[44px] inline-flex items-center justify-center"
+                  className="px-6 py-3 rounded-xl text-xs font-semibold bg-[var(--accent-brass)] text-[#110e0c] hover:bg-[var(--accent-brass-bright)] min-h-[44px] inline-flex items-center justify-center cursor-pointer"
                 >
                   Tra Cứu Mã Đặt Phòng →
                 </a>

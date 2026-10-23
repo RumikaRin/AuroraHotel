@@ -5,48 +5,84 @@
       "path": "/",
       "status": 200,
       "title": "Aurora Hotel — Where Every Stay Becomes a Memory",
-      "linkCount": 27
+      "linkCount": 30
     },
     {
       "name": "rooms",
       "path": "/rooms",
       "status": 200,
       "title": "Aurora Hotel — Where Every Stay Becomes a Memory",
-      "linkCount": 26
+      "linkCount": 31
     },
     {
       "name": "room-detail",
       "path": "/rooms/deluxe-king",
       "status": 200,
       "title": "Deluxe King Room | Aurora Hotel | Aurora Hotel",
-      "linkCount": 21
+      "linkCount": 26
     },
     {
       "name": "experiences",
       "path": "/experiences",
       "status": 200,
       "title": "Trải nghiệm | Aurora Hotel & Resort | Aurora Hotel",
-      "linkCount": 21
+      "linkCount": 26
     },
     {
       "name": "offers",
       "path": "/offers",
       "status": 200,
       "title": "Ưu đãi | Aurora Hotel & Resort | Aurora Hotel",
-      "linkCount": 20
+      "linkCount": 25
     },
     {
       "name": "my-bookings",
       "path": "/my-bookings",
       "status": 200,
       "title": "Aurora Hotel — Where Every Stay Becomes a Memory",
-      "linkCount": 18
+      "linkCount": 0
     }
   ],
   "consoleErrors": [
     {
       "url": "http://localhost:3003/",
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-pV6dalv04R0K8V3USjTCnjhkSJOr68D3sGCOPXOz64k='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/",
       "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-ZDrxqUOB4m/L0JWL/+gS52g1CRH0l/qwMhjTw5Z/Fsc='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/",
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-ZDrxqUOB4m/L0JWL/+gS52g1CRH0l/qwMhjTw5Z/Fsc='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/",
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-/NNYk2lMiaaQ2COHrKgFet27MZByZVSSe05z8RCpMjo='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/",
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-ZDrxqUOB4m/L0JWL/+gS52g1CRH0l/qwMhjTw5Z/Fsc='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/",
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-/NNYk2lMiaaQ2COHrKgFet27MZByZVSSe05z8RCpMjo='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/",
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-ZDrxqUOB4m/L0JWL/+gS52g1CRH0l/qwMhjTw5Z/Fsc='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/",
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-/NNYk2lMiaaQ2COHrKgFet27MZByZVSSe05z8RCpMjo='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/",
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-ZDrxqUOB4m/L0JWL/+gS52g1CRH0l/qwMhjTw5Z/Fsc='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/",
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-/NNYk2lMiaaQ2COHrKgFet27MZByZVSSe05z8RCpMjo='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
     },
     {
       "url": "http://localhost:3003/",
@@ -86,19 +122,19 @@
     },
     {
       "url": "http://localhost:3003/",
-      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-ZDrxqUOB4m/L0JWL/+gS52g1CRH0l/qwMhjTw5Z/Fsc='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-5v3zQItzibsmfk35n2MFVnsPaCQ57Zuvy+9+dS1hlgE='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
     },
     {
       "url": "http://localhost:3003/",
-      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-ZDrxqUOB4m/L0JWL/+gS52g1CRH0l/qwMhjTw5Z/Fsc='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-uGPW2nb1Fxs0BjNgnb/CzfJjvTrDZDqb+xH5JNyjYKs='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
     },
     {
       "url": "http://localhost:3003/",
-      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-ZDrxqUOB4m/L0JWL/+gS52g1CRH0l/qwMhjTw5Z/Fsc='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-uGPW2nb1Fxs0BjNgnb/CzfJjvTrDZDqb+xH5JNyjYKs='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
     },
     {
       "url": "http://localhost:3003/",
-      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-ZDrxqUOB4m/L0JWL/+gS52g1CRH0l/qwMhjTw5Z/Fsc='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-uGPW2nb1Fxs0BjNgnb/CzfJjvTrDZDqb+xH5JNyjYKs='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
     },
     {
       "url": "http://localhost:3003/rooms",
@@ -130,7 +166,55 @@
     },
     {
       "url": "http://localhost:3003/experiences",
-      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-ZDrxqUOB4m/L0JWL/+gS52g1CRH0l/qwMhjTw5Z/Fsc='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/webpack-2609ccf8cd0a2033.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-YTJhNDhlNzAtYTk2MS00NTRkLWI3NWYtZjdmNWQ3YTI0YTU4' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/experiences",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/4bd1b696-f785427dddbba9fb.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-YTJhNDhlNzAtYTk2MS00NTRkLWI3NWYtZjdmNWQ3YTI0YTU4' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/experiences",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/1255-31f47ebe9b12c7e5.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-YTJhNDhlNzAtYTk2MS00NTRkLWI3NWYtZjdmNWQ3YTI0YTU4' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/experiences",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/main-app-875b7c57795bf135.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-YTJhNDhlNzAtYTk2MS00NTRkLWI3NWYtZjdmNWQ3YTI0YTU4' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/experiences",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/2691-9a9ebf12d8240707.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-YTJhNDhlNzAtYTk2MS00NTRkLWI3NWYtZjdmNWQ3YTI0YTU4' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/experiences",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/3078-b32cc16927ba3caa.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-YTJhNDhlNzAtYTk2MS00NTRkLWI3NWYtZjdmNWQ3YTI0YTU4' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/experiences",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/app/layout-e330c794c950303e.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-YTJhNDhlNzAtYTk2MS00NTRkLWI3NWYtZjdmNWQ3YTI0YTU4' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/experiences",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/2619-3c9e02e22d10480a.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-YTJhNDhlNzAtYTk2MS00NTRkLWI3NWYtZjdmNWQ3YTI0YTU4' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/experiences",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/app/error-b61b23e43c9ef1a8.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-YTJhNDhlNzAtYTk2MS00NTRkLWI3NWYtZjdmNWQ3YTI0YTU4' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/experiences",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/3305-dbeda72ed2ffac2d.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-YTJhNDhlNzAtYTk2MS00NTRkLWI3NWYtZjdmNWQ3YTI0YTU4' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/experiences",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/3643-5ac6b8895d3761a2.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-YTJhNDhlNzAtYTk2MS00NTRkLWI3NWYtZjdmNWQ3YTI0YTU4' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/experiences",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/app/experiences/page-f5c59362079cde98.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-YTJhNDhlNzAtYTk2MS00NTRkLWI3NWYtZjdmNWQ3YTI0YTU4' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/experiences",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/app/global-error-b7da76b0ece5fd28.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-YTJhNDhlNzAtYTk2MS00NTRkLWI3NWYtZjdmNWQ3YTI0YTU4' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
     },
     {
       "url": "http://localhost:3003/experiences",
@@ -163,6 +247,110 @@
     {
       "url": "http://localhost:3003/experiences",
       "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-ZDrxqUOB4m/L0JWL/+gS52g1CRH0l/qwMhjTw5Z/Fsc='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/experiences",
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-ZDrxqUOB4m/L0JWL/+gS52g1CRH0l/qwMhjTw5Z/Fsc='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/experiences",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/webpack-2609ccf8cd0a2033.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-YTJhNDhlNzAtYTk2MS00NTRkLWI3NWYtZjdmNWQ3YTI0YTU4' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/experiences",
+      "text": "Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'nonce-YTJhNDhlNzAtYTk2MS00NTRkLWI3NWYtZjdmNWQ3YTI0YTU4' 'strict-dynamic''. Either the 'unsafe-inline' keyword, a hash ('sha256-OBTN3RiyCV4Bq7dFqZ5a2pAXjnCcCYeTJMO2I/LYKeo='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/experiences",
+      "text": "Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'nonce-YTJhNDhlNzAtYTk2MS00NTRkLWI3NWYtZjdmNWQ3YTI0YTU4' 'strict-dynamic''. Either the 'unsafe-inline' keyword, a hash ('sha256-LAhWPGbGvVGxwg+nMk/V4DZ40gp/HfdLKoYVecc3pZ4='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/experiences",
+      "text": "Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'nonce-YTJhNDhlNzAtYTk2MS00NTRkLWI3NWYtZjdmNWQ3YTI0YTU4' 'strict-dynamic''. Either the 'unsafe-inline' keyword, a hash ('sha256-ONdYyVh3tsQH2i7b/U/H2hk/UCo2VuSaj5EN0PleO3o='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/experiences",
+      "text": "Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'nonce-YTJhNDhlNzAtYTk2MS00NTRkLWI3NWYtZjdmNWQ3YTI0YTU4' 'strict-dynamic''. Either the 'unsafe-inline' keyword, a hash ('sha256-5Zc4zc7qLTGQLUnukZ+zdOwKdCkxjcyNZ1mrtIC+H6k='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/experiences",
+      "text": "Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'nonce-YTJhNDhlNzAtYTk2MS00NTRkLWI3NWYtZjdmNWQ3YTI0YTU4' 'strict-dynamic''. Either the 'unsafe-inline' keyword, a hash ('sha256-dBCixlYiEO/cyM5Bep7NCLUDWKOX8yXwhRZFYI1CYvo='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/experiences",
+      "text": "Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'nonce-YTJhNDhlNzAtYTk2MS00NTRkLWI3NWYtZjdmNWQ3YTI0YTU4' 'strict-dynamic''. Either the 'unsafe-inline' keyword, a hash ('sha256-YOC8N0aPi80C8VLZiI2l2kT5Z4r2VtPnLYEdsto5Npc='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/experiences",
+      "text": "Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'nonce-YTJhNDhlNzAtYTk2MS00NTRkLWI3NWYtZjdmNWQ3YTI0YTU4' 'strict-dynamic''. Either the 'unsafe-inline' keyword, a hash ('sha256-dIHMy6+GsDJ8fKRbtghfAprKOZ9o+RezGLrvIseQxgA='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/experiences",
+      "text": "Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'nonce-YTJhNDhlNzAtYTk2MS00NTRkLWI3NWYtZjdmNWQ3YTI0YTU4' 'strict-dynamic''. Either the 'unsafe-inline' keyword, a hash ('sha256-VnNUjfMgR10TliOVfILPjgPX775NWwQ3O1xMngoo2B0='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/experiences",
+      "text": "Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'nonce-YTJhNDhlNzAtYTk2MS00NTRkLWI3NWYtZjdmNWQ3YTI0YTU4' 'strict-dynamic''. Either the 'unsafe-inline' keyword, a hash ('sha256-iZsvx1yZA58XDLO0zx8JcWkaj2mHjEsOI++5hLCUqU4='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/experiences",
+      "text": "Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'nonce-YTJhNDhlNzAtYTk2MS00NTRkLWI3NWYtZjdmNWQ3YTI0YTU4' 'strict-dynamic''. Either the 'unsafe-inline' keyword, a hash ('sha256-ye5IQHPCswLP+6Mjf5PJo6sll5LmY6FMeUrICsj/7y8='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/experiences",
+      "text": "Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'nonce-YTJhNDhlNzAtYTk2MS00NTRkLWI3NWYtZjdmNWQ3YTI0YTU4' 'strict-dynamic''. Either the 'unsafe-inline' keyword, a hash ('sha256-VVCLWc22Pvz3nqrUivaDgkoEMJf5cRV4wVPZ3W0itbY='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/offers",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/webpack-2609ccf8cd0a2033.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-NjQ4OGEyMDYtYzczNy00ZDA2LWEzZTUtNTIwYzcwOWM2MGE0' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/offers",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/4bd1b696-f785427dddbba9fb.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-NjQ4OGEyMDYtYzczNy00ZDA2LWEzZTUtNTIwYzcwOWM2MGE0' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/offers",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/1255-31f47ebe9b12c7e5.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-NjQ4OGEyMDYtYzczNy00ZDA2LWEzZTUtNTIwYzcwOWM2MGE0' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/offers",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/main-app-875b7c57795bf135.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-NjQ4OGEyMDYtYzczNy00ZDA2LWEzZTUtNTIwYzcwOWM2MGE0' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/offers",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/2691-9a9ebf12d8240707.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-NjQ4OGEyMDYtYzczNy00ZDA2LWEzZTUtNTIwYzcwOWM2MGE0' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/offers",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/3078-b32cc16927ba3caa.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-NjQ4OGEyMDYtYzczNy00ZDA2LWEzZTUtNTIwYzcwOWM2MGE0' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/offers",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/app/layout-e330c794c950303e.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-NjQ4OGEyMDYtYzczNy00ZDA2LWEzZTUtNTIwYzcwOWM2MGE0' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/offers",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/2619-3c9e02e22d10480a.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-NjQ4OGEyMDYtYzczNy00ZDA2LWEzZTUtNTIwYzcwOWM2MGE0' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/offers",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/app/error-b61b23e43c9ef1a8.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-NjQ4OGEyMDYtYzczNy00ZDA2LWEzZTUtNTIwYzcwOWM2MGE0' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/offers",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/3305-dbeda72ed2ffac2d.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-NjQ4OGEyMDYtYzczNy00ZDA2LWEzZTUtNTIwYzcwOWM2MGE0' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/offers",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/3643-5ac6b8895d3761a2.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-NjQ4OGEyMDYtYzczNy00ZDA2LWEzZTUtNTIwYzcwOWM2MGE0' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/offers",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/app/offers/page-ff8a7ffcc02b9112.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-NjQ4OGEyMDYtYzczNy00ZDA2LWEzZTUtNTIwYzcwOWM2MGE0' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/offers",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/app/global-error-b7da76b0ece5fd28.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-NjQ4OGEyMDYtYzczNy00ZDA2LWEzZTUtNTIwYzcwOWM2MGE0' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
     },
     {
       "url": "http://localhost:3003/offers",
@@ -177,8 +365,192 @@
       "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-ZDrxqUOB4m/L0JWL/+gS52g1CRH0l/qwMhjTw5Z/Fsc='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
     },
     {
+      "url": "http://localhost:3003/offers",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/webpack-2609ccf8cd0a2033.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-NjQ4OGEyMDYtYzczNy00ZDA2LWEzZTUtNTIwYzcwOWM2MGE0' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/offers",
+      "text": "Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'nonce-NjQ4OGEyMDYtYzczNy00ZDA2LWEzZTUtNTIwYzcwOWM2MGE0' 'strict-dynamic''. Either the 'unsafe-inline' keyword, a hash ('sha256-OBTN3RiyCV4Bq7dFqZ5a2pAXjnCcCYeTJMO2I/LYKeo='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/offers",
+      "text": "Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'nonce-NjQ4OGEyMDYtYzczNy00ZDA2LWEzZTUtNTIwYzcwOWM2MGE0' 'strict-dynamic''. Either the 'unsafe-inline' keyword, a hash ('sha256-GYbLm8P/xHVWAIW4UPcC/zTYQjwCLxLV+hh2beEkxiI='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/offers",
+      "text": "Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'nonce-NjQ4OGEyMDYtYzczNy00ZDA2LWEzZTUtNTIwYzcwOWM2MGE0' 'strict-dynamic''. Either the 'unsafe-inline' keyword, a hash ('sha256-HD0FBrKKLu3EkDCb1he+Ao8c0cj6xRSRCPjY+5fp/7c='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/offers",
+      "text": "Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'nonce-NjQ4OGEyMDYtYzczNy00ZDA2LWEzZTUtNTIwYzcwOWM2MGE0' 'strict-dynamic''. Either the 'unsafe-inline' keyword, a hash ('sha256-80s7KtX52Q/7jj11wJm/dKS7Zg2784Qhc6c6C3AKVeA='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/offers",
+      "text": "Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'nonce-NjQ4OGEyMDYtYzczNy00ZDA2LWEzZTUtNTIwYzcwOWM2MGE0' 'strict-dynamic''. Either the 'unsafe-inline' keyword, a hash ('sha256-NGsLzybN/Hgd0IgzeLDT95aKI47O2y//IijdobEGFa4='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/offers",
+      "text": "Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'nonce-NjQ4OGEyMDYtYzczNy00ZDA2LWEzZTUtNTIwYzcwOWM2MGE0' 'strict-dynamic''. Either the 'unsafe-inline' keyword, a hash ('sha256-g5fmvmU7tsFjkdHzMqwusYz/3fHb1HNtrydSTh/GrtA='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/offers",
+      "text": "Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'nonce-NjQ4OGEyMDYtYzczNy00ZDA2LWEzZTUtNTIwYzcwOWM2MGE0' 'strict-dynamic''. Either the 'unsafe-inline' keyword, a hash ('sha256-7AK/DM1CA8i9kyVYa/odi3eUeA+KNsB6xmOAi4xCpGo='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/offers",
+      "text": "Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'nonce-NjQ4OGEyMDYtYzczNy00ZDA2LWEzZTUtNTIwYzcwOWM2MGE0' 'strict-dynamic''. Either the 'unsafe-inline' keyword, a hash ('sha256-0nW7q5kA+ffJIeHl5WKddWQMBx6kWwI/uyu1FhbBsg4='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/offers",
+      "text": "Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'nonce-NjQ4OGEyMDYtYzczNy00ZDA2LWEzZTUtNTIwYzcwOWM2MGE0' 'strict-dynamic''. Either the 'unsafe-inline' keyword, a hash ('sha256-7GvZs4Mg0C2P5Z/TlSJ9fAvzZg0hlqfVlU0h5riR1Jg='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/offers",
+      "text": "Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'nonce-NjQ4OGEyMDYtYzczNy00ZDA2LWEzZTUtNTIwYzcwOWM2MGE0' 'strict-dynamic''. Either the 'unsafe-inline' keyword, a hash ('sha256-1KD6LU3VmRhiFK1v8jzy4wOZICORdKaJy8N54apHx1o='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/my-bookings",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/webpack-2609ccf8cd0a2033.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-YjVhODdiYzQtNzc0Ny00NTNlLWEyNWQtMGM4NGVjMTEwNjc3' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/my-bookings",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/4bd1b696-f785427dddbba9fb.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-YjVhODdiYzQtNzc0Ny00NTNlLWEyNWQtMGM4NGVjMTEwNjc3' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/my-bookings",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/1255-31f47ebe9b12c7e5.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-YjVhODdiYzQtNzc0Ny00NTNlLWEyNWQtMGM4NGVjMTEwNjc3' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/my-bookings",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/main-app-875b7c57795bf135.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-YjVhODdiYzQtNzc0Ny00NTNlLWEyNWQtMGM4NGVjMTEwNjc3' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/my-bookings",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/2691-9a9ebf12d8240707.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-YjVhODdiYzQtNzc0Ny00NTNlLWEyNWQtMGM4NGVjMTEwNjc3' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/my-bookings",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/3078-b32cc16927ba3caa.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-YjVhODdiYzQtNzc0Ny00NTNlLWEyNWQtMGM4NGVjMTEwNjc3' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/my-bookings",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/app/layout-e330c794c950303e.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-YjVhODdiYzQtNzc0Ny00NTNlLWEyNWQtMGM4NGVjMTEwNjc3' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/my-bookings",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/2619-3c9e02e22d10480a.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-YjVhODdiYzQtNzc0Ny00NTNlLWEyNWQtMGM4NGVjMTEwNjc3' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/my-bookings",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/app/error-b61b23e43c9ef1a8.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-YjVhODdiYzQtNzc0Ny00NTNlLWEyNWQtMGM4NGVjMTEwNjc3' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/my-bookings",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/c15bf2b0-bfa95b308e62c6cc.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-YjVhODdiYzQtNzc0Ny00NTNlLWEyNWQtMGM4NGVjMTEwNjc3' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/my-bookings",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/3305-dbeda72ed2ffac2d.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-YjVhODdiYzQtNzc0Ny00NTNlLWEyNWQtMGM4NGVjMTEwNjc3' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/my-bookings",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/2122-d47b64cfb21c9711.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-YjVhODdiYzQtNzc0Ny00NTNlLWEyNWQtMGM4NGVjMTEwNjc3' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/my-bookings",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/722-170935053e654de4.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-YjVhODdiYzQtNzc0Ny00NTNlLWEyNWQtMGM4NGVjMTEwNjc3' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/my-bookings",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/app/page-2018494d90022953.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-YjVhODdiYzQtNzc0Ny00NTNlLWEyNWQtMGM4NGVjMTEwNjc3' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/my-bookings",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/3643-5ac6b8895d3761a2.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-YjVhODdiYzQtNzc0Ny00NTNlLWEyNWQtMGM4NGVjMTEwNjc3' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/my-bookings",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/app/my-bookings/page-6f6f5b6e85e04bdd.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-YjVhODdiYzQtNzc0Ny00NTNlLWEyNWQtMGM4NGVjMTEwNjc3' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/my-bookings",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/app/global-error-b7da76b0ece5fd28.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-YjVhODdiYzQtNzc0Ny00NTNlLWEyNWQtMGM4NGVjMTEwNjc3' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/my-bookings",
+      "text": "Loading the script 'http://localhost:3003/_next/static/chunks/webpack-2609ccf8cd0a2033.js' violates the following Content Security Policy directive: \"script-src 'self' 'nonce-YjVhODdiYzQtNzc0Ny00NTNlLWEyNWQtMGM4NGVjMTEwNjc3' 'strict-dynamic'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/my-bookings",
+      "text": "Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'nonce-YjVhODdiYzQtNzc0Ny00NTNlLWEyNWQtMGM4NGVjMTEwNjc3' 'strict-dynamic''. Either the 'unsafe-inline' keyword, a hash ('sha256-OBTN3RiyCV4Bq7dFqZ5a2pAXjnCcCYeTJMO2I/LYKeo='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/my-bookings",
+      "text": "Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'nonce-YjVhODdiYzQtNzc0Ny00NTNlLWEyNWQtMGM4NGVjMTEwNjc3' 'strict-dynamic''. Either the 'unsafe-inline' keyword, a hash ('sha256-dXf8fegWPVRpJlOd7MEPbpVh0zrZUvLCfLvKwsDKZ4Q='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/my-bookings",
+      "text": "Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'nonce-YjVhODdiYzQtNzc0Ny00NTNlLWEyNWQtMGM4NGVjMTEwNjc3' 'strict-dynamic''. Either the 'unsafe-inline' keyword, a hash ('sha256-Vr2JK6Viyqt5XXHj9i1SrG87ucqa7qzivMFC1/4kw8g='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/my-bookings",
+      "text": "Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'nonce-YjVhODdiYzQtNzc0Ny00NTNlLWEyNWQtMGM4NGVjMTEwNjc3' 'strict-dynamic''. Either the 'unsafe-inline' keyword, a hash ('sha256-3jydHnd8ngdATmJRv+ktC2buJNA+4kow+XcC5eeboLc='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/my-bookings",
+      "text": "Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'nonce-YjVhODdiYzQtNzc0Ny00NTNlLWEyNWQtMGM4NGVjMTEwNjc3' 'strict-dynamic''. Either the 'unsafe-inline' keyword, a hash ('sha256-+mj5tuBIr3KO225NzjLPf6lS+cEcZtZ/T48lpn53/8E='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/my-bookings",
+      "text": "Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'nonce-YjVhODdiYzQtNzc0Ny00NTNlLWEyNWQtMGM4NGVjMTEwNjc3' 'strict-dynamic''. Either the 'unsafe-inline' keyword, a hash ('sha256-fjksnbLeL5xuK2eVvcbJ5/lFQBX88KqNiAXwjNc6ngE='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/my-bookings",
+      "text": "Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'nonce-YjVhODdiYzQtNzc0Ny00NTNlLWEyNWQtMGM4NGVjMTEwNjc3' 'strict-dynamic''. Either the 'unsafe-inline' keyword, a hash ('sha256-Yr914LH1upboj8M3vr/q0qnloqeGHYlHnzYx1gadBIg='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/my-bookings",
+      "text": "Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'nonce-YjVhODdiYzQtNzc0Ny00NTNlLWEyNWQtMGM4NGVjMTEwNjc3' 'strict-dynamic''. Either the 'unsafe-inline' keyword, a hash ('sha256-SjFYHMsFopgDLhHbgvtuD7PHr1AKcfvNKwEFjZiB3ks='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/",
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-pV6dalv04R0K8V3USjTCnjhkSJOr68D3sGCOPXOz64k='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
       "url": "http://localhost:3003/",
       "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-ZDrxqUOB4m/L0JWL/+gS52g1CRH0l/qwMhjTw5Z/Fsc='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/",
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-ZDrxqUOB4m/L0JWL/+gS52g1CRH0l/qwMhjTw5Z/Fsc='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/",
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-/NNYk2lMiaaQ2COHrKgFet27MZByZVSSe05z8RCpMjo='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/",
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-ZDrxqUOB4m/L0JWL/+gS52g1CRH0l/qwMhjTw5Z/Fsc='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/",
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-/NNYk2lMiaaQ2COHrKgFet27MZByZVSSe05z8RCpMjo='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/",
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-ZDrxqUOB4m/L0JWL/+gS52g1CRH0l/qwMhjTw5Z/Fsc='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/",
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-/NNYk2lMiaaQ2COHrKgFet27MZByZVSSe05z8RCpMjo='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/",
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-ZDrxqUOB4m/L0JWL/+gS52g1CRH0l/qwMhjTw5Z/Fsc='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/",
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-/NNYk2lMiaaQ2COHrKgFet27MZByZVSSe05z8RCpMjo='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
     },
     {
       "url": "http://localhost:3003/",
@@ -218,7 +590,59 @@
     },
     {
       "url": "http://localhost:3003/",
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-5v3zQItzibsmfk35n2MFVnsPaCQ57Zuvy+9+dS1hlgE='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/",
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-uGPW2nb1Fxs0BjNgnb/CzfJjvTrDZDqb+xH5JNyjYKs='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/",
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-uGPW2nb1Fxs0BjNgnb/CzfJjvTrDZDqb+xH5JNyjYKs='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/",
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-uGPW2nb1Fxs0BjNgnb/CzfJjvTrDZDqb+xH5JNyjYKs='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/",
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-pV6dalv04R0K8V3USjTCnjhkSJOr68D3sGCOPXOz64k='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/",
       "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-ZDrxqUOB4m/L0JWL/+gS52g1CRH0l/qwMhjTw5Z/Fsc='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/",
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-ZDrxqUOB4m/L0JWL/+gS52g1CRH0l/qwMhjTw5Z/Fsc='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/",
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-/NNYk2lMiaaQ2COHrKgFet27MZByZVSSe05z8RCpMjo='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/",
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-ZDrxqUOB4m/L0JWL/+gS52g1CRH0l/qwMhjTw5Z/Fsc='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/",
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-/NNYk2lMiaaQ2COHrKgFet27MZByZVSSe05z8RCpMjo='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/",
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-ZDrxqUOB4m/L0JWL/+gS52g1CRH0l/qwMhjTw5Z/Fsc='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/",
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-/NNYk2lMiaaQ2COHrKgFet27MZByZVSSe05z8RCpMjo='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/",
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-ZDrxqUOB4m/L0JWL/+gS52g1CRH0l/qwMhjTw5Z/Fsc='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    },
+    {
+      "url": "http://localhost:3003/",
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-/NNYk2lMiaaQ2COHrKgFet27MZByZVSSe05z8RCpMjo='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
     },
     {
       "url": "http://localhost:3003/",
@@ -258,35 +682,19 @@
     },
     {
       "url": "http://localhost:3003/",
-      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-ZDrxqUOB4m/L0JWL/+gS52g1CRH0l/qwMhjTw5Z/Fsc='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-5v3zQItzibsmfk35n2MFVnsPaCQ57Zuvy+9+dS1hlgE='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
     },
     {
       "url": "http://localhost:3003/",
-      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-ZDrxqUOB4m/L0JWL/+gS52g1CRH0l/qwMhjTw5Z/Fsc='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-uGPW2nb1Fxs0BjNgnb/CzfJjvTrDZDqb+xH5JNyjYKs='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
     },
     {
       "url": "http://localhost:3003/",
-      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-ZDrxqUOB4m/L0JWL/+gS52g1CRH0l/qwMhjTw5Z/Fsc='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-uGPW2nb1Fxs0BjNgnb/CzfJjvTrDZDqb+xH5JNyjYKs='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
     },
     {
       "url": "http://localhost:3003/",
-      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-ZDrxqUOB4m/L0JWL/+gS52g1CRH0l/qwMhjTw5Z/Fsc='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
-    },
-    {
-      "url": "http://localhost:3003/",
-      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-ZDrxqUOB4m/L0JWL/+gS52g1CRH0l/qwMhjTw5Z/Fsc='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
-    },
-    {
-      "url": "http://localhost:3003/",
-      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-ZDrxqUOB4m/L0JWL/+gS52g1CRH0l/qwMhjTw5Z/Fsc='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
-    },
-    {
-      "url": "http://localhost:3003/",
-      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-ZDrxqUOB4m/L0JWL/+gS52g1CRH0l/qwMhjTw5Z/Fsc='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
-    },
-    {
-      "url": "http://localhost:3003/",
-      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-ZDrxqUOB4m/L0JWL/+gS52g1CRH0l/qwMhjTw5Z/Fsc='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+      "text": "Applying inline style violates the following Content Security Policy directive 'style-src-attr 'none''. Either the 'unsafe-inline' keyword, a hash ('sha256-uGPW2nb1Fxs0BjNgnb/CzfJjvTrDZDqb+xH5JNyjYKs='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
     }
   ],
   "brokenLinks": [],
@@ -295,16 +703,6 @@
       "test": "language-toggle",
       "success": true,
       "details": "Toggled from VI to EN"
-    },
-    {
-      "test": "hero-carousel-next",
-      "success": true,
-      "details": "Hero counter updated to 02"
-    },
-    {
-      "test": "room-reel-nav",
-      "success": true,
-      "details": "Reel head counter updated to 02 / 04"
     },
     {
       "test": "mobile-hamburger-visible",
