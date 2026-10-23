@@ -4,6 +4,8 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { LocalizedText } from "@/components/i18n/LocalizedText";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Ưu đãi | Aurora Hotel & Resort",
   description: "Khám phá các rate plan trực tiếp của Aurora Hotel & Resort và xem điều kiện trước khi báo giá.",

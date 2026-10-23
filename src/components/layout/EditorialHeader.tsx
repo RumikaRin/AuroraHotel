@@ -68,8 +68,10 @@ export function EditorialHeader() {
     { href: "/my-bookings", labelVi: "Tra cứu đặt phòng", labelEn: "My Bookings", index: "04" },
   ];
 
+  const isHeroPage = pathname === "/" || pathname === "/rooms" || pathname === "/experiences" || pathname === "/offers";
+
   return (
-    <header className={`site-nav ${isScrolled ? "scrolled" : ""}`} id="main-nav">
+    <header className={`site-nav ${isScrolled ? "scrolled" : ""} ${!isHeroPage ? "solid-header" : ""}`} id="main-nav">
       {/* Brand Logo */}
       <Link href="/" className="brand-mark" aria-label="Aurora Hotel & Sanctuary">
         <span className="brand-title">A U R O R A</span>

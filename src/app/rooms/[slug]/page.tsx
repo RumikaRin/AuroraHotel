@@ -188,6 +188,22 @@ export default async function RoomDetailPage({
         </div>
       </main>
 
+      {/* Mobile Sticky Booking Bar */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-[var(--bg-surface-card)]/95 backdrop-blur-md border-t border-[var(--brass-hairline)] px-5 py-3 flex items-center justify-between shadow-2xl">
+        <div>
+          <span className="text-[10px] text-[var(--text-muted)] uppercase tracking-wider block">Giá từ / đêm</span>
+          <div className="text-lg font-serif-luxury font-bold text-[var(--accent-brass)]">
+            {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(category.basePrice)}
+          </div>
+        </div>
+        <Link
+          href={`/booking?${bookingQuery.toString()}`}
+          className="min-h-[44px] px-6 bg-[var(--accent-brass)] hover:bg-[var(--accent-brass-bright)] text-[#110e0c] font-bold text-xs uppercase tracking-wider rounded-control flex items-center justify-center transition-all cursor-pointer shadow-md"
+        >
+          Đặt Phòng Ngay →
+        </Link>
+      </div>
+
       <EditorialFooter />
     </div>
   );

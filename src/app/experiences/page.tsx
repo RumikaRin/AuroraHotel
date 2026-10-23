@@ -5,6 +5,8 @@ import { Footer } from "@/components/layout/Footer";
 import { SanctuaryExperiences } from "@/components/public/SanctuaryExperiences";
 import { LocalizedText } from "@/components/i18n/LocalizedText";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Trải nghiệm | Aurora Hotel & Resort",
   description: "Những nhịp nghỉ bên biển, trong phòng và quanh bàn ăn tại Aurora Hotel & Resort Đà Nẵng.",

@@ -3,6 +3,8 @@ import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { LocalizedText } from "@/components/i18n/LocalizedText";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Điều khoản sử dụng | Aurora Hotel",
   description: "Điều khoản sử dụng website và dịch vụ đặt phòng trực tiếp của Aurora Hotel.",

@@ -3,6 +3,8 @@ import { LoginForm } from "./login-form";
 import { LocalizedText } from "@/components/i18n/LocalizedText";
 import { LanguageToggle } from "@/components/i18n/LanguageToggle";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = { title: "Đăng nhập | Aurora Hotel & Resort" };
 
 export default function LoginPage() {

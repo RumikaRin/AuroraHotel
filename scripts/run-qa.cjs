@@ -36,7 +36,9 @@ if (!fs.existsSync(screenshotDir)) {
     { name: 'room-detail', path: '/rooms/deluxe-king' },
     { name: 'experiences', path: '/experiences' },
     { name: 'offers', path: '/offers' },
-    { name: 'my-bookings', path: '/my-bookings' }
+    { name: 'my-bookings', path: '/my-bookings' },
+    { name: 'booking', path: '/booking' },
+    { name: 'login', path: '/login' }
   ];
 
   console.log('--- PHASE 1: ROUTE AUDIT ---');

@@ -3,6 +3,8 @@ import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { LocalizedText } from "@/components/i18n/LocalizedText";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Quyền riêng tư | Aurora Hotel",
   description: "Thông tin về cách Aurora Hotel xử lý dữ liệu đặt phòng và liên hệ của khách hàng.",
