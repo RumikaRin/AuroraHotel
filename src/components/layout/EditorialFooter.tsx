@@ -31,23 +31,23 @@ export function EditorialFooter() {
               KHÁM PHÁ
             </h5>
             <ul className="space-y-3 text-xs">
-              <li><a href="#manifesto" className="hover:text-[var(--text-primary)] transition-colors">Triết lý kiến trúc</a></li>
-              <li><a href="#masterplan" className="hover:text-[var(--text-primary)] transition-colors">Sơ đồ phân khu</a></li>
-              <li><a href="#suites" className="hover:text-[var(--text-primary)] transition-colors">Suites & Dinh thự</a></li>
-              <li><a href="#gastronomy" className="hover:text-[var(--text-primary)] transition-colors">Ẩm thực vách đá</a></li>
-              <li><a href="#wellness" className="hover:text-[var(--text-primary)] transition-colors">Spa & Trị liệu</a></li>
+              <li><Link href="/rooms" className="hover:text-[var(--text-primary)] transition-colors">Bộ sưu tập Suites & Villas</Link></li>
+              <li><Link href="/experiences" className="hover:text-[var(--text-primary)] transition-colors">Ẩm thực vách đá & Trải nghiệm</Link></li>
+              <li><Link href="/offers" className="hover:text-[var(--text-primary)] transition-colors">Đặc quyền lưu trú theo mùa</Link></li>
+              <li><Link href="/#masterplan" className="hover:text-[var(--text-primary)] transition-colors">Sơ đồ phân khu bán đảo</Link></li>
+              <li><Link href="/#manifesto" className="hover:text-[var(--text-primary)] transition-colors">Triết lý kiến trúc</Link></li>
             </ul>
           </div>
 
           <div className="lg:col-span-2">
             <h5 className="text-[10px] tracking-[0.2em] uppercase text-[var(--accent-brass)] font-semibold mb-4">
-              THÔNG TIN
+              THÔNG TIN & QUẢN LÝ
             </h5>
             <ul className="space-y-3 text-xs">
-              <li><a href="#faq" className="hover:text-[var(--text-primary)] transition-colors">Chính sách đặt phòng</a></li>
-              <li><a href="#faq" className="hover:text-[var(--text-primary)] transition-colors">Đón tiễn sân bay</a></li>
-              <li><a href="#packages" className="hover:text-[var(--text-primary)] transition-colors">Đặc quyền theo mùa</a></li>
-              <li><a href="#expeditions" className="hover:text-[var(--text-primary)] transition-colors">Quỹ bảo tồn Sơn Trà</a></li>
+              <li><Link href="/my-bookings" className="hover:text-[var(--text-primary)] transition-colors">Tra cứu & Quản lý đặt phòng</Link></li>
+              <li><Link href="/privacy" className="hover:text-[var(--text-primary)] transition-colors">Chính sách bảo mật dữ liệu</Link></li>
+              <li><Link href="/terms" className="hover:text-[var(--text-primary)] transition-colors">Điều khoản dịch vụ lưu trú</Link></li>
+              <li><Link href="/#faq" className="hover:text-[var(--text-primary)] transition-colors">Hỏi đáp dịch vụ thường gặp</Link></li>
             </ul>
           </div>
 
@@ -63,7 +63,7 @@ export function EditorialFooter() {
                   href="/login"
                   className="inline-block text-[11px] text-[var(--accent-brass)] hover:underline"
                 >
-                  Cổng đăng nhập nội bộ ↗
+                  Cổng đăng nhập khách hàng & nhân viên ↗
                 </Link>
               </div>
             </div>
